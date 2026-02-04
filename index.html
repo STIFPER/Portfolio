@@ -4,67 +4,422 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>MeStyle Studio — Selected Works</title>
-  <meta name="description" content="Brand systems, packaging, and visual direction. Selected works & case studies." />
+  <meta name="description" content="Senior portfolio — brand systems, packaging, visual direction." />
 
-  <!-- Open Graph (แก้ domain + รูป og ทีหลัง) -->
-  <meta property="og:title" content="MeStyle Studio — Selected Works" />
-  <meta property="og:description" content="Brand systems, packaging, and visual direction. Selected works & case studies." />
-  <meta property="og:image" content="assets/og.jpg" />
-  <meta property="og:type" content="website" />
-
-  <!-- Fonts: Grotesk + Mono (โทน MCLN / senior) -->
+  <!-- Fonts: Senior / MCLN-ish -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* =========================
+      DESIGN TOKENS (MOOD)
+      ========================= */
+    :root{
+      --bg:#0b0c0f;
+      --panel:#11131a;
+      --text:#e9edf5;
+      --muted:rgba(233,237,245,.62);
+      --line:rgba(233,237,245,.14);
+      --accent:#d7ff3a;        /* Accent 1 color only (senior) */
+      --shadow: 0 18px 70px rgba(0,0,0,.45);
+
+      --sans: "Space Grotesk", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      --mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+
+      --radius: 18px;
+      --wrap: min(1180px, calc(100% - 48px));
+      --step-2: 8px;
+      --step-3: 12px;
+      --step-4: 16px;
+      --step-5: 20px;
+      --step-6: 24px;
+      --step-8: 32px;
+      --step-10: 40px;
+      --step-12: 48px;
+    }
+
+    :root[data-theme="light"]{
+      --bg:#f7f7f2;
+      --panel:#ffffff;
+      --text:#0b0c0f;
+      --muted:rgba(11,12,15,.62);
+      --line:rgba(11,12,15,.14);
+      --shadow: 0 18px 70px rgba(0,0,0,.12);
+    }
+
+    *{ box-sizing:border-box; }
+    html,body{ height:100%; }
+    body{
+      margin:0;
+      font-family: var(--sans);
+      color: var(--text);
+      background: var(--bg);
+      letter-spacing: -0.01em;
+
+      /* subtle grain grid (mature) */
+      background-image: radial-gradient(transparent 1px, rgba(255,255,255,.02) 1px);
+      background-size: 3px 3px;
+    }
+    a{ color:inherit; text-decoration:none; }
+    a:hover{ opacity:.9; }
+    img{ max-width:100%; display:block; }
+
+    .wrap{ width: var(--wrap); margin: 0 auto; padding: 28px 0 64px; }
+
+    .mono{ font-family: var(--mono); letter-spacing: 0.02em; }
+    .muted{ color: var(--muted); }
+    .tiny{ font-size: 12px; line-height: 1.6; }
+    .kicker{ margin:0 0 10px; color: var(--muted); }
+
+    /* =========================
+      TOPBAR
+      ========================= */
+    .topbar{
+      position: sticky;
+      top:0;
+      z-index:50;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      padding: 14px 20px;
+      backdrop-filter: blur(14px);
+      background: color-mix(in srgb, var(--bg) 70%, transparent);
+      border-bottom: 1px solid var(--line);
+    }
+    .brand{ display:flex; align-items:center; gap:10px; }
+    .dot{ color: var(--accent); }
+
+    .nav{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; justify-content:flex-end; }
+    .pill{
+      display:inline-flex; align-items:center; justify-content:center;
+      padding: 10px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: color-mix(in srgb, var(--panel) 70%, transparent);
+      gap: 8px;
+      cursor:pointer;
+      user-select:none;
+    }
+    .pill:hover{ background: color-mix(in srgb, var(--panel) 58%, transparent); }
+    .pill.active{ outline: 1px solid var(--accent); outline-offset: -1px; }
+    .pill .key{ opacity:.8; }
+    .pill .val{ font-weight:600; }
+
+    /* =========================
+      CARDS / DIVIDERS
+      ========================= */
+    .card{
+      border: 1px solid var(--line);
+      background: color-mix(in srgb, var(--panel) 86%, transparent);
+      border-radius: var(--radius);
+      padding: 18px;
+      box-shadow: var(--shadow);
+    }
+    .divider{ height:1px; background: var(--line); margin: 16px 0; }
+
+    /* =========================
+      HERO (Mood lock)
+      ========================= */
+    .hero{
+      display:grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap: 18px;
+      padding: 18px 0 26px;
+    }
+    .heroTitle{
+      font-size: clamp(34px, 4vw, 56px);
+      line-height: 1.02;
+      margin: 0 0 12px;
+    }
+    .heroDesc{ margin:0; color: var(--muted); max-width: 58ch; }
+    .heroActions{ display:flex; gap: 10px; margin-top: 18px; flex-wrap:wrap; }
+
+    .btn{
+      display:inline-flex; align-items:center; justify-content:center;
+      padding: 12px 14px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      gap: 10px;
+    }
+    .btnPrimary{
+      background: var(--text);
+      color: var(--bg);
+      border-color: transparent;
+    }
+    .btnOutline{ background: transparent; }
+
+    /* =========================
+      SECTION HEAD
+      ========================= */
+    .sectionHead{
+      display:flex; justify-content:space-between; align-items:baseline;
+      gap: 16px; border-top: 1px solid var(--line); padding-top: 18px;
+      margin-top: 8px;
+    }
+    .sectionHead h2{ margin:0; font-size: 14px; }
+
+    /* =========================
+      PROJECTS CORE
+      ========================= */
+    .indexGrid{
+      display:grid;
+      grid-template-columns: 420px 1fr;
+      gap: 16px;
+      margin-top: 16px;
+      align-items: start;
+    }
+
+    .indexList{
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      overflow: clip;
+      background: color-mix(in srgb, var(--panel) 86%, transparent);
+    }
+
+    .item{
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      padding: 14px 14px;
+      border-bottom: 1px solid var(--line);
+      cursor:pointer;
+      gap: 14px;
+      transition: background .15s ease, outline-color .15s ease;
+    }
+    .item:last-child{ border-bottom:none; }
+    .item:hover{ background: color-mix(in srgb, var(--panel) 65%, transparent); }
+    .item.active{ outline: 1px solid var(--accent); outline-offset: -1px; }
+
+    .itemLeft{ display:flex; flex-direction:column; gap: 6px; min-width:0; }
+    .itemCode{ color: var(--muted); font-size: 12px; }
+    .itemTitle{ font-size: 16px; margin:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .itemLine{ color: var(--muted); font-size: 12px; margin:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .itemYear{ color: var(--muted); font-size: 12px; white-space:nowrap; }
+
+    .preview{
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      overflow:hidden;
+      background: color-mix(in srgb, var(--panel) 86%, transparent);
+      display:grid;
+      grid-template-rows: auto 1fr;
+      min-height: 520px;
+    }
+
+    .previewMedia{
+      position:relative;
+      border-bottom: 1px solid var(--line);
+      background: rgba(0,0,0,.10);
+      aspect-ratio: 16 / 10; /* Mature ratio lock */
+    }
+    .previewMedia img{
+      width:100%;
+      height:100%;
+      object-fit: cover;
+      transform: scale(1.02);
+    }
+
+    .previewMeta{ padding: 16px; display:flex; flex-direction:column; }
+    .metaRow{ display:flex; justify-content:space-between; align-items:center; }
+    .previewMeta h3{
+      margin: 10px 0 6px;
+      font-size: 30px;
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+    }
+    .metaGrid{
+      display:grid;
+      grid-template-columns: repeat(2, minmax(0,1fr));
+      gap: 10px 14px;
+      margin-top: 12px;
+    }
+    .metaCell{ border-top: 1px dashed var(--line); padding-top: 10px; }
+    .metaLabel{ color: var(--muted); font-size: 11px; }
+    .metaValue{ font-size: 12px; margin-top: 6px; }
+    .previewActions{ display:flex; gap: 10px; margin-top: 16px; flex-wrap:wrap; }
+
+    /* =========================
+      SYSTEM PANEL (Mood Overview)
+      ========================= */
+    .systemGrid{
+      display:grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 14px;
+      margin-top: 14px;
+    }
+    .tokenRow{ display:flex; justify-content:space-between; gap: 12px; border-top: 1px dashed var(--line); padding: 10px 0; }
+    .tokenRow:first-child{ border-top:none; padding-top:0; }
+    .swatch{
+      width: 100%;
+      height: 44px;
+      border-radius: 14px;
+      border: 1px solid var(--line);
+      background: var(--panel);
+      position:relative;
+      overflow:hidden;
+    }
+    .swatch::after{
+      content:"";
+      position:absolute; inset:0;
+      background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--accent) 35%, transparent));
+      opacity:.35;
+    }
+    .accentChip{
+      display:inline-flex; align-items:center; gap:10px;
+    }
+    .dotChip{
+      width: 10px; height: 10px; border-radius: 99px; background: var(--accent);
+      box-shadow: 0 0 0 6px color-mix(in srgb, var(--accent) 18%, transparent);
+    }
+
+    /* =========================
+      FOOTER
+      ========================= */
+    .footer{
+      border-top: 1px solid var(--line);
+      padding-top: 18px;
+      margin-top: 26px;
+    }
+
+    /* =========================
+      LAYOUT VARIANTS (A/B/C)
+      switch via body[data-layout]
+      ========================= */
+    /* A — Classic index + preview */
+    body[data-layout="A"] .indexGrid{ grid-template-columns: 420px 1fr; }
+    body[data-layout="A"] .preview{ min-height: 520px; }
+
+    /* B — Editorial stack: preview top, list bottom (2 columns) */
+    body[data-layout="B"] .indexGrid{
+      grid-template-columns: 1fr;
+      grid-template-areas: "preview" "list";
+    }
+    body[data-layout="B"] .indexList{ grid-area: list; display:grid; grid-template-columns: 1fr 1fr; }
+    body[data-layout="B"] .preview{ grid-area: preview; min-height: 460px; }
+    body[data-layout="B"] .previewMeta h3{ font-size: 36px; }
+    body[data-layout="B"] .item:nth-child(odd){ border-right: 1px solid var(--line); }
+
+    /* C — Table index: system-first (senior) */
+    body[data-layout="C"] .indexGrid{
+      grid-template-columns: 1fr;
+      grid-template-areas: "list" "preview";
+      gap: 14px;
+    }
+    body[data-layout="C"] .indexList{ grid-area: list; }
+    body[data-layout="C"] .preview{ grid-area: preview; min-height: 380px; }
+    body[data-layout="C"] .item{
+      display:grid;
+      grid-template-columns: 90px 1fr 120px;
+      align-items:center;
+      padding: 14px 16px;
+    }
+    body[data-layout="C"] .itemLeft{ gap:4px; }
+    body[data-layout="C"] .itemTitle{ font-size: 18px; }
+    body[data-layout="C"] .previewMeta{ display:grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    body[data-layout="C"] .previewMeta h3{ grid-column: 1 / -1; font-size: 32px; }
+    body[data-layout="C"] .previewActions{ grid-column: 1 / -1; }
+
+    /* =========================
+      WIREFRAME MODE (design check)
+      ========================= */
+    body.wire .previewMedia img{ opacity:0; }
+    body.wire .previewMedia{
+      background:
+        linear-gradient(0deg, var(--line) 1px, transparent 1px),
+        linear-gradient(90deg, var(--line) 1px, transparent 1px);
+      background-size: 24px 24px;
+    }
+    body.wire .card,
+    body.wire .indexList,
+    body.wire .preview{ box-shadow:none; }
+
+    /* =========================
+      RESPONSIVE
+      ========================= */
+    @media (max-width: 980px){
+      .hero{ grid-template-columns: 1fr; }
+      .indexGrid{ grid-template-columns: 1fr; }
+      .preview{ min-height: 420px; }
+      body[data-layout="B"] .indexList{ grid-template-columns: 1fr; }
+      body[data-layout="B"] .item:nth-child(odd){ border-right:none; }
+      body[data-layout="C"] .item{ grid-template-columns: 70px 1fr 90px; }
+      body[data-layout="C"] .previewMeta{ grid-template-columns: 1fr; }
+    }
+    @media (prefers-reduced-motion: reduce){
+      *{ scroll-behavior:auto !important; transition:none !important; animation:none !important; }
+    }
+  </style>
 </head>
 
-<body>
+<body data-layout="A" data-theme="dark">
+  <!-- TOPBAR / CONTROLS -->
   <header class="topbar">
-    <a class="brand" href="./index.html">
+    <a class="brand" href="#top" aria-label="Home">
       <span class="mono">MESTYLE</span><span class="dot">•</span><span class="muted">STUDIO</span>
     </a>
 
     <nav class="nav">
-      <a href="#projects" class="mono">PROJECTS</a>
-      <a href="./info.html" class="mono">INFO</a>
-      <button class="btn-ghost mono" id="themeBtn" type="button" aria-label="Toggle theme">THEME</button>
+      <a class="pill mono" href="#projects"><span class="key">GO</span><span class="val">PROJECTS</span></a>
+
+      <div class="pill mono" id="layoutA" role="button" tabindex="0" aria-label="Layout A"><span class="key">LAYOUT</span><span class="val">A</span></div>
+      <div class="pill mono" id="layoutB" role="button" tabindex="0" aria-label="Layout B"><span class="key">LAYOUT</span><span class="val">B</span></div>
+      <div class="pill mono" id="layoutC" role="button" tabindex="0" aria-label="Layout C"><span class="key">LAYOUT</span><span class="val">C</span></div>
+
+      <div class="pill mono" id="themeBtn" role="button" tabindex="0" aria-label="Toggle theme">
+        <span class="key">THEME</span><span class="val" id="themeLabel">DARK</span>
+      </div>
+
+      <div class="pill mono" id="wireBtn" role="button" tabindex="0" aria-label="Toggle wireframe">
+        <span class="key">VIEW</span><span class="val" id="wireLabel">NORMAL</span>
+      </div>
     </nav>
   </header>
 
-  <main class="wrap">
+  <main class="wrap" id="top">
+    <!-- HERO / MOOD -->
     <section class="hero">
-      <div class="hero-left">
+      <div>
         <p class="kicker mono">FOLIO / 2026</p>
-        <h1 class="hero-title">
-          Brand systems that make decisions easier.
-        </h1>
-        <p class="hero-desc">
-          Identity · Packaging · Key Visuals · Visual Direction
+        <h1 class="heroTitle">Brand systems that make decisions easier.</h1>
+        <p class="heroDesc">
+          Identity · Packaging · Key Visuals · Visual Direction — built with clear hierarchy and scalable rules.
         </p>
 
-        <div class="hero-actions">
-          <a class="btn mono" href="#projects">VIEW INDEX</a>
-          <a class="btn btn-outline mono" href="./info.html">CONTACT</a>
+        <div class="heroActions">
+          <a class="btn btnPrimary mono" href="#projects">VIEW INDEX</a>
+          <a class="btn btnOutline mono" href="#system">VIEW SYSTEM</a>
         </div>
       </div>
 
-      <div class="hero-right">
-        <div class="card">
-          <p class="mono tiny muted">STATUS</p>
-          <p class="mono">Available for selected projects.</p>
-          <div class="divider"></div>
-          <p class="mono tiny muted">FOCUS</p>
-          <p class="mono">Minimal systems · Strong typography · Clear hierarchy</p>
+      <aside class="card">
+        <p class="mono tiny muted">STATUS</p>
+        <p class="mono" style="margin:0;">Available for selected projects.</p>
+
+        <div class="divider"></div>
+
+        <p class="mono tiny muted">CAPABILITIES</p>
+        <div class="mono tiny muted" style="line-height:1.8;">
+          <div>// Brand Identity Systems</div>
+          <div>// Packaging System & Guidelines</div>
+          <div>// Campaign KV & Assets</div>
+          <div>// Layout & Typography Direction</div>
         </div>
-      </div>
+
+        <div class="divider"></div>
+
+        <p class="mono tiny muted">RULE</p>
+        <div class="mono tiny">
+          One accent · Two typefaces · Consistent metadata · Fewer, stronger images
+        </div>
+      </aside>
     </section>
 
-    <section id="projects" class="projects">
-      <div class="section-head">
+    <!-- PROJECTS -->
+    <section id="projects">
+      <div class="sectionHead">
         <h2 class="mono">PROJECT INDEX</h2>
-        <p class="mono tiny muted">Hover (desktop) / Tap (mobile) to preview</p>
+        <p class="mono tiny muted">Hover (desktop) / Tap (mobile) to preview • Compare layouts A/B/C</p>
       </div>
 
       <div class="indexGrid">
@@ -80,26 +435,325 @@
               <span class="mono tiny muted">SELECTED</span>
               <span class="mono tiny" id="previewCode">P/00</span>
             </div>
-            <h3 id="previewTitle"></h3>
-            <p class="mono" id="previewLine"></p>
+
+            <h3 id="previewTitle">Project</h3>
+            <p class="mono" id="previewLine" style="margin:0;color:var(--muted);"></p>
 
             <div class="metaGrid" id="previewGrid"></div>
 
             <div class="previewActions">
-              <a class="btn mono" id="previewOpen" href="./project.html?id=p01">OPEN CASE</a>
-              <a class="btn btn-outline mono" id="previewNext" href="#projects">NEXT</a>
+              <a class="btn btnPrimary mono" id="previewOpen" href="#system">OPEN CASE (later)</a>
+              <a class="btn btnOutline mono" id="previewNext" href="#projects">NEXT</a>
             </div>
           </div>
         </section>
       </div>
     </section>
 
-    <footer class="footer">
-      <p class="mono tiny muted">© <span id="year"></span> MeStyle Studio · Built as a lightweight static site.</p>
-    </footer>
+    <!-- SYSTEM / MOOD OVERVIEW -->
+    <section id="system">
+      <div class="sectionHead">
+        <h2 class="mono">SYSTEM / MOOD</h2>
+        <p class="mono tiny muted">This panel is here to lock the “senior” feel before splitting pages.</p>
+      </div>
+
+      <div class="systemGrid">
+        <div class="card">
+          <p class="mono tiny muted">TYPE</p>
+          <div class="tokenRow">
+            <div class="mono tiny muted">Display</div>
+            <div class="mono tiny">Space Grotesk</div>
+          </div>
+          <div class="tokenRow">
+            <div class="mono tiny muted">Mono</div>
+            <div class="mono tiny">IBM Plex Mono</div>
+          </div>
+          <div class="divider"></div>
+          <p class="mono tiny muted">HIERARCHY</p>
+          <div class="mono tiny" style="line-height:1.9;">
+            <div>// H1 = statement (not decorative)</div>
+            <div>// Project title = bold + tight</div>
+            <div>// Metadata = mono + consistent keys</div>
+          </div>
+        </div>
+
+        <div class="card">
+          <p class="mono tiny muted">COLOR</p>
+          <div class="swatch"></div>
+          <div class="divider"></div>
+          <div class="accentChip mono tiny">
+            <span class="dotChip"></span>
+            <span>Accent: single color only</span>
+          </div>
+          <div class="divider"></div>
+          <p class="mono tiny muted">RULE</p>
+          <div class="mono tiny" style="line-height:1.9;">
+            <div>// background = calm</div>
+            <div>// contrast = crisp</div>
+            <div>// decoration = minimal</div>
+          </div>
+        </div>
+
+        <div class="card">
+          <p class="mono tiny muted">SPACING</p>
+          <div class="tokenRow"><div class="mono tiny muted">Step</div><div class="mono tiny">8 / 12 / 16 / 24 / 32 / 48</div></div>
+          <div class="tokenRow"><div class="mono tiny muted">Radius</div><div class="mono tiny">18px</div></div>
+          <div class="tokenRow"><div class="mono tiny muted">Lines</div><div class="mono tiny">1px solid/dashed</div></div>
+          <div class="divider"></div>
+          <p class="mono tiny muted">WHY IT FEELS SENIOR</p>
+          <div class="mono tiny" style="line-height:1.9;">
+            <div>// fewer elements</div>
+            <div>// stronger system</div>
+            <div>// consistent rhythm</div>
+          </div>
+        </div>
+      </div>
+
+      <footer class="footer">
+        <p class="mono tiny muted">© <span id="year"></span> MeStyle Studio · Single-file prototype for layout review.</p>
+      </footer>
+    </section>
   </main>
 
-  <script src="projects.js"></script>
-  <script src="app.js"></script>
+  <script>
+    /* =========================
+      EDIT HERE: PROJECT DATA
+      - ใส่ cover เป็น path จริงได้ เช่น "assets/p01/cover.jpg"
+      - ถ้ายังไม่มีรูป ระบบจะสร้าง placeholder ให้เอง
+      ========================= */
+    const PROJECTS = [
+      {
+        id: "p01",
+        code: "P/01",
+        title: "WANGWELA",
+        line: "Brand Identity System",
+        year: "2025",
+        role: "Lead Brand Designer",
+        scope: ["Identity", "Packaging", "Key Visual"],
+        tools: ["Illustrator", "Photoshop"],
+        cover: "" // ex: "assets/p01/cover.jpg"
+      },
+      {
+        id: "p02",
+        code: "P/02",
+        title: "HTH",
+        line: "Campaign Visual System",
+        year: "2024",
+        role: "Art Direction",
+        scope: ["KV", "Social", "Print"],
+        tools: ["InDesign", "Illustrator"],
+        cover: ""
+      },
+      {
+        id: "p03",
+        code: "P/03",
+        title: "PULSE",
+        line: "Packaging & Label System",
+        year: "2023",
+        role: "Brand Designer",
+        scope: ["Packaging", "Label", "Mockups"],
+        tools: ["Illustrator"],
+        cover: ""
+      },
+      {
+        id: "p04",
+        code: "P/04",
+        title: "BIONEST",
+        line: "Identity + Application",
+        year: "2022",
+        role: "Visual Direction",
+        scope: ["Identity", "Guideline"],
+        tools: ["Illustrator"],
+        cover: ""
+      }
+    ];
+
+    /* =========================
+      UI / RENDER
+      ========================= */
+    const $ = (q) => document.querySelector(q);
+
+    const list = $("#indexList");
+    const img = $("#previewImg");
+    const code = $("#previewCode");
+    const title = $("#previewTitle");
+    const line = $("#previewLine");
+    const grid = $("#previewGrid");
+    const nextBtn = $("#previewNext");
+    const year = $("#year");
+
+    year.textContent = new Date().getFullYear();
+
+    // Theme persistence
+    const root = document.documentElement;
+    const body = document.body;
+
+    const savedTheme = localStorage.getItem("theme");
+    if (savedTheme) body.dataset.theme = savedTheme;
+
+    const savedLayout = localStorage.getItem("layout");
+    if (savedLayout) body.dataset.layout = savedLayout;
+
+    const savedWire = localStorage.getItem("wire");
+    if (savedWire === "1") body.classList.add("wire");
+
+    function setThemeLabel(){
+      $("#themeLabel").textContent = (body.dataset.theme || "dark").toUpperCase();
+    }
+    function setWireLabel(){
+      $("#wireLabel").textContent = body.classList.contains("wire") ? "WIRE" : "NORMAL";
+    }
+    setThemeLabel();
+    setWireLabel();
+
+    // Buttons
+    function bindPill(id, fn){
+      const el = $(id);
+      const act = () => fn();
+      el.addEventListener("click", act);
+      el.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" || e.key === " ") { e.preventDefault(); act(); }
+      });
+    }
+
+    bindPill("#themeBtn", () => {
+      const next = (body.dataset.theme === "dark") ? "light" : "dark";
+      body.dataset.theme = next;
+      localStorage.setItem("theme", next);
+      setThemeLabel();
+    });
+
+    bindPill("#wireBtn", () => {
+      body.classList.toggle("wire");
+      localStorage.setItem("wire", body.classList.contains("wire") ? "1" : "0");
+      setWireLabel();
+    });
+
+    function setLayout(l){
+      body.dataset.layout = l;
+      localStorage.setItem("layout", l);
+      ["A","B","C"].forEach(x => {
+        $("#layout"+x).classList.toggle("active", x === l);
+      });
+    }
+    bindPill("#layoutA", () => setLayout("A"));
+    bindPill("#layoutB", () => setLayout("B"));
+    bindPill("#layoutC", () => setLayout("C"));
+    setLayout(body.dataset.layout || "A");
+
+    // Placeholder cover (SVG) if no image yet
+    function placeholderSVG(p){
+      const bg = (body.dataset.theme === "light") ? "#ffffff" : "#11131a";
+      const fg = (body.dataset.theme === "light") ? "#0b0c0f" : "#e9edf5";
+      const mut = (body.dataset.theme === "light") ? "rgba(11,12,15,.55)" : "rgba(233,237,245,.55)";
+      const accent = getComputedStyle(document.documentElement).getPropertyValue("--accent").trim() || "#d7ff3a";
+
+      const svg =
+`<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="${accent}" stop-opacity="0.18"/>
+      <stop offset="1" stop-color="${accent}" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <rect width="1600" height="1000" fill="${bg}"/>
+  <rect x="40" y="40" width="1520" height="920" rx="36" fill="${bg}" stroke="${mut}" stroke-width="2"/>
+  <rect x="40" y="40" width="1520" height="920" rx="36" fill="url(#g)"/>
+  <g fill="none" stroke="${mut}" stroke-width="2" opacity="0.9">
+    ${Array.from({length: 10}).map((_,i)=>`<line x1="60" y1="${140+i*80}" x2="1540" y2="${140+i*80}"/>`).join("")}
+    ${Array.from({length: 8}).map((_,i)=>`<line x1="${160+i*180}" y1="60" x2="${160+i*180}" y2="940"/>`).join("")}
+  </g>
+  <g font-family="IBM Plex Mono, ui-monospace" fill="${fg}">
+    <text x="90" y="140" font-size="28" opacity="0.75">SELECTED / PREVIEW</text>
+    <text x="90" y="210" font-size="64">${escapeXML(p.code)}</text>
+    <text x="90" y="290" font-size="64" opacity="0.92">${escapeXML(p.title)}</text>
+    <text x="90" y="350" font-size="28" fill="${mut}">${escapeXML(p.line || "")}</text>
+  </g>
+  <circle cx="1480" cy="140" r="10" fill="${accent}"/>
+</svg>`;
+      return "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(svg);
+    }
+
+    function escapeXML(s){
+      return String(s).replace(/[<>&'"]/g, c => ({
+        "<":"&lt;","&":"&amp;",">":"&gt;","'":"&apos;",'"':"&quot;"
+      }[c]));
+    }
+
+    function metaCell(label, value){
+      const div = document.createElement("div");
+      div.className = "metaCell";
+      div.innerHTML = `
+        <div class="mono metaLabel">${label}</div>
+        <div class="mono metaValue">${value}</div>
+      `;
+      return div;
+    }
+
+    let active = 0;
+
+    function renderPreview(p){
+      const src = p.cover ? p.cover : placeholderSVG(p);
+      img.src = src;
+      img.alt = `${p.title} cover`;
+
+      code.textContent = p.code;
+      title.textContent = p.title;
+      line.textContent = p.line || "";
+
+      grid.innerHTML = "";
+      grid.appendChild(metaCell("YEAR", p.year || "—"));
+      grid.appendChild(metaCell("ROLE", p.role || "—"));
+      grid.appendChild(metaCell("SCOPE", (p.scope || []).join(" · ") || "—"));
+      grid.appendChild(metaCell("TOOLS", (p.tools || []).join(" · ") || "—"));
+
+      // Prototype: not opening case yet (so layout review doesn't break)
+      $("#previewOpen").href = "#system";
+    }
+
+    function setActive(i){
+      active = i;
+      [...list.querySelectorAll(".item")].forEach((el, idx) => {
+        el.classList.toggle("active", idx === i);
+      });
+      renderPreview(PROJECTS[i]);
+
+      const nextIndex = (i + 1) % PROJECTS.length;
+      nextBtn.onclick = (e) => { e.preventDefault(); setActive(nextIndex); };
+    }
+
+    function makeItem(p, i){
+      const el = document.createElement("div");
+      el.className = "item";
+      el.tabIndex = 0;
+      el.role = "button";
+      el.setAttribute("aria-label", `Preview ${p.title}`);
+      el.innerHTML = `
+        <div class="itemLeft">
+          <div class="mono itemCode">${p.code}</div>
+          <h4 class="itemTitle">${p.title}</h4>
+          <p class="mono itemLine">${p.line || ""}</p>
+        </div>
+        <div class="mono itemYear">${p.year || ""}</div>
+      `;
+
+      const activate = () => setActive(i);
+
+      el.addEventListener("mouseenter", activate);
+      el.addEventListener("focus", activate);
+      el.addEventListener("click", () => activate());
+      el.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" || e.key === " ") { e.preventDefault(); activate(); }
+      });
+      return el;
+    }
+
+    // Render list
+    PROJECTS.forEach((p, i) => list.appendChild(makeItem(p, i)));
+    setActive(0);
+
+    // Update placeholders when theme changes (so cover placeholders match theme)
+    $("#themeBtn").addEventListener("click", () => renderPreview(PROJECTS[active]));
+  </script>
 </body>
 </html>
