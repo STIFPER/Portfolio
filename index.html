@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MeStyle Studio — Selected Works</title>
+  <meta name="description" content="Brand systems, packaging, and visual direction. Selected works & case studies." />
+
+  <!-- Open Graph (แก้ domain + รูป og ทีหลัง) -->
+  <meta property="og:title" content="MeStyle Studio — Selected Works" />
+  <meta property="og:description" content="Brand systems, packaging, and visual direction. Selected works & case studies." />
+  <meta property="og:image" content="assets/og.jpg" />
+  <meta property="og:type" content="website" />
+
+  <!-- Fonts: Grotesk + Mono (โทน MCLN / senior) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+  <header class="topbar">
+    <a class="brand" href="./index.html">
+      <span class="mono">MESTYLE</span><span class="dot">•</span><span class="muted">STUDIO</span>
+    </a>
+
+    <nav class="nav">
+      <a href="#projects" class="mono">PROJECTS</a>
+      <a href="./info.html" class="mono">INFO</a>
+      <button class="btn-ghost mono" id="themeBtn" type="button" aria-label="Toggle theme">THEME</button>
+    </nav>
+  </header>
+
+  <main class="wrap">
+    <section class="hero">
+      <div class="hero-left">
+        <p class="kicker mono">FOLIO / 2026</p>
+        <h1 class="hero-title">
+          Brand systems that make decisions easier.
+        </h1>
+        <p class="hero-desc">
+          Identity · Packaging · Key Visuals · Visual Direction
+        </p>
+
+        <div class="hero-actions">
+          <a class="btn mono" href="#projects">VIEW INDEX</a>
+          <a class="btn btn-outline mono" href="./info.html">CONTACT</a>
+        </div>
+      </div>
+
+      <div class="hero-right">
+        <div class="card">
+          <p class="mono tiny muted">STATUS</p>
+          <p class="mono">Available for selected projects.</p>
+          <div class="divider"></div>
+          <p class="mono tiny muted">FOCUS</p>
+          <p class="mono">Minimal systems · Strong typography · Clear hierarchy</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="projects" class="projects">
+      <div class="section-head">
+        <h2 class="mono">PROJECT INDEX</h2>
+        <p class="mono tiny muted">Hover (desktop) / Tap (mobile) to preview</p>
+      </div>
+
+      <div class="indexGrid">
+        <aside class="indexList" id="indexList" aria-label="Project list"></aside>
+
+        <section class="preview" aria-label="Project preview">
+          <div class="previewMedia">
+            <img id="previewImg" alt="" />
+          </div>
+
+          <div class="previewMeta">
+            <div class="metaRow">
+              <span class="mono tiny muted">SELECTED</span>
+              <span class="mono tiny" id="previewCode">P/00</span>
+            </div>
+            <h3 id="previewTitle"></h3>
+            <p class="mono" id="previewLine"></p>
+
+            <div class="metaGrid" id="previewGrid"></div>
+
+            <div class="previewActions">
+              <a class="btn mono" id="previewOpen" href="./project.html?id=p01">OPEN CASE</a>
+              <a class="btn btn-outline mono" id="previewNext" href="#projects">NEXT</a>
+            </div>
+          </div>
+        </section>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <p class="mono tiny muted">© <span id="year"></span> MeStyle Studio · Built as a lightweight static site.</p>
+    </footer>
+  </main>
+
+  <script src="projects.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
