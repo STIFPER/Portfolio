@@ -6,39 +6,46 @@
   <title>MeStyle Studio — Selected Works</title>
   <meta name="description" content="Senior portfolio — brand systems, packaging, visual direction." />
 
-  <!-- Fonts (keep same) -->
+  <!-- Fonts: Senior / MCLN-ish -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 
   <style>
     /* =========================
-      TOKENS — default LIGHT (start white)
+      DESIGN TOKENS (MOOD)
       ========================= */
     :root{
-      --bg:#f6f5f0;               /* paper */
-      --panel:#ffffff;            /* card */
-      --text:#0b0c0f;
-      --muted:rgba(11,12,15,.62);
-      --line:rgba(11,12,15,.14);
-      --accent:#d7ff3a;           /* one accent only */
-      --shadow: 0 18px 70px rgba(0,0,0,.10);
-
-      --sans:"Space Grotesk", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      --mono:"IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
-
-      --radius: 22px;             /* more “card” like the photographer concept */
-      --wrap: min(1180px, calc(100% - 48px));
-    }
-
-    /* DARK theme */
-    body[data-theme="dark"]{
       --bg:#0b0c0f;
       --panel:#11131a;
       --text:#e9edf5;
       --muted:rgba(233,237,245,.62);
       --line:rgba(233,237,245,.14);
+      --accent:#d7ff3a;        /* Accent 1 color only (senior) */
       --shadow: 0 18px 70px rgba(0,0,0,.45);
+
+      --sans: "Space Grotesk", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      --mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+
+      --radius: 18px;
+      --wrap: min(1180px, calc(100% - 48px));
+      --step-2: 8px;
+      --step-3: 12px;
+      --step-4: 16px;
+      --step-5: 20px;
+      --step-6: 24px;
+      --step-8: 32px;
+      --step-10: 40px;
+      --step-12: 48px;
+    }
+
+    :root[data-theme="light"]{
+      --bg:#f7f7f2;
+      --panel:#ffffff;
+      --text:#0b0c0f;
+      --muted:rgba(11,12,15,.62);
+      --line:rgba(11,12,15,.14);
+      --shadow: 0 18px 70px rgba(0,0,0,.12);
     }
 
     *{ box-sizing:border-box; }
@@ -49,19 +56,24 @@
       color: var(--text);
       background: var(--bg);
       letter-spacing: -0.01em;
+
+      /* subtle grain grid (mature) */
+      background-image: radial-gradient(transparent 1px, rgba(255,255,255,.02) 1px);
+      background-size: 3px 3px;
     }
     a{ color:inherit; text-decoration:none; }
-    a:hover{ opacity:.92; }
+    a:hover{ opacity:.9; }
     img{ max-width:100%; display:block; }
 
-    .wrap{ width: var(--wrap); margin: 0 auto; padding: 22px 0 64px; }
+    .wrap{ width: var(--wrap); margin: 0 auto; padding: 28px 0 64px; }
 
     .mono{ font-family: var(--mono); letter-spacing: 0.02em; }
     .muted{ color: var(--muted); }
     .tiny{ font-size: 12px; line-height: 1.6; }
+    .kicker{ margin:0 0 10px; color: var(--muted); }
 
     /* =========================
-      TOPBAR (minimal)
+      TOPBAR
       ========================= */
     .topbar{
       position: sticky;
@@ -71,8 +83,8 @@
       justify-content:space-between;
       align-items:center;
       padding: 14px 20px;
-      backdrop-filter: blur(12px);
-      background: color-mix(in srgb, var(--bg) 82%, transparent);
+      backdrop-filter: blur(14px);
+      background: color-mix(in srgb, var(--bg) 70%, transparent);
       border-bottom: 1px solid var(--line);
     }
     .brand{ display:flex; align-items:center; gap:10px; }
@@ -84,20 +96,22 @@
       padding: 10px 12px;
       border-radius: 999px;
       border: 1px solid var(--line);
-      background: color-mix(in srgb, var(--panel) 75%, transparent);
+      background: color-mix(in srgb, var(--panel) 70%, transparent);
       gap: 8px;
       cursor:pointer;
       user-select:none;
     }
-    .pill:hover{ background: color-mix(in srgb, var(--panel) 62%, transparent); }
+    .pill:hover{ background: color-mix(in srgb, var(--panel) 58%, transparent); }
     .pill.active{ outline: 1px solid var(--accent); outline-offset: -1px; }
+    .pill .key{ opacity:.8; }
+    .pill .val{ font-weight:600; }
 
     /* =========================
-      CARD / PANEL (photographer vibe)
+      CARDS / DIVIDERS
       ========================= */
     .card{
       border: 1px solid var(--line);
-      background: color-mix(in srgb, var(--panel) 92%, transparent);
+      background: color-mix(in srgb, var(--panel) 86%, transparent);
       border-radius: var(--radius);
       padding: 18px;
       box-shadow: var(--shadow);
@@ -105,66 +119,49 @@
     .divider{ height:1px; background: var(--line); margin: 16px 0; }
 
     /* =========================
-      HERO (editorial grid)
+      HERO (Mood lock)
       ========================= */
     .hero{
       display:grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-      padding: 14px 0 18px;
+      grid-template-columns: 1.2fr .8fr;
+      gap: 18px;
+      padding: 18px 0 26px;
     }
-    .heroMain{
-      border-radius: var(--radius);
-      border: 1px solid var(--line);
-      background: color-mix(in srgb, var(--panel) 92%, transparent);
-      padding: 22px;
-      box-shadow: var(--shadow);
-    }
-    .kicker{ margin:0 0 10px; color: var(--muted); }
     .heroTitle{
-      font-size: clamp(40px, 4.8vw, 64px);
-      line-height: 0.98;
+      font-size: clamp(34px, 4vw, 56px);
+      line-height: 1.02;
       margin: 0 0 12px;
-      letter-spacing: -0.03em;
     }
-    .heroDesc{ margin:0; color: var(--muted); max-width: 60ch; }
+    .heroDesc{ margin:0; color: var(--muted); max-width: 58ch; }
+    .heroActions{ display:flex; gap: 10px; margin-top: 18px; flex-wrap:wrap; }
 
-    .heroGrid{
-      display:grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-    }
-
-    /* =========================
-      CTA button (read story ↗ vibe)
-      ========================= */
-    .btnCapsule{
-      display:inline-flex;
-      align-items:center;
-      gap:10px;
-      padding: 12px 16px;
+    .btn{
+      display:inline-flex; align-items:center; justify-content:center;
+      padding: 12px 14px;
       border-radius: 999px;
       border: 1px solid var(--line);
-      background: transparent;
+      gap: 10px;
     }
-    .btnCapsule.primary{
-      background: color-mix(in srgb, var(--accent) 40%, var(--panel));
-      border-color: color-mix(in srgb, var(--accent) 60%, var(--line));
+    .btnPrimary{
+      background: var(--text);
+      color: var(--bg);
+      border-color: transparent;
     }
-    .arrow{ font-family: var(--mono); }
+    .btnOutline{ background: transparent; }
 
     /* =========================
-      PROJECT INDEX (our system)
+      SECTION HEAD
       ========================= */
     .sectionHead{
       display:flex; justify-content:space-between; align-items:baseline;
-      gap: 16px;
-      border-top: 1px solid var(--line);
-      padding-top: 18px;
-      margin-top: 14px;
+      gap: 16px; border-top: 1px solid var(--line); padding-top: 18px;
+      margin-top: 8px;
     }
     .sectionHead h2{ margin:0; font-size: 14px; }
 
+    /* =========================
+      PROJECTS CORE
+      ========================= */
     .indexGrid{
       display:grid;
       grid-template-columns: 420px 1fr;
@@ -177,8 +174,7 @@
       border: 1px solid var(--line);
       border-radius: var(--radius);
       overflow: clip;
-      background: color-mix(in srgb, var(--panel) 92%, transparent);
-      box-shadow: var(--shadow);
+      background: color-mix(in srgb, var(--panel) 86%, transparent);
     }
 
     .item{
@@ -192,7 +188,7 @@
       transition: background .15s ease, outline-color .15s ease;
     }
     .item:last-child{ border-bottom:none; }
-    .item:hover{ background: color-mix(in srgb, var(--panel) 80%, transparent); }
+    .item:hover{ background: color-mix(in srgb, var(--panel) 65%, transparent); }
     .item.active{ outline: 1px solid var(--accent); outline-offset: -1px; }
 
     .itemLeft{ display:flex; flex-direction:column; gap: 6px; min-width:0; }
@@ -205,8 +201,7 @@
       border: 1px solid var(--line);
       border-radius: var(--radius);
       overflow:hidden;
-      background: color-mix(in srgb, var(--panel) 92%, transparent);
-      box-shadow: var(--shadow);
+      background: color-mix(in srgb, var(--panel) 86%, transparent);
       display:grid;
       grid-template-rows: auto 1fr;
       min-height: 520px;
@@ -215,22 +210,21 @@
     .previewMedia{
       position:relative;
       border-bottom: 1px solid var(--line);
-      background: rgba(0,0,0,.05);
-      aspect-ratio: 16 / 10;
+      background: rgba(0,0,0,.10);
+      aspect-ratio: 16 / 10; /* Mature ratio lock */
     }
     .previewMedia img{
       width:100%;
       height:100%;
       object-fit: cover;
-      transform: scale(1.01);
-      filter: saturate(0.98);
+      transform: scale(1.02);
     }
 
     .previewMeta{ padding: 16px; display:flex; flex-direction:column; }
     .metaRow{ display:flex; justify-content:space-between; align-items:center; }
     .previewMeta h3{
       margin: 10px 0 6px;
-      font-size: 32px;
+      font-size: 30px;
       line-height: 1.05;
       letter-spacing: -0.02em;
     }
@@ -246,56 +240,91 @@
     .previewActions{ display:flex; gap: 10px; margin-top: 16px; flex-wrap:wrap; }
 
     /* =========================
-      ARCHIVE GRID (photographer “Archive” mix)
+      SYSTEM PANEL (Mood Overview)
       ========================= */
-    .archive{
-      margin-top: 18px;
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      background: color-mix(in srgb, var(--panel) 92%, transparent);
-      box-shadow: var(--shadow);
-      overflow: clip;
-    }
-    .archiveHead{
-      display:flex; justify-content:space-between; align-items:center;
-      padding: 14px 16px;
-      border-bottom: 1px solid var(--line);
-    }
-    .archiveGrid{
+    .systemGrid{
       display:grid;
-      grid-template-columns: repeat(6, 1fr);
-      gap: 1px;
-      background: var(--line);
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 14px;
+      margin-top: 14px;
     }
-    .tile{
-      background: color-mix(in srgb, var(--panel) 92%, transparent);
-      aspect-ratio: 1 / 1;
-      overflow:hidden;
+    .tokenRow{ display:flex; justify-content:space-between; gap: 12px; border-top: 1px dashed var(--line); padding: 10px 0; }
+    .tokenRow:first-child{ border-top:none; padding-top:0; }
+    .swatch{
+      width: 100%;
+      height: 44px;
+      border-radius: 14px;
+      border: 1px solid var(--line);
+      background: var(--panel);
       position:relative;
+      overflow:hidden;
     }
-    .tile img{
-      width:100%;
-      height:100%;
-      object-fit: cover;
-      filter: saturate(0.98);
-      transform: scale(1.02);
-    }
-    .tile::after{
+    .swatch::after{
       content:"";
       position:absolute; inset:0;
-      background: linear-gradient(180deg, transparent, rgba(0,0,0,.08));
-      opacity: 0.0;
-      transition: opacity .15s ease;
+      background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--accent) 35%, transparent));
+      opacity:.35;
     }
-    .tile:hover::after{ opacity: 1; }
+    .accentChip{
+      display:inline-flex; align-items:center; gap:10px;
+    }
+    .dotChip{
+      width: 10px; height: 10px; border-radius: 99px; background: var(--accent);
+      box-shadow: 0 0 0 6px color-mix(in srgb, var(--accent) 18%, transparent);
+    }
 
     /* =========================
-      WIREFRAME toggle (design check)
+      FOOTER
       ========================= */
-    body.wire .previewMedia img,
-    body.wire .tile img{ opacity:0; }
-    body.wire .previewMedia,
-    body.wire .tile{
+    .footer{
+      border-top: 1px solid var(--line);
+      padding-top: 18px;
+      margin-top: 26px;
+    }
+
+    /* =========================
+      LAYOUT VARIANTS (A/B/C)
+      switch via body[data-layout]
+      ========================= */
+    /* A — Classic index + preview */
+    body[data-layout="A"] .indexGrid{ grid-template-columns: 420px 1fr; }
+    body[data-layout="A"] .preview{ min-height: 520px; }
+
+    /* B — Editorial stack: preview top, list bottom (2 columns) */
+    body[data-layout="B"] .indexGrid{
+      grid-template-columns: 1fr;
+      grid-template-areas: "preview" "list";
+    }
+    body[data-layout="B"] .indexList{ grid-area: list; display:grid; grid-template-columns: 1fr 1fr; }
+    body[data-layout="B"] .preview{ grid-area: preview; min-height: 460px; }
+    body[data-layout="B"] .previewMeta h3{ font-size: 36px; }
+    body[data-layout="B"] .item:nth-child(odd){ border-right: 1px solid var(--line); }
+
+    /* C — Table index: system-first (senior) */
+    body[data-layout="C"] .indexGrid{
+      grid-template-columns: 1fr;
+      grid-template-areas: "list" "preview";
+      gap: 14px;
+    }
+    body[data-layout="C"] .indexList{ grid-area: list; }
+    body[data-layout="C"] .preview{ grid-area: preview; min-height: 380px; }
+    body[data-layout="C"] .item{
+      display:grid;
+      grid-template-columns: 90px 1fr 120px;
+      align-items:center;
+      padding: 14px 16px;
+    }
+    body[data-layout="C"] .itemLeft{ gap:4px; }
+    body[data-layout="C"] .itemTitle{ font-size: 18px; }
+    body[data-layout="C"] .previewMeta{ display:grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    body[data-layout="C"] .previewMeta h3{ grid-column: 1 / -1; font-size: 32px; }
+    body[data-layout="C"] .previewActions{ grid-column: 1 / -1; }
+
+    /* =========================
+      WIREFRAME MODE (design check)
+      ========================= */
+    body.wire .previewMedia img{ opacity:0; }
+    body.wire .previewMedia{
       background:
         linear-gradient(0deg, var(--line) 1px, transparent 1px),
         linear-gradient(90deg, var(--line) 1px, transparent 1px);
@@ -303,20 +332,19 @@
     }
     body.wire .card,
     body.wire .indexList,
-    body.wire .preview,
-    body.wire .archive{ box-shadow:none; }
+    body.wire .preview{ box-shadow:none; }
 
-    .footer{
-      border-top: 1px solid var(--line);
-      padding-top: 18px;
-      margin-top: 26px;
-    }
-
+    /* =========================
+      RESPONSIVE
+      ========================= */
     @media (max-width: 980px){
       .hero{ grid-template-columns: 1fr; }
       .indexGrid{ grid-template-columns: 1fr; }
       .preview{ min-height: 420px; }
-      .archiveGrid{ grid-template-columns: repeat(3, 1fr); }
+      body[data-layout="B"] .indexList{ grid-template-columns: 1fr; }
+      body[data-layout="B"] .item:nth-child(odd){ border-right:none; }
+      body[data-layout="C"] .item{ grid-template-columns: 70px 1fr 90px; }
+      body[data-layout="C"] .previewMeta{ grid-template-columns: 1fr; }
     }
     @media (prefers-reduced-motion: reduce){
       *{ scroll-behavior:auto !important; transition:none !important; animation:none !important; }
@@ -324,77 +352,79 @@
   </style>
 </head>
 
-<!-- IMPORTANT: start white -->
-<body data-theme="light">
+<body data-layout="A" data-theme="dark">
+  <!-- TOPBAR / CONTROLS -->
   <header class="topbar">
     <a class="brand" href="#top" aria-label="Home">
       <span class="mono">MESTYLE</span><span class="dot">•</span><span class="muted">STUDIO</span>
     </a>
 
     <nav class="nav">
-      <a class="pill mono" href="#projects"><span>GO</span><span class="muted">/</span><span>PROJECTS</span></a>
+      <a class="pill mono" href="#projects"><span class="key">GO</span><span class="val">PROJECTS</span></a>
+
+      <div class="pill mono" id="layoutA" role="button" tabindex="0" aria-label="Layout A"><span class="key">LAYOUT</span><span class="val">A</span></div>
+      <div class="pill mono" id="layoutB" role="button" tabindex="0" aria-label="Layout B"><span class="key">LAYOUT</span><span class="val">B</span></div>
+      <div class="pill mono" id="layoutC" role="button" tabindex="0" aria-label="Layout C"><span class="key">LAYOUT</span><span class="val">C</span></div>
 
       <div class="pill mono" id="themeBtn" role="button" tabindex="0" aria-label="Toggle theme">
-        THEME <span class="muted">/</span> <span id="themeLabel">LIGHT</span>
+        <span class="key">THEME</span><span class="val" id="themeLabel">DARK</span>
       </div>
 
       <div class="pill mono" id="wireBtn" role="button" tabindex="0" aria-label="Toggle wireframe">
-        VIEW <span class="muted">/</span> <span id="wireLabel">NORMAL</span>
+        <span class="key">VIEW</span><span class="val" id="wireLabel">NORMAL</span>
       </div>
     </nav>
   </header>
 
   <main class="wrap" id="top">
-    <!-- HERO (editorial cards like the photographer concept) -->
-    <section class="hero">
-      <div class="heroMain">
-        <p class="kicker mono">FOLIO / 2026</p>
-        <h1 class="heroTitle">Brand systems, built to scale.</h1>
-        <p class="heroDesc">
-          Identity · Packaging · Key Visuals · Visual Direction — clear hierarchy, consistent rules, strong typography.
-        </p>
+    <!-- HERO / MOOD -->
+    <section class="hero hero--projectFirst">
+  <div class="heroTop">
+    <div>
+      <p class="kicker mono">MESTYLE STUDIO / SELECTED WORKS</p>
+      <h1 class="heroTitle" style="margin-bottom:10px;">
+        Selected work index.
+      </h1>
+      <p class="heroDesc">
+        Clean systems · strong hierarchy · typography-led decisions
+      </p>
+    </div>
 
-        <div style="margin-top:18px; display:flex; gap:10px; flex-wrap:wrap;">
-          <a class="btnCapsule primary mono" href="#projects">view index <span class="arrow">↗</span></a>
-          <a class="btnCapsule mono" href="#archive">archive <span class="arrow">↗</span></a>
-        </div>
+    <div class="heroActions">
+      <a class="btnCapsule primary mono" href="#projects">open index <span class="arrow">↗</span></a>
+      <a class="btnCapsule mono" href="#archive">archive <span class="arrow">↗</span></a>
+    </div>
+  </div>
+
+  <!-- IMPORTANT: ต้องมี id เหล่านี้อยู่ เพราะ JS ของคุณใช้มัน -->
+  <div class="heroShowcase">
+    <section class="preview" aria-label="Project preview">
+      <div class="previewMedia">
+        <img id="previewImg" alt="" />
       </div>
-
-      <div class="heroGrid">
-        <div class="card">
-          <p class="mono tiny muted">ABOUT</p>
-          <p style="margin:0; max-width:52ch;">
-            Senior brand designer focusing on systems that keep brands consistent across real production.
-          </p>
-          <div class="divider"></div>
-          <p class="mono tiny muted">CONTACT</p>
-          <div class="mono tiny" style="line-height:1.9;">
-            <div>// Email: you@email.com</div>
-            <div>// IG: @yourhandle</div>
-            <div>// Behance: /yourprofile</div>
-          </div>
+      <div class="previewMeta">
+        <div class="metaRow">
+          <span class="mono tiny muted">SELECTED</span>
+          <span class="mono tiny" id="previewCode">P/00</span>
         </div>
-
-        <div class="card">
-          <p class="mono tiny muted">CAPABILITIES</p>
-          <div class="mono tiny" style="line-height:1.9;">
-            <div>// Brand Identity Systems</div>
-            <div>// Packaging & Guidelines</div>
-            <div>// KV / Campaign Assets</div>
-            <div>// Layout & Typography Direction</div>
-          </div>
-          <div class="divider"></div>
-          <p class="mono tiny muted">RULE</p>
-          <div class="mono tiny">One accent · Two typefaces · Consistent metadata · Fewer, stronger images</div>
+        <h3 id="previewTitle">Project</h3>
+        <p class="mono" id="previewLine" style="margin:0;color:var(--muted);"></p>
+        <div class="metaGrid" id="previewGrid"></div>
+        <div class="previewActions">
+          <a class="btnCapsule primary mono" id="previewOpen" href="#archive">read story <span class="arrow">↗</span></a>
+          <a class="btnCapsule mono" id="previewNext" href="#projects">next <span class="arrow">↗</span></a>
         </div>
       </div>
     </section>
+  </div>
+</section>
 
-    <!-- PROJECT INDEX (our system) -->
+
+    <!-- PROJECTS -->
     <section id="projects">
       <div class="sectionHead">
         <h2 class="mono">PROJECT INDEX</h2>
-        <p class="mono tiny muted">Hover / Tap to preview • Case pages can be added later</p>
+        <p class="mono tiny muted">Hover (desktop) / Tap (mobile) to preview • Compare layouts A/B/C</p>
       </div>
 
       <div class="indexGrid">
@@ -417,31 +447,75 @@
             <div class="metaGrid" id="previewGrid"></div>
 
             <div class="previewActions">
-              <a class="btnCapsule primary mono" id="previewOpen" href="#archive">read story <span class="arrow">↗</span></a>
-              <a class="btnCapsule mono" id="previewNext" href="#projects">next <span class="arrow">↗</span></a>
+              <a class="btn btnPrimary mono" id="previewOpen" href="#system">OPEN CASE (later)</a>
+              <a class="btn btnOutline mono" id="previewNext" href="#projects">NEXT</a>
             </div>
           </div>
         </section>
       </div>
     </section>
 
-    <!-- ARCHIVE (mood mix) -->
-    <section id="archive">
+    <!-- SYSTEM / MOOD OVERVIEW -->
+    <section id="system">
       <div class="sectionHead">
-        <h2 class="mono">ARCHIVE</h2>
-        <p class="mono tiny muted">Optional: quick grid to show breadth (feels mature)</p>
+        <h2 class="mono">SYSTEM / MOOD</h2>
+        <p class="mono tiny muted">This panel is here to lock the “senior” feel before splitting pages.</p>
       </div>
 
-      <div class="archive">
-        <div class="archiveHead">
-          <div class="mono">ARCHIVE GRID</div>
-          <div class="mono tiny muted">drop 6–18 thumbnails here</div>
+      <div class="systemGrid">
+        <div class="card">
+          <p class="mono tiny muted">TYPE</p>
+          <div class="tokenRow">
+            <div class="mono tiny muted">Display</div>
+            <div class="mono tiny">Space Grotesk</div>
+          </div>
+          <div class="tokenRow">
+            <div class="mono tiny muted">Mono</div>
+            <div class="mono tiny">IBM Plex Mono</div>
+          </div>
+          <div class="divider"></div>
+          <p class="mono tiny muted">HIERARCHY</p>
+          <div class="mono tiny" style="line-height:1.9;">
+            <div>// H1 = statement (not decorative)</div>
+            <div>// Project title = bold + tight</div>
+            <div>// Metadata = mono + consistent keys</div>
+          </div>
         </div>
-        <div class="archiveGrid" id="archiveGrid"></div>
+
+        <div class="card">
+          <p class="mono tiny muted">COLOR</p>
+          <div class="swatch"></div>
+          <div class="divider"></div>
+          <div class="accentChip mono tiny">
+            <span class="dotChip"></span>
+            <span>Accent: single color only</span>
+          </div>
+          <div class="divider"></div>
+          <p class="mono tiny muted">RULE</p>
+          <div class="mono tiny" style="line-height:1.9;">
+            <div>// background = calm</div>
+            <div>// contrast = crisp</div>
+            <div>// decoration = minimal</div>
+          </div>
+        </div>
+
+        <div class="card">
+          <p class="mono tiny muted">SPACING</p>
+          <div class="tokenRow"><div class="mono tiny muted">Step</div><div class="mono tiny">8 / 12 / 16 / 24 / 32 / 48</div></div>
+          <div class="tokenRow"><div class="mono tiny muted">Radius</div><div class="mono tiny">18px</div></div>
+          <div class="tokenRow"><div class="mono tiny muted">Lines</div><div class="mono tiny">1px solid/dashed</div></div>
+          <div class="divider"></div>
+          <p class="mono tiny muted">WHY IT FEELS SENIOR</p>
+          <div class="mono tiny" style="line-height:1.9;">
+            <div>// fewer elements</div>
+            <div>// stronger system</div>
+            <div>// consistent rhythm</div>
+          </div>
+        </div>
       </div>
 
       <footer class="footer">
-        <p class="mono tiny muted">© <span id="year"></span> MeStyle Studio</p>
+        <p class="mono tiny muted">© <span id="year"></span> MeStyle Studio · Single-file prototype for layout review.</p>
       </footer>
     </section>
   </main>
@@ -449,8 +523,8 @@
   <script>
     /* =========================
       EDIT HERE: PROJECT DATA
-      - ใส่ cover เป็น path จริง เช่น "assets/p01/cover.jpg"
-      - ถ้ายังไม่มีรูป ระบบทำ placeholder ให้
+      - ใส่ cover เป็น path จริงได้ เช่น "assets/p01/cover.jpg"
+      - ถ้ายังไม่มีรูป ระบบจะสร้าง placeholder ให้เอง
       ========================= */
     const PROJECTS = [
       {
@@ -462,7 +536,7 @@
         role: "Lead Brand Designer",
         scope: ["Identity", "Packaging", "Key Visual"],
         tools: ["Illustrator", "Photoshop"],
-        cover: "assets/p01/cover.jpg"
+        cover: "" // ex: "assets/p01/cover.jpg"
       },
       {
         id: "p02",
@@ -473,7 +547,7 @@
         role: "Art Direction",
         scope: ["KV", "Social", "Print"],
         tools: ["InDesign", "Illustrator"],
-        cover: "assets/p02/cover.jpg"
+        cover: ""
       },
       {
         id: "p03",
@@ -484,7 +558,7 @@
         role: "Brand Designer",
         scope: ["Packaging", "Label", "Mockups"],
         tools: ["Illustrator"],
-        cover: "assets/p03/cover.jpg"
+        cover: ""
       },
       {
         id: "p04",
@@ -495,35 +569,49 @@
         role: "Visual Direction",
         scope: ["Identity", "Guideline"],
         tools: ["Illustrator"],
-        cover: "assets/p04/cover.jpg"
+        cover: ""
       }
     ];
 
     /* =========================
-      UI
+      UI / RENDER
       ========================= */
     const $ = (q) => document.querySelector(q);
 
+    const list = $("#indexList");
+    const img = $("#previewImg");
+    const code = $("#previewCode");
+    const title = $("#previewTitle");
+    const line = $("#previewLine");
+    const grid = $("#previewGrid");
+    const nextBtn = $("#previewNext");
+    const year = $("#year");
+
+    year.textContent = new Date().getFullYear();
+
+    // Theme persistence
+    const root = document.documentElement;
     const body = document.body;
-    const themeLabel = $("#themeLabel");
-    const wireLabel = $("#wireLabel");
-    const yearEl = $("#year");
 
-    yearEl.textContent = new Date().getFullYear();
-
-    // Persist theme (start white if empty)
     const savedTheme = localStorage.getItem("theme");
-    if (savedTheme === "dark") body.dataset.theme = "dark";
-    if (!savedTheme) localStorage.setItem("theme", "light");
+    if (savedTheme) body.dataset.theme = savedTheme;
 
-    function setThemeUI(){
-      themeLabel.textContent = (body.dataset.theme || "light").toUpperCase();
-    }
-    function setWireUI(){
-      wireLabel.textContent = body.classList.contains("wire") ? "WIRE" : "NORMAL";
-    }
-    setThemeUI(); setWireUI();
+    const savedLayout = localStorage.getItem("layout");
+    if (savedLayout) body.dataset.layout = savedLayout;
 
+    const savedWire = localStorage.getItem("wire");
+    if (savedWire === "1") body.classList.add("wire");
+
+    function setThemeLabel(){
+      $("#themeLabel").textContent = (body.dataset.theme || "dark").toUpperCase();
+    }
+    function setWireLabel(){
+      $("#wireLabel").textContent = body.classList.contains("wire") ? "WIRE" : "NORMAL";
+    }
+    setThemeLabel();
+    setWireLabel();
+
+    // Buttons
     function bindPill(id, fn){
       const el = $(id);
       const act = () => fn();
@@ -537,63 +625,65 @@
       const next = (body.dataset.theme === "dark") ? "light" : "dark";
       body.dataset.theme = next;
       localStorage.setItem("theme", next);
-      setThemeUI();
-      // update preview placeholder tone if needed
-      renderPreview(PROJECTS[active]);
-      renderArchive();
+      setThemeLabel();
     });
 
     bindPill("#wireBtn", () => {
       body.classList.toggle("wire");
-      setWireUI();
+      localStorage.setItem("wire", body.classList.contains("wire") ? "1" : "0");
+      setWireLabel();
     });
 
-    /* =========================
-      PLACEHOLDER COVER
-      ========================= */
-    function escapeXML(s){
-      return String(s).replace(/[<>&'"]/g, c => ({
-        "<":"&lt;","&":"&amp;",">":"&gt;","'":"&apos;",'"':"&quot;"
-      }[c]));
+    function setLayout(l){
+      body.dataset.layout = l;
+      localStorage.setItem("layout", l);
+      ["A","B","C"].forEach(x => {
+        $("#layout"+x).classList.toggle("active", x === l);
+      });
     }
+    bindPill("#layoutA", () => setLayout("A"));
+    bindPill("#layoutB", () => setLayout("B"));
+    bindPill("#layoutC", () => setLayout("C"));
+    setLayout(body.dataset.layout || "A");
 
+    // Placeholder cover (SVG) if no image yet
     function placeholderSVG(p){
-      const isDark = body.dataset.theme === "dark";
-      const bg = isDark ? "#11131a" : "#ffffff";
-      const fg = isDark ? "#e9edf5" : "#0b0c0f";
-      const mut = isDark ? "rgba(233,237,245,.35)" : "rgba(11,12,15,.25)";
+      const bg = (body.dataset.theme === "light") ? "#ffffff" : "#11131a";
+      const fg = (body.dataset.theme === "light") ? "#0b0c0f" : "#e9edf5";
+      const mut = (body.dataset.theme === "light") ? "rgba(11,12,15,.55)" : "rgba(233,237,245,.55)";
       const accent = getComputedStyle(document.documentElement).getPropertyValue("--accent").trim() || "#d7ff3a";
 
       const svg =
 `<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="${accent}" stop-opacity="0.18"/>
+      <stop offset="1" stop-color="${accent}" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
   <rect width="1600" height="1000" fill="${bg}"/>
-  <rect x="44" y="44" width="1512" height="912" rx="40" fill="none" stroke="${mut}" stroke-width="2"/>
-  <g fill="none" stroke="${mut}" stroke-width="2">
-    ${Array.from({length: 10}).map((_,i)=>`<line x1="70" y1="${140+i*80}" x2="1530" y2="${140+i*80}"/>`).join("")}
-    ${Array.from({length: 8}).map((_,i)=>`<line x1="${180+i*175}" y1="70" x2="${180+i*175}" y2="930"/>`). AMAZON?? }
+  <rect x="40" y="40" width="1520" height="920" rx="36" fill="${bg}" stroke="${mut}" stroke-width="2"/>
+  <rect x="40" y="40" width="1520" height="920" rx="36" fill="url(#g)"/>
+  <g fill="none" stroke="${mut}" stroke-width="2" opacity="0.9">
+    ${Array.from({length: 10}).map((_,i)=>`<line x1="60" y1="${140+i*80}" x2="1540" y2="${140+i*80}"/>`).join("")}
+    ${Array.from({length: 8}).map((_,i)=>`<line x1="${160+i*180}" y1="60" x2="${160+i*180}" y2="940"/>`).join("")}
   </g>
   <g font-family="IBM Plex Mono, ui-monospace" fill="${fg}">
-    <text x="92" y="150" font-size="28" opacity="0.75">SELECTED / PREVIEW</text>
-    <text x="92" y="225" font-size="62">${escapeXML(p.code)}</text>
-    <text x="92" y="300" font-size="62" opacity="0.92">${escapeXML(p.title)}</text>
-    <text x="92" y="360" font-size="28" fill="${isDark ? 'rgba(233,237,245,.55)' : 'rgba(11,12,15,.55)'}">${escapeXML(p.line || "")}</text>
+    <text x="90" y="140" font-size="28" opacity="0.75">SELECTED / PREVIEW</text>
+    <text x="90" y="210" font-size="64">${escapeXML(p.code)}</text>
+    <text x="90" y="290" font-size="64" opacity="0.92">${escapeXML(p.title)}</text>
+    <text x="90" y="350" font-size="28" fill="${mut}">${escapeXML(p.line || "")}</text>
   </g>
   <circle cx="1480" cy="140" r="10" fill="${accent}"/>
 </svg>`;
       return "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(svg);
     }
 
-    /* =========================
-      INDEX RENDER
-      ========================= */
-    const list = $("#indexList");
-    const img = $("#previewImg");
-    const code = $("#previewCode");
-    const title = $("#previewTitle");
-    const line = $("#previewLine");
-    const grid = $("#previewGrid");
-    const nextBtn = $("#previewNext");
-    const archiveGrid = $("#archiveGrid");
+    function escapeXML(s){
+      return String(s).replace(/[<>&'"]/g, c => ({
+        "<":"&lt;","&":"&amp;",">":"&gt;","'":"&apos;",'"':"&quot;"
+      }[c]));
+    }
 
     function metaCell(label, value){
       const div = document.createElement("div");
@@ -622,8 +712,8 @@
       grid.appendChild(metaCell("SCOPE", (p.scope || []).join(" · ") || "—"));
       grid.appendChild(metaCell("TOOLS", (p.tools || []).join(" · ") || "—"));
 
-      // prototype link
-      $("#previewOpen").href = "#archive";
+      // Prototype: not opening case yet (so layout review doesn't break)
+      $("#previewOpen").href = "#system";
     }
 
     function setActive(i){
@@ -651,10 +741,12 @@
         </div>
         <div class="mono itemYear">${p.year || ""}</div>
       `;
+
       const activate = () => setActive(i);
+
       el.addEventListener("mouseenter", activate);
       el.addEventListener("focus", activate);
-      el.addEventListener("click", activate);
+      el.addEventListener("click", () => activate());
       el.addEventListener("keydown", (e) => {
         if (e.key === "Enter" || e.key === " ") { e.preventDefault(); activate(); }
       });
@@ -662,35 +754,11 @@
     }
 
     // Render list
-    list.innerHTML = "";
     PROJECTS.forEach((p, i) => list.appendChild(makeItem(p, i)));
     setActive(0);
 
-    /* =========================
-      ARCHIVE (auto picks covers)
-      ========================= */
-    function renderArchive(){
-      archiveGrid.innerHTML = "";
-      const tiles = [];
-
-      // Use covers as quick archive; you can later replace with thumbnails list
-      PROJECTS.forEach(p => tiles.push(p.cover || placeholderSVG(p)));
-
-      // Repeat to fill 12 tiles for nicer “wall”
-      while (tiles.length < 12) tiles.push(tiles[tiles.length % PROJECTS.length]);
-
-      tiles.slice(0, 12).forEach(src => {
-        const t = document.createElement("div");
-        t.className = "tile";
-        const im = document.createElement("img");
-        im.src = src;
-        im.alt = "";
-        im.loading = "lazy";
-        t.appendChild(im);
-        archiveGrid.appendChild(t);
-      });
-    }
-    renderArchive();
+    // Update placeholders when theme changes (so cover placeholders match theme)
+    $("#themeBtn").addEventListener("click", () => renderPreview(PROJECTS[active]));
   </script>
 </body>
 </html>
