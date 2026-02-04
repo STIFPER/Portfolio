@@ -3,10 +3,10 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>MeStyle Studio — Selected Works</title>
-  <meta name="description" content="Senior portfolio — brand systems, packaging, visual direction." />
+  <title>MeStyle Studio — Portfolio</title>
+  <meta name="description" content="Senior portfolio — brand systems, identity, graphics, motion." />
 
-  <!-- Fonts (keep same) -->
+  <!-- Fonts (same as we set) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -53,8 +53,9 @@
     a{ color:inherit; text-decoration:none; }
     a:hover{ opacity:.92; }
     img{ max-width:100%; display:block; }
+    button{ font:inherit; color:inherit; }
 
-    .wrap{ width: var(--wrap); margin: 0 auto; padding: 22px 0 64px; }
+    .wrap{ width: var(--wrap); margin: 0 auto; padding: 22px 0 72px; }
 
     .mono{ font-family: var(--mono); letter-spacing: 0.02em; }
     .muted{ color: var(--muted); }
@@ -62,7 +63,7 @@
     .kicker{ margin:0 0 10px; color: var(--muted); }
 
     /* =========================
-      TOPBAR (minimal)
+      TOPBAR
       ========================= */
     .topbar{
       position: sticky;
@@ -78,8 +79,10 @@
     }
     .brand{ display:flex; align-items:center; gap:10px; }
     .dot{ color: var(--accent); }
-
-    .nav{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; justify-content:flex-end; }
+    .nav{
+      display:flex; align-items:center; gap:10px;
+      flex-wrap:wrap; justify-content:flex-end;
+    }
     .pill{
       display:inline-flex; align-items:center; justify-content:center;
       padding: 10px 12px;
@@ -92,13 +95,9 @@
     }
     .pill:hover{ background: color-mix(in srgb, var(--panel) 62%, transparent); }
 
-    /* =========================
-      CTA capsule (read story ↗ vibe)
-      ========================= */
+    /* CTA capsule */
     .btnCapsule{
-      display:inline-flex;
-      align-items:center;
-      gap:10px;
+      display:inline-flex; align-items:center; gap:10px;
       padding: 12px 16px;
       border-radius: 999px;
       border: 1px solid var(--line);
@@ -110,9 +109,17 @@
     }
     .arrow{ font-family: var(--mono); }
 
-    /* =========================
-      SECTION HEAD
-      ========================= */
+    /* Card / Divider */
+    .card{
+      border: 1px solid var(--line);
+      background: color-mix(in srgb, var(--panel) 92%, transparent);
+      border-radius: var(--radius);
+      padding: 18px;
+      box-shadow: var(--shadow);
+    }
+    .divider{ height:1px; background: var(--line); margin: 16px 0; }
+
+    /* Section Head */
     .sectionHead{
       display:flex; justify-content:space-between; align-items:baseline;
       gap: 16px;
@@ -123,29 +130,24 @@
     .sectionHead h2{ margin:0; font-size: 14px; }
 
     /* =========================
-      HERO — Intro First (like ref)
+      INTRO (open screen) — like ref
       ========================= */
-    .heroIntro{
-      padding: 18px 0 18px;
-    }
+    .heroIntro{ padding: 18px 0 18px; }
 
     .introTop{
       display:grid;
       grid-template-columns: 1.25fr .75fr;
       gap: 18px;
       align-items: start;
-      min-height: min(72vh, 740px); /* premium whitespace */
+      min-height: min(72vh, 740px);
     }
-
     .introLeft{ padding: 10px 0; }
-
     .introName{
       margin: 8px 0 10px;
       font-size: clamp(56px, 6vw, 96px);
       line-height: 0.92;
       letter-spacing: -0.04em;
     }
-
     .introOneLiner{
       margin: 0;
       color: var(--muted);
@@ -153,21 +155,18 @@
       font-size: 16px;
       line-height: 1.7;
     }
-
     .introActions{
       margin-top: 18px;
       display:flex;
       gap: 10px;
       flex-wrap: wrap;
     }
-
     .introRight{
       display:flex;
       justify-content: center;
       align-items: flex-start;
       padding-top: 26px;
     }
-
     .introPortrait{
       width: min(320px, 100%);
       aspect-ratio: 1 / 1;
@@ -178,8 +177,7 @@
       box-shadow: var(--shadow);
     }
     .introPortrait img{
-      width:100%;
-      height:100%;
+      width:100%; height:100%;
       object-fit: cover;
       filter: saturate(0.98);
     }
@@ -196,26 +194,93 @@
       gap: 16px;
       padding-top: 14px;
     }
-
     .introCols{
       display:grid;
-      grid-template-columns: 1.2fr 1.2fr .9fr;
+      grid-template-columns: 1.15fr 1.15fr .9fr;
       gap: 18px;
       align-items: start;
     }
-
     .introP{
       margin: 0;
       line-height: 1.75;
       font-size: 14px;
       color: color-mix(in srgb, var(--text) 92%, transparent);
     }
-
     .introMeta{ line-height: 1.9; }
     .metaLine{ white-space: nowrap; overflow:hidden; text-overflow: ellipsis; }
 
     /* =========================
-      PROJECT INDEX + PREVIEW
+      QUICK LINKS (future pages)
+      ========================= */
+    .quickLinksGrid{
+      display:grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 14px;
+      margin-top: 16px;
+    }
+    .linkCard{
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: color-mix(in srgb, var(--panel) 92%, transparent);
+      box-shadow: var(--shadow);
+      padding: 16px;
+      display:flex;
+      flex-direction:column;
+      gap: 10px;
+      min-height: 140px;
+    }
+    .linkTop{
+      display:flex; justify-content:space-between; align-items:center;
+      gap: 10px;
+    }
+    .tag{
+      display:inline-flex; align-items:center; justify-content:center;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: transparent;
+      font-size: 11px;
+    }
+    .linkTitle{
+      font-size: 18px;
+      letter-spacing: -0.02em;
+      margin: 0;
+    }
+    .linkDesc{
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.7;
+    }
+
+    /* =========================
+      CAPABILITIES (categories / filter later)
+      ========================= */
+    .capGrid{
+      display:grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap: 16px;
+      margin-top: 16px;
+    }
+    .capList{
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      overflow: clip;
+      background: color-mix(in srgb, var(--panel) 92%, transparent);
+      box-shadow: var(--shadow);
+    }
+    .capItem{
+      display:flex; justify-content:space-between; align-items:flex-start;
+      padding: 14px 14px;
+      border-bottom: 1px solid var(--line);
+      gap: 14px;
+    }
+    .capItem:last-child{ border-bottom:none; }
+    .capName{ margin:0; font-size: 16px; }
+    .capNote{ margin:0; color: var(--muted); font-size: 12px; line-height: 1.7; }
+
+    /* =========================
+      SELECTED WORKS (index + preview)
       ========================= */
     .indexGrid{
       display:grid;
@@ -224,7 +289,6 @@
       margin-top: 16px;
       align-items: start;
     }
-
     .indexList{
       border: 1px solid var(--line);
       border-radius: var(--radius);
@@ -232,7 +296,6 @@
       background: color-mix(in srgb, var(--panel) 92%, transparent);
       box-shadow: var(--shadow);
     }
-
     .item{
       display:flex;
       justify-content:space-between;
@@ -263,7 +326,6 @@
       grid-template-rows: auto 1fr;
       min-height: 520px;
     }
-
     .previewMedia{
       position:relative;
       border-bottom: 1px solid var(--line);
@@ -271,13 +333,11 @@
       aspect-ratio: 16 / 10;
     }
     .previewMedia img{
-      width:100%;
-      height:100%;
+      width:100%; height:100%;
       object-fit: cover;
       transform: scale(1.01);
       filter: saturate(0.98);
     }
-
     .previewMeta{ padding: 16px; display:flex; flex-direction:column; }
     .metaRow{ display:flex; justify-content:space-between; align-items:center; }
     .previewMeta h3{
@@ -298,7 +358,57 @@
     .previewActions{ display:flex; gap: 10px; margin-top: 16px; flex-wrap:wrap; }
 
     /* =========================
-      ARCHIVE GRID (simple)
+      EXPERIENCE (in-house)
+      ========================= */
+    .expGrid{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-top: 16px;
+    }
+    .expCard{
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: color-mix(in srgb, var(--panel) 92%, transparent);
+      box-shadow: var(--shadow);
+      padding: 16px;
+    }
+    .expTitle{ margin:0; font-size: 18px; letter-spacing:-0.02em; }
+    .expRole{ margin: 6px 0 0; color: var(--muted); font-size: 13px; line-height:1.7; }
+    .expBullets{ margin: 12px 0 0; padding-left: 18px; }
+    .expBullets li{ margin: 6px 0; color: color-mix(in srgb, var(--text) 92%, transparent); font-size: 13px; line-height:1.7; }
+
+    /* =========================
+      REGULATED (optional / gated)
+      ========================= */
+    .regulatedWrap{ margin-top: 16px; }
+    .regulatedList{ display:none; margin-top: 14px; }
+
+    /* =========================
+      SERVICES (freelance offering)
+      ========================= */
+    .svcGrid{
+      display:grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 14px;
+      margin-top: 16px;
+    }
+    .svcCard{
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: color-mix(in srgb, var(--panel) 92%, transparent);
+      box-shadow: var(--shadow);
+      padding: 16px;
+      min-height: 160px;
+      display:flex;
+      flex-direction:column;
+      gap: 10px;
+    }
+    .svcTitle{ margin:0; font-size: 16px; }
+    .svcDesc{ margin:0; color: var(--muted); font-size: 13px; line-height: 1.7; }
+
+    /* =========================
+      ARCHIVE GRID
       ========================= */
     .archive{
       margin-top: 16px;
@@ -324,27 +434,23 @@
       aspect-ratio: 1 / 1;
       overflow:hidden;
       position:relative;
+      cursor:pointer;
     }
     .tile img{
-      width:100%;
-      height:100%;
+      width:100%; height:100%;
       object-fit: cover;
       filter: saturate(0.98);
       transform: scale(1.02);
     }
 
-    /* =========================
-      FOOTER
-      ========================= */
+    /* Footer */
     .footer{
       border-top: 1px solid var(--line);
       padding-top: 18px;
       margin-top: 26px;
     }
 
-    /* =========================
-      RESPONSIVE
-      ========================= */
+    /* Responsive */
     @media (max-width: 980px){
       .introTop{
         grid-template-columns: 1fr;
@@ -354,16 +460,19 @@
         justify-content: flex-start;
         padding-top: 0;
       }
-      .introBottom{
-        grid-template-columns: 1fr;
-      }
-      .introCols{
-        grid-template-columns: 1fr;
-      }
+      .introBottom{ grid-template-columns: 1fr; }
+      .introCols{ grid-template-columns: 1fr; }
       .metaLine{ white-space: normal; }
+
+      .quickLinksGrid{ grid-template-columns: 1fr; }
+      .capGrid{ grid-template-columns: 1fr; }
 
       .indexGrid{ grid-template-columns: 1fr; }
       .preview{ min-height: 420px; }
+
+      .expGrid{ grid-template-columns: 1fr; }
+      .svcGrid{ grid-template-columns: 1fr; }
+
       .archiveGrid{ grid-template-columns: repeat(3, 1fr); }
     }
 
@@ -381,7 +490,11 @@
     </a>
 
     <nav class="nav">
-      <a class="pill mono" href="#projects">PROJECTS</a>
+      <!-- These are "layout map" links for now -->
+      <a class="pill mono" href="#capabilities">CAPABILITIES</a>
+      <a class="pill mono" href="#projects">WORKS</a>
+      <a class="pill mono" href="#experience">EXPERIENCE</a>
+      <a class="pill mono" href="#services">SERVICES</a>
       <a class="pill mono" href="#archive">ARCHIVE</a>
 
       <div class="pill mono" id="themeBtn" role="button" tabindex="0" aria-label="Toggle theme">
@@ -392,31 +505,34 @@
 
   <main class="wrap" id="top">
 
-    <!-- INTRO FIRST -->
+    <!-- =========================
+      SECTION: INTRO (about-first)
+      - Put: your name / your portrait / short about
+      - Image: assets/portrait.jpg
+      ========================= -->
     <section class="heroIntro" id="intro">
       <div class="introTop">
         <div class="introLeft">
-          <p class="kicker mono">MESTYLE STUDIO / FOLIO 2026</p>
+          <p class="kicker mono">PORTFOLIO / 2026</p>
 
+          <!-- H1: your name/brand -->
           <h1 class="introName">MeStyle Studio</h1>
 
+          <!-- One-liner (senior, confident, short) -->
           <p class="introOneLiner">
-            Senior brand designer crafting systems that stay consistent in real production.
+            Brand designer building systems across identity, graphics, and motion — designed to stay consistent in real production.
           </p>
 
+          <!-- Primary actions: scroll to sections now, case pages later -->
           <div class="introActions">
-            <a class="btnCapsule primary mono" href="#projects">
-              view selected works <span class="arrow">↗</span>
-            </a>
-            <a class="btnCapsule mono" href="#archive">
-              archive <span class="arrow">↗</span>
-            </a>
+            <a class="btnCapsule primary mono" href="#projects">view selected works <span class="arrow">↗</span></a>
+            <a class="btnCapsule mono" href="#capabilities">capabilities <span class="arrow">↗</span></a>
           </div>
         </div>
 
         <div class="introRight">
+          <!-- Portrait / or swap to a "hero image" later -->
           <div class="introPortrait">
-            <!-- Put your image here: assets/portrait.jpg -->
             <img id="portraitImg" src="assets/portrait.jpg" alt="" loading="eager">
           </div>
         </div>
@@ -429,15 +545,15 @@
 
         <div class="introCols">
           <p class="introP">
-            I design brand identity and packaging systems with clear hierarchy — built to scale across print, social, and real production constraints.
+            I create brand identity and packaging systems with clear hierarchy, built to scale across print, social, and production constraints.
           </p>
 
           <p class="introP">
-            My focus is typography-led layout, consistent metadata, and fewer but stronger design decisions — so the brand stays sharp everywhere.
+            I also deliver graphic assets and motion/video edits with consistent typography and pacing—so the brand looks sharp everywhere.
           </p>
 
           <div class="introMeta mono tiny">
-            <div class="metaLine"><span class="muted">//</span> Focus: Identity · Packaging · KV</div>
+            <div class="metaLine"><span class="muted">//</span> Focus: Brand · Identity · Motion</div>
             <div class="metaLine"><span class="muted">//</span> Based in: Thailand</div>
             <div class="metaLine"><span class="muted">//</span> Contact: you@email.com</div>
           </div>
@@ -445,11 +561,118 @@
       </div>
     </section>
 
-    <!-- PROJECTS -->
+    <!-- =========================
+      SECTION: QUICK LINKS (future pages map)
+      - These are "highlight topics" you wanted.
+      - Later you can link to about.html / services.html / motion.html etc.
+      ========================= -->
+    <section id="map">
+      <div class="sectionHead">
+        <h2 class="mono">SITE MAP / HIGHLIGHTS</h2>
+        <p class="mono tiny muted">Placeholders → future pages</p>
+      </div>
+
+      <div class="quickLinksGrid">
+        <a class="linkCard" href="#capabilities">
+          <div class="linkTop">
+            <span class="tag mono">01 / WHAT I DO</span>
+            <span class="mono tiny muted">↗</span>
+          </div>
+          <h3 class="linkTitle">Capabilities</h3>
+          <p class="linkDesc">Brand systems, logo/identity, graphics/KV, motion & video.</p>
+        </a>
+
+        <a class="linkCard" href="#experience">
+          <div class="linkTop">
+            <span class="tag mono">02 / IN-HOUSE</span>
+            <span class="mono tiny muted">↗</span>
+          </div>
+          <h3 class="linkTitle">Experience</h3>
+          <p class="linkDesc">Credibility from well-known industries (real estate, regulated consumer).</p>
+        </a>
+
+        <a class="linkCard" href="#services">
+          <div class="linkTop">
+            <span class="tag mono">03 / FREELANCE</span>
+            <span class="mono tiny muted">↗</span>
+          </div>
+          <h3 class="linkTitle">Services</h3>
+          <p class="linkDesc">Clear packages + deliverables (so clients understand scope fast).</p>
+        </a>
+      </div>
+    </section>
+
+    <!-- =========================
+      SECTION: CAPABILITIES (categories)
+      - This is where you "split" your disciplines.
+      - Later can become filter buttons for works.
+      ========================= -->
+    <section id="capabilities">
+      <div class="sectionHead">
+        <h2 class="mono">CAPABILITIES</h2>
+        <p class="mono tiny muted">Categories for organizing projects</p>
+      </div>
+
+      <div class="capGrid">
+        <div class="capList">
+          <div class="capItem">
+            <div>
+              <h3 class="capName">Brand Systems</h3>
+              <p class="mono capNote">Strategy → identity → applications (guideline-ready).</p>
+            </div>
+            <span class="tag mono">BRAND</span>
+          </div>
+          <div class="capItem">
+            <div>
+              <h3 class="capName">Logo & Identity</h3>
+              <p class="mono capNote">Marks, wordmarks, identity core assets.</p>
+            </div>
+            <span class="tag mono">IDENTITY</span>
+          </div>
+          <div class="capItem">
+            <div>
+              <h3 class="capName">Graphic & KV</h3>
+              <p class="mono capNote">Campaign KV, social kits, print & layout systems.</p>
+            </div>
+            <span class="tag mono">GRAPHIC</span>
+          </div>
+          <div class="capItem">
+            <div>
+              <h3 class="capName">Motion & Video</h3>
+              <p class="mono capNote">Editing + motion graphics with consistent brand rhythm.</p>
+            </div>
+            <span class="tag mono">MOTION</span>
+          </div>
+        </div>
+
+        <div class="card">
+          <p class="mono tiny muted">HOW TO READ THIS PORTFOLIO</p>
+          <div class="mono tiny" style="line-height:1.9;">
+            <div>// Selected Works = best & universal</div>
+            <div>// Experience = in-house credibility</div>
+            <div>// Regulated = optional / view on request</div>
+            <div>// Archive = breadth</div>
+          </div>
+          <div class="divider"></div>
+          <p class="mono tiny muted">NEXT (LATER)</p>
+          <div class="mono tiny" style="line-height:1.9;">
+            <div>// Add pages: about.html, services.html, motion.html</div>
+            <div>// Add case page: project.html?id=...</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================
+      SECTION: SELECTED WORKS (interactive list + preview)
+      - Put: your best 6–10 projects here.
+      - Images: assets/p01/cover.jpg etc.
+      - Later: clicking opens project.html?id=p01
+      ========================= -->
     <section id="projects">
       <div class="sectionHead">
         <h2 class="mono">SELECTED WORKS</h2>
-        <p class="mono tiny muted">Index + preview</p>
+        <p class="mono tiny muted">Freelance (public-safe) + best case studies</p>
       </div>
 
       <div class="indexGrid">
@@ -472,8 +695,9 @@
             <div class="metaGrid" id="previewGrid"></div>
 
             <div class="previewActions">
-              <a class="btnCapsule primary mono" id="previewOpen" href="#archive">
-                read story <span class="arrow">↗</span>
+              <!-- later you will link to project page -->
+              <a class="btnCapsule primary mono" id="previewOpen" href="#projects">
+                open case (later) <span class="arrow">↗</span>
               </a>
               <a class="btnCapsule mono" id="previewNext" href="#projects">
                 next <span class="arrow">↗</span>
@@ -484,17 +708,148 @@
       </div>
     </section>
 
-    <!-- ARCHIVE -->
+    <!-- =========================
+      SECTION: EXPERIENCE (in-house)
+      - Show credibility.
+      - Keep cannabis wording neutral on first view.
+      ========================= -->
+    <section id="experience">
+      <div class="sectionHead">
+        <h2 class="mono">EXPERIENCE</h2>
+        <p class="mono tiny muted">In-house / high-stakes production</p>
+      </div>
+
+      <div class="expGrid">
+        <div class="expCard">
+          <div class="mono tiny muted">REAL ESTATE</div>
+          <h3 class="expTitle">Condo Industry (Well-known developer)</h3>
+          <p class="expRole mono">Scope: brand & visual system · KV · sales materials · layout standards</p>
+          <ul class="expBullets">
+            <li>Built consistent visual language across campaign and print deliverables.</li>
+            <li>Designed typography hierarchy and layout templates for production speed.</li>
+            <li>Collaborated with stakeholders to keep brand clarity across teams.</li>
+          </ul>
+        </div>
+
+        <div class="expCard">
+          <div class="mono tiny muted">REGULATED CONSUMER</div>
+          <h3 class="expTitle">Compliance-led Brand (Industry-recognized)</h3>
+          <p class="expRole mono">Scope: packaging system · menu/info design · brand application</p>
+          <ul class="expBullets">
+            <li>Designed systems under constraints (legal copy, warnings, information density).</li>
+            <li>Maintained premium look while staying compliant and readable.</li>
+            <li>Built reusable templates for frequent monthly updates.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================
+      SECTION: REGULATED (optional / gated)
+      - Keep sensitive work from being forced on visitors.
+      - People who want it will click.
+      ========================= -->
+    <section id="regulated" class="regulatedWrap">
+      <div class="sectionHead">
+        <h2 class="mono">REGULATED INDUSTRIES</h2>
+        <p class="mono tiny muted">Optional · View on request</p>
+      </div>
+
+      <div class="card">
+        <div style="display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap;">
+          <div>
+            <div class="mono tiny muted">NOTE</div>
+            <div style="margin-top:6px; max-width:72ch;">
+              Some projects involve regulated industries and compliance constraints. Details are shown only when requested.
+            </div>
+          </div>
+
+          <button class="pill mono" id="toggleRegulated" type="button">
+            VIEW <span class="muted">/</span> SHOW
+          </button>
+        </div>
+
+        <div class="divider"></div>
+
+        <div id="regulatedList" class="regulatedList">
+          <div class="mono tiny muted" style="margin-bottom:10px;">SELECTED (RESTRICTED)</div>
+
+          <div class="indexList" style="box-shadow:none;">
+            <div class="item">
+              <div class="itemLeft">
+                <div class="mono itemCode">R/01</div>
+                <h4 class="itemTitle">Regulated Consumer Brand</h4>
+                <p class="mono itemLine">Brand system · Packaging · Compliance layout</p>
+              </div>
+              <div class="mono itemYear">2025</div>
+            </div>
+
+            <div class="item">
+              <div class="itemLeft">
+                <div class="mono itemCode">R/02</div>
+                <h4 class="itemTitle">Retail Menu System</h4>
+                <p class="mono itemLine">Information design · Typography · Update workflow</p>
+              </div>
+              <div class="mono itemYear">2024</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================
+      SECTION: SERVICES (freelance)
+      - Clear packages so people “get you” quickly.
+      - Later this can link to services.html
+      ========================= -->
+    <section id="services">
+      <div class="sectionHead">
+        <h2 class="mono">SERVICES</h2>
+        <p class="mono tiny muted">Freelance offerings</p>
+      </div>
+
+      <div class="svcGrid">
+        <div class="svcCard">
+          <div class="mono tiny muted">PACKAGE 01</div>
+          <h3 class="svcTitle">Brand System</h3>
+          <p class="svcDesc">Identity core + typography + layout rules + applications (guideline-ready).</p>
+          <div class="divider"></div>
+          <div class="mono tiny muted">// Deliverables: logo suite, type system, color, layout templates</div>
+        </div>
+
+        <div class="svcCard">
+          <div class="mono tiny muted">PACKAGE 02</div>
+          <h3 class="svcTitle">Logo & Identity</h3>
+          <p class="svcDesc">Focused identity work for brands that need a strong mark + system starter.</p>
+          <div class="divider"></div>
+          <div class="mono tiny muted">// Deliverables: logo/wordmark, lockups, basic usage, files</div>
+        </div>
+
+        <div class="svcCard">
+          <div class="mono tiny muted">PACKAGE 03</div>
+          <h3 class="svcTitle">Motion & Video</h3>
+          <p class="svcDesc">Editing + motion graphics aligned with brand typography and pacing.</p>
+          <div class="divider"></div>
+          <div class="mono tiny muted">// Deliverables: reels/ads, motion KV, title system</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================
+      SECTION: ARCHIVE (breadth)
+      - Put many thumbnails here.
+      - Clicking a tile can later open a case.
+      ========================= -->
     <section id="archive">
       <div class="sectionHead">
         <h2 class="mono">ARCHIVE</h2>
-        <p class="mono tiny muted">Quick grid (optional)</p>
+        <p class="mono tiny muted">Breadth / thumbnails</p>
       </div>
 
       <div class="archive">
         <div class="archiveHead">
           <div class="mono">ARCHIVE GRID</div>
-          <div class="mono tiny muted">drop 6–18 thumbnails here</div>
+          <div class="mono tiny muted">place thumbnails in assets/ …</div>
         </div>
         <div class="archiveGrid" id="archiveGrid"></div>
       </div>
@@ -509,61 +864,63 @@
   <script>
     /* =========================
       PROJECT DATA (edit here)
-      - cover: path to your image (e.g. assets/p01/cover.jpg)
-      - If image missing, placeholder is generated (no crash)
+      - Place images in:
+        assets/portrait.jpg
+        assets/p01/cover.jpg
+        assets/p02/cover.jpg ...
       ========================= */
     const PROJECTS = [
       {
         id: "p01",
         code: "P/01",
-        title: "WANGWELA",
-        line: "Brand Identity System",
+        title: "Brand System Project",
+        line: "Identity · Packaging · Guidelines",
         year: "2025",
-        role: "Lead Brand Designer",
-        scope: ["Identity", "Packaging", "Key Visual"],
+        role: "Brand Designer",
+        scope: ["Identity", "Packaging", "System"],
         tools: ["Illustrator", "Photoshop"],
         cover: "assets/p01/cover.jpg"
       },
       {
         id: "p02",
         code: "P/02",
-        title: "HTH",
-        line: "Campaign Visual System",
+        title: "Logo & Identity",
+        line: "Logo suite · Lockups · Usage",
         year: "2024",
-        role: "Art Direction",
-        scope: ["KV", "Social", "Print"],
-        tools: ["InDesign", "Illustrator"],
+        role: "Designer",
+        scope: ["Logo", "Identity"],
+        tools: ["Illustrator"],
         cover: "assets/p02/cover.jpg"
       },
       {
         id: "p03",
         code: "P/03",
-        title: "PULSE",
-        line: "Packaging & Label System",
-        year: "2023",
-        role: "Brand Designer",
-        scope: ["Packaging", "Label", "Mockups"],
-        tools: ["Illustrator"],
+        title: "Graphic / KV System",
+        line: "Campaign KV · Social kit",
+        year: "2024",
+        role: "Art Direction",
+        scope: ["KV", "Graphic"],
+        tools: ["InDesign", "Illustrator"],
         cover: "assets/p03/cover.jpg"
       },
       {
         id: "p04",
         code: "P/04",
-        title: "BIONEST",
-        line: "Identity + Application",
-        year: "2022",
-        role: "Visual Direction",
-        scope: ["Identity", "Guideline"],
-        tools: ["Illustrator"],
+        title: "Motion & Video",
+        line: "Edit · Motion Graphics",
+        year: "2023",
+        role: "Motion / Editor",
+        scope: ["Motion", "Video"],
+        tools: ["After Effects", "Premiere"],
         cover: "assets/p04/cover.jpg"
       }
     ];
 
+    const $ = (q) => document.querySelector(q);
+
     /* =========================
       Helpers
       ========================= */
-    const $ = (q) => document.querySelector(q);
-
     function escapeXML(s){
       return String(s).replace(/[<>&'"]/g, c => ({
         "<":"&lt;","&":"&amp;",">":"&gt;","'":"&apos;",'"':"&quot;"
@@ -586,9 +943,9 @@
     ${Array.from({length: 8}).map((_,i)=>`<line x1="${180+i*175}" y1="70" x2="${180+i*175}" y2="930"/>`).join("")}
   </g>
   <g font-family="IBM Plex Mono, ui-monospace" fill="${fg}">
-    <text x="92" y="150" font-size="28" opacity="0.75">SELECTED / PREVIEW</text>
-    <text x="92" y="225" font-size="62">${escapeXML(p.code)}</text>
-    <text x="92" y="300" font-size="62" opacity="0.92">${escapeXML(p.title)}</text>
+    <text x="92" y="150" font-size="28" opacity="0.75">PREVIEW</text>
+    <text x="92" y="225" font-size="62">${escapeXML(p.code || "P/00")}</text>
+    <text x="92" y="300" font-size="62" opacity="0.92">${escapeXML(p.title || "PROJECT")}</text>
     <text x="92" y="360" font-size="28" fill="${isDark ? 'rgba(233,237,245,.55)' : 'rgba(11,12,15,.55)'}">${escapeXML(p.line || "")}</text>
   </g>
   <circle cx="1480" cy="140" r="10" fill="${accent}"/>
@@ -607,12 +964,11 @@
     }
 
     /* =========================
-      Theme (start white)
+      Theme toggle (start white + remember)
       ========================= */
     const body = document.body;
     const themeLabel = $("#themeLabel");
 
-    // start white; allow user toggle + remember
     const savedTheme = localStorage.getItem("theme");
     if (savedTheme === "dark") body.dataset.theme = "dark";
     if (!savedTheme) localStorage.setItem("theme", "light");
@@ -624,6 +980,7 @@
 
     function bindPill(id, fn){
       const el = $(id);
+      if (!el) return;
       const act = () => fn();
       el.addEventListener("click", act);
       el.addEventListener("keydown", (e) => {
@@ -631,8 +988,27 @@
       });
     }
 
+    bindPill("#themeBtn", () => {
+      const next = (body.dataset.theme === "dark") ? "light" : "dark";
+      body.dataset.theme = next;
+      localStorage.setItem("theme", next);
+      setThemeUI();
+      renderPreview(PROJECTS[active]);
+      renderArchive();
+    });
+
     /* =========================
-      Render Index + Preview
+      Portrait fallback
+      ========================= */
+    const portrait = $("#portraitImg");
+    if (portrait) {
+      portrait.addEventListener("error", () => {
+        portrait.src = placeholderSVG({ code:"INFO", title:"PORTRAIT", line:"Add assets/portrait.jpg" });
+      });
+    }
+
+    /* =========================
+      Selected works: list + preview
       ========================= */
     const list = $("#indexList");
     const img = $("#previewImg");
@@ -641,9 +1017,9 @@
     const line = $("#previewLine");
     const grid = $("#previewGrid");
     const nextBtn = $("#previewNext");
-    const archiveGrid = $("#archiveGrid");
+    const openBtn = $("#previewOpen");
     const yearEl = $("#year");
-    yearEl.textContent = new Date().getFullYear();
+    if (yearEl) yearEl.textContent = new Date().getFullYear();
 
     let active = 0;
 
@@ -652,8 +1028,8 @@
       img.src = src;
       img.alt = `${p.title} cover`;
 
-      code.textContent = p.code;
-      title.textContent = p.title;
+      code.textContent = p.code || "P/00";
+      title.textContent = p.title || "Project";
       line.textContent = p.line || "";
 
       grid.innerHTML = "";
@@ -662,8 +1038,11 @@
       grid.appendChild(metaCell("SCOPE", (p.scope || []).join(" · ") || "—"));
       grid.appendChild(metaCell("TOOLS", (p.tools || []).join(" · ") || "—"));
 
-      // prototype link
-      $("#previewOpen").href = "#archive";
+      /* Future: link to project page
+         openBtn.href = `project.html?id=${encodeURIComponent(p.id)}`
+         For now: keep it safe (layout-only)
+      */
+      openBtn.href = "#projects";
     }
 
     function setActive(i){
@@ -707,16 +1086,35 @@
     setActive(0);
 
     /* =========================
-      Archive auto grid (uses covers)
+      Regulated gate toggle
       ========================= */
-    function renderArchive(){
-      archiveGrid.innerHTML = "";
-      const tiles = [];
+    const btnR = $("#toggleRegulated");
+    const boxR = $("#regulatedList");
+    if (btnR && boxR) {
+      btnR.addEventListener("click", () => {
+        const open = boxR.style.display !== "none";
+        boxR.style.display = open ? "none" : "block";
+        btnR.innerHTML = open
+          ? 'VIEW <span class="muted">/</span> SHOW'
+          : 'VIEW <span class="muted">/</span> HIDE';
+      });
+    }
 
+    /* =========================
+      Archive auto grid (uses covers)
+      - Later: replace with real thumbnails list
+      ========================= */
+    const archiveGrid = $("#archiveGrid");
+
+    function renderArchive(){
+      if (!archiveGrid) return;
+      archiveGrid.innerHTML = "";
+
+      const tiles = [];
       PROJECTS.forEach(p => tiles.push(p.cover || placeholderSVG(p)));
       while (tiles.length < 12) tiles.push(tiles[tiles.length % PROJECTS.length]);
 
-      tiles.slice(0, 12).forEach(src => {
+      tiles.slice(0, 12).forEach((src, idx) => {
         const t = document.createElement("div");
         t.className = "tile";
         const im = document.createElement("img");
@@ -724,37 +1122,17 @@
         im.alt = "";
         im.loading = "lazy";
         t.appendChild(im);
+
+        // Future: click tile to open archive page or case
+        t.addEventListener("click", () => {
+          // placeholder: just scroll to works for now
+          location.hash = "#projects";
+        });
+
         archiveGrid.appendChild(t);
       });
     }
     renderArchive();
-
-    /* =========================
-      Theme Toggle
-      ========================= */
-    bindPill("#themeBtn", () => {
-      const next = (body.dataset.theme === "dark") ? "light" : "dark";
-      body.dataset.theme = next;
-      localStorage.setItem("theme", next);
-      setThemeUI();
-
-      // re-render placeholders (so they match theme)
-      renderPreview(PROJECTS[active]);
-      renderArchive();
-    });
-
-    /* =========================
-      Portrait fallback (if missing file)
-      ========================= */
-    const portrait = $("#portraitImg");
-    portrait.addEventListener("error", () => {
-      // If no portrait file, show a clean placeholder using current theme
-      portrait.src = placeholderSVG({
-        code: "INFO",
-        title: "PORTRAIT",
-        line: "Add assets/portrait.jpg"
-      });
-    });
   </script>
 </body>
 </html>
