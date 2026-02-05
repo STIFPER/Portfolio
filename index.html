@@ -3,34 +3,33 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Wachirawit Pansungnoen — Portfolio</title>
+  <title>Wachirawit Pansungnoen — MESTYLE STUDIO</title>
   <meta name="description" content="Brand systems, identity, and motion — built for real production." />
 
-  <!-- Fonts -->
+  <!-- Fonts (keep the vibe: mono + grotesk) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 
   <style>
     /* =========================
-      TOKENS — default LIGHT (start white)
+      THEME TOKENS (Light default)
       ========================= */
     :root{
       --bg:#f6f5f0;               /* paper */
-      --panel:#ffffff;            /* card */
+      --panel:#ffffff;            /* panels/cards */
       --text:#0b0c0f;
       --muted:rgba(11,12,15,.62);
       --line:rgba(11,12,15,.14);
-      --accent:#d7ff3a;           /* one accent only */
+      --accent:#d7ff3a;
       --shadow: 0 18px 70px rgba(0,0,0,.10);
 
       --sans:"Space Grotesk", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
       --mono:"IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
 
-      --radius: 22px;
-      --wrap: min(1180px, calc(100% - 40px));
+      --radius: 20px;
+      --wrap: min(1180px, calc(100% - 44px));
     }
-
     body[data-theme="dark"]{
       --bg:#0b0c0f;
       --panel:#11131a;
@@ -47,395 +46,468 @@
       font-family: var(--sans);
       color: var(--text);
       background: var(--bg);
-      letter-spacing: -0.01em;
+      letter-spacing:-0.01em;
     }
     a{ color:inherit; text-decoration:none; }
     a:hover{ opacity:.92; }
-    img{ max-width:100%; display:block; }
+    img{ display:block; max-width:100%; }
     button{ font:inherit; color:inherit; background:none; border:none; }
 
-    .wrap{ width: var(--wrap); margin: 0 auto; padding: 18px 0 72px; }
+    .wrap{ width:var(--wrap); margin:0 auto; padding: 0 0 84px; }
 
-    .mono{ font-family: var(--mono); letter-spacing: 0.02em; }
-    .muted{ color: var(--muted); }
-    .tiny{ font-size: 12px; line-height: 1.6; }
+    .mono{ font-family: var(--mono); letter-spacing:0.08em; text-transform:uppercase; }
+    .muted{ color:var(--muted); }
+    .tiny{ font-size:12px; line-height:1.7; }
+    .soft{ color: color-mix(in srgb, var(--text) 92%, transparent); }
 
     .pill{
       display:inline-flex; align-items:center; justify-content:center;
+      gap:10px;
       padding: 10px 12px;
-      border-radius: 999px;
-      border: 1px solid var(--line);
-      background: color-mix(in srgb, var(--panel) 75%, transparent);
-      gap: 8px;
+      border-radius:999px;
+      border:1px solid var(--line);
+      background: color-mix(in srgb, var(--panel) 72%, transparent);
       cursor:pointer;
       user-select:none;
-      line-height: 1;
-      white-space: nowrap;
+      line-height:1;
+      white-space:nowrap;
     }
-    .pill:hover{ background: color-mix(in srgb, var(--panel) 62%, transparent); }
+    .pill:hover{ background: color-mix(in srgb, var(--panel) 60%, transparent); }
+    .pill.primary{
+      background: color-mix(in srgb, var(--accent) 42%, var(--panel));
+      border-color: color-mix(in srgb, var(--accent) 66%, var(--line));
+    }
 
-    .btnCapsule{
-      display:inline-flex; align-items:center; gap:10px;
+    .btn{
+      display:inline-flex; align-items:center; justify-content:center;
+      gap:10px;
       padding: 12px 16px;
-      border-radius: 999px;
-      border: 1px solid var(--line);
+      border-radius:999px;
+      border:1px solid var(--line);
       background: transparent;
     }
-    .btnCapsule.primary{
+    .btn.primary{
       background: color-mix(in srgb, var(--accent) 40%, var(--panel));
-      border-color: color-mix(in srgb, var(--accent) 60%, var(--line));
+      border-color: color-mix(in srgb, var(--accent) 62%, var(--line));
     }
-    .arrow{ font-family: var(--mono); }
+    .arrow{ font-family: var(--mono); letter-spacing:0.02em; text-transform:none; }
+
+    .rule{ height:1px; background:var(--line); }
 
     .card{
-      border: 1px solid var(--line);
-      background: color-mix(in srgb, var(--panel) 92%, transparent);
+      border:1px solid var(--line);
       border-radius: var(--radius);
-      padding: 18px;
+      background: color-mix(in srgb, var(--panel) 92%, transparent);
       box-shadow: var(--shadow);
     }
-    .divider{ height:1px; background: var(--line); margin: 16px 0; }
-
-    .sectionHead{
-      display:flex; justify-content:space-between; align-items:baseline;
-      gap: 16px;
-      border-top: 1px solid var(--line);
-      padding-top: 16px;
-      margin-top: 18px;
-    }
-    .sectionHead h2{ margin:0; font-size: 14px; }
 
     /* =========================
-      TOPBAR — smaller on mobile
+      TOP BAR (minimal)
       ========================= */
     .topbar{
       position: sticky;
       top:0;
       z-index:50;
       display:flex;
-      justify-content:space-between;
       align-items:center;
-      padding: 10px 14px;
+      justify-content:space-between;
+      padding: 12px 14px;
       backdrop-filter: blur(12px);
       background: color-mix(in srgb, var(--bg) 82%, transparent);
       border-bottom: 1px solid var(--line);
     }
     .brand{
       display:flex; align-items:baseline; gap:10px;
-      min-width: 0;
+      min-width:0;
     }
-    .brandTitle{ font-size: 13px; letter-spacing: 0.02em; }
-    .dot{ color: var(--accent); }
-    .brandSub{ font-size: 12px; }
+    .brand strong{ font-size:13px; }
+    .dot{ color:var(--accent); }
+    .brand span{ font-size:12px; }
 
-    .navRow{ display:flex; align-items:center; gap:8px; flex-wrap:nowrap; }
-    .navLinks{ display:flex; align-items:center; gap:8px; }
+    .nav{
+      display:flex; align-items:center; gap:8px;
+    }
 
+    /* Mobile nav */
     .menuBtn{ display:none; }
-
     @media (max-width: 860px){
-      .navLinks{ display:none; }
+      .nav .navLink{ display:none; }
       .menuBtn{ display:inline-flex; }
-      .pill{ padding: 9px 10px; font-size: 12px; }
-      .topbar{ padding: 8px 12px; }
-      .brandTitle{ font-size: 12px; }
-      .brandSub{ display:none; }
+      .topbar{ padding: 10px 12px; }
+      .pill{ padding: 9px 10px; font-size:12px; }
+      .brand span{ display:none; }
     }
 
-    /* =========================
-      MENU DRAWER (mobile)
-      ========================= */
-    .drawerBackdrop{
-      position: fixed;
-      inset: 0;
+    /* Drawer */
+    .backdrop{
+      position:fixed; inset:0;
       background: rgba(0,0,0,.28);
       display:none;
-      z-index: 80;
+      z-index:80;
     }
     .drawer{
-      position: fixed;
-      top: 12px;
-      right: 12px;
+      position:fixed;
+      top: 12px; right:12px;
       width: min(360px, calc(100% - 24px));
-      border: 1px solid var(--line);
+      border:1px solid var(--line);
       border-radius: var(--radius);
       background: color-mix(in srgb, var(--panel) 92%, transparent);
       box-shadow: var(--shadow);
       padding: 12px;
       display:none;
-      z-index: 90;
+      z-index:90;
     }
     .drawerTop{
       display:flex; justify-content:space-between; align-items:center;
-      gap: 10px;
       padding: 4px 4px 10px;
-      border-bottom: 1px solid var(--line);
-      margin-bottom: 10px;
+      border-bottom:1px solid var(--line);
+      margin-bottom:10px;
     }
-    .drawerLinks{
-      display:flex;
-      flex-direction:column;
-      gap: 8px;
-      padding: 4px;
-    }
+    .drawerLinks{ display:flex; flex-direction:column; gap:8px; padding: 4px; }
     .drawerLinks a{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
+      display:flex; align-items:center; justify-content:space-between;
       padding: 12px 12px;
-      border: 1px solid var(--line);
+      border:1px solid var(--line);
       border-radius: 14px;
       background: transparent;
     }
 
     /* =========================
-      HERO — Layout C + single portrait
+      HERO / INFO — reference-style layout
       ========================= */
-    .hero{ padding: 18px 0 10px; }
+    .hero{
+      padding: 36px 0 22px;
+    }
     .heroGrid{
       display:grid;
       grid-template-columns: 1.05fr .95fr;
-      gap: 18px;
-      align-items: start;
-      min-height: min(70vh, 720px);
+      gap: 32px;
+      align-items:stretch;
+      min-height: min(76vh, 760px);
     }
-    .heroTitle{
-      margin: 0;
-      font-size: clamp(52px, 5.6vw, 92px);
-      line-height: 0.92;
-      letter-spacing: -0.04em;
-    }
-    .heroSub{ margin-top: 10px; display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
-    .heroHook{
-      margin: 10px 0 0;
-      color: var(--muted);
-      font-size: 16px;
-      line-height: 1.7;
-      max-width: 58ch;
-    }
-    .heroActions{ margin-top: 16px; display:flex; gap: 10px; flex-wrap: wrap; }
 
-    /* Portrait card */
-    .heroPortrait{
+    /* Left column: info top + featured bottom */
+    .heroLeft{
+      display:flex;
+      flex-direction:column;
+      justify-content:space-between;
+      gap: 22px;
+      padding-top: 4px;
+    }
+
+    .infoBlock{
+      max-width: 52ch;
+    }
+    .infoBlock .mono{
+      letter-spacing: 0.18em;
+      font-size: 12px;
+      line-height: 1.75;
+    }
+    .infoBlock .mono b{
+      letter-spacing: 0.20em;
+      font-weight: 600;
+      color: color-mix(in srgb, var(--text) 92%, transparent);
+    }
+
+    .featured{
+      padding-top: 10px;
+    }
+    .featuredTop{
+      display:flex; align-items:center; gap: 14px;
+      margin-bottom: 14px;
+    }
+    .progress{
+      flex: 1;
+      height: 1px;
+      background: color-mix(in srgb, var(--line) 90%, transparent);
       position: relative;
-      border: 1px solid var(--line);
+    }
+    .progress::after{
+      content:"";
+      position:absolute;
+      left:0; top:-1px;
+      height: 3px; width: 84px;
+      background: color-mix(in srgb, var(--text) 45%, transparent);
+      border-radius: 999px;
+      opacity: .9;
+    }
+    .featuredCode{
+      font-size: 14px;
+      letter-spacing: 0.22em;
+    }
+    .featuredTitle{
+      margin: 10px 0 12px;
+      font-size: clamp(40px, 4.6vw, 64px);
+      letter-spacing: -0.03em;
+      line-height: .92;
+      text-transform: uppercase;
+      color: color-mix(in srgb, var(--text) 64%, transparent);
+    }
+    .featuredActions{
+      display:flex; gap: 10px; flex-wrap:wrap;
+    }
+
+    /* Right column: big label + visual */
+    .heroRight{
+      position:relative;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      gap: 18px;
+    }
+
+    .bigLabel{
+      position:absolute;
+      top: 8px;
+      right: 0;
+      text-align:right;
+      line-height: .86;
+      letter-spacing: 0.08em;
+      font-weight: 600;
+      color: color-mix(in srgb, var(--text) 35%, transparent);
+      user-select:none;
+      pointer-events:none;
+      font-size: clamp(44px, 4.2vw, 66px);
+      text-transform: uppercase;
+    }
+
+    .mainVisual{
+      width: 100%;
+      margin-top: 56px;
+      border:1px solid var(--line);
       border-radius: var(--radius);
-      overflow: hidden;
+      overflow:hidden;
       background: color-mix(in srgb, var(--panel) 92%, transparent);
       box-shadow: var(--shadow);
-
-      aspect-ratio: 4 / 5;
-      width: 100%;
-      max-width: 520px;
-      margin-left: auto;
     }
-    .heroPortrait::before{
+    .mainVisualInner{
+      position:relative;
+      aspect-ratio: 21 / 8; /* cinematic strip */
+      background: rgba(0,0,0,.04);
+    }
+    .mainVisualInner img{
+      width:100%;
+      height:100%;
+      object-fit: cover;
+      transform: scale(1.02);
+      filter: saturate(0.98);
+    }
+    .mainVisualInner::before{
       content:"";
       position:absolute;
       inset: 12px;
-      border-radius: calc(var(--radius) - 10px);
-      border: 1px solid var(--line);
+      border:1px solid var(--line);
+      border-radius: calc(var(--radius) - 8px);
+      opacity:.55;
       pointer-events:none;
-      opacity: .6;
-    }
-    .heroPortrait img{
-      width:100%;
-      height:100%;
-      object-fit: cover;
-      transform: scale(1.02);
-      filter: saturate(0.98);
     }
 
-    @media (max-width: 980px){
-      .heroGrid{ grid-template-columns: 1fr; min-height: auto; }
-      .heroPortrait{ margin: 10px auto 0; max-width: 520px; }
-    }
-    @media (max-width: 560px){
-      .heroHook{ font-size: 14px; }
-    }
-
-    /* =========================
-      ABOUT — now before works
-      ========================= */
-    .aboutGrid{
+    /* Meta row under hero */
+    .metaRow{
+      margin-top: 22px;
+      border-top: 1px solid var(--line);
+      padding-top: 18px;
       display:grid;
-      grid-template-columns: 140px 1fr;
-      gap: 16px;
-      margin-top: 16px;
-    }
-    .aboutCols{
-      display:grid;
-      grid-template-columns: 1.2fr 1.2fr .8fr;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
       gap: 18px;
-      align-items: start;
     }
-    .aboutP{
-      margin: 0;
-      line-height: 1.75;
-      font-size: 14px;
+    .metaCol .label{ font-size: 11px; letter-spacing: 0.18em; }
+    .metaCol .value{
+      margin-top: 10px;
+      font-size: 12px;
+      line-height: 1.85;
+      letter-spacing: 0.06em;
+      text-transform: none;
+      font-family: var(--mono);
       color: color-mix(in srgb, var(--text) 92%, transparent);
     }
-    .aboutMeta{ line-height: 1.9; }
-    .metaLine{ white-space: nowrap; overflow:hidden; text-overflow: ellipsis; }
 
-    /* =========================
-      EXPERIENCE — now before works
-      ========================= */
+    /* Experience (still part of INFO page) */
+    .sectionHead{
+      display:flex; justify-content:space-between; align-items:baseline;
+      gap: 16px;
+      margin-top: 38px;
+      border-top:1px solid var(--line);
+      padding-top: 16px;
+    }
+    .sectionHead h2{ margin:0; font-size: 14px; }
+
     .expGrid{
+      margin-top: 16px;
       display:grid;
       grid-template-columns: 1fr 1fr;
       gap: 14px;
-      margin-top: 16px;
     }
     .expCard{
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      background: color-mix(in srgb, var(--panel) 92%, transparent);
-      box-shadow: var(--shadow);
       padding: 16px;
     }
-    .expTitle{ margin:0; font-size: 18px; letter-spacing:-0.02em; }
-    .expRole{ margin: 6px 0 0; color: var(--muted); font-size: 13px; line-height:1.7; }
-    .expBullets{ margin: 12px 0 0; padding-left: 18px; }
-    .expBullets li{ margin: 6px 0; color: color-mix(in srgb, var(--text) 92%, transparent); font-size: 13px; line-height:1.7; }
+    .expCard h3{
+      margin: 10px 0 6px;
+      font-size: 18px;
+      letter-spacing:-0.02em;
+      text-transform:none;
+      font-family: var(--sans);
+    }
+    .expCard p{
+      margin:0;
+      font-size: 13px;
+      line-height: 1.75;
+      color: var(--muted);
+    }
+    .expList{
+      margin: 12px 0 0;
+      padding-left: 18px;
+    }
+    .expList li{
+      margin: 6px 0;
+      font-size: 13px;
+      line-height: 1.7;
+      color: color-mix(in srgb, var(--text) 92%, transparent);
+    }
 
     /* =========================
-      SELECTED WORKS (index + preview)
+      PROJECTS (scroll after info)
       ========================= */
-    .indexGrid{
-      display:grid;
-      grid-template-columns: 420px 1fr;
-      gap: 16px;
+    .projectsShell{
+      margin-top: 34px;
+    }
+    .projectStage{
       margin-top: 16px;
+      display:grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: 18px;
       align-items: start;
     }
-    .indexList{
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      overflow: clip;
-      background: color-mix(in srgb, var(--panel) 92%, transparent);
-      box-shadow: var(--shadow);
-    }
-    .item{
-      display:flex;
-      justify-content:space-between;
-      align-items:flex-start;
-      padding: 14px 14px;
-      border-bottom: 1px solid var(--line);
-      cursor:pointer;
-      gap: 14px;
-      transition: background .15s ease, outline-color .15s ease;
-    }
-    .item:last-child{ border-bottom:none; }
-    .item:hover{ background: color-mix(in srgb, var(--panel) 80%, transparent); }
-    .item.active{ outline: 1px solid var(--accent); outline-offset: -1px; }
 
-    .itemLeft{ display:flex; flex-direction:column; gap: 6px; min-width:0; }
-    .itemCode{ color: var(--muted); font-size: 12px; }
-    .itemTitle{ font-size: 16px; margin:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-    .itemLine{ color: var(--muted); font-size: 12px; margin:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-    .itemYear{ color: var(--muted); font-size: 12px; white-space:nowrap; }
+    .projLeft{
+      padding: 18px;
+    }
+    .projControls{
+      display:flex; align-items:center; gap: 10px; justify-content:space-between;
+      margin-bottom: 16px;
+    }
+    .projControls .mini{
+      display:flex; align-items:center; gap: 10px;
+    }
+    .projTitle{
+      margin: 12px 0 12px;
+      font-size: clamp(34px, 3.6vw, 52px);
+      line-height: .92;
+      letter-spacing: -0.03em;
+      text-transform: uppercase;
+      color: color-mix(in srgb, var(--text) 64%, transparent);
+    }
+    .projDesc{
+      margin: 0;
+      font-size: 14px;
+      line-height: 1.75;
+      color: var(--muted);
+      max-width: 56ch;
+      text-transform:none;
+      letter-spacing:-0.01em;
+      font-family: var(--sans);
+    }
+    .projActions{
+      margin-top: 16px;
+      display:flex; gap: 10px; flex-wrap:wrap;
+    }
 
-    .preview{
-      border: 1px solid var(--line);
+    .projImage{
+      border:1px solid var(--line);
       border-radius: var(--radius);
       overflow:hidden;
       background: color-mix(in srgb, var(--panel) 92%, transparent);
       box-shadow: var(--shadow);
-      display:grid;
-      grid-template-rows: auto 1fr;
-      min-height: 520px;
     }
-    .previewMedia{
+    .projImageInner{
+      aspect-ratio: 16 / 9;
+      background: rgba(0,0,0,.04);
       position:relative;
-      border-bottom: 1px solid var(--line);
-      background: rgba(0,0,0,.05);
-      aspect-ratio: 16 / 10;
     }
-    .previewMedia img{
+    .projImageInner img{
       width:100%;
       height:100%;
       object-fit: cover;
-      transform: scale(1.01);
-      filter: saturate(0.98);
-    }
-    .previewMeta{ padding: 16px; display:flex; flex-direction:column; }
-    .metaRow{ display:flex; justify-content:space-between; align-items:center; }
-    .previewMeta h3{
-      margin: 10px 0 6px;
-      font-size: 30px;
-      line-height: 1.05;
-      letter-spacing: -0.02em;
-    }
-    .metaGrid{
-      display:grid;
-      grid-template-columns: repeat(2, minmax(0,1fr));
-      gap: 10px 14px;
-      margin-top: 12px;
-    }
-    .metaCell{ border-top: 1px dashed var(--line); padding-top: 10px; }
-    .metaLabel{ color: var(--muted); font-size: 11px; }
-    .metaValue{ font-size: 12px; margin-top: 6px; }
-    .previewActions{ display:flex; gap: 10px; margin-top: 16px; flex-wrap:wrap; }
-
-    /* =========================
-      REGULATED (optional / gated)
-      ========================= */
-    .regulatedList{ display:none; margin-top: 14px; }
-
-    /* =========================
-      ARCHIVE
-      ========================= */
-    .archive{
-      margin-top: 16px;
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      background: color-mix(in srgb, var(--panel) 92%, transparent);
-      box-shadow: var(--shadow);
-      overflow: clip;
-    }
-    .archiveHead{
-      display:flex; justify-content:space-between; align-items:center;
-      padding: 14px 16px;
-      border-bottom: 1px solid var(--line);
-    }
-    .archiveGrid{
-      display:grid;
-      grid-template-columns: repeat(6, 1fr);
-      gap: 1px;
-      background: var(--line);
-    }
-    .tile{
-      background: color-mix(in srgb, var(--panel) 92%, transparent);
-      aspect-ratio: 1 / 1;
-      overflow:hidden;
-      position:relative;
-      cursor:pointer;
-    }
-    .tile img{
-      width:100%; height:100%;
-      object-fit: cover;
-      filter: saturate(0.98);
       transform: scale(1.02);
+      filter: saturate(0.98);
+    }
+    .projImageInner::before{
+      content:"";
+      position:absolute;
+      inset: 12px;
+      border:1px solid var(--line);
+      border-radius: calc(var(--radius) - 8px);
+      opacity:.55;
+      pointer-events:none;
     }
 
-    .footer{
-      border-top: 1px solid var(--line);
-      padding-top: 18px;
-      margin-top: 26px;
+    .projMeta{
+      margin-top: 14px;
+      display:grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+    }
+    .projMeta .m{
+      border-top: 1px dashed var(--line);
+      padding-top: 10px;
+    }
+    .projMeta .k{
+      font-size: 11px;
+      letter-spacing: 0.18em;
+    }
+    .projMeta .v{
+      margin-top: 8px;
+      font-size: 12px;
+      line-height: 1.8;
+      text-transform:none;
+      letter-spacing: 0.02em;
+      font-family: var(--mono);
+      color: color-mix(in srgb, var(--text) 92%, transparent);
+      white-space: pre-line;
     }
 
+    /* CONTACT */
+    .contactCard{
+      margin-top: 16px;
+      padding: 18px;
+    }
+
+    /* =========================
+      RESPONSIVE (mobile-first polish)
+      ========================= */
     @media (max-width: 980px){
-      .aboutGrid{ grid-template-columns: 1fr; }
-      .aboutCols{ grid-template-columns: 1fr; }
-      .metaLine{ white-space: normal; }
-
+      .heroGrid{
+        grid-template-columns: 1fr;
+        min-height: auto;
+        gap: 18px;
+      }
+      .heroRight{
+        order: -1; /* show visual first on mobile/tablet */
+      }
+      .bigLabel{
+        position: relative;
+        top: auto; right: auto;
+        text-align: right;
+        margin-bottom: 4px;
+        opacity: .95;
+      }
+      .mainVisual{ margin-top: 8px; }
+      .metaRow{ grid-template-columns: repeat(2, minmax(0,1fr)); }
       .expGrid{ grid-template-columns: 1fr; }
 
-      .indexGrid{ grid-template-columns: 1fr; }
-      .preview{ min-height: 420px; }
+      .projectStage{ grid-template-columns: 1fr; }
+      .projMeta{ grid-template-columns: repeat(2, minmax(0,1fr)); }
+    }
 
-      .archiveGrid{ grid-template-columns: repeat(3, 1fr); }
+    @media (max-width: 560px){
+      .wrap{ width: min(1180px, calc(100% - 28px)); }
+      .hero{ padding: 26px 0 18px; }
+      .featuredTitle{ font-size: 44px; }
+      .mainVisualInner{ aspect-ratio: 16 / 8; }
+      .bigLabel{ font-size: 44px; }
+
+      .metaRow{ grid-template-columns: 1fr; }
+      .projTitle{ font-size: 40px; }
     }
 
     @media (prefers-reduced-motion: reduce){
@@ -447,318 +519,258 @@
 <body data-theme="light">
   <!-- TOP BAR -->
   <header class="topbar">
-    <a class="brand" href="#top" aria-label="Home">
-      <span class="mono brandTitle">MESTYLE</span><span class="dot">•</span>
-      <span class="muted brandSub">STUDIO</span>
+    <a class="brand" href="#info" aria-label="Home">
+      <strong class="mono">MESTYLE</strong>
+      <span class="dot">•</span>
+      <span class="mono muted">STUDIO</span>
     </a>
 
-    <div class="navRow">
-      <div class="navLinks mono">
-        <!-- order per your request -->
-        <a class="pill mono" href="#about">ABOUT</a>
-        <a class="pill mono" href="#experience">EXPERIENCE</a>
-        <a class="pill mono" href="#projects">WORKS</a>
-        <a class="pill mono" href="#archive">ARCHIVE</a>
-        <a class="pill mono" href="#contact">CONTACT</a>
-      </div>
+    <nav class="nav">
+      <a class="pill mono navLink" href="#projects">projects</a>
+      <a class="pill mono navLink" href="#info">info</a>
+      <a class="pill mono navLink" href="#contact">contact</a>
 
       <div class="pill mono" id="themeBtn" role="button" tabindex="0" aria-label="Toggle theme">
-        THEME <span class="muted">/</span> <span id="themeLabel">LIGHT</span>
+        theme <span class="muted">/</span> <span id="themeLabel">light</span>
       </div>
 
       <button class="pill mono menuBtn" id="menuBtn" type="button" aria-label="Open menu">
-        MENU <span class="arrow">↗</span>
+        menu <span class="arrow">↗</span>
       </button>
-    </div>
+    </nav>
   </header>
 
-  <!-- Mobile Drawer -->
-  <div class="drawerBackdrop" id="drawerBackdrop" aria-hidden="true"></div>
+  <!-- MOBILE DRAWER -->
+  <div class="backdrop" id="backdrop" aria-hidden="true"></div>
   <aside class="drawer" id="drawer" aria-hidden="true">
     <div class="drawerTop">
       <div class="mono tiny muted">NAV</div>
-      <button class="pill mono" id="drawerClose" type="button">CLOSE</button>
+      <button class="pill mono" id="closeBtn" type="button">close</button>
     </div>
-
     <div class="drawerLinks mono">
-      <a href="#about">ABOUT <span class="muted">↗</span></a>
-      <a href="#experience">EXPERIENCE <span class="muted">↗</span></a>
-      <a href="#projects">WORKS <span class="muted">↗</span></a>
-      <a href="#regulated">REGULATED <span class="muted">↗</span></a>
-      <a href="#archive">ARCHIVE <span class="muted">↗</span></a>
-      <a href="#contact">CONTACT <span class="muted">↗</span></a>
+      <a href="#projects">projects <span class="muted">↗</span></a>
+      <a href="#info">info <span class="muted">↗</span></a>
+      <a href="#contact">contact <span class="muted">↗</span></a>
+      <a href="#info" id="drawerTheme">theme <span class="muted">↗</span></a>
     </div>
   </aside>
 
-  <main class="wrap" id="top">
-
-    <!-- HERO (minimal text + portrait) -->
-    <section class="hero" id="intro">
+  <main class="wrap">
+    <!-- INFO / ABOUT (reference-style) -->
+    <section class="hero" id="info">
       <div class="heroGrid">
-        <div>
-          <h1 class="heroTitle">Wachirawit Pansungnoen</h1>
-
-          <div class="heroSub">
-            <span class="mono tiny muted">MESTYLE • STUDIO</span>
+        <!-- LEFT: INFO + FEATURED -->
+        <div class="heroLeft">
+          <div class="infoBlock">
+            <div class="mono tiny">
+              <b>WACHIRAWIT PANSUNGNOEN</b> IS A BRAND DESIGNER<br/>
+              FOCUSING ON IDENTITY / PACKAGING SYSTEMS / MOTION<br/>
+              BUILDING CONSISTENT VISUALS FOR REAL PRODUCTION<br/>
+              BASED IN THAILAND / AVAILABLE WORLDWIDE
+            </div>
           </div>
 
-          <p class="heroHook">
-            Brand systems, identity, and motion — built for real production.
-          </p>
+          <div class="featured">
+            <div class="featuredTop">
+              <div class="mono tiny muted">prev</div>
+              <div class="progress" aria-hidden="true"></div>
+              <div class="mono tiny muted">next</div>
+            </div>
 
-          <div class="heroActions">
-            <a class="btnCapsule primary mono" href="#projects">selected works <span class="arrow">↗</span></a>
-            <a class="btnCapsule mono" href="#contact">contact <span class="arrow">↗</span></a>
+            <div class="mono featuredCode muted" id="featCode">P/01</div>
+            <div class="featuredTitle" id="featTitle">FEATURED</div>
+
+            <div class="featuredActions">
+              <a class="btn primary mono" href="#projects">visit <span class="arrow">↗</span></a>
+              <a class="btn mono" href="#contact">contact <span class="arrow">↗</span></a>
+            </div>
           </div>
         </div>
 
-        <!-- Single Portrait -->
-        <div class="heroPortrait" aria-label="Portrait">
-          <img id="portraitImg" alt="Portrait — Wachirawit Pansungnoen" />
+        <!-- RIGHT: BIG LABEL + MAIN VISUAL -->
+        <div class="heroRight">
+          <div class="bigLabel" aria-hidden="true">
+            folio<br/>selected
+          </div>
+
+          <div class="mainVisual">
+            <div class="mainVisualInner">
+              <img id="heroImg" alt="Main visual" />
+            </div>
+          </div>
         </div>
       </div>
-    </section>
 
-    <!-- ABOUT (now before works) -->
-    <section id="about">
+      <!-- META ROW (scan-fast) -->
+      <div class="metaRow" aria-label="Quick meta">
+        <div class="metaCol">
+          <div class="mono tiny muted label">capabilities</div>
+          <div class="value">Brand Identity<br/>Packaging Systems<br/>Motion / Edit</div>
+        </div>
+        <div class="metaCol">
+          <div class="mono tiny muted label">industries</div>
+          <div class="value">Real Estate<br/>Retail<br/>Regulated Consumer</div>
+        </div>
+        <div class="metaCol">
+          <div class="mono tiny muted label">role</div>
+          <div class="value">Lead Designer (Solo)<br/>Visual System / KV</div>
+        </div>
+        <div class="metaCol">
+          <div class="mono tiny muted label">deliverables</div>
+          <div class="value">Guidelines / Templates<br/>Social Kits / Print</div>
+        </div>
+      </div>
+
+      <!-- EXPERIENCE (still info page) -->
       <div class="sectionHead">
-        <h2 class="mono">ABOUT</h2>
-        <p class="mono tiny muted">Quick scan</p>
-      </div>
-
-      <div class="aboutGrid">
-        <div class="mono tiny muted">BIO</div>
-
-        <div class="aboutCols">
-          <p class="aboutP">
-            I design brand identity and packaging systems with clear hierarchy — built to scale across print, social, and real production constraints.
-          </p>
-
-          <p class="aboutP">
-            I also deliver graphic assets and motion/video edits with consistent typography and pacing — so the brand stays sharp everywhere.
-          </p>
-
-          <div class="aboutMeta mono tiny">
-            <div class="metaLine"><span class="muted">//</span> Focus: Brand · Identity · Motion</div>
-            <div class="metaLine"><span class="muted">//</span> Based in: Thailand</div>
-            <div class="metaLine"><span class="muted">//</span> Email: you@email.com</div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- EXPERIENCE (now before works) -->
-    <section id="experience">
-      <div class="sectionHead">
-        <h2 class="mono">EXPERIENCE</h2>
+        <h2 class="mono">experience</h2>
         <p class="mono tiny muted">In-house credibility</p>
       </div>
 
       <div class="expGrid">
-        <div class="expCard">
-          <div class="mono tiny muted">REAL ESTATE</div>
-          <h3 class="expTitle">Condo Industry (well-known)</h3>
-          <p class="expRole mono">Brand & visual system · KV · production layout</p>
-          <ul class="expBullets">
-            <li>Designed consistent visual language across campaign + print.</li>
-            <li>Built templates for speed + quality in production.</li>
+        <div class="card expCard">
+          <div class="mono tiny muted">real estate</div>
+          <h3>Condo industry (well-known)</h3>
+          <p>Brand & visual system · KV · production layout</p>
+          <ul class="expList">
+            <li>Built consistent visual language across campaign + print.</li>
+            <li>Designed templates for speed + quality in production.</li>
             <li>Aligned stakeholders with clear hierarchy rules.</li>
           </ul>
         </div>
 
-        <div class="expCard">
-          <div class="mono tiny muted">REGULATED CONSUMER</div>
-          <h3 class="expTitle">Compliance-led Brand (industry-recognized)</h3>
-          <p class="expRole mono">Packaging system · information design</p>
-          <ul class="expBullets">
+        <div class="card expCard">
+          <div class="mono tiny muted">regulated consumer</div>
+          <h3>Compliance-led brand (recognized)</h3>
+          <p>Packaging system · information design</p>
+          <ul class="expList">
             <li>Designed under constraints while keeping premium look.</li>
             <li>Improved readability in dense information layouts.</li>
-            <li>Built reusable monthly update workflow.</li>
+            <li>Built scalable monthly update workflow.</li>
           </ul>
         </div>
       </div>
     </section>
 
-    <!-- SELECTED WORKS (now after About + Experience) -->
-    <section id="projects">
+    <!-- PROJECTS -->
+    <section class="projectsShell" id="projects">
       <div class="sectionHead">
-        <h2 class="mono">SELECTED WORKS</h2>
-        <p class="mono tiny muted">Hover / click to preview</p>
+        <h2 class="mono">projects</h2>
+        <p class="mono tiny muted">Scroll / prev-next</p>
       </div>
 
-      <div class="indexGrid">
-        <aside class="indexList" id="indexList" aria-label="Project list"></aside>
-
-        <section class="preview" aria-label="Project preview">
-          <div class="previewMedia">
-            <img id="previewImg" alt="" />
+      <div class="projectStage">
+        <!-- LEFT: project info -->
+        <div class="card projLeft">
+          <div class="projControls">
+            <div class="mini">
+              <button class="pill mono" id="prevBtn" type="button">prev</button>
+              <button class="pill mono" id="nextBtn" type="button">next</button>
+            </div>
+            <div class="mono tiny muted" id="projCode">P/01</div>
           </div>
 
-          <div class="previewMeta">
-            <div class="metaRow">
-              <span class="mono tiny muted">SELECTED</span>
-              <span class="mono tiny" id="previewCode">P/00</span>
-            </div>
+          <div class="projTitle" id="projTitle">PROJECT</div>
+          <p class="projDesc" id="projDesc">Description</p>
 
-            <h3 id="previewTitle">Project</h3>
-            <p class="mono" id="previewLine" style="margin:0;color:var(--muted);"></p>
-
-            <div class="metaGrid" id="previewGrid"></div>
-
-            <div class="previewActions">
-              <a class="btnCapsule primary mono" id="previewOpen" href="#projects">open case (later) <span class="arrow">↗</span></a>
-              <a class="btnCapsule mono" id="previewNext" href="#projects">next <span class="arrow">↗</span></a>
-            </div>
-          </div>
-        </section>
-      </div>
-    </section>
-
-    <!-- REGULATED (optional / gated) -->
-    <section id="regulated">
-      <div class="sectionHead">
-        <h2 class="mono">REGULATED INDUSTRIES</h2>
-        <p class="mono tiny muted">Optional · view on request</p>
-      </div>
-
-      <div class="card">
-        <div style="display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap;">
-          <div>
-            <div class="mono tiny muted">NOTE</div>
-            <div style="margin-top:6px; max-width:72ch;">
-              Some projects involve regulated industries and compliance constraints. Details are shown only when requested.
-            </div>
+          <div class="projActions">
+            <a class="btn primary mono" id="projVisit" href="#projects" target="_blank" rel="noopener">visit <span class="arrow">↗</span></a>
+            <a class="btn mono" href="#contact">contact <span class="arrow">↗</span></a>
           </div>
 
-          <button class="pill mono" id="toggleRegulated" type="button">
-            VIEW <span class="muted">/</span> SHOW
-          </button>
+          <div class="projMeta" id="projMeta"></div>
         </div>
 
-        <div class="divider"></div>
-
-        <div id="regulatedList" class="regulatedList">
-          <div class="mono tiny muted" style="margin-bottom:10px;">SELECTED (RESTRICTED)</div>
-
-          <div class="indexList" style="box-shadow:none;">
-            <div class="item" style="cursor:default;">
-              <div class="itemLeft">
-                <div class="mono itemCode">R/01</div>
-                <h4 class="itemTitle">Regulated Consumer Brand</h4>
-                <p class="mono itemLine">Brand system · Packaging · Compliance layout</p>
-              </div>
-              <div class="mono itemYear">—</div>
-            </div>
-
-            <div class="item" style="cursor:default;">
-              <div class="itemLeft">
-                <div class="mono itemCode">R/02</div>
-                <h4 class="itemTitle">Retail Menu System</h4>
-                <p class="mono itemLine">Information design · Typography · Update workflow</p>
-              </div>
-              <div class="mono itemYear">—</div>
-            </div>
+        <!-- RIGHT: image -->
+        <div class="projImage">
+          <div class="projImageInner">
+            <img id="projImg" alt="Project cover" />
           </div>
         </div>
-      </div>
-    </section>
-
-    <!-- ARCHIVE -->
-    <section id="archive">
-      <div class="sectionHead">
-        <h2 class="mono">ARCHIVE</h2>
-        <p class="mono tiny muted">Thumbnails</p>
-      </div>
-
-      <div class="archive">
-        <div class="archiveHead">
-          <div class="mono">ARCHIVE GRID</div>
-          <div class="mono tiny muted">auto placeholders until you add images</div>
-        </div>
-        <div class="archiveGrid" id="archiveGrid"></div>
       </div>
     </section>
 
     <!-- CONTACT -->
     <section id="contact">
       <div class="sectionHead">
-        <h2 class="mono">CONTACT</h2>
+        <h2 class="mono">contact</h2>
         <p class="mono tiny muted">Keep it simple</p>
       </div>
 
-      <div class="card">
-        <div class="mono tiny muted">EMAIL</div>
+      <div class="card contactCard">
+        <div class="mono tiny muted">email</div>
         <div style="margin-top:8px;">you@email.com</div>
 
-        <div class="divider"></div>
+        <div class="rule" style="margin:16px 0;"></div>
 
-        <div class="mono tiny muted">LINKS</div>
-        <div class="mono tiny" style="line-height:1.9; margin-top:8px;">
-          <div>// Behance: behance.net/yourprofile</div>
-          <div>// Instagram: @yourhandle</div>
+        <div class="mono tiny muted">links</div>
+        <div class="mono tiny" style="margin-top:8px; line-height:1.9; letter-spacing:0.10em;">
+          <div>// behance: behance.net/yourprofile</div>
+          <div>// instagram: @yourhandle</div>
         </div>
       </div>
-
-      <footer class="footer">
-        <p class="mono tiny muted">© <span id="year"></span> Wachirawit Pansungnoen</p>
-      </footer>
     </section>
-
   </main>
 
   <script>
     /* =========================
-      CONFIG (put your portrait here)
-      ========================= */
-    const PORTRAIT = {
-      src: "assets/portrait.jpg",   // <-- add this file in your repo
-      title: "Portrait"
-    };
+      EDIT THESE PATHS
+      =========================
+      Suggested structure:
+      assets/
+        hero.jpg
+        p01/cover.jpg
+        p02/cover.jpg
+        p03/cover.jpg
+        p04/cover.jpg
+    */
+
+    const HERO_VISUAL = "assets/hero.jpg";
 
     const PROJECTS = [
       {
-        id: "p01",
         code: "P/01",
-        title: "Brand System Project",
-        line: "Identity · Packaging · Guideline",
-        year: "—",
-        role: "Brand Designer",
-        scope: ["Identity", "Packaging", "System"],
-        tools: ["Illustrator", "Photoshop"],
-        cover: "assets/p01/cover.jpg"
+        title: "Brand System",
+        desc: "Identity · packaging system · guideline — built for consistent real production.",
+        client: "Client name (or Studio)",
+        role: "Lead designer (solo)",
+        deliverables: "Guideline · templates · packaging",
+        tools: "Illustrator · InDesign",
+        cover: "assets/p01/cover.jpg",
+        link: "https://example.com"
       },
       {
-        id: "p02",
         code: "P/02",
         title: "Logo & Identity",
-        line: "Logo suite · Lockups · Usage",
-        year: "—",
+        desc: "Logo suite · lockups · usage — clarity + scalability across touchpoints.",
+        client: "Client name",
         role: "Designer",
-        scope: ["Logo", "Identity"],
-        tools: ["Illustrator"],
-        cover: "assets/p02/cover.jpg"
+        deliverables: "Logo · identity system",
+        tools: "Illustrator",
+        cover: "assets/p02/cover.jpg",
+        link: "https://example.com"
       },
       {
-        id: "p03",
         code: "P/03",
-        title: "Graphic / KV System",
-        line: "Campaign KV · Social kit",
-        year: "—",
-        role: "Art Direction",
-        scope: ["KV", "Graphic"],
-        tools: ["InDesign", "Illustrator"],
-        cover: "assets/p03/cover.jpg"
+        title: "Graphic / KV",
+        desc: "Campaign KV · social kit — consistent typography and pacing.",
+        client: "Client name",
+        role: "Art direction",
+        deliverables: "KV · social kit · print",
+        tools: "Photoshop · InDesign",
+        cover: "assets/p03/cover.jpg",
+        link: "https://example.com"
       },
       {
-        id: "p04",
         code: "P/04",
-        title: "Motion & Video",
-        line: "Edit · Motion graphics",
-        year: "—",
-        role: "Motion / Editor",
-        scope: ["Motion", "Video"],
-        tools: ["After Effects", "Premiere"],
-        cover: "assets/p04/cover.jpg"
+        title: "Motion / Video",
+        desc: "Edit · motion graphics — brand consistency across moving visuals.",
+        client: "Client name",
+        role: "Motion / editor",
+        deliverables: "Reels · short video · motion",
+        tools: "After Effects · Premiere",
+        cover: "assets/p04/cover.jpg",
+        link: "https://example.com"
       }
     ];
 
@@ -781,44 +793,33 @@
       const title = payload?.title || "PREVIEW";
 
       const svg =
-`<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="1400" viewBox="0 0 1400 1400">
-  <rect width="1400" height="1400" fill="${bg}"/>
-  <rect x="44" y="44" width="1312" height="1312" rx="44" fill="none" stroke="${mut}" stroke-width="2"/>
+`<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900">
+  <rect width="1600" height="900" fill="${bg}"/>
+  <rect x="40" y="40" width="1520" height="820" rx="28" fill="none" stroke="${mut}" stroke-width="2"/>
   <g fill="none" stroke="${mut}" stroke-width="2">
-    <line x1="80" y1="260" x2="1320" y2="260"/>
-    <line x1="80" y1="340" x2="1320" y2="340"/>
-    <line x1="80" y1="420" x2="1320" y2="420"/>
-    <line x1="80" y1="500" x2="1320" y2="500"/>
+    <line x1="80" y1="220" x2="1520" y2="220"/>
+    <line x1="80" y1="300" x2="1520" y2="300"/>
+    <line x1="80" y1="380" x2="1520" y2="380"/>
   </g>
   <g font-family="IBM Plex Mono, ui-monospace" fill="${fg}">
-    <text x="92" y="220" font-size="28" opacity="0.75">IMAGE</text>
-    <text x="92" y="310" font-size="70">${escapeXML(code)}</text>
-    <text x="92" y="392" font-size="56" opacity="0.92">${escapeXML(title)}</text>
+    <text x="92" y="190" font-size="24" opacity="0.75">IMAGE</text>
+    <text x="92" y="282" font-size="62">${escapeXML(code)}</text>
+    <text x="92" y="350" font-size="44" opacity="0.92">${escapeXML(title)}</text>
   </g>
-  <circle cx="1260" cy="170" r="10" fill="${accent}"/>
+  <circle cx="1460" cy="150" r="9" fill="${accent}"/>
 </svg>`;
       return "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(svg);
     }
 
-    function setImgWithFallback(imgEl, src, fallbackPayload){
+    function setImgWithFallback(imgEl, src, payload){
       if (!imgEl) return;
-      imgEl.onerror = () => { imgEl.src = placeholderSVG(fallbackPayload); };
+      imgEl.onerror = () => { imgEl.src = placeholderSVG(payload); };
       imgEl.src = src;
-      imgEl.alt = fallbackPayload?.title ? `${fallbackPayload.title}` : "";
-    }
-
-    function metaCell(label, value){
-      const div = document.createElement("div");
-      div.className = "metaCell";
-      div.innerHTML = `
-        <div class="mono metaLabel">${label}</div>
-        <div class="mono metaValue">${value}</div>
-      `;
-      return div;
+      imgEl.alt = payload?.title ? payload.title : "";
     }
 
     /* =========================
-      THEME (start white, remember)
+      THEME (light/dark)
       ========================= */
     const body = document.body;
     const themeLabel = $("#themeLabel");
@@ -827,7 +828,7 @@
     body.dataset.theme = (savedTheme === "dark") ? "dark" : "light";
 
     function setThemeUI(){
-      if (themeLabel) themeLabel.textContent = (body.dataset.theme || "light").toUpperCase();
+      if (themeLabel) themeLabel.textContent = (body.dataset.theme || "light");
     }
     setThemeUI();
 
@@ -840,150 +841,85 @@
       });
     }
 
-    function renderPortrait(){
-      setImgWithFallback($("#portraitImg"), PORTRAIT.src, { code: "", title: PORTRAIT.title });
-    }
-    renderPortrait();
-
-    bindButton($("#themeBtn"), () => {
+    function toggleTheme(){
       const next = (body.dataset.theme === "dark") ? "light" : "dark";
       body.dataset.theme = next;
       localStorage.setItem("theme", next);
       setThemeUI();
 
       // re-render placeholders to match theme
-      renderPortrait();
-      renderPreview(PROJECTS[active]);
-      renderArchive();
-    });
+      renderHero();
+      renderProject(active);
+    }
+
+    bindButton($("#themeBtn"), toggleTheme);
+    bindButton($("#drawerTheme"), (e) => toggleTheme());
 
     /* =========================
-      SELECTED WORKS list + preview
+      HERO render (featured)
       ========================= */
-    const list = $("#indexList");
-    const img = $("#previewImg");
-    const code = $("#previewCode");
-    const title = $("#previewTitle");
-    const line = $("#previewLine");
-    const grid = $("#previewGrid");
-    const nextBtn = $("#previewNext");
-    const openBtn = $("#previewOpen");
-    const yearEl = $("#year");
-    if (yearEl) yearEl.textContent = new Date().getFullYear();
+    function renderHero(){
+      setImgWithFallback($("#heroImg"), HERO_VISUAL, { code: "INFO", title: "Main Visual" });
 
+      // featured = current project (active)
+      const p = PROJECTS[active];
+      $("#featCode").textContent = p.code;
+      $("#featTitle").textContent = p.title.toUpperCase();
+    }
+
+    /* =========================
+      PROJECT STAGE render
+      ========================= */
     let active = 0;
 
-    function renderPreview(p){
-      const src = p.cover ? p.cover : placeholderSVG({ code:p.code, title:p.title });
-      img.onerror = () => { img.src = placeholderSVG({ code:p.code, title:p.title }); };
-      img.src = src;
-      img.alt = `${p.title} cover`;
+    function metaBlock(k, v){
+      return `
+        <div class="m">
+          <div class="mono tiny muted k">${k}</div>
+          <div class="v">${escapeXML(v || "—")}</div>
+        </div>
+      `;
+    }
 
-      code.textContent = p.code || "P/00";
-      title.textContent = p.title || "Project";
-      line.textContent = p.line || "";
+    function renderProject(i){
+      const p = PROJECTS[i];
+      $("#projCode").textContent = p.code;
+      $("#projTitle").textContent = p.title.toUpperCase();
+      $("#projDesc").textContent = p.desc;
 
-      grid.innerHTML = "";
-      grid.appendChild(metaCell("ROLE", p.role || "—"));
-      grid.appendChild(metaCell("SCOPE", (p.scope || []).join(" · ") || "—"));
-      grid.appendChild(metaCell("TOOLS", (p.tools || []).join(" · ") || "—"));
-      grid.appendChild(metaCell("TYPE", "Selected"));
+      const visit = $("#projVisit");
+      visit.href = p.link || "#projects";
 
-      // Later: openBtn.href = `project.html?id=${encodeURIComponent(p.id)}`
-      openBtn.href = "#projects";
+      setImgWithFallback($("#projImg"), p.cover, { code: p.code, title: p.title });
+
+      $("#projMeta").innerHTML = [
+        metaBlock("client", p.client),
+        metaBlock("role", p.role),
+        metaBlock("deliverables", p.deliverables),
+        metaBlock("tools", p.tools),
+      ].join("");
     }
 
     function setActive(i){
-      active = i;
-      [...list.querySelectorAll(".item")].forEach((el, idx) => {
-        el.classList.toggle("active", idx === i);
-      });
-      renderPreview(PROJECTS[i]);
-
-      const nextIndex = (i + 1) % PROJECTS.length;
-      nextBtn.onclick = (e) => { e.preventDefault(); setActive(nextIndex); };
+      active = (i + PROJECTS.length) % PROJECTS.length;
+      renderHero();
+      renderProject(active);
     }
 
-    function makeItem(p, i){
-      const el = document.createElement("div");
-      el.className = "item";
-      el.tabIndex = 0;
-      el.role = "button";
-      el.setAttribute("aria-label", `Preview ${p.title}`);
-      el.innerHTML = `
-        <div class="itemLeft">
-          <div class="mono itemCode">${p.code}</div>
-          <h4 class="itemTitle">${p.title}</h4>
-          <p class="mono itemLine">${p.line || ""}</p>
-        </div>
-        <div class="mono itemYear">${p.year || ""}</div>
-      `;
+    bindButton($("#prevBtn"), () => setActive(active - 1));
+    bindButton($("#nextBtn"), () => setActive(active + 1));
 
-      const activate = () => setActive(i);
-      el.addEventListener("mouseenter", activate);
-      el.addEventListener("focus", activate);
-      el.addEventListener("click", activate);
-      el.addEventListener("keydown", (e) => {
-        if (e.key === "Enter" || e.key === " ") { e.preventDefault(); activate(); }
-      });
-      return el;
-    }
-
-    list.innerHTML = "";
-    PROJECTS.forEach((p, i) => list.appendChild(makeItem(p, i)));
-    setActive(0);
+    // Initial render
+    renderHero();
+    renderProject(active);
 
     /* =========================
-      REGULATED gate toggle
-      ========================= */
-    const btnR = $("#toggleRegulated");
-    const boxR = $("#regulatedList");
-    if (btnR && boxR) {
-      btnR.addEventListener("click", () => {
-        const open = boxR.style.display !== "none";
-        boxR.style.display = open ? "none" : "block";
-        btnR.innerHTML = open
-          ? 'VIEW <span class="muted">/</span> SHOW'
-          : 'VIEW <span class="muted">/</span> HIDE';
-      });
-    }
-
-    /* =========================
-      ARCHIVE auto grid (placeholders until you add images)
-      ========================= */
-    const archiveGrid = $("#archiveGrid");
-
-    function renderArchive(){
-      if (!archiveGrid) return;
-      archiveGrid.innerHTML = "";
-
-      const tiles = [];
-      PROJECTS.forEach(p => tiles.push(p.cover || placeholderSVG({ code:p.code, title:p.title })));
-      while (tiles.length < 12) tiles.push(tiles[tiles.length % PROJECTS.length]);
-
-      tiles.slice(0, 12).forEach((src) => {
-        const t = document.createElement("div");
-        t.className = "tile";
-        const im = document.createElement("img");
-        im.src = src;
-        im.alt = "";
-        im.loading = "lazy";
-        im.onerror = () => { im.src = placeholderSVG({ code:"A/00", title:"ARCHIVE" }); };
-        t.appendChild(im);
-
-        t.addEventListener("click", () => { location.hash = "#projects"; });
-        archiveGrid.appendChild(t);
-      });
-    }
-    renderArchive();
-
-    /* =========================
-      MOBILE MENU drawer
+      MOBILE DRAWER
       ========================= */
     const menuBtn = $("#menuBtn");
     const drawer = $("#drawer");
-    const backdrop = $("#drawerBackdrop");
-    const closeBtn = $("#drawerClose");
+    const backdrop = $("#backdrop");
+    const closeBtn = $("#closeBtn");
 
     function openDrawer(){
       if (!drawer || !backdrop) return;
@@ -1010,6 +946,12 @@
         if (a) closeDrawer();
       });
     }
+
+    // Keyboard: left/right to change project (when on page)
+    window.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowLeft") setActive(active - 1);
+      if (e.key === "ArrowRight") setActive(active + 1);
+    });
   </script>
 </body>
 </html>
