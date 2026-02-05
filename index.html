@@ -3,234 +3,246 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Wachirawit Pansungnoen — MESTYLE STUDIO</title>
+  <title>Wachirawit — Portfolio</title>
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Space+Grotesk:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Manrope:wght@400;500;600&display=swap" rel="stylesheet">
 
   <style>
-    :root{
-      --bg:#f6f5f0;
-      --panel:#ffffff;
-      --text:#0b0c0f;
-      --muted:rgba(11,12,15,.5);
-      --line:rgba(11,12,15,.15);
-      --accent:#d7ff3a; /* สีเขียวไฮไลท์เดิม */
+    :root {
+      --bg: #F9F9F9; /* ขาวนวล สบายตา */
+      --text: #1A1A1A;
+      --grey: #888;
+      --accent: #D7FF3A; /* เก็บสีเขียวมะนาวไว้เล็กน้อยเป็น Gimmick */
       
-      --sans:"Space Grotesk", sans-serif;
-      --mono:"IBM Plex Mono", monospace;
-
-      --wrap: min(1400px, 94%); /* ขยายหน้าจอให้กว้างขึ้นเพื่อโชว์รูป */
-      --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+      --font-main: "Manrope", sans-serif;
+      --font-body: "Inter", sans-serif;
+      
+      --pad: max(5vw, 24px);
     }
 
-    body{
-      margin:0;
-      background: var(--bg); color: var(--text);
-      font-family: var(--sans);
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-body);
       -webkit-font-smoothing: antialiased;
     }
 
-    a{ text-decoration:none; color:inherit; }
-    ul{ list-style:none; padding:0; margin:0; }
+    a { text-decoration: none; color: inherit; }
 
-    /* LAYOUT */
-    .wrap{ width:var(--wrap); margin:0 auto; padding-bottom: 100px; }
-    
-    /* NAV */
-    .nav{
-      display:flex; justify-content:space-between; align-items:flex-end;
-      padding: 30px 0; border-bottom: 1px solid var(--line);
-      margin-bottom: 60px;
+    /* LAYOUT UTILS */
+    .container {
+      padding: 0 var(--pad);
+      max-width: 1600px;
+      margin: 0 auto;
     }
-    .brand{ font-size: 14px; font-weight: 600; letter-spacing: -0.01em; }
-    .nav-links{ display:flex; gap: 24px; font-family: var(--mono); font-size: 12px; }
-    .nav-links a:hover{ text-decoration: underline; }
 
-    /* HERO: Minimal Type */
-    .hero{ margin-bottom: 80px; }
-    .hero h1{
-      font-size: clamp(50px, 9vw, 140px);
-      line-height: 0.85; letter-spacing: -0.04em;
-      margin: 0; text-transform: uppercase;
-      font-weight: 500; color: #111;
+    /* HEADER: Minimal */
+    header {
+      padding: 40px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
-    .hero-meta{
-      display:flex; gap: 40px; margin-top: 30px;
-      font-family: var(--mono); font-size: 11px; color: var(--muted); letter-spacing: 0.05em; text-transform: uppercase;
+    .logo { font-family: var(--font-main); font-weight: 600; font-size: 14px; letter-spacing: -0.02em; }
+    .nav a { font-size: 13px; color: var(--grey); margin-left: 24px; transition: color 0.3s; }
+    .nav a:hover { color: var(--text); }
+
+    /* HERO: Big Typography */
+    .hero {
+      padding: 10vh 0 12vh;
     }
-    
-    /* BENTO GRID (THE SHOWCASE) */
-    .grid-label{
-      font-family: var(--mono); font-size: 12px; margin-bottom: 20px;
-      display:flex; justify-content:space-between;
+    .hero h1 {
+      font-family: var(--font-main);
+      font-size: clamp(60px, 11vw, 180px);
+      font-weight: 400; /* บางลงให้ดูแพง */
+      line-height: 0.9;
+      letter-spacing: -0.04em;
+      margin: 0;
+      color: #111;
     }
-    
-    .bento{
+    .hero-sub {
+      margin-top: 40px;
+      display: flex;
+      gap: 60px;
+      color: var(--grey);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+    .hero-sub div { max-width: 300px; }
+
+    /* WORK: Asymmetrical Grid */
+    .work-grid {
       display: grid;
-      /* Grid 3 คอลัมน์แบบ flexible */
-      grid-template-columns: 1.4fr 1fr 1.4fr; 
-      gap: 16px;
-      /* ความสูงรวมของ Grid */
-      height: 80vh; min-height: 600px;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 24px; /* ช่องว่างระหว่างรูป */
+      padding-bottom: 100px;
     }
 
-    .card{
+    .project {
       position: relative;
-      background: #ccc;
-      border-radius: 12px;
+      display: block;
+      margin-bottom: 60px; /* ระยะห่างแนวตั้ง */
+    }
+
+    /* การจัดวางแบบ Magazine Style */
+    .p1 { grid-column: 1 / span 8; }  /* รูปใหญ่ซ้าย */
+    .p2 { grid-column: 9 / span 4; margin-top: 120px; } /* รูปเล็กขวา (ห้อยลงมาหน่อย) */
+    .p3 { grid-column: 2 / span 5; }  /* รูปกลางซ้าย */
+    .p4 { grid-column: 7 / span 6; margin-top: -80px; } /* รูปใหญ่ขวา (เกยขึ้นไป) */
+
+    .img-box {
+      width: 100%;
       overflow: hidden;
-      display: block; /* เป็นลิงก์ทั้งก้อน */
+      border-radius: 4px; /* มนเล็กน้อย */
+      background: #e0e0e0;
+      transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+    
+    .img-box img {
+      width: 100%;
+      height: auto;
+      display: block;
+      transition: transform 0.7s ease, filter 0.5s ease;
+      filter: grayscale(100%); /* เริ่มต้นขาวดำ */
     }
 
-    /* การจัดวางตำแหน่งรูป (Layout) */
-    .c1 { grid-column: 1; grid-row: 1 / span 2; } /* ซ้ายยาว */
-    .c2 { grid-column: 2; grid-row: 1; }          /* กลางบน */
-    .c3 { grid-column: 2; grid-row: 2; }          /* กลางล่าง */
-    .c4 { grid-column: 3; grid-row: 1 / span 2; } /* ขวายาว */
-
-    .card img{
-      width: 100%; height: 100%; object-fit: cover;
-      transition: transform 0.7s var(--ease);
-      filter: grayscale(10%); /* ดรอปสีนิดนึงให้ดูคุมโทน */
+    /* Hover Effect */
+    .project:hover .img-box img {
+      transform: scale(1.03);
+      filter: grayscale(0%); /* ชี้แล้วสีมา */
     }
-    .card:hover img{
-      transform: scale(1.05);
-      filter: grayscale(0%);
+    
+    /* Project Info (Clean text below image) */
+    .p-info {
+      margin-top: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      border-top: 1px solid rgba(0,0,0,0.1);
+      padding-top: 12px;
     }
+    .p-title { font-family: var(--font-main); font-size: 18px; font-weight: 500; }
+    .p-cat { font-size: 12px; color: var(--grey); text-transform: uppercase; letter-spacing: 0.05em; }
 
-    /* Text Overlay (Minimal) */
-    .info{
-      position: absolute; bottom: 0; left: 0; right: 0;
-      padding: 24px;
-      background: linear-gradient(to top, rgba(0,0,0,0.6), transparent);
-      color: #fff;
-      opacity: 0; transform: translateY(10px);
-      transition: all 0.4s var(--ease);
-      display:flex; justify-content:space-between; align-items:flex-end;
+    /* FOOTER */
+    footer {
+      border-top: 1px solid rgba(0,0,0,0.1);
+      padding: 60px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
     }
-    .card:hover .info{ opacity: 1; transform: translateY(0); }
-
-    .title{ font-size: 24px; font-weight: 500; line-height: 1; margin-bottom: 4px; }
-    .cat{ font-family: var(--mono); font-size: 10px; opacity: 0.8; text-transform: uppercase; letter-spacing: 1px;}
-    .code{ font-family: var(--mono); font-size: 10px; border: 1px solid rgba(255,255,255,0.3); padding: 4px 8px; border-radius: 20px;}
-
-    /* CONTACT (Simple List) */
-    .contact-sec{
-      margin-top: 100px; padding-top: 40px;
-      border-top: 1px solid var(--line);
-      display: flex; justify-content: space-between; align-items: flex-start;
+    .f-big {
+      font-family: var(--font-main);
+      font-size: 32px;
+      font-weight: 500;
+      margin-bottom: 24px;
     }
-    .c-head{ font-size: 12px; font-family: var(--mono); color: var(--muted); margin-bottom: 20px;}
-    .c-list div{ font-size: 20px; margin-bottom: 8px; font-weight: 400; }
-    .c-list span{ color: var(--muted); font-size: 12px; font-family: var(--mono); margin-right: 12px;}
+    .f-links a { display: block; margin-bottom: 8px; font-size: 14px; color: var(--grey); }
+    .f-links a:hover { color: var(--text); text-decoration: underline; }
 
     /* RESPONSIVE */
-    @media (max-width: 900px){
-      .bento{ display: flex; flex-direction: column; height: auto; }
-      .card{ aspect-ratio: 4/5; }
-      .hero h1{ font-size: 14vw; }
-      .contact-sec{ flex-direction: column; gap: 40px; }
+    @media (max-width: 900px) {
+      .work-grid { display: flex; flex-direction: column; gap: 0; }
+      .project { margin-bottom: 40px; margin-top: 0 !important; }
+      .hero h1 { font-size: 14vw; }
+      .hero-sub { flex-direction: column; gap: 20px; }
+      footer { flex-direction: column; gap: 40px; }
     }
   </style>
 </head>
 
 <body>
 
-  <div class="wrap">
+  <div class="container">
     
-    <nav class="nav">
-      <div class="brand">MESTYLE STUDIO</div>
-      <div class="nav-links">
-        <a href="#work">WORK</a>
-        <a href="#about">ABOUT</a>
-        <a href="#contact">CONTACT</a>
-      </div>
-    </nav>
-
-    <header class="hero" id="about">
-      <h1>Wachirawit<br>Pansungnoen</h1>
-      <div class="hero-meta">
-        <div>Based in Thailand</div>
-        <div>Exp. 10 Years</div>
-        <div>Brand & Identity</div>
-      </div>
+    <header>
+      <div class="logo">MESTYLE STUDIO</div>
+      <nav class="nav">
+        <a href="#work">Work</a>
+        <a href="#contact">Contact</a>
+      </nav>
     </header>
 
-    <section id="work">
-      <div class="grid-label">
-        <span>SELECTED PROJECTS</span>
-        <span>(2023 — 2026)</span>
-      </div>
-
-      <div class="bento">
-        
-        <a href="#" class="card c1">
-          <img src="assets/wangwela.jpg" onerror="this.src='https://images.unsplash.com/photo-1600334089648-b0d9d3028eb2?q=80&w=1000&auto=format&fit=crop'" alt="Wangwela">
-          <div class="info">
-            <div>
-              <div class="cat">Brand Identity / Spa</div>
-              <div class="title">Wangwela</div>
-            </div>
-            <div class="code">P/01</div>
-          </div>
-        </a>
-
-        <a href="#" class="card c2">
-          <img src="assets/bionest.jpg" onerror="this.src='https://images.unsplash.com/photo-1622483767028-3f66f32aef97?q=80&w=1000&auto=format&fit=crop'" alt="Bionest">
-          <div class="info">
-            <div>
-              <div class="cat">Packaging</div>
-              <div class="title">Bionest</div>
-            </div>
-            <div class="code">P/02</div>
-          </div>
-        </a>
-
-        <a href="#" class="card c3">
-          <img src="assets/pulse.jpg" onerror="this.src='https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=1000&auto=format&fit=crop'" alt="Pulse">
-          <div class="info">
-            <div>
-              <div class="cat">Identity System</div>
-              <div class="title">Pulse Fitness</div>
-            </div>
-            <div class="code">P/03</div>
-          </div>
-        </a>
-
-        <a href="#" class="card c4">
-          <img src="assets/leymo.jpg" onerror="this.src='https://images.unsplash.com/photo-1513364776144-60967b0f800f?q=80&w=1000&auto=format&fit=crop'" alt="Leymo">
-          <div class="info">
-            <div>
-              <div class="cat">Character / Retail</div>
-              <div class="title">Leymo</div>
-            </div>
-            <div class="code">P/04</div>
-          </div>
-        </a>
-
+    <section class="hero">
+      <h1>Wachirawit<br>Pansungnoen.</h1>
+      <div class="hero-sub">
+        <div>
+          Brand Identity & Graphic Designer based in Thailand.
+          Helping brands find their true voice through visual storytelling.
+        </div>
+        <div>
+          Scroll for Selected Works<br>
+          (2016 — Present)
+        </div>
       </div>
     </section>
 
-    <section class="contact-sec" id="contact">
-      <div>
-        <div class="c-head">CONTACT</div>
-        <div style="font-size: 32px; font-weight: 500; max-width: 400px; line-height: 1.2;">
-          Open for collaborations & commissions.
+    <section class="work-grid" id="work">
+      
+      <a href="project-detail.html" class="project p1">
+        <div class="img-box">
+          <img src="assets/wangwela.jpg" onerror="this.src='https://images.unsplash.com/photo-1600334089648-b0d9d3028eb2?q=80&w=1600&auto=format&fit=crop'" alt="Wangwela">
         </div>
+        <div class="p-info">
+          <span class="p-title">Wangwela</span>
+          <span class="p-cat">Branding / Spa</span>
+        </div>
+      </a>
+
+      <a href="project-detail.html" class="project p2">
+        <div class="img-box">
+          <img src="assets/bionest.jpg" onerror="this.src='https://images.unsplash.com/photo-1622483767028-3f66f32aef97?q=80&w=800&auto=format&fit=crop'" alt="Bionest">
+        </div>
+        <div class="p-info">
+          <span class="p-title">Bionest</span>
+          <span class="p-cat">Packaging</span>
+        </div>
+      </a>
+
+      <a href="project-detail.html" class="project p3">
+        <div class="img-box">
+          <img src="assets/pulse.jpg" onerror="this.src='https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=1000&auto=format&fit=crop'" alt="Pulse Fitness">
+        </div>
+        <div class="p-info">
+          <span class="p-title">Pulse Fitness</span>
+          <span class="p-cat">Identity System</span>
+        </div>
+      </a>
+
+      <a href="project-detail.html" class="project p4">
+        <div class="img-box">
+          <img src="assets/leymo.jpg" onerror="this.src='https://images.unsplash.com/photo-1513364776144-60967b0f800f?q=80&w=1200&auto=format&fit=crop'" alt="Leymo">
+        </div>
+        <div class="p-info">
+          <span class="p-title">Leymo</span>
+          <span class="p-cat">Character / Retail</span>
+        </div>
+      </a>
+
+    </section>
+
+    <footer id="contact">
+      <div>
+        <div class="f-big">Let's create something<br>timeless together.</div>
+        <div style="color:var(--grey); font-size:14px;">© 2026 MESTYLE STUDIO</div>
       </div>
       
-      <div class="c-list">
-        <div><span>EMAIL</span> STIFPER@GMAIL.COM</div>
-        <div><span>LINE</span> CHOPPER</div>
-        <div><span>TEL</span> 066-574-5895</div>
-        <div style="margin-top: 16px;">
-           <a href="https://behance.net/stifper" target="_blank" style="border-bottom:1px solid #000;">Behance Profile ↗</a>
-        </div>
+      <div class="f-links">
+        <div style="margin-bottom:16px; color:#111; font-weight:500;">CONTACT</div>
+        <a href="mailto:stifper@gmail.com">stifper@gmail.com</a>
+        <a href="#">Line: chopper</a>
+        <a href="tel:+6665745895">+66 65 745 895</a>
+        <a href="https://behance.net/stifper" target="_blank">Behance ↗</a>
       </div>
-    </section>
+    </footer>
 
   </div>
+
 </body>
 </html>
