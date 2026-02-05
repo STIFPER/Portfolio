@@ -72,6 +72,7 @@
       font-family: var(--font-mono); font-size: 11px; cursor: pointer;
       text-transform: uppercase;
     }
+    .theme-btn:hover { background: var(--text); color: var(--bg); border-color: var(--text); }
 
     /* =========================
        HERO
@@ -116,7 +117,7 @@
     @keyframes bounce { 0%,100%{transform:translateY(0);} 50%{transform:translateY(5px);} }
 
     /* =========================
-       SERVICES (EXPERTISE LIST)
+       SERVICES
        ========================= */
     .services-section { padding: 0 var(--pad) 80px; }
     
@@ -129,6 +130,7 @@
       text-transform: uppercase; letter-spacing: 0.05em; opacity: 0.6;
     }
 
+    .svc-list { display: flex; flex-direction: column; }
     .svc-item {
       display: grid; grid-template-columns: 1.5fr 2fr 0.5fr;
       padding: 24px 0; border-bottom: 1px solid var(--line);
@@ -140,7 +142,7 @@
     .svc-arrow { text-align: right; font-family: var(--font-mono); opacity: 0.3; }
 
     /* =========================
-       PROJECTS (EDITORIAL)
+       PROJECTS (MINIMAL)
        ========================= */
     .projects-section { padding: 0 var(--pad) 100px; }
 
@@ -171,15 +173,12 @@
       font-family: var(--font-main); font-size: clamp(32px, 4vw, 48px);
       font-weight: 500; line-height: 1.1; margin: 0 0 24px 0; letter-spacing: -0.02em;
     }
-    .feat-desc {
-      font-size: 15px; line-height: 1.7; opacity: 0.8; margin-bottom: 30px; max-width: 420px;
-    }
     .feat-link {
       font-family: var(--font-mono); font-size: 12px; text-transform: uppercase; 
       text-decoration: underline; opacity: 0.7;
     }
 
-    /* Project Row (3 Columns with Details) */
+    /* Project Row */
     .project-row {
       display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px;
     }
@@ -197,15 +196,11 @@
     }
     .p-title {
       font-family: var(--font-main); font-size: 20px; font-weight: 500; 
-      line-height: 1.2; margin-bottom: 12px;
-    }
-    .p-desc {
-      font-size: 13px; line-height: 1.6; opacity: 0.7;
-      display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
+      line-height: 1.2;
     }
 
     /* =========================
-       FOOTER (TONED DOWN)
+       FOOTER
        ========================= */
     footer {
       padding: 60px var(--pad) 40px;
@@ -216,7 +211,6 @@
       margin-bottom: 60px;
     }
     
-    /* Small CTA instead of Huge Type */
     .footer-msg {
       font-family: var(--font-main); font-size: 24px; font-weight: 500;
       line-height: 1.4; max-width: 400px;
@@ -333,9 +327,6 @@
       <div class="feat-content">
         <div class="feat-cat">Brand Identity / P-01</div>
         <h3 class="feat-title">Wangwela Spa & Wellness</h3>
-        <p class="feat-desc">
-          Designing a calming visual identity with a hand-shaped logo that connects traditional relaxation with modern wellness.
-        </p>
         <span class="feat-link">View Project ↗</span>
       </div>
     </a>
@@ -347,9 +338,6 @@
         </div>
         <div class="p-meta">Packaging / P-02</div>
         <div class="p-title">Bionest Kombucha</div>
-        <div class="p-desc">
-          Vibrant packaging design for a health drink, using gradients to represent flavor profiles.
-        </div>
       </a>
 
       <a href="project-detail.html" class="p-card">
@@ -358,9 +346,6 @@
         </div>
         <div class="p-meta">Identity System / P-03</div>
         <div class="p-title">Pulse Fitness</div>
-        <div class="p-desc">
-          A dynamic identity system for a modern gym, inspired by heartbeats and movement.
-        </div>
       </a>
 
       <a href="project-detail.html" class="p-card">
@@ -369,9 +354,6 @@
         </div>
         <div class="p-meta">Character Design / P-04</div>
         <div class="p-title">Leymo Import Shop</div>
-        <div class="p-desc">
-          Creating a friendly orange cat mascot to represent an approachable import shop brand.
-        </div>
       </a>
     </div>
   </section>
