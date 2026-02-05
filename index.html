@@ -19,6 +19,7 @@
       --text: #1A1A1A;
       --line: #D0D0D0;
       --card-bg: #EAEAEA;
+      --btn-bg: #E0E0E0; /* สีพื้นหลังปุ่มลูกศร */
       
       --font-main: "Manrope", sans-serif;       
       --font-mono: "IBM Plex Mono", monospace;  
@@ -33,6 +34,7 @@
       --text: #F0F0F0;
       --line: #333333;
       --card-bg: #222222;
+      --btn-bg: #333333;
     }
 
     * { box-sizing: border-box; }
@@ -118,13 +120,13 @@
     @keyframes bounce { 0%,100%{transform:translateY(0);} 50%{transform:translateY(5px);} }
 
     /* =========================
-       SERVICES (UPDATED: Clickable & Arrow ↗)
+       SERVICES (ACCORDION STYLE)
        ========================= */
     .services-section { padding: 0 var(--pad) 80px; }
     
     .svc-header {
       display: flex; justify-content: space-between;
-      margin-bottom: 40px; border-bottom: 1px solid var(--line); padding-bottom: 20px;
+      margin-bottom: 20px; border-bottom: 1px solid var(--line); padding-bottom: 20px;
     }
     .svc-label {
       font-family: var(--font-mono); font-size: 12px; 
@@ -133,41 +135,65 @@
 
     .svc-list { display: flex; flex-direction: column; }
     
-    /* ปรับปรุงให้เป็น Link Item */
     .svc-item {
-      display: grid; grid-template-columns: 1.5fr 2fr 0.5fr;
-      padding: 32px 0; border-bottom: 1px solid var(--line);
-      transition: all 0.3s ease; 
+      border-bottom: 1px solid var(--line);
       cursor: pointer;
-      position: relative;
+      transition: background 0.3s;
     }
     
-    .svc-item:hover { 
-      background: rgba(0,0,0,0.03); 
-      padding-left: 10px; /* ขยับเนื้อหาไปขวานิดนึงตอนชี้ */
+    .svc-top {
+      display: grid; 
+      /* ปรับ Grid ไม่ให้ลูกศรไปชิดขวาสุด */
+      grid-template-columns: 1.5fr 2fr auto; 
+      gap: 20px;
+      align-items: center;
+      padding: 32px 0;
     }
 
     .svc-name { font-family: var(--font-main); font-size: 22px; font-weight: 500; }
     
     .svc-desc { 
       font-family: var(--font-mono); font-size: 13px; opacity: 0.7; 
-      display: flex; align-items: center; 
     }
     
-    /* ปรับปรุงลูกศร */
-    .svc-arrow { 
-      text-align: right; 
-      font-family: var(--font-main); /* ใช้ฟอนต์หลักเพื่อให้ลูกศรคมสวย */
-      font-size: 24px; 
-      font-weight: 300;
-      opacity: 0.4;
-      transition: transform 0.3s ease, opacity 0.3s ease;
+    /* ปุ่มวงกลม */
+    .svc-circle { 
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      background: var(--btn-bg);
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-main); font-size: 18px; font-weight: 300;
+      transition: all 0.3s ease;
+      color: var(--text);
     }
     
-    .svc-item:hover .svc-arrow {
-      opacity: 1;
-      transform: translate(4px, -4px); /* ขยับเฉียงขึ้นขวาเวลาชี้ */
+    .svc-item:hover .svc-circle {
+      background: var(--text); color: var(--bg); transform: rotate(45deg);
     }
+
+    /* Accordion Dropdown (ซ่อนอยู่ตอนแรก) */
+    .svc-dropdown {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.5s var(--ease);
+      padding-left: calc(1.5fr + 20px); /* ย่อหน้าให้ตรงกับ column ที่ 2 */
+    }
+
+    .svc-item.active .svc-dropdown {
+      max-height: 300px; /* ความสูงเผื่อไว้สำหรับเนื้อหา */
+      padding-bottom: 32px;
+    }
+
+    .svc-sub-link {
+      display: block;
+      font-family: var(--font-mono);
+      font-size: 14px;
+      padding: 8px 0;
+      opacity: 0.6;
+      border-bottom: 1px dashed var(--line);
+      width: 100%; max-width: 400px;
+    }
+    .svc-sub-link:hover { opacity: 1; padding-left: 10px; border-style: solid; }
 
     /* =========================
        PROJECTS (MINIMAL)
@@ -265,7 +291,11 @@
       .project-row { grid-template-columns: 1fr; gap: 50px; }
       .portrait-wrapper { right: 5%; width: 220px; top: 40%; }
       .intro-grid { grid-template-columns: 1fr; gap: 20px; }
-      .svc-item { grid-template-columns: 1fr; gap: 12px; } .svc-arrow { display: none; }
+      
+      .svc-top { grid-template-columns: 1fr auto; gap: 10px; }
+      .svc-desc { display: none; } /* ซ่อนคำอธิบายยาวๆ ในมือถือ */
+      .svc-dropdown { padding-left: 0; }
+      
       .footer-wrapper { grid-template-columns: 1fr; }
     }
     @media (max-width: 768px) {
@@ -323,29 +353,57 @@
 
     <div class="svc-list">
       
-      <a href="services.html#branding" class="svc-item">
-        <div class="svc-name">Brand Identity</div>
-        <div class="svc-desc">Logo Design, Visual Systems, Guidelines</div>
-        <div class="svc-arrow">↗</div>
-      </a>
+      <div class="svc-item" onclick="toggleService(this)">
+        <div class="svc-top">
+          <div class="svc-name">Brand Identity</div>
+          <div class="svc-desc">Logo Design, Visual Systems, Guidelines</div>
+          <div class="svc-circle">↗</div>
+        </div>
+        <div class="svc-dropdown">
+          <a href="project-detail.html" class="svc-sub-link">Wangwela Spa Identity</a>
+          <a href="project-detail.html" class="svc-sub-link">Kasta Brand Redesign</a>
+          <a href="project-detail.html" class="svc-sub-link">Corporate Stationery System</a>
+        </div>
+      </div>
 
-      <a href="services.html#packaging" class="svc-item">
-        <div class="svc-name">Packaging</div>
-        <div class="svc-desc">Label Design, Box Structure, Mockups</div>
-        <div class="svc-arrow">↗</div>
-      </a>
+      <div class="svc-item" onclick="toggleService(this)">
+        <div class="svc-top">
+          <div class="svc-name">Packaging</div>
+          <div class="svc-desc">Label Design, Box Structure, Mockups</div>
+          <div class="svc-circle">↗</div>
+        </div>
+        <div class="svc-dropdown">
+          <a href="project-detail.html" class="svc-sub-link">Bionest Kombucha Bottle</a>
+          <a href="project-detail.html" class="svc-sub-link">Skin Care Product Line</a>
+          <a href="project-detail.html" class="svc-sub-link">Food Supplement Box</a>
+        </div>
+      </div>
 
-      <a href="services.html#web" class="svc-item">
-        <div class="svc-name">Web Design</div>
-        <div class="svc-desc">UI Design, Webflow, Digital Assets</div>
-        <div class="svc-arrow">↗</div>
-      </a>
+      <div class="svc-item" onclick="toggleService(this)">
+        <div class="svc-top">
+          <div class="svc-name">Web Design</div>
+          <div class="svc-desc">UI Design, Webflow, Digital Assets</div>
+          <div class="svc-circle">↗</div>
+        </div>
+        <div class="svc-dropdown">
+          <a href="project-detail.html" class="svc-sub-link">Cannabis Menu Website</a>
+          <a href="project-detail.html" class="svc-sub-link">Clinic Landing Page</a>
+          <a href="project-detail.html" class="svc-sub-link">E-Commerce Redesign</a>
+        </div>
+      </div>
 
-      <a href="services.html#illustration" class="svc-item">
-        <div class="svc-name">Illustration</div>
-        <div class="svc-desc">Character Design, Mascots, Icons</div>
-        <div class="svc-arrow">↗</div>
-      </a>
+      <div class="svc-item" onclick="toggleService(this)">
+        <div class="svc-top">
+          <div class="svc-name">Illustration</div>
+          <div class="svc-desc">Character Design, Mascots, Icons</div>
+          <div class="svc-circle">↗</div>
+        </div>
+        <div class="svc-dropdown">
+          <a href="project-detail.html" class="svc-sub-link">Leymo Shop Mascot</a>
+          <a href="project-detail.html" class="svc-sub-link">Custom Icon Set</a>
+          <a href="project-detail.html" class="svc-sub-link">Editorial Illustration</a>
+        </div>
+      </div>
 
     </div>
   </section>
@@ -406,7 +464,7 @@
           <div class="f-head">Contact</div>
           <a href="mailto:stifper@gmail.com" class="f-link">stifper@gmail.com</a>
           <a href="tel:0665745895" class="f-link">+66 65 745 895</a>
-          <a href="#" class="f-link">Line: .Chopper(มีจุดด้านหน้า)</a>
+          <a href="#" class="f-link">Line: Chopper</a>
         </div>
         <div>
           <div class="f-head">Socials</div>
@@ -423,6 +481,7 @@
   </footer>
 
   <script>
+    /* Theme Toggle */
     const btn = document.getElementById('themeBtn');
     const body = document.body;
     if (localStorage.getItem('theme') === 'dark') body.setAttribute('data-theme', 'dark');
@@ -434,6 +493,18 @@
         body.setAttribute('data-theme', 'dark'); localStorage.setItem('theme', 'dark');
       }
     });
+
+    /* Accordion Function */
+    function toggleService(element) {
+      // Close other open items (Optional - remove this block if you want multiple open)
+      const allItems = document.querySelectorAll('.svc-item');
+      allItems.forEach(item => {
+        if (item !== element) item.classList.remove('active');
+      });
+
+      // Toggle clicked item
+      element.classList.toggle('active');
+    }
   </script>
 </body>
 </html>
