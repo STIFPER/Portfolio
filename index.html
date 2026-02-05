@@ -7,19 +7,34 @@
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600&family=Space+Grotesk:wght@400;500&display=swap" rel="stylesheet">
 
   <style>
+    /* =========================
+       THEME VARIABLES
+       ========================= */
     :root {
-      --bg: #F4F4F0; /* สีครีมอ่อนๆ ตามสไตล์ Liam Bennett */
+      /* Light Mode (Default) */
+      --bg: #F4F4F0;
       --text: #111;
-      --line: #000;
+      --line: #ccc;
+      --card-bg: #E5E5E5;
+      --hover-text: #555;
       
-      --font-display: "Space Grotesk", sans-serif; /* ฟอนต์ใหม่ตามรูป Brand System */
-      --font-body: "Manrope", sans-serif;         /* ฟอนต์อ่านง่าย */
+      --font-main: "Manrope", sans-serif;       /* ฟอนต์หลัก (H1, เนื้อหา) */
+      --font-display: "Space Grotesk", sans-serif; /* ฟอนต์ตกแต่ง (ตัวเลข) */
       
-      --pad: 40px;
+      --pad: max(5vw, 24px); /* ระยะขอบซ้ายขวาแบบยืดหยุ่น */
       --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+
+    /* Dark Mode Override */
+    body[data-theme="dark"] {
+      --bg: #111111;
+      --text: #EAEAEA;
+      --line: #333;
+      --card-bg: #222;
+      --hover-text: #AAA;
     }
 
     * { box-sizing: border-box; }
@@ -28,15 +43,17 @@
       margin: 0;
       background: var(--bg);
       color: var(--text);
-      font-family: var(--font-body);
+      font-family: var(--font-main);
       -webkit-font-smoothing: antialiased;
+      transition: background 0.3s ease, color 0.3s ease;
     }
 
-    a { text-decoration: none; color: inherit; }
+    a { text-decoration: none; color: inherit; transition: color 0.2s; }
+    a:hover { color: var(--hover-text); }
     img { display: block; width: 100%; height: 100%; object-fit: cover; }
 
     /* =========================
-       HEADER (เมนูแบบเดิมที่เคยทำ)
+       NAVBAR (LOGO + MENU + THEME BTN)
        ========================= */
     header {
       padding: 30px var(--pad);
@@ -44,217 +61,220 @@
       justify-content: space-between;
       align-items: center;
       position: relative;
-      z-index: 10;
+      z-index: 100;
     }
 
     .logo {
-      font-family: var(--font-display);
-      font-size: 24px;
-      font-weight: 700;
-      letter-spacing: -0.02em;
+      font-family: var(--font-main);
+      font-weight: 600;
+      font-size: 14px;
+      letter-spacing: -0.01em;
       text-transform: uppercase;
+    }
+
+    .nav-group {
+      display: flex;
+      align-items: center;
+      gap: 32px;
     }
 
     .nav {
       display: flex;
-      gap: 32px;
-    }
-
-    .nav a {
-      font-family: var(--font-display); /* ใช้ฟอนต์ใหม่กับเมนูด้วยให้ดูเข้า theme */
-      font-size: 14px;
+      gap: 24px;
+      font-size: 13px;
       font-weight: 500;
       text-transform: uppercase;
       letter-spacing: 0.05em;
-      position: relative;
     }
-    
-    .nav a::after {
-      content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 1px;
-      background: var(--text); transition: width 0.3s var(--ease);
+
+    /* Theme Toggle Button */
+    .theme-btn {
+      background: none; border: 1px solid var(--line);
+      color: var(--text);
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-family: var(--font-main);
+      font-size: 11px;
+      cursor: pointer;
+      text-transform: uppercase;
     }
-    .nav a:hover::after { width: 100%; }
+    .theme-btn:hover { border-color: var(--text); }
 
     /* =========================
-       HERO (LIAM BENNETT STYLE)
+       HERO SECTION (Liam Bennett Style)
        ========================= */
     .hero-container {
       position: relative;
-      height: 70vh;
+      min-height: 80vh; /* ความสูงขั้นต่ำ */
       padding: 0 var(--pad);
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
     }
 
-    /* ชื่อใหญ่ด้านบนซ้าย */
+    /* H1: ใช้ Manrope ตามที่ชอบ */
     .hero-name {
-      font-family: var(--font-display);
-      font-size: clamp(60px, 9vw, 140px);
+      font-family: var(--font-main);
+      font-size: clamp(50px, 8vw, 120px);
       font-weight: 500;
-      line-height: 0.9;
-      letter-spacing: -0.04em;
+      line-height: 1;
+      letter-spacing: -0.03em;
       margin-top: 40px;
+      max-width: 80%;
+      z-index: 2; /* อยู่เหนือรูป */
     }
 
-    /* รูป Portrait ลอยตรงกลางขวา */
+    /* รูป Portrait: จัดวางแบบ Absolute ให้ดูมีเลเยอร์ */
     .portrait-wrapper {
       position: absolute;
-      top: 50%; left: 60%;
-      transform: translate(-50%, -50%);
-      width: 280px;
+      top: 45%; 
+      right: 15%; /* ขยับจากขวาเข้ามา */
+      width: clamp(200px, 25vw, 320px); /* จำกัดขนาดไม่ให้ใหญ่เกิน */
       aspect-ratio: 3/4;
       z-index: 1;
+      transform: translateY(-50%);
     }
     .portrait-wrapper img { filter: grayscale(100%); transition: filter 0.5s; }
     .portrait-wrapper:hover img { filter: grayscale(0%); }
 
-    /* เส้นขีดและเนื้อหาด้านล่าง */
+    /* Divider & About Text */
     .hero-bottom {
-      margin-top: auto;
+      margin-top: auto; /* ดันลงล่างสุด */
+      padding-bottom: 40px;
+      z-index: 2;
     }
     .divider {
-      width: 100%;
-      height: 1px;
-      background: var(--line);
-      margin-bottom: 24px;
+      width: 100%; height: 1px;
+      background: var(--text);
+      margin-bottom: 30px;
+      opacity: 0.3;
     }
     
     .intro-grid {
       display: grid;
-      grid-template-columns: 200px 1fr 1fr;
+      grid-template-columns: 150px 1fr 1fr;
       gap: 40px;
-      padding-bottom: 40px;
     }
-    .intro-label { font-size: 14px; font-weight: 600; opacity: 0.6; }
-    .intro-text { font-size: 14px; line-height: 1.6; max-width: 420px; }
+    .intro-label { font-size: 12px; font-weight: 600; opacity: 0.5; text-transform: uppercase; }
+    .intro-text { font-size: 14px; line-height: 1.7; opacity: 0.9; max-width: 450px; }
 
     /* =========================
-       SPACER (พื้นที่ว่าง)
+       SPACER (เว้นระยะตามขอ)
        ========================= */
     .spacer {
-      height: 200px; /* เว้นระยะก่อนเข้างาน */
+      height: 25vh; /* เว้นระยะห่าง 25% ของหน้าจอ */
       display: flex;
       justify-content: center;
       align-items: center;
     }
-    .scroll-down {
-      font-family: var(--font-display);
-      font-size: 12px;
+    .scroll-hint {
+      font-size: 11px;
       letter-spacing: 0.1em;
-      animation: float 2s infinite ease-in-out;
+      opacity: 0.4;
+      animation: bounce 2s infinite;
     }
-    @keyframes float { 0%, 100% {transform:translateY(0);} 50% {transform:translateY(5px);} }
+    @keyframes bounce { 0%,100%{transform:translateY(0);} 50%{transform:translateY(5px);} }
 
     /* =========================
-       PROJECTS: BENTO GRID
+       PROJECTS (BENTO GRID)
        ========================= */
     .projects-section {
-      padding: 0 var(--pad) 100px;
+      padding: 0 var(--pad) 120px;
     }
 
     .section-header {
       display: flex; justify-content: space-between;
-      margin-bottom: 24px;
-      font-family: var(--font-display);
+      margin-bottom: 20px;
+      font-size: 12px; letter-spacing: 0.05em; opacity: 0.6;
       text-transform: uppercase;
-      font-size: 12px; letter-spacing: 0.1em;
     }
 
-    /* THE BENTO LAYOUT */
     .bento-grid {
       display: grid;
-      /* แบ่ง 3 คอลัมน์: 1.3ส่วน | 1ส่วน | 1.3ส่วน */
-      grid-template-columns: 1.3fr 1fr 1.3fr;
-      /* แบ่ง 2 แถวเท่ากัน */
-      grid-template-rows: repeat(2, 1fr);
-      gap: 16px; /* ระยะห่างช่องไฟ */
-      height: 85vh; /* ความสูงรวมของตาราง */
-      min-height: 600px;
+      /* ปรับสัดส่วน Grid ให้ดูไม่อึดอัด */
+      grid-template-columns: 1.4fr 0.9fr 1.4fr; 
+      grid-template-rows: 320px 320px; /* ลดความสูงลง (จากเดิมเต็มจอ) */
+      gap: 16px;
+      width: 100%;
+      margin: 0 auto;
     }
 
     .b-item {
       position: relative;
-      background: #E5E5E5;
+      background: var(--card-bg);
+      display: block;
       overflow: hidden;
-      display: block; /* เป็นลิงก์ */
     }
 
-    /* การจัดวางตำแหน่ง Grid */
-    .tall-left {
-      grid-column: 1;
-      grid-row: 1 / span 2; /* ยาวลงมา 2 แถว */
-    }
-    .mid-top {
-      grid-column: 2;
-      grid-row: 1;
-    }
-    .mid-bot {
-      grid-column: 2;
-      grid-row: 2;
-    }
-    .tall-right {
-      grid-column: 3;
-      grid-row: 1 / span 2; /* ยาวลงมา 2 แถว */
-    }
+    /* Layout Classes */
+    .tall-left { grid-column: 1; grid-row: 1 / span 2; }
+    .mid-top   { grid-column: 2; grid-row: 1; }
+    .mid-bot   { grid-column: 2; grid-row: 2; }
+    .tall-right{ grid-column: 3; grid-row: 1 / span 2; }
 
-    /* Hover Effects */
+    /* Image Styling */
     .b-img {
-      width: 100%; height: 100%;
-      object-fit: cover;
+      width: 100%; height: 100%; object-fit: cover;
       transition: transform 0.6s var(--ease);
       filter: grayscale(100%);
     }
     .b-item:hover .b-img {
-      transform: scale(1.05);
+      transform: scale(1.04);
       filter: grayscale(0%);
     }
 
-    /* Overlay Info */
+    /* Hover Info */
     .b-info {
       position: absolute;
       top: 20px; left: 20px;
-      z-index: 2;
-      mix-blend-mode: difference; /* ตัวหนังสือเปลี่ยนสีตามพื้นหลัง */
       color: #fff;
+      mix-blend-mode: difference; /* ช่วยให้อ่านออกบนทุกสีพื้นหลัง */
+      z-index: 2;
     }
-    .b-code { font-family: var(--font-display); font-size: 14px; margin-bottom: 4px; display:block; }
-    .b-title { font-family: var(--font-display); font-size: 24px; font-weight: 600; line-height: 1; text-transform: uppercase; }
+    .b-code { font-family: var(--font-display); font-size: 12px; margin-bottom: 6px; display:block; opacity: 0.8; }
+    .b-title { font-family: var(--font-main); font-size: 20px; font-weight: 500; line-height: 1.1; }
 
-    /* RESPONSIVE */
+    /* =========================
+       RESPONSIVE
+       ========================= */
     @media (max-width: 1024px) {
-      .portrait-wrapper { left: 75%; width: 200px; }
-      .hero-name { font-size: 80px; }
+      .portrait-wrapper { right: 5%; width: 220px; top: 40%; }
+      .bento-grid { grid-template-rows: 250px 250px; } /* ลดความสูง Grid บน Tablet */
     }
 
     @media (max-width: 768px) {
-      /* Mobile: เปลี่ยน Bento เป็นเรียงลงมา */
-      .bento-grid {
-        display: flex;
-        flex-direction: column;
-        height: auto;
+      header { flex-direction: column; gap: 20px; align-items: flex-start; }
+      .nav-group { width: 100%; justify-content: space-between; }
+      
+      .hero-name { font-size: 50px; margin-top: 20px; }
+      .portrait-wrapper { 
+        position: relative; top: auto; right: auto; transform: none; 
+        margin: 40px 0; width: 100%; max-width: 300px;
       }
-      .b-item { aspect-ratio: 4/5; }
       
       .intro-grid { grid-template-columns: 1fr; gap: 20px; }
-      .portrait-wrapper { position: relative; top: auto; left: auto; transform: none; margin: 40px auto; width: 100%; max-width: 300px; }
-      .hero-container { height: auto; }
-      .hero-name { margin-bottom: 20px; font-size: 60px; }
-      .nav { display: none; } /* ซ่อนเมนูบนมือถือชั่วคราว */
+      
+      .bento-grid {
+        display: flex; flex-direction: column; height: auto;
+      }
+      .b-item { aspect-ratio: 4/3; }
     }
   </style>
 </head>
 
-<body>
+<body data-theme="light">
 
   <header>
     <div class="logo">MESTYLE STUDIO</div>
-    <nav class="nav">
-      <a href="#about">About</a>
-      <a href="#services">Services</a>
-      <a href="#projects">Work</a>
-      <a href="#contact">Contact</a>
-    </nav>
+    
+    <div class="nav-group">
+      <nav class="nav">
+        <a href="#about">About</a>
+        <a href="#services">Services</a>
+        <a href="#projects">Work</a>
+        <a href="#contact">Contact</a>
+      </nav>
+      <button class="theme-btn" id="themeBtn">Mode</button>
+    </div>
   </header>
 
   <section class="hero-container">
@@ -272,14 +292,14 @@
           Experienced Brand Identity Designer based in Thailand. Transforming complex ideas into clean, impactful visual systems for over 10 years.
         </div>
         <div class="intro-text">
-          Focusing on simple yet effective design solutions that help brands communicate their core values clearly to the world.
+          Specialize in Branding, Packaging, and Web Design. Creating identities that communicate core values clearly to the world.
         </div>
       </div>
     </div>
   </section>
 
   <div class="spacer">
-    <span class="scroll-down">( SCROLL TO EXPLORE )</span>
+    <div class="scroll-hint">SCROLL TO EXPLORE ↓</div>
   </div>
 
   <section class="projects-section" id="projects">
@@ -293,7 +313,7 @@
       <a href="#" class="b-item tall-left">
         <div class="b-info">
           <span class="b-code">P/01</span>
-          <span class="b-title">Wangwela<br>Spa</span>
+          <span class="b-title">Wangwela</span>
         </div>
         <img class="b-img" src="assets/wangwela.jpg" onerror="this.src='https://images.unsplash.com/photo-1600334089648-b0d9d3028eb2?q=80&w=800&auto=format&fit=crop'" alt="Wangwela">
       </a>
@@ -317,7 +337,7 @@
       <a href="#" class="b-item tall-right">
         <div class="b-info">
           <span class="b-code">P/04</span>
-          <span class="b-title">Leymo<br>Shop</span>
+          <span class="b-title">Leymo</span>
         </div>
         <img class="b-img" src="assets/leymo.jpg" onerror="this.src='https://images.unsplash.com/photo-1513364776144-60967b0f800f?q=80&w=800&auto=format&fit=crop'" alt="Leymo">
       </a>
@@ -325,5 +345,25 @@
     </div>
   </section>
 
+  <script>
+    // Theme Toggle Script
+    const btn = document.getElementById('themeBtn');
+    const body = document.body;
+    
+    // Check local storage
+    if (localStorage.getItem('theme') === 'dark') {
+      body.setAttribute('data-theme', 'dark');
+    }
+
+    btn.addEventListener('click', () => {
+      if (body.getAttribute('data-theme') === 'dark') {
+        body.setAttribute('data-theme', 'light');
+        localStorage.setItem('theme', 'light');
+      } else {
+        body.setAttribute('data-theme', 'dark');
+        localStorage.setItem('theme', 'dark');
+      }
+    });
+  </script>
 </body>
 </html>
