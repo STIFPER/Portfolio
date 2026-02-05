@@ -17,7 +17,7 @@
       /* Light Mode */
       --bg: #F4F4F0;
       --text: #1A1A1A;
-      --line: #CCCCCC;
+      --line: #D0D0D0;
       --card-bg: #EAEAEA;
       
       --font-main: "Manrope", sans-serif;       
@@ -27,7 +27,7 @@
       --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
     }
 
-    /* Dark Mode Override */
+    /* Dark Mode */
     body[data-theme="dark"] {
       --bg: #111111;
       --text: #F0F0F0;
@@ -36,15 +36,11 @@
     }
 
     * { box-sizing: border-box; }
-
     html { scroll-behavior: smooth; }
 
     body {
-      margin: 0;
-      background: var(--bg);
-      color: var(--text);
-      font-family: var(--font-main);
-      -webkit-font-smoothing: antialiased;
+      margin: 0; background: var(--bg); color: var(--text);
+      font-family: var(--font-main); -webkit-font-smoothing: antialiased;
       transition: background 0.3s ease, color 0.3s ease;
     }
 
@@ -57,64 +53,41 @@
        ========================= */
     header {
       padding: 30px var(--pad);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      position: relative;
-      z-index: 100;
+      display: flex; justify-content: space-between; align-items: center;
+      position: relative; z-index: 100;
     }
-
     .logo {
-      font-family: var(--font-main);
-      font-weight: 700;
-      font-size: 16px;
-      letter-spacing: -0.02em;
-      text-transform: uppercase;
+      font-family: var(--font-main); font-weight: 700; font-size: 16px;
+      letter-spacing: -0.02em; text-transform: uppercase;
     }
-
     .nav-group { display: flex; align-items: center; gap: 32px; }
-
     .nav {
       display: flex; gap: 24px;
-      font-family: var(--font-mono); 
-      font-size: 12px; font-weight: 500;
+      font-family: var(--font-mono); font-size: 12px; font-weight: 500;
       text-transform: uppercase; letter-spacing: 0.05em;
     }
-    
-    .nav a { position: relative; opacity: 0.7; }
-    .nav a:hover { opacity: 1; }
-
     .theme-btn {
       background: none; border: 1px solid var(--line);
       color: var(--text); padding: 6px 14px; border-radius: 20px;
       font-family: var(--font-mono); font-size: 11px; cursor: pointer;
       text-transform: uppercase;
     }
-    .theme-btn:hover { background: var(--text); color: var(--bg); border-color: var(--text); }
 
     /* =========================
-       HERO (Liam Bennett Style)
+       HERO
        ========================= */
     .hero-container {
-      position: relative;
-      min-height: 85vh;
-      padding: 0 var(--pad);
-      display: flex; flex-direction: column;
+      position: relative; min-height: 85vh;
+      padding: 0 var(--pad); display: flex; flex-direction: column;
     }
-
     .hero-name {
-      font-family: var(--font-main);
-      font-size: clamp(50px, 9vw, 130px);
+      font-family: var(--font-main); font-size: clamp(50px, 9vw, 130px);
       font-weight: 500; line-height: 0.95; letter-spacing: -0.03em;
       margin-top: 40px; z-index: 2;
     }
-
-    /* รูป Portrait */
     .portrait-wrapper {
-      position: absolute;
-      top: 45%; right: 15%; 
-      width: clamp(220px, 25vw, 340px);
-      aspect-ratio: 3/4; z-index: 1;
+      position: absolute; top: 45%; right: 15%; 
+      width: clamp(220px, 25vw, 340px); aspect-ratio: 3/4; z-index: 1;
       transform: translateY(-50%);
     }
     .portrait-wrapper img { filter: grayscale(100%); transition: filter 0.5s; }
@@ -123,12 +96,10 @@
     .hero-bottom { margin-top: auto; padding-bottom: 40px; z-index: 2; }
     .divider { width: 100%; height: 1px; background: var(--line); margin-bottom: 30px; }
     
-    .intro-grid {
-      display: grid; grid-template-columns: 150px 1fr 1fr; gap: 40px;
-    }
+    .intro-grid { display: grid; grid-template-columns: 150px 1fr 1fr; gap: 40px; }
     .intro-label { 
-      font-family: var(--font-mono);
-      font-size: 12px; font-weight: 500; opacity: 0.6; text-transform: uppercase; 
+      font-family: var(--font-mono); font-size: 12px; font-weight: 500; 
+      opacity: 0.6; text-transform: uppercase; 
     }
     .intro-text { font-size: 15px; line-height: 1.6; opacity: 0.9; max-width: 480px; }
 
@@ -139,120 +110,124 @@
       height: 25vh; display: flex; justify-content: center; align-items: center;
     }
     .scroll-hint {
-      font-family: var(--font-mono);
-      font-size: 11px; letter-spacing: 0.1em; opacity: 0.5;
-      animation: bounce 2s infinite;
+      font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.1em; 
+      opacity: 0.5; animation: bounce 2s infinite;
     }
     @keyframes bounce { 0%,100%{transform:translateY(0);} 50%{transform:translateY(5px);} }
 
     /* =========================
-       PROJECTS (EDITORIAL STYLE)
+       SERVICES (EXPERTISE LIST)
        ========================= */
-    .projects-section {
-      padding: 0 var(--pad) 120px;
-    }
-
-    .section-header {
+    .services-section { padding: 0 var(--pad) 80px; }
+    
+    .svc-header {
       display: flex; justify-content: space-between;
-      margin-bottom: 40px;
+      margin-bottom: 40px; border-bottom: 1px solid var(--line); padding-bottom: 20px;
+    }
+    .svc-label {
       font-family: var(--font-mono); font-size: 12px; 
       text-transform: uppercase; letter-spacing: 0.05em; opacity: 0.6;
-      border-bottom: 1px solid var(--line);
-      padding-bottom: 20px;
     }
 
-    /* FEATURED PROJECT (TOP) */
+    .svc-item {
+      display: grid; grid-template-columns: 1.5fr 2fr 0.5fr;
+      padding: 24px 0; border-bottom: 1px solid var(--line);
+      transition: background 0.3s; cursor: default;
+    }
+    .svc-item:hover { background: rgba(0,0,0,0.03); }
+    .svc-name { font-family: var(--font-main); font-size: 20px; font-weight: 500; }
+    .svc-desc { font-family: var(--font-mono); font-size: 13px; opacity: 0.7; display: flex; align-items: center; }
+    .svc-arrow { text-align: right; font-family: var(--font-mono); opacity: 0.3; }
+
+    /* =========================
+       PROJECTS (EDITORIAL)
+       ========================= */
+    .projects-section { padding: 0 var(--pad) 100px; }
+
+    .section-header {
+      display: flex; justify-content: space-between; margin-bottom: 40px;
+      font-family: var(--font-mono); font-size: 12px; 
+      text-transform: uppercase; letter-spacing: 0.05em; opacity: 0.6;
+      border-bottom: 1px solid var(--line); padding-bottom: 20px;
+    }
+
+    /* Highlight Project */
     .featured-project {
-      display: grid;
-      grid-template-columns: 1.6fr 1fr;
-      gap: 60px;
-      margin-bottom: 80px;
-      align-items: center;
+      display: grid; grid-template-columns: 1.6fr 1fr; gap: 60px;
+      margin-bottom: 100px; align-items: center;
     }
-
     .feat-img-box {
-      width: 100%; aspect-ratio: 16/9;
-      overflow: hidden; background: var(--card-bg);
+      width: 100%; aspect-ratio: 16/9; overflow: hidden; background: var(--card-bg);
     }
-    .feat-img-box img {
-      transition: transform 0.7s var(--ease); filter: grayscale(100%);
-    }
-    .featured-project:hover .feat-img-box img {
-      transform: scale(1.03); filter: grayscale(0%);
-    }
+    .feat-img-box img { transition: transform 0.7s var(--ease); filter: grayscale(100%); }
+    .featured-project:hover .feat-img-box img { transform: scale(1.03); filter: grayscale(0%); }
 
     .feat-content { display: flex; flex-direction: column; justify-content: center; }
     .feat-cat {
-      font-family: var(--font-mono); font-size: 11px; 
-      opacity: 0.5; text-transform: uppercase; margin-bottom: 16px; letter-spacing: 0.1em;
+      font-family: var(--font-mono); font-size: 11px; opacity: 0.5; 
+      text-transform: uppercase; margin-bottom: 16px; letter-spacing: 0.1em;
     }
     .feat-title {
       font-family: var(--font-main); font-size: clamp(32px, 4vw, 48px);
       font-weight: 500; line-height: 1.1; margin: 0 0 24px 0; letter-spacing: -0.02em;
     }
     .feat-desc {
-      font-size: 14px; line-height: 1.6; opacity: 0.8; margin-bottom: 30px; max-width: 400px;
+      font-size: 15px; line-height: 1.7; opacity: 0.8; margin-bottom: 30px; max-width: 420px;
     }
     .feat-link {
       font-family: var(--font-mono); font-size: 12px; text-transform: uppercase; 
       text-decoration: underline; opacity: 0.7;
     }
 
-    /* PROJECT ROW (BOTTOM) */
+    /* Project Row (3 Columns with Details) */
     .project-row {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 30px;
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px;
     }
     .p-card { display: block; }
     .p-img-box {
-      width: 100%; aspect-ratio: 4/3;
-      background: var(--card-bg); overflow: hidden; margin-bottom: 20px;
+      width: 100%; aspect-ratio: 4/3; background: var(--card-bg); 
+      overflow: hidden; margin-bottom: 24px;
     }
-    .p-img-box img {
-      transition: transform 0.6s var(--ease); filter: grayscale(100%);
-    }
-    .p-card:hover .p-img-box img {
-      transform: scale(1.05); filter: grayscale(0%);
-    }
+    .p-img-box img { transition: transform 0.6s var(--ease); filter: grayscale(100%); }
+    .p-card:hover .p-img-box img { transform: scale(1.05); filter: grayscale(0%); }
+
     .p-meta {
-      font-family: var(--font-mono); font-size: 10px; 
-      opacity: 0.5; text-transform: uppercase; margin-bottom: 8px; letter-spacing: 0.05em;
+      font-family: var(--font-mono); font-size: 10px; opacity: 0.5; 
+      text-transform: uppercase; margin-bottom: 10px; letter-spacing: 0.05em;
     }
     .p-title {
-      font-family: var(--font-main); font-size: 18px; 
-      font-weight: 500; line-height: 1.3;
+      font-family: var(--font-main); font-size: 20px; font-weight: 500; 
+      line-height: 1.2; margin-bottom: 12px;
+    }
+    .p-desc {
+      font-size: 13px; line-height: 1.6; opacity: 0.7;
+      display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
     }
 
     /* =========================
-       FOOTER
+       FOOTER (TONED DOWN)
        ========================= */
     footer {
-      padding: 80px var(--pad) 40px;
+      padding: 60px var(--pad) 40px;
       border-top: 1px solid var(--line);
     }
-
-    .footer-main {
-      display: grid; grid-template-columns: 1.5fr 1fr; gap: 60px;
-      margin-bottom: 100px;
-    }
-
-    .footer-cta {
-      font-family: var(--font-main);
-      font-size: clamp(40px, 5vw, 80px);
-      font-weight: 500; line-height: 1.1; letter-spacing: -0.02em;
-    }
-
-    .footer-links {
+    .footer-wrapper {
       display: grid; grid-template-columns: 1fr 1fr; gap: 40px;
-      font-family: var(--font-mono); font-size: 13px;
+      margin-bottom: 60px;
+    }
+    
+    /* Small CTA instead of Huge Type */
+    .footer-msg {
+      font-family: var(--font-main); font-size: 24px; font-weight: 500;
+      line-height: 1.4; max-width: 400px;
     }
 
-    .link-group h4 {
-      margin: 0 0 20px 0; opacity: 0.5; font-weight: 500;
-      text-transform: uppercase; font-size: 11px;
+    .footer-cols {
+      display: grid; grid-template-columns: repeat(2, 1fr); gap: 40px;
+      font-family: var(--font-mono); font-size: 12px;
     }
-    .link-group a { display: block; margin-bottom: 12px; opacity: 0.9; }
+    .f-head { margin-bottom: 16px; opacity: 0.5; text-transform: uppercase; font-size: 11px; }
+    .f-link { display: block; margin-bottom: 10px; opacity: 0.9; }
 
     .footer-btm {
       display: flex; justify-content: space-between; align-items: flex-end;
@@ -262,22 +237,17 @@
     /* RESPONSIVE */
     @media (max-width: 900px) {
       .featured-project { grid-template-columns: 1fr; gap: 30px; margin-bottom: 60px; }
-      .project-row { grid-template-columns: 1fr; gap: 40px; }
+      .project-row { grid-template-columns: 1fr; gap: 50px; }
       .portrait-wrapper { right: 5%; width: 220px; top: 40%; }
       .intro-grid { grid-template-columns: 1fr; gap: 20px; }
-      
-      .footer-main { grid-template-columns: 1fr; gap: 40px; }
-      .footer-links { grid-template-columns: 1fr 1fr; }
+      .svc-item { grid-template-columns: 1fr; gap: 8px; } .svc-arrow { display: none; }
+      .footer-wrapper { grid-template-columns: 1fr; }
     }
-
     @media (max-width: 768px) {
       header { flex-direction: column; align-items: flex-start; gap: 20px; }
       .nav-group { width: 100%; justify-content: space-between; }
       .hero-name { font-size: 56px; margin-top: 20px; }
-      .portrait-wrapper { 
-        position: relative; top: auto; right: auto; transform: none; 
-        margin: 40px 0; width: 100%; max-width: 300px; 
-      }
+      .portrait-wrapper { position: relative; top: auto; right: auto; transform: none; margin: 40px 0; width: 100%; max-width: 300px; }
     }
   </style>
 </head>
@@ -289,6 +259,7 @@
     <div class="nav-group">
       <nav class="nav">
         <a href="#about">About</a>
+        <a href="#services">Services</a>
         <a href="#projects">Work</a>
         <a href="#contact">Contact</a>
       </nav>
@@ -306,10 +277,10 @@
       <div class="intro-grid">
         <div class="intro-label">About</div>
         <div class="intro-text">
-          [cite_start]Branding & Graphic Design Specialist based in Thailand. [cite: 5, 34] [cite_start]Transforming complex ideas into clear, impactful visual systems for over 10 years. [cite: 3]
+          Branding & Graphic Design Specialist based in Thailand. Transforming complex ideas into clear, impactful visual systems for over 10 years.
         </div>
         <div class="intro-text">
-          [cite_start]Expertise in Brand Identity, Packaging, and Web Design. [cite: 3] [cite_start]Helping businesses communicate their core values to the world. [cite: 68]
+          Expertise in Brand Identity, Packaging, and Web Design. Helping businesses communicate their core values to the world.
         </div>
       </div>
     </div>
@@ -319,13 +290,43 @@
     <div class="scroll-hint">( SCROLL TO EXPLORE )</div>
   </div>
 
+  <section class="services-section" id="services">
+    <div class="svc-header">
+      <span class="svc-label">Expertise</span>
+      <span class="svc-label">( ALL SERVICES )</span>
+    </div>
+
+    <div class="svc-list">
+      <div class="svc-item">
+        <div class="svc-name">Brand Identity</div>
+        <div class="svc-desc">Logo Design, Visual Systems, Guidelines</div>
+        <div class="svc-arrow">↘</div>
+      </div>
+      <div class="svc-item">
+        <div class="svc-name">Packaging</div>
+        <div class="svc-desc">Label Design, Box Structure, Mockups</div>
+        <div class="svc-arrow">↘</div>
+      </div>
+      <div class="svc-item">
+        <div class="svc-name">Web Design</div>
+        <div class="svc-desc">UI Design, Webflow, Digital Assets</div>
+        <div class="svc-arrow">↘</div>
+      </div>
+      <div class="svc-item">
+        <div class="svc-name">Illustration</div>
+        <div class="svc-desc">Character Design, Mascots, Icons</div>
+        <div class="svc-arrow">↘</div>
+      </div>
+    </div>
+  </section>
+
   <section class="projects-section" id="projects">
     <div class="section-header">
       <div>Featured Works</div>
       <div>( 2023 — 2026 )</div>
     </div>
 
-    <a href="#" class="featured-project">
+    <a href="project-detail.html" class="featured-project">
       <div class="feat-img-box">
         <img src="assets/wangwela.jpg" onerror="this.src='https://images.unsplash.com/photo-1600334089648-b0d9d3028eb2?q=80&w=1200&auto=format&fit=crop'" alt="Wangwela Highlight">
       </div>
@@ -333,64 +334,72 @@
         <div class="feat-cat">Brand Identity / P-01</div>
         <h3 class="feat-title">Wangwela Spa & Wellness</h3>
         <p class="feat-desc">
-          [cite_start]Designing a calming visual identity with a hand-shaped logo that connects traditional relaxation with modern wellness. [cite: 142]
+          Designing a calming visual identity with a hand-shaped logo that connects traditional relaxation with modern wellness.
         </p>
         <span class="feat-link">View Project ↗</span>
       </div>
     </a>
 
     <div class="project-row">
-      <a href="#" class="p-card">
+      <a href="project-detail.html" class="p-card">
         <div class="p-img-box">
           <img src="assets/bionest.jpg" onerror="this.src='https://images.unsplash.com/photo-1622483767028-3f66f32aef97?q=80&w=600&auto=format&fit=crop'" alt="Bionest">
         </div>
         <div class="p-meta">Packaging / P-02</div>
-        [cite_start]<div class="p-title">Bionest Kombucha [cite: 225]</div>
+        <div class="p-title">Bionest Kombucha</div>
+        <div class="p-desc">
+          Vibrant packaging design for a health drink, using gradients to represent flavor profiles.
+        </div>
       </a>
 
-      <a href="#" class="p-card">
+      <a href="project-detail.html" class="p-card">
         <div class="p-img-box">
           <img src="assets/pulse.jpg" onerror="this.src='https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=600&auto=format&fit=crop'" alt="Pulse">
         </div>
         <div class="p-meta">Identity System / P-03</div>
-        [cite_start]<div class="p-title">Pulse Fitness [cite: 196]</div>
+        <div class="p-title">Pulse Fitness</div>
+        <div class="p-desc">
+          A dynamic identity system for a modern gym, inspired by heartbeats and movement.
+        </div>
       </a>
 
-      <a href="#" class="p-card">
+      <a href="project-detail.html" class="p-card">
         <div class="p-img-box">
           <img src="assets/leymo.jpg" onerror="this.src='https://images.unsplash.com/photo-1513364776144-60967b0f800f?q=80&w=600&auto=format&fit=crop'" alt="Leymo">
         </div>
         <div class="p-meta">Character Design / P-04</div>
-        [cite_start]<div class="p-title">Leymo Import Shop [cite: 305]</div>
+        <div class="p-title">Leymo Import Shop</div>
+        <div class="p-desc">
+          Creating a friendly orange cat mascot to represent an approachable import shop brand.
+        </div>
       </a>
     </div>
   </section>
 
   <footer id="contact">
-    <div class="footer-main">
-      <div class="footer-cta">
-        Have an idea?<br>
-        Let's create something<br>
-        timeless.
+    <div class="footer-wrapper">
+      <div class="footer-msg">
+        Interested in working together? <br>
+        Let's create something timeless.
       </div>
 
-      <div class="footer-links">
-        <div class="link-group">
-          <h4>Contact</h4>
-          [cite_start]<a href="mailto:stifper@gmail.com">stifper@gmail.com [cite: 6]</a>
-          [cite_start]<a href="tel:0665745895">+66 65 745 895 [cite: 7]</a>
-          [cite_start]<a href="#">Line: Chopper [cite: 9]</a>
+      <div class="footer-cols">
+        <div>
+          <div class="f-head">Contact</div>
+          <a href="mailto:stifper@gmail.com" class="f-link">stifper@gmail.com</a>
+          <a href="tel:0665745895" class="f-link">+66 65 745 895</a>
+          <a href="#" class="f-link">Line: Chopper</a>
         </div>
-        <div class="link-group">
-          <h4>Socials</h4>
-          [cite_start]<a href="https://behance.net/stifper" target="_blank">Behance ↗ [cite: 8]</a>
-          [cite_start]<a href="#">Instagram: stifper ↗ [cite: 10]</a>
+        <div>
+          <div class="f-head">Socials</div>
+          <a href="https://behance.net/stifper" target="_blank" class="f-link">Behance ↗</a>
+          <a href="#" class="f-link">Instagram ↗</a>
         </div>
       </div>
     </div>
 
     <div class="footer-btm">
-      [cite_start]<div>© 2026 MESTYLE STUDIO [cite: 43]</div>
+      <div>© 2026 MESTYLE STUDIO</div>
       <a href="#" onclick="window.scrollTo(0,0); return false;">( BACK TO TOP )</a>
     </div>
   </footer>
@@ -398,18 +407,13 @@
   <script>
     const btn = document.getElementById('themeBtn');
     const body = document.body;
-    
-    if (localStorage.getItem('theme') === 'dark') {
-      body.setAttribute('data-theme', 'dark');
-    }
+    if (localStorage.getItem('theme') === 'dark') body.setAttribute('data-theme', 'dark');
 
     btn.addEventListener('click', () => {
       if (body.getAttribute('data-theme') === 'dark') {
-        body.setAttribute('data-theme', 'light');
-        localStorage.setItem('theme', 'light');
+        body.setAttribute('data-theme', 'light'); localStorage.setItem('theme', 'light');
       } else {
-        body.setAttribute('data-theme', 'dark');
-        localStorage.setItem('theme', 'dark');
+        body.setAttribute('data-theme', 'dark'); localStorage.setItem('theme', 'dark');
       }
     });
   </script>
