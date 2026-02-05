@@ -6,45 +6,43 @@
   <title>Wachirawit Pansungnoen — MESTYLE STUDIO</title>
   <meta name="description" content="Brand systems, identity, and motion — built for real production." />
 
-  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 
   <style>
     /* =========================
-      THEME TOKENS (Light default)
-      ========================= */
+       THEME TOKENS
+       ========================= */
     :root{
       --bg:#f6f5f0;
       --panel:#ffffff;
       --text:#0b0c0f;
-      --muted:rgba(11,12,15,.60);
-      --line:rgba(11,12,15,.14);
-      --accent:#d7ff3a;
-      --shadow: 0 18px 70px rgba(0,0,0,.10);
+      --muted:rgba(11,12,15,.55); /* ปรับให้จางลงนิดนึงเพื่อ contrast ที่ดีขึ้น */
+      --line:rgba(11,12,15,.12);
+      --accent:#d7ff3a; /* Acid Green */
+      --shadow: 0 18px 70px rgba(0,0,0,.08);
 
-      --sans:"Space Grotesk", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      --mono:"IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      --sans:"Space Grotesk", system-ui, -apple-system, sans-serif;
+      --mono:"IBM Plex Mono", monospace;
 
-      --radius: 22px;
-      --radius2: 14px;
-      --wrap: min(1260px, calc(100% - 44px));
+      --radius: 20px;
+      --wrap: min(1320px, calc(100% - 40px)); /* ขยายความกว้างสูงสุดให้ดู Grand ขึ้น */
 
-      /* ↓ tuned type scale (smaller, cleaner) */
-      --h1: clamp(38px, 4.2vw, 68px);
-      --h2: clamp(46px, 5.6vw, 104px);
+      /* ↓ ปรับสเกลตัวอักษรให้ดูแน่นและ Modern ขึ้น */
+      --h1: clamp(48px, 6.5vw, 100px); 
+      --h2: clamp(24px, 3vw, 36px);
 
       --ease: cubic-bezier(.2,.8,.2,1);
-      --t: 170ms var(--ease);
+      --t: 250ms var(--ease);
     }
 
     body[data-theme="dark"]{
       --bg:#0b0c0f;
       --panel:#11131a;
       --text:#e9edf5;
-      --muted:rgba(233,237,245,.60);
-      --line:rgba(233,237,245,.14);
+      --muted:rgba(233,237,245,.55);
+      --line:rgba(233,237,245,.12);
       --shadow: 0 18px 70px rgba(0,0,0,.45);
     }
 
@@ -57,928 +55,320 @@
       font-family: var(--sans);
       color: var(--text);
       background: var(--bg);
-      letter-spacing:-0.01em;
+      letter-spacing: -0.02em; /* ปรับ Kerning รวมให้กระชับ */
       -webkit-font-smoothing: antialiased;
-      text-rendering: geometricPrecision;
     }
 
     a{ color:inherit; text-decoration:none; }
-    a:hover{ opacity:.92; }
     img{ display:block; max-width:100%; }
-    button{ font:inherit; color:inherit; background:none; border:none; }
+    button{ font:inherit; color:inherit; background:none; border:none; cursor: pointer;}
     ::selection{ background: color-mix(in srgb, var(--accent) 55%, transparent); }
 
-    .wrap{ width:var(--wrap); margin:0 auto; padding: 0 0 96px; }
+    .wrap{ width:var(--wrap); margin:0 auto; padding: 0 0 120px; }
 
     .mono{
       font-family: var(--mono);
-      letter-spacing: 0.18em;
+      letter-spacing: 0.05em; /* Mono ไม่ควรชิดเกินไป */
       text-transform: uppercase;
     }
     .muted{ color:var(--muted); }
-    .tiny{ font-size:12px; line-height:1.7; }
+    .tiny{ font-size:11px; line-height:1.6; letter-spacing: 0.1em;}
 
-    .pill,
-    .btn,
-    .drawerLinks a{
-      transition: transform var(--t), background var(--t), border-color var(--t), opacity var(--t);
+    /* Buttons & Pills */
+    .pill, .btn{
+      transition: all var(--t);
       will-change: transform;
     }
-
     .pill{
       display:inline-flex; align-items:center; justify-content:center;
-      gap:10px;
-      padding: 10px 12px;
-      border-radius:999px;
+      gap:8px; padding: 8px 14px;
+      border-radius:99px;
       border:1px solid var(--line);
-      background: color-mix(in srgb, var(--panel) 70%, transparent);
-      cursor:pointer;
-      user-select:none;
-      line-height:1;
-      white-space:nowrap;
+      background: color-mix(in srgb, var(--panel) 80%, transparent);
+      font-size: 12px;
+      backdrop-filter: blur(8px);
     }
-    .pill:hover{
-      background: color-mix(in srgb, var(--panel) 58%, transparent);
-      transform: translateY(-1px);
-    }
-    .pill:active{ transform: translateY(0px); }
+    .pill:hover{ transform: translateY(-2px); border-color: var(--text); }
     .pill.primary{
-      background: color-mix(in srgb, var(--accent) 42%, var(--panel));
-      border-color: color-mix(in srgb, var(--accent) 66%, var(--line));
+      background: var(--accent);
+      color: #000; /* บังคับดำเสมอเพื่อความอ่านง่ายบนสีเขียว */
+      border-color: transparent;
+      font-weight: 500;
     }
-
-    .btn{
-      display:inline-flex; align-items:center; justify-content:center;
-      gap:10px;
-      padding: 12px 16px;
-      border-radius:999px;
-      border:1px solid var(--line);
-      background: transparent;
-    }
-    .btn:hover{ transform: translateY(-1px); }
-    .btn:active{ transform: translateY(0px); }
-    .btn.primary{
-      background: color-mix(in srgb, var(--accent) 40%, var(--panel));
-      border-color: color-mix(in srgb, var(--accent) 62%, var(--line));
-    }
-
-    .arrow{
-      font-family: var(--mono);
-      letter-spacing: 0.02em;
-      text-transform: none;
-    }
-
-    :focus{ outline:none; }
-    :focus-visible{
-      outline: 2px solid color-mix(in srgb, var(--accent) 55%, var(--text));
-      outline-offset: 3px;
-      border-radius: 999px;
-    }
+    .arrow{ font-family: var(--mono); }
 
     /* =========================
-      TOP BAR
-      ========================= */
+       TOP BAR
+       ========================= */
     .topbar{
-      position: sticky;
-      top:0;
-      z-index:50;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-
-      padding: 12px max(14px, calc((100% - 1260px)/2 + 22px));
+      position: sticky; top:0; z-index:50;
+      display:flex; align-items:center; justify-content:space-between;
+      padding: 16px max(20px, calc((100% - 1320px)/2 + 20px));
+      background: color-mix(in srgb, var(--bg) 85%, transparent);
       backdrop-filter: blur(12px);
-      background: color-mix(in srgb, var(--bg) 82%, transparent);
       border-bottom: 1px solid var(--line);
     }
-    .brand{
-      display:flex; align-items:baseline; gap:10px;
-      min-width:0;
-    }
-    .brand strong{ font-size:13px; }
-    .dot{ color:var(--accent); }
-    .brand span{ font-size:12px; }
-
-    .nav{ display:flex; align-items:center; gap:8px; }
-
-    /* Mobile nav */
+    .brand{ font-weight: 600; font-size: 14px; letter-spacing: -0.02em; }
+    .nav{ display:flex; gap:8px; }
     .menuBtn{ display:none; }
+
     @media (max-width: 860px){
       .nav .navLink{ display:none; }
       .menuBtn{ display:inline-flex; }
-      .topbar{ padding: 10px 12px; }
-      .pill{ padding: 9px 10px; font-size:12px; }
-      .brand span{ display:none; }
     }
-
-    /* Drawer */
-    .backdrop{
-      position:fixed; inset:0;
-      background: rgba(0,0,0,.28);
-      display:none;
-      z-index:80;
-    }
-    .drawer{
-      position:fixed;
-      top: 12px; right:12px;
-      width: min(360px, calc(100% - 24px));
-      border:1px solid var(--line);
-      border-radius: var(--radius);
-      background: color-mix(in srgb, var(--panel) 92%, transparent);
-      box-shadow: var(--shadow);
-      padding: 12px;
-      display:none;
-      z-index:90;
-    }
-    .drawerTop{
-      display:flex; justify-content:space-between; align-items:center;
-      padding: 4px 4px 10px;
-      border-bottom:1px solid var(--line);
-      margin-bottom:10px;
-    }
-    .drawerLinks{ display:flex; flex-direction:column; gap:8px; padding: 4px; }
-    .drawerLinks a{
-      display:flex; align-items:center; justify-content:space-between;
-      padding: 12px 12px;
-      border:1px solid var(--line);
-      border-radius: var(--radius2);
-      background: transparent;
-    }
-    .drawerLinks a:hover{
-      background: color-mix(in srgb, var(--panel) 65%, transparent);
-      transform: translateY(-1px);
-    }
-    .drawerLinks a:active{ transform: translateY(0px); }
 
     /* =========================
-      SECTION TOP
-      ========================= */
+       SECTION: INFO (HERO)
+       ========================= */
     .sectionTop{
-      display:flex;
-      justify-content:space-between;
-      align-items:baseline;
-      gap: 16px;
-      padding-top: 26px;
-      margin-top: 6px;
+      display:flex; justify-content:space-between; align-items:baseline;
+      padding-top: 40px; margin-bottom: 24px;
+      font-size: 12px; letter-spacing: 0.1em;
+      border-top: 1px solid var(--line);
     }
-    .sectionTop .left{ font-size: 14px; }
-    .sectionTop .right{ font-size: 12px; letter-spacing: 0.20em; }
-
-    /* =========================
-      INFO — (no frame behind name)
-      ========================= */
-    .infoHero{ padding-bottom: 22px; }
-
     .infoStage{
-      margin-top: 18px;
-      min-height: min(86vh, 900px);
-      display:grid;
-      grid-template-columns: 1.1fr .9fr;
-      gap: 36px;
-      position: relative;
+      min-height: 85vh;
+      display:grid; grid-template-columns: 1fr 0.8fr;
+      gap: 40px; align-items: start;
     }
-
     .infoLeft{
-      display:flex;
-      flex-direction:column;
-      justify-content:space-between;
-      min-height: min(86vh, 900px);
+      display:flex; flex-direction:column; justify-content:space-between;
+      min-height: 80vh;
+      padding-top: 20px;
     }
-
-    /* ↓ formerly "namePanel": now just a clean block (no border/bg) */
-    .namePanel{
-      width: min(720px, 100%);
-      padding: 0;
-      border: 0;
-      background: transparent;
-    }
-
-    .pcode{
-      font-size: 10px;
-      letter-spacing: 0.22em;
-      opacity: .9;
-      margin-bottom: 10px;
-    }
-
+    
+    /* แก้ไข Typography ชื่อให้ดูแน่นขึ้น */
     .nameBig{
       margin: 0;
       font-size: var(--h1);
-      line-height: .98;
-      letter-spacing: -0.035em;
+      line-height: 0.88; /* บีบบรรทัดให้ชิดกัน */
+      letter-spacing: -0.04em; /* บีบตัวอักษรให้ชิด */
       text-transform: uppercase;
-
-      /* darker & clearer than the screenshot */
-      color: color-mix(in srgb, var(--text) 78%, transparent);
-    }
-    body[data-theme="dark"] .nameBig{
-      color: color-mix(in srgb, var(--text) 92%, transparent);
-    }
-
-    .actionRow{
-      margin-top: 16px;
-      display:flex;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-
-    .infoRight{
-      display:flex;
-      align-items:center;
-      justify-content:flex-end;
-      padding-right: 6px;
-    }
-
-    .portraitBig{
-      width: min(420px, 100%);
-      aspect-ratio: 1 / 1;
-      border-radius: 18px;
-      overflow:hidden;
-      background: rgba(0,0,0,.06);
-      box-shadow: var(--shadow);
-      border: 1px solid color-mix(in srgb, var(--line) 70%, transparent);
-    }
-    .portraitBig img{
-      width:100%;
-      height:100%;
-      object-fit: cover;
-      transform: scale(1.02);
-      filter: saturate(0.98);
-    }
-
-    .infoMeta{
-      margin-top: 22px;
-      padding-top: 16px;
-      border-top: 1px dashed var(--line);
-      display:grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 22px;
-    }
-    .infoMeta .k{
-      font-size: 11px;
-      letter-spacing: 0.20em;
-      color: var(--muted);
-    }
-    .infoMeta .v{
-      margin-top: 8px;
-      font-size: 12px;
-      line-height: 1.85;
-      letter-spacing: 0.04em;
-      font-family: var(--mono);
-      color: color-mix(in srgb, var(--text) 92%, transparent);
-      white-space: pre-line;
-    }
-
-    /* =========================
-      PROJECTS
-      ========================= */
-    .sheet{ padding: 8px 0 26px; }
-
-    .sheetGrid{
-      display:grid;
-      grid-template-columns: 1.1fr .9fr;
-      gap: 32px;
-      align-items: start;
-      min-height: min(78vh, 820px);
-      position: relative;
-    }
-    .sheetRight{ padding-top: 56px; }
-    .sheetLeft{
-      min-height: min(78vh, 820px);
-      display:flex;
-      flex-direction:column;
-      justify-content:flex-end;
-      gap: 18px;
-      padding-bottom: 8px;
-    }
-
-    .railRow{
-      display:grid;
-      grid-template-columns: auto 1fr auto;
-      align-items:center;
-      gap: 14px;
-      padding-bottom: 4px;
-    }
-    .rail{
-      height: 1px;
-      background: color-mix(in srgb, var(--line) 88%, transparent);
-      border-radius: 999px;
-    }
-
-    .codeLine{
-      display:flex;
-      align-items:baseline;
-      gap: 12px;
-      font-size: 12px;
-      letter-spacing: 0.22em;
-      color: color-mix(in srgb, var(--text) 62%, transparent);
-      margin-top: 6px;
-    }
-
-    .bigTitle{
-      margin: 0;
-      font-size: var(--h2);
-      line-height: .92;
-      letter-spacing: -0.045em;
-      text-transform: uppercase;
-      color: color-mix(in srgb, var(--text) 74%, transparent);
-    }
-    body[data-theme="dark"] .bigTitle{
-      color: color-mix(in srgb, var(--text) 84%, transparent);
-    }
-
-    .miniMeta{
-      display:grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 16px;
-      margin-top: 14px;
-      padding-top: 16px;
-      border-top: 1px dashed var(--line);
-    }
-    .miniMeta .k{
-      font-size: 11px;
-      letter-spacing: 0.20em;
-      color: var(--muted);
-    }
-    .miniMeta .v{
-      margin-top: 8px;
-      font-size: 12px;
-      line-height: 1.85;
-      letter-spacing: 0.04em;
-      font-family: var(--mono);
-      color: color-mix(in srgb, var(--text) 92%, transparent);
-      white-space: pre-line;
-    }
-
-    .actionsRow{
-      display:flex;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-
-    /* =========================
-      RIGHT PREVIEW (SIMPLE)
-      - removed nested frames + lines completely
-      ========================= */
-    .frameCard{
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      background: color-mix(in srgb, var(--panel) 92%, transparent);
-      box-shadow: var(--shadow);
-      overflow: hidden;
-    }
-    .frameInner{
-      padding: 18px;
-      position: relative;
-    }
-    .frameDot{
-      position:absolute;
-      top: 18px;
-      right: 18px;
-      width: 8px; height: 8px;
-      border-radius: 99px;
-      background: var(--accent);
-    }
-
-    .previewTop{
-      display:flex;
-      align-items:baseline;
-      justify-content:space-between;
-      gap: 12px;
-      padding-right: 18px; /* leave room for dot */
-    }
-    .frameLabel{
-      font-size: 12px;
-      letter-spacing: 0.22em;
-      color: color-mix(in srgb, var(--text) 68%, transparent);
-    }
-    .previewSub{
-      font-size: 11px;
-      letter-spacing: 0.20em;
-      color: color-mix(in srgb, var(--text) 52%, transparent);
-      font-family: var(--mono);
-      text-transform: uppercase;
-      white-space: nowrap;
-    }
-
-    .previewMeta{
-      margin-top: 18px;
-    }
-    .previewCode{
-      font-size: 34px;
-      letter-spacing: -0.02em;
-      line-height: 1.05;
       font-weight: 600;
     }
-    .previewTitle{
-      margin-top: 6px;
-      font-size: 15px;
-      color: var(--muted);
-      line-height: 1.6;
-    }
+    .pcode{ margin-bottom: 16px; display: block;}
 
-    .previewImage{
-      margin-top: 16px;
-      border: 1px solid var(--line);
-      border-radius: 16px;
+    .infoMeta{
+      margin-top: 40px;
+      display:grid; grid-template-columns: repeat(2, 1fr);
+      gap: 32px;
+    }
+    .infoMeta .k{ font-size: 10px; color: var(--muted); margin-bottom: 6px; }
+    .infoMeta .v{ font-size: 14px; font-weight: 500; }
+
+    .portraitBig{
+      width: 100%; aspect-ratio: 1/1.1;
+      border-radius: var(--radius);
       overflow:hidden;
-      background: rgba(0,0,0,.04);
-      aspect-ratio: 16 / 10;
+      background: var(--line);
     }
-    .previewImage img{
-      width:100%;
-      height:100%;
+    .portraitBig img{ width:100%; height:100%; object-fit: cover; filter: saturate(0); transition: filter 0.5s;}
+    .portraitBig:hover img{ filter: saturate(1); }
+
+    /* =========================
+       SECTION: PROJECTS (BENTO GRID)
+       ** แก้ไขใหม่ตาม Requirement **
+       ========================= */
+    .bentoGrid {
+      display: grid;
+      /* ซ้าย(1.3) กลาง(1) ขวา(1.3) เพื่อให้รูปซ้ายขวาดูเด่น */
+      grid-template-columns: 1.3fr 1fr 1.3fr;
+      grid-template-rows: repeat(2, minmax(300px, 360px)); /* ความสูงขั้นต่ำ */
+      gap: 16px;
+      margin-top: 24px;
+    }
+
+    .bentoItem {
+      position: relative;
+      background: var(--panel);
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      display: block;
+      transition: border-color var(--t), transform var(--t);
+    }
+    
+    .bentoItem:hover {
+      border-color: var(--accent);
+      z-index: 2; /* ลอยขึ้นมานิดนึง */
+    }
+
+    .bentoItem img {
+      width: 100%; height: 100%;
       object-fit: cover;
-      transform: scale(1.02);
-      filter: saturate(0.98);
+      transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
     }
+    .bentoItem:hover img { transform: scale(1.03); }
 
-    /* =========================
-      CONTACT (simple)
-      ========================= */
-    #contact .frameInner{ min-height:auto; }
-    .contactBlock{
-      margin-top: 10px;
-      display:grid;
-      gap: 10px;
-      font-size: 14px;
+    /* Overlay Text */
+    .bentoOverlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0) 50%);
+      padding: 24px;
+      display: flex; flex-direction: column; justify-content: flex-end;
+      opacity: 0.9;
     }
-    .contactLinks{
-      margin-top: 8px;
+    
+    /* Text ใน Grid */
+    .bentoCode {
       font-family: var(--mono);
-      letter-spacing: 0.16em;
+      font-size: 10px;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+    .bentoTitle {
+      font-family: var(--sans);
+      font-size: 20px;
+      color: #fff;
       text-transform: uppercase;
-      font-size: 12px;
-      line-height: 1.9;
-      color: var(--muted);
+      letter-spacing: -0.01em;
+      font-weight: 500;
+    }
+
+    /* Grid Areas */
+    .item-tall-left  { grid-column: 1; grid-row: 1 / span 2; }
+    .item-mid-top    { grid-column: 2; grid-row: 1; }
+    .item-mid-bottom { grid-column: 2; grid-row: 2; }
+    .item-tall-right { grid-column: 3; grid-row: 1 / span 2; }
+
+    /* =========================
+       SECTION: CONTACT
+       ========================= */
+    .contactBlock{
+      padding: 40px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--panel);
+      display:flex; flex-direction: column; gap: 20px;
     }
 
     /* =========================
-      MOBILE
-      ========================= */
-    @media (max-width: 980px){
-      .infoStage{
-        grid-template-columns: 1fr;
-        gap: 18px;
-        min-height: auto;
+       MOBILE & RESPONSIVE
+       ========================= */
+    @media (max-width: 960px){
+      .infoStage{ grid-template-columns: 1fr; gap: 40px; }
+      .infoLeft{ min-height: auto; order: 2; }
+      .portraitBig{ order: 1; aspect-ratio: 16/9; }
+      
+      .bentoGrid {
+        display: flex; flex-direction: column; height: auto;
       }
-      .infoLeft{ min-height: auto; }
-      .infoRight{
-        justify-content:flex-start;
-        order: -1;
-        padding-right: 0;
-      }
-      .portraitBig{
-        width: min(520px, 100%);
-        aspect-ratio: 4 / 5;
-      }
-      .infoMeta{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
-
-      .sheetGrid{
-        grid-template-columns: 1fr;
-        gap: 18px;
-        min-height: auto;
-      }
-      .sheetRight{
-        padding-top: 0;
-        order: -1;
-      }
-      .sheetLeft{
-        min-height: auto;
-        justify-content:flex-start;
-      }
-      .miniMeta{ grid-template-columns: repeat(2, minmax(0,1fr)); }
-    }
-
-    @media (max-width: 560px){
-      .wrap{ width: min(1260px, calc(100% - 28px)); }
-      .sectionTop{ padding-top: 20px; }
-      .infoMeta{ grid-template-columns: 1fr; }
-      .miniMeta{ grid-template-columns: 1fr; }
-      .frameInner{ padding: 14px; }
-      .previewTop{ padding-right: 14px; }
-      .previewCode{ font-size: 30px; }
-    }
-
-    @media (prefers-reduced-motion: reduce){
-      html{ scroll-behavior:auto; }
-      *{ transition:none !important; animation:none !important; }
+      .bentoItem { aspect-ratio: 4/3; }
     }
   </style>
 </head>
 
 <body data-theme="light">
-  <!-- TOP BAR -->
+  
   <header class="topbar">
-    <a class="brand" href="#info" aria-label="Home">
-      <strong class="mono">MESTYLE</strong>
-      <span class="dot">•</span>
-      <span class="mono muted">STUDIO</span>
-    </a>
-
-    <nav class="nav" aria-label="Primary navigation">
-      <a class="pill mono navLink" href="#projects">projects</a>
-      <a class="pill mono navLink" href="#info">info</a>
-      <a class="pill mono navLink" href="#contact">contact</a>
-
-      <div class="pill mono" id="themeBtn" role="button" tabindex="0" aria-label="Toggle theme">
-        theme <span class="muted">/</span> <span id="themeLabel">light</span>
-      </div>
-
-      <button class="pill mono menuBtn" id="menuBtn" type="button" aria-label="Open menu">
-        menu <span class="arrow">↗</span>
-      </button>
+    <a class="brand" href="#">MESTYLE <span style="color:var(--accent)">•</span> STUDIO</a>
+    <nav class="nav">
+      <button class="pill mono" id="themeBtn">theme</button>
+      <a class="pill mono primary" href="#contact">contact</a>
     </nav>
   </header>
 
-  <!-- MOBILE DRAWER -->
-  <div class="backdrop" id="backdrop" aria-hidden="true"></div>
-  <aside class="drawer" id="drawer" aria-hidden="true">
-    <div class="drawerTop">
-      <div class="mono tiny muted">NAV</div>
-      <button class="pill mono" id="closeBtn" type="button">close</button>
-    </div>
-    <div class="drawerLinks mono">
-      <a href="#info">info <span class="muted">↗</span></a>
-      <a href="#projects">projects <span class="muted">↗</span></a>
-      <a href="#contact">contact <span class="muted">↗</span></a>
-      <a href="#info" id="drawerTheme">theme <span class="muted">↗</span></a>
-    </div>
-  </aside>
-
   <main class="wrap">
 
-    <!-- INFO -->
     <section class="infoHero" id="info">
       <div class="sectionTop">
-        <div class="mono left">info</div>
-        <div class="mono right muted">scroll</div>
+        <div class="mono">INFO</div>
+        <div class="mono muted">SCROLL</div>
       </div>
 
       <div class="infoStage">
         <div class="infoLeft">
-          <div class="namePanel">
-            <div class="mono tiny muted pcode">P/00  ABOUT</div>
-            <h1 class="nameBig">WACHIRAWIT<br/>PANSUNGNOEN</h1>
-
-            <div class="actionRow">
-              <a class="pill primary mono" href="#projects">projects <span class="arrow">↗</span></a>
-              <a class="pill mono" href="#contact">contact <span class="arrow">↗</span></a>
-            </div>
+          <div>
+            <span class="mono tiny muted pcode">P/00 — ABOUT</span>
+            <h1 class="nameBig">WACHIRAWIT<br>PANSUNGNOEN</h1>
           </div>
 
-          <div class="infoMeta" aria-label="About quick meta">
+          <div class="infoMeta">
             <div>
-              <div class="mono k">focus</div>
-              <div class="v">Brand · Identity · Motion</div>
+              <div class="mono k">FOCUS</div>
+              <div class="v">Brand Identity<br>Motion System</div>
             </div>
             <div>
-              <div class="mono k">based</div>
-              <div class="v">Thailand</div>
-            </div>
-            <div>
-              <div class="mono k">work</div>
-              <div class="v">In-house + Freelance</div>
-            </div>
-            <div>
-              <div class="mono k">email</div>
-              <div class="v">you@email.com</div>
+              <div class="mono k">BASED</div>
+              <div class="v">Thailand<br>(Available for remote)</div>
             </div>
           </div>
         </div>
 
-        <div class="infoRight" aria-label="Portrait">
-          <div class="portraitBig">
-            <img id="portraitImg" alt="Portrait" />
-          </div>
+        <div class="portraitBig">
+          <img src="assets/portrait.jpg" onerror="this.src='https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=1000&auto=format&fit=crop'" alt="Portrait">
         </div>
       </div>
     </section>
 
-    <!-- PROJECTS -->
-    <section class="sheet" id="projects">
+    <section id="projects">
       <div class="sectionTop">
-        <div class="mono left">projects</div>
-        <div class="mono right muted">scroll / prev-next</div>
+        <div class="mono">SELECTED WORKS</div>
+        <div class="mono muted">2023 — 2026</div>
       </div>
 
-      <div class="sheetGrid">
-        <!-- LEFT -->
-        <div class="sheetLeft">
-          <div class="railRow">
-            <button class="pill mono" id="prevBtn" type="button" aria-label="Previous project">prev</button>
-            <div class="rail" aria-hidden="true"></div>
-            <button class="pill mono" id="nextBtn" type="button" aria-label="Next project">next</button>
+      <div class="bentoGrid">
+        
+        <a href="project-brand.html" class="bentoItem item-tall-left">
+          <img src="assets/p01.jpg" onerror="this.src='https://images.unsplash.com/photo-1600607686527-6fb886090705?q=80&w=1000&auto=format&fit=crop'" alt="Brand System">
+          <div class="bentoOverlay">
+            <div class="bentoCode">P/01</div>
+            <div class="bentoTitle">Brand System</div>
           </div>
+        </a>
 
-          <div class="codeLine mono">
-            <span id="projCode" class="muted">P/01</span>
+        <a href="project-logo.html" class="bentoItem item-mid-top">
+          <img src="assets/p02.jpg" onerror="this.src='https://images.unsplash.com/photo-1611162617474-5b21e879e113?q=80&w=1000&auto=format&fit=crop'" alt="Logo Design">
+          <div class="bentoOverlay">
+            <div class="bentoCode">P/02</div>
+            <div class="bentoTitle">Logo & Identity</div>
           </div>
+        </a>
 
-          <h2 class="bigTitle" id="projTitle">MOTION / VIDEO</h2>
-
-          <div class="actionsRow">
-            <a class="btn primary mono" id="projVisit" href="#projects" target="_blank" rel="noopener">visit <span class="arrow">↗</span></a>
-            <a class="btn mono" href="#contact">contact <span class="arrow">↗</span></a>
+        <a href="project-graphic.html" class="bentoItem item-mid-bottom">
+          <img src="assets/p03.jpg" onerror="this.src='https://images.unsplash.com/photo-1558655146-d09347e92766?q=80&w=1000&auto=format&fit=crop'" alt="Visual Graphic">
+          <div class="bentoOverlay">
+            <div class="bentoCode">P/03</div>
+            <div class="bentoTitle">Visual Graphic</div>
           </div>
+        </a>
 
-          <div class="miniMeta" id="projMeta"></div>
-        </div>
-
-        <!-- RIGHT (simple card) -->
-        <div class="sheetRight">
-          <div class="frameCard">
-            <div class="frameInner">
-              <div class="frameDot" aria-hidden="true"></div>
-
-              <div class="previewTop">
-                <div class="mono frameLabel">preview</div>
-                <div class="previewSub">
-                  <span id="cardCode">P/01</span>
-                  <span class="muted"> / project</span>
-                </div>
-              </div>
-
-              <div class="previewMeta">
-                <div class="previewCode" id="miniCode">P/01</div>
-                <div class="previewTitle" id="miniTitle">Brand System</div>
-              </div>
-
-              <div class="previewImage">
-                <img id="projImg" alt="Project preview" />
-              </div>
-            </div>
+        <a href="project-motion.html" class="bentoItem item-tall-right">
+          <img src="assets/p04.jpg" onerror="this.src='https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=1000&auto=format&fit=crop'" alt="Motion Video">
+          <div class="bentoOverlay">
+            <div class="bentoCode">P/04</div>
+            <div class="bentoTitle">Motion / Video</div>
           </div>
-        </div>
+        </a>
 
       </div>
     </section>
 
-    <!-- CONTACT -->
-    <section id="contact" class="sheet">
+    <section id="contact" style="margin-top: 60px;">
       <div class="sectionTop">
-        <div class="mono left">contact</div>
-        <div class="mono right muted">simple</div>
+        <div class="mono">CONTACT</div>
       </div>
-
-      <div class="frameCard" style="margin-top:14px;">
-        <div class="frameInner">
-          <div class="frameDot" aria-hidden="true"></div>
-          <div class="mono frameLabel">contact</div>
-
-          <div class="contactBlock">
-            <div><span class="mono tiny muted">email</span><div>you@email.com</div></div>
-            <div class="contactLinks">
-              <div>// behance: behance.net/yourprofile</div>
-              <div>// instagram: @yourhandle</div>
-            </div>
-          </div>
-        </div>
+      <div class="contactBlock">
+        <h2 style="margin:0; font-size: 24px;">LET'S WORK TOGETHER</h2>
+        <div class="mono tiny muted">EMAIL: YOU@EMAIL.COM</div>
       </div>
     </section>
 
   </main>
 
   <script>
-    /* =========================
-      EDIT THESE PATHS
-    ========================= */
-    const PORTRAIT = "assets/portrait.jpg";
-
-    const PROJECTS = [
-      {
-        code: "P/01",
-        title: "Brand System",
-        client: "Client name",
-        role: "Lead designer",
-        deliverables: "Guideline · templates · packaging",
-        tools: "Illustrator · InDesign",
-        cover: "assets/p01/cover.jpg",
-        link: "https://example.com"
-      },
-      {
-        code: "P/02",
-        title: "Logo & Identity",
-        client: "Client name",
-        role: "Designer",
-        deliverables: "Logo · identity system",
-        tools: "Illustrator",
-        cover: "assets/p02/cover.jpg",
-        link: "https://example.com"
-      },
-      {
-        code: "P/03",
-        title: "Graphic / KV",
-        client: "Client name",
-        role: "Art direction",
-        deliverables: "KV · social kit · print",
-        tools: "Photoshop · InDesign",
-        cover: "assets/p03/cover.jpg",
-        link: "https://example.com"
-      },
-      {
-        code: "P/04",
-        title: "Motion / Video",
-        client: "Client name",
-        role: "Motion / editor",
-        deliverables: "Reels · short video · motion",
-        tools: "After Effects · Premiere",
-        cover: "assets/p04/cover.jpg",
-        link: "https://example.com"
-      }
-    ];
-
-    const $ = (q) => document.querySelector(q);
-
-    function escapeXML(s){
-      return String(s ?? "").replace(/[<>&'"]/g, c => ({
-        "<":"&lt;","&":"&amp;",">":"&gt;","'":"&apos;",'"':"&quot;"
-      }[c]));
-    }
-
-    /* =========================
-      SIMPLE PLACEHOLDER (NO LINES)
-    ========================= */
-    function placeholderSVG(payload){
-      const isDark = document.body.dataset.theme === "dark";
-      const bg = isDark ? "#11131a" : "#ffffff";
-      const fg = isDark ? "#e9edf5" : "#0b0c0f";
-      const mut = isDark ? "rgba(233,237,245,.22)" : "rgba(11,12,15,.18)";
-      const accent = getComputedStyle(document.documentElement).getPropertyValue("--accent").trim() || "#d7ff3a";
-
-      const code = payload?.code || "—";
-      const title = payload?.title || "PREVIEW";
-
-      const svg =
-`<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000">
-  <rect width="1600" height="1000" fill="${bg}"/>
-  <rect x="36" y="36" width="1528" height="928" rx="28" fill="none" stroke="${mut}" stroke-width="2"/>
-  <g font-family="IBM Plex Mono, ui-monospace" fill="${fg}">
-    <text x="92" y="170" font-size="22" opacity="0.70">PREVIEW</text>
-  </g>
-  <g font-family="Space Grotesk, system-ui" fill="${fg}">
-    <text x="92" y="300" font-size="74" opacity="0.92">${escapeXML(code)}</text>
-    <text x="92" y="372" font-size="44" opacity="0.70">${escapeXML(title)}</text>
-  </g>
-  <circle cx="1460" cy="150" r="9" fill="${accent}"/>
-</svg>`;
-      return "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(svg);
-    }
-
-    function setImgWithFallback(imgEl, src, payload){
-      if (!imgEl) return;
-      imgEl.onerror = () => { imgEl.src = placeholderSVG(payload); };
-      imgEl.src = src;
-      imgEl.alt = payload?.title ? payload.title : "";
-    }
-
-    /* =========================
-      THEME (light/dark)
-      ========================= */
+    /* SIMPLE THEME TOGGLE */
+    const btn = document.getElementById('themeBtn');
     const body = document.body;
-    const themeLabel = $("#themeLabel");
+    
+    // Check saved theme
+    if(localStorage.getItem('theme') === 'dark') body.dataset.theme = 'dark';
 
-    const savedTheme = localStorage.getItem("theme");
-    body.dataset.theme = (savedTheme === "dark") ? "dark" : "light";
-
-    function setThemeUI(){
-      if (themeLabel) themeLabel.textContent = (body.dataset.theme || "light");
-    }
-    setThemeUI();
-
-    function bindButton(el, fn){
-      if (!el) return;
-      const act = () => fn();
-      el.addEventListener("click", act);
-      el.addEventListener("keydown", (e) => {
-        if (e.key === "Enter" || e.key === " ") { e.preventDefault(); act(); }
-      });
-    }
-
-    function toggleTheme(){
-      const next = (body.dataset.theme === "dark") ? "light" : "dark";
-      body.dataset.theme = next;
-      localStorage.setItem("theme", next);
-      setThemeUI();
-      renderPortrait();
-      renderProject(active);
-    }
-
-    bindButton($("#themeBtn"), toggleTheme);
-
-    /* =========================
-      DRAWER (mobile)
-      ========================= */
-    const backdrop = $("#backdrop");
-    const drawer = $("#drawer");
-
-    function openDrawer(){
-      if (!backdrop || !drawer) return;
-      backdrop.style.display = "block";
-      drawer.style.display = "block";
-      backdrop.setAttribute("aria-hidden", "false");
-      drawer.setAttribute("aria-hidden", "false");
-      document.body.style.overflow = "hidden";
-    }
-
-    function closeDrawer(){
-      if (!backdrop || !drawer) return;
-      backdrop.style.display = "none";
-      drawer.style.display = "none";
-      backdrop.setAttribute("aria-hidden", "true");
-      drawer.setAttribute("aria-hidden", "true");
-      document.body.style.overflow = "";
-    }
-
-    bindButton($("#menuBtn"), openDrawer);
-    bindButton($("#closeBtn"), closeDrawer);
-    bindButton($("#drawerTheme"), () => { toggleTheme(); closeDrawer(); });
-
-    if (backdrop) backdrop.addEventListener("click", closeDrawer);
-    document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape") closeDrawer();
+    btn.addEventListener('click', () => {
+      const isDark = body.dataset.theme === 'dark';
+      body.dataset.theme = isDark ? 'light' : 'dark';
+      localStorage.setItem('theme', body.dataset.theme);
     });
-
-    document.querySelectorAll(".drawerLinks a").forEach(a => {
-      a.addEventListener("click", () => closeDrawer());
-    });
-
-    /* =========================
-      PORTRAIT
-      ========================= */
-    function renderPortrait(){
-      setImgWithFallback($("#portraitImg"), PORTRAIT, { code: "P/00", title: "Portrait" });
-    }
-    renderPortrait();
-
-    /* =========================
-      PROJECTS
-      ========================= */
-    let active = 0;
-
-    function metaHTML(k, v){
-      return `
-        <div>
-          <div class="mono k">${escapeXML(k)}</div>
-          <div class="v">${escapeXML(v || "—")}</div>
-        </div>
-      `;
-    }
-
-    function wrapIndex(i){
-      const n = PROJECTS.length || 1;
-      return (i % n + n) % n;
-    }
-
-    function renderProject(i){
-      if (!PROJECTS.length) return;
-      active = wrapIndex(i);
-      const p = PROJECTS[active];
-
-      const projCode = $("#projCode");
-      const projTitle = $("#projTitle");
-      const cardCode = $("#cardCode");
-      const miniCode = $("#miniCode");
-      const miniTitle = $("#miniTitle");
-      const visit = $("#projVisit");
-      const meta = $("#projMeta");
-
-      if (projCode) projCode.textContent = p.code || "P/--";
-      if (projTitle) projTitle.textContent = String(p.title || "Project").toUpperCase();
-      if (cardCode) cardCode.textContent = p.code || "P/--";
-
-      if (miniCode) miniCode.textContent = p.code || "P/--";
-      if (miniTitle) miniTitle.textContent = p.title || "Project";
-
-      if (visit) visit.href = p.link || "#projects";
-
-      setImgWithFallback($("#projImg"), p.cover, { code: p.code, title: p.title });
-
-      if (meta){
-        meta.innerHTML = [
-          metaHTML("client", p.client),
-          metaHTML("role", p.role),
-          metaHTML("deliverables", p.deliverables),
-          metaHTML("tools", p.tools),
-        ].join("");
-      }
-    }
-
-    function prevProject(){ renderProject(active - 1); }
-    function nextProject(){ renderProject(active + 1); }
-
-    bindButton($("#prevBtn"), prevProject);
-    bindButton($("#nextBtn"), nextProject);
-
-    document.addEventListener("keydown", (e) => {
-      const tag = (document.activeElement && document.activeElement.tagName) ? document.activeElement.tagName.toLowerCase() : "";
-      const typing = tag === "input" || tag === "textarea" || tag === "select";
-      if (typing) return;
-
-      if (e.key === "ArrowLeft") prevProject();
-      if (e.key === "ArrowRight") nextProject();
-    });
-
-    renderProject(0);
   </script>
 </body>
 </html>
