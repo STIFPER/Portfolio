@@ -7,34 +7,32 @@
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600&family=Space+Grotesk:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Manrope:wght@300;400;500;600&display=swap" rel="stylesheet">
 
   <style>
     /* =========================
        THEME VARIABLES
        ========================= */
     :root {
-      /* Light Mode (Default) */
+      /* Light Mode */
       --bg: #F4F4F0;
-      --text: #111;
-      --line: #ccc;
-      --card-bg: #E5E5E5;
-      --hover-text: #555;
+      --text: #1A1A1A;
+      --line: #CCCCCC;
+      --card-bg: #EAEAEA;
       
-      --font-main: "Manrope", sans-serif;       /* ฟอนต์หลัก (H1, เนื้อหา) */
-      --font-display: "Space Grotesk", sans-serif; /* ฟอนต์ตกแต่ง (ตัวเลข) */
+      --font-main: "Manrope", sans-serif;       /* ชื่อใหญ่ / เนื้อหา */
+      --font-mono: "IBM Plex Mono", monospace;  /* เมนู / ดีเทล / H2 (ฟอนต์ใหม่) */
       
-      --pad: max(5vw, 24px); /* ระยะขอบซ้ายขวาแบบยืดหยุ่น */
+      --pad: max(5vw, 24px);
       --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
     }
 
-    /* Dark Mode Override */
+    /* Dark Mode */
     body[data-theme="dark"] {
       --bg: #111111;
-      --text: #EAEAEA;
-      --line: #333;
-      --card-bg: #222;
-      --hover-text: #AAA;
+      --text: #F0F0F0;
+      --line: #333333;
+      --card-bg: #222222;
     }
 
     * { box-sizing: border-box; }
@@ -48,12 +46,11 @@
       transition: background 0.3s ease, color 0.3s ease;
     }
 
-    a { text-decoration: none; color: inherit; transition: color 0.2s; }
-    a:hover { color: var(--hover-text); }
+    a { text-decoration: none; color: inherit; }
     img { display: block; width: 100%; height: 100%; object-fit: cover; }
 
     /* =========================
-       NAVBAR (LOGO + MENU + THEME BTN)
+       HEADER (NAVBAR)
        ========================= */
     header {
       padding: 30px var(--pad);
@@ -66,9 +63,9 @@
 
     .logo {
       font-family: var(--font-main);
-      font-weight: 600;
-      font-size: 14px;
-      letter-spacing: -0.01em;
+      font-weight: 700;
+      font-size: 16px;
+      letter-spacing: -0.02em;
       text-transform: uppercase;
     }
 
@@ -81,54 +78,58 @@
     .nav {
       display: flex;
       gap: 24px;
-      font-size: 13px;
+      /* ใช้ฟอนต์ Mono ตามที่ขอ เพื่อให้ดู Technical */
+      font-family: var(--font-mono); 
+      font-size: 12px;
       font-weight: 500;
       text-transform: uppercase;
       letter-spacing: 0.05em;
     }
+    
+    .nav a { position: relative; opacity: 0.7; transition: opacity 0.2s; }
+    .nav a:hover { opacity: 1; }
+    .nav a::after {
+      content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 1px;
+      background: var(--text); transition: width 0.3s var(--ease);
+    }
+    .nav a:hover::after { width: 100%; }
 
-    /* Theme Toggle Button */
     .theme-btn {
       background: none; border: 1px solid var(--line);
-      color: var(--text);
-      padding: 6px 12px;
-      border-radius: 20px;
-      font-family: var(--font-main);
-      font-size: 11px;
-      cursor: pointer;
+      color: var(--text); padding: 6px 14px; border-radius: 20px;
+      font-family: var(--font-mono); font-size: 11px; cursor: pointer;
       text-transform: uppercase;
     }
-    .theme-btn:hover { border-color: var(--text); }
+    .theme-btn:hover { border-color: var(--text); background: var(--text); color: var(--bg); }
 
     /* =========================
-       HERO SECTION (Liam Bennett Style)
+       HERO (LIAM BENNETT STYLE)
        ========================= */
     .hero-container {
       position: relative;
-      min-height: 80vh; /* ความสูงขั้นต่ำ */
+      min-height: 85vh;
       padding: 0 var(--pad);
       display: flex;
       flex-direction: column;
     }
 
-    /* H1: ใช้ Manrope ตามที่ชอบ */
+    /* ชื่อใหญ่ (H1) ใช้ Manrope เพื่อความคลีน */
     .hero-name {
       font-family: var(--font-main);
-      font-size: clamp(50px, 8vw, 120px);
+      font-size: clamp(50px, 9vw, 130px);
       font-weight: 500;
-      line-height: 1;
+      line-height: 0.95;
       letter-spacing: -0.03em;
       margin-top: 40px;
-      max-width: 80%;
-      z-index: 2; /* อยู่เหนือรูป */
+      z-index: 2;
     }
 
-    /* รูป Portrait: จัดวางแบบ Absolute ให้ดูมีเลเยอร์ */
+    /* รูป Portrait */
     .portrait-wrapper {
       position: absolute;
       top: 45%; 
-      right: 15%; /* ขยับจากขวาเข้ามา */
-      width: clamp(200px, 25vw, 320px); /* จำกัดขนาดไม่ให้ใหญ่เกิน */
+      right: 15%; 
+      width: clamp(220px, 25vw, 340px);
       aspect-ratio: 3/4;
       z-index: 1;
       transform: translateY(-50%);
@@ -136,17 +137,16 @@
     .portrait-wrapper img { filter: grayscale(100%); transition: filter 0.5s; }
     .portrait-wrapper:hover img { filter: grayscale(0%); }
 
-    /* Divider & About Text */
+    /* Divider & About */
     .hero-bottom {
-      margin-top: auto; /* ดันลงล่างสุด */
+      margin-top: auto;
       padding-bottom: 40px;
       z-index: 2;
     }
     .divider {
       width: 100%; height: 1px;
-      background: var(--text);
+      background: var(--line);
       margin-bottom: 30px;
-      opacity: 0.3;
     }
     
     .intro-grid {
@@ -154,22 +154,24 @@
       grid-template-columns: 150px 1fr 1fr;
       gap: 40px;
     }
-    .intro-label { font-size: 12px; font-weight: 600; opacity: 0.5; text-transform: uppercase; }
-    .intro-text { font-size: 14px; line-height: 1.7; opacity: 0.9; max-width: 450px; }
+    /* ใช้ฟอนต์ Mono กับ Label */
+    .intro-label { 
+      font-family: var(--font-mono);
+      font-size: 12px; font-weight: 500; 
+      opacity: 0.6; text-transform: uppercase; 
+    }
+    .intro-text { font-size: 15px; line-height: 1.6; opacity: 0.9; max-width: 480px; }
 
     /* =========================
-       SPACER (เว้นระยะตามขอ)
+       SPACER
        ========================= */
     .spacer {
-      height: 25vh; /* เว้นระยะห่าง 25% ของหน้าจอ */
-      display: flex;
-      justify-content: center;
-      align-items: center;
+      height: 25vh;
+      display: flex; justify-content: center; align-items: center;
     }
     .scroll-hint {
-      font-size: 11px;
-      letter-spacing: 0.1em;
-      opacity: 0.4;
+      font-family: var(--font-mono);
+      font-size: 11px; letter-spacing: 0.1em; opacity: 0.5;
       animation: bounce 2s infinite;
     }
     @keyframes bounce { 0%,100%{transform:translateY(0);} 50%{transform:translateY(5px);} }
@@ -183,26 +185,25 @@
 
     .section-header {
       display: flex; justify-content: space-between;
-      margin-bottom: 20px;
-      font-size: 12px; letter-spacing: 0.05em; opacity: 0.6;
-      text-transform: uppercase;
+      margin-bottom: 24px;
+      font-family: var(--font-mono); /* ใช้ฟอนต์ใหม่ตรงนี้ด้วย */
+      font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; opacity: 0.6;
     }
 
     .bento-grid {
       display: grid;
-      /* ปรับสัดส่วน Grid ให้ดูไม่อึดอัด */
-      grid-template-columns: 1.4fr 0.9fr 1.4fr; 
-      grid-template-rows: 320px 320px; /* ลดความสูงลง (จากเดิมเต็มจอ) */
+      /* Grid ตามรูปที่ส่งมา: 1.4fr 1fr 1.4fr */
+      grid-template-columns: 1.4fr 1fr 1.4fr; 
+      /* ปรับความสูงไม่ให้ใหญ่เกินไป */
+      grid-template-rows: 340px 340px; 
       gap: 16px;
-      width: 100%;
-      margin: 0 auto;
     }
 
     .b-item {
       position: relative;
       background: var(--card-bg);
-      display: block;
       overflow: hidden;
+      display: block;
     }
 
     /* Layout Classes */
@@ -211,51 +212,38 @@
     .mid-bot   { grid-column: 2; grid-row: 2; }
     .tall-right{ grid-column: 3; grid-row: 1 / span 2; }
 
-    /* Image Styling */
     .b-img {
       width: 100%; height: 100%; object-fit: cover;
-      transition: transform 0.6s var(--ease);
+      transition: transform 0.7s var(--ease);
       filter: grayscale(100%);
     }
-    .b-item:hover .b-img {
-      transform: scale(1.04);
-      filter: grayscale(0%);
-    }
+    .b-item:hover .b-img { transform: scale(1.05); filter: grayscale(0%); }
 
-    /* Hover Info */
     .b-info {
       position: absolute;
-      top: 20px; left: 20px;
+      top: 24px; left: 24px;
       color: #fff;
-      mix-blend-mode: difference; /* ช่วยให้อ่านออกบนทุกสีพื้นหลัง */
+      mix-blend-mode: difference;
       z-index: 2;
     }
-    .b-code { font-family: var(--font-display); font-size: 12px; margin-bottom: 6px; display:block; opacity: 0.8; }
-    .b-title { font-family: var(--font-main); font-size: 20px; font-weight: 500; line-height: 1.1; }
+    /* ใช้ Mono กับรหัสโปรเจกต์ */
+    .b-code { font-family: var(--font-mono); font-size: 12px; margin-bottom: 8px; display:block; }
+    /* ชื่อโปรเจกต์ใช้ Manrope */
+    .b-title { font-family: var(--font-main); font-size: 24px; font-weight: 500; line-height: 1; letter-spacing: -0.02em;}
 
-    /* =========================
-       RESPONSIVE
-       ========================= */
+    /* RESPONSIVE */
     @media (max-width: 1024px) {
-      .portrait-wrapper { right: 5%; width: 220px; top: 40%; }
-      .bento-grid { grid-template-rows: 250px 250px; } /* ลดความสูง Grid บน Tablet */
+      .portrait-wrapper { right: 5%; width: 240px; }
+      .bento-grid { grid-template-rows: 280px 280px; }
     }
 
     @media (max-width: 768px) {
-      header { flex-direction: column; gap: 20px; align-items: flex-start; }
+      header { flex-direction: column; align-items: flex-start; gap: 20px; }
       .nav-group { width: 100%; justify-content: space-between; }
-      
-      .hero-name { font-size: 50px; margin-top: 20px; }
-      .portrait-wrapper { 
-        position: relative; top: auto; right: auto; transform: none; 
-        margin: 40px 0; width: 100%; max-width: 300px;
-      }
-      
+      .hero-name { font-size: 56px; margin-top: 20px; }
+      .portrait-wrapper { position: relative; top: auto; right: auto; transform: none; margin: 40px 0; width: 100%; max-width: 300px; }
       .intro-grid { grid-template-columns: 1fr; gap: 20px; }
-      
-      .bento-grid {
-        display: flex; flex-direction: column; height: auto;
-      }
+      .bento-grid { display: flex; flex-direction: column; height: auto; }
       .b-item { aspect-ratio: 4/3; }
     }
   </style>
@@ -299,7 +287,7 @@
   </section>
 
   <div class="spacer">
-    <div class="scroll-hint">SCROLL TO EXPLORE ↓</div>
+    <div class="scroll-hint">( SCROLL TO EXPLORE )</div>
   </div>
 
   <section class="projects-section" id="projects">
@@ -346,11 +334,9 @@
   </section>
 
   <script>
-    // Theme Toggle Script
     const btn = document.getElementById('themeBtn');
     const body = document.body;
     
-    // Check local storage
     if (localStorage.getItem('theme') === 'dark') {
       body.setAttribute('data-theme', 'dark');
     }
