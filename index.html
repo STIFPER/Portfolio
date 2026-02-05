@@ -6,7 +6,7 @@
   <title>Wachirawit Pansungnoen — MESTYLE STUDIO</title>
   <meta name="description" content="Brand systems, identity, and motion — built for real production." />
 
-  <!-- Fonts (keep the vibe: mono + grotesk) -->
+  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -16,10 +16,10 @@
       THEME TOKENS (Light default)
       ========================= */
     :root{
-      --bg:#f6f5f0;               /* paper */
-      --panel:#ffffff;            /* panels/cards */
+      --bg:#f6f5f0;
+      --panel:#ffffff;
       --text:#0b0c0f;
-      --muted:rgba(11,12,15,.62);
+      --muted:rgba(11,12,15,.60);
       --line:rgba(11,12,15,.14);
       --accent:#d7ff3a;
       --shadow: 0 18px 70px rgba(0,0,0,.10);
@@ -27,14 +27,14 @@
       --sans:"Space Grotesk", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
       --mono:"IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
 
-      --radius: 20px;
-      --wrap: min(1180px, calc(100% - 44px));
+      --radius: 22px;
+      --wrap: min(1220px, calc(100% - 44px));
     }
     body[data-theme="dark"]{
       --bg:#0b0c0f;
       --panel:#11131a;
       --text:#e9edf5;
-      --muted:rgba(233,237,245,.62);
+      --muted:rgba(233,237,245,.60);
       --line:rgba(233,237,245,.14);
       --shadow: 0 18px 70px rgba(0,0,0,.45);
     }
@@ -53,12 +53,15 @@
     img{ display:block; max-width:100%; }
     button{ font:inherit; color:inherit; background:none; border:none; }
 
-    .wrap{ width:var(--wrap); margin:0 auto; padding: 0 0 84px; }
+    .wrap{ width:var(--wrap); margin:0 auto; padding: 0 0 88px; }
 
-    .mono{ font-family: var(--mono); letter-spacing:0.08em; text-transform:uppercase; }
+    .mono{
+      font-family: var(--mono);
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
     .muted{ color:var(--muted); }
     .tiny{ font-size:12px; line-height:1.7; }
-    .soft{ color: color-mix(in srgb, var(--text) 92%, transparent); }
 
     .pill{
       display:inline-flex; align-items:center; justify-content:center;
@@ -90,15 +93,10 @@
       background: color-mix(in srgb, var(--accent) 40%, var(--panel));
       border-color: color-mix(in srgb, var(--accent) 62%, var(--line));
     }
-    .arrow{ font-family: var(--mono); letter-spacing:0.02em; text-transform:none; }
-
-    .rule{ height:1px; background:var(--line); }
-
-    .card{
-      border:1px solid var(--line);
-      border-radius: var(--radius);
-      background: color-mix(in srgb, var(--panel) 92%, transparent);
-      box-shadow: var(--shadow);
+    .arrow{
+      font-family: var(--mono);
+      letter-spacing: 0.02em;
+      text-transform: none;
     }
 
     /* =========================
@@ -173,341 +171,264 @@
     }
 
     /* =========================
-      HERO / INFO — reference-style layout
+      SECTION HEAD (like your screenshot)
       ========================= */
-    .hero{
-      padding: 36px 0 22px;
-    }
-    .heroGrid{
-      display:grid;
-      grid-template-columns: 1.05fr .95fr;
-      gap: 32px;
-      align-items:stretch;
-      min-height: min(76vh, 760px);
-    }
-
-    /* Left column: info top + featured bottom */
-    .heroLeft{
+    .sectionTop{
       display:flex;
-      flex-direction:column;
       justify-content:space-between;
-      gap: 22px;
-      padding-top: 4px;
+      align-items:baseline;
+      gap: 16px;
+      padding-top: 26px;
+      margin-top: 6px;
     }
+    .sectionTop .left{ font-size: 14px; }
+    .sectionTop .right{ font-size: 12px; letter-spacing: 0.20em; }
 
-    .infoBlock{
-      max-width: 52ch;
-    }
-    .infoBlock .mono{
-      letter-spacing: 0.18em;
-      font-size: 12px;
-      line-height: 1.75;
-    }
-    .infoBlock .mono b{
-      letter-spacing: 0.20em;
-      font-weight: 600;
-      color: color-mix(in srgb, var(--text) 92%, transparent);
-    }
-
-    .featured{
-      padding-top: 10px;
-    }
-    .featuredTop{
-      display:flex; align-items:center; gap: 14px;
-      margin-bottom: 14px;
-    }
-    .progress{
-      flex: 1;
-      height: 1px;
-      background: color-mix(in srgb, var(--line) 90%, transparent);
-      position: relative;
-    }
-    .progress::after{
-      content:"";
-      position:absolute;
-      left:0; top:-1px;
-      height: 3px; width: 84px;
-      background: color-mix(in srgb, var(--text) 45%, transparent);
-      border-radius: 999px;
-      opacity: .9;
-    }
-    .featuredCode{
-      font-size: 14px;
-      letter-spacing: 0.22em;
-    }
-    .featuredTitle{
-      margin: 10px 0 12px;
-      font-size: clamp(40px, 4.6vw, 64px);
-      letter-spacing: -0.03em;
-      line-height: .92;
-      text-transform: uppercase;
-      color: color-mix(in srgb, var(--text) 64%, transparent);
-    }
-    .featuredActions{
-      display:flex; gap: 10px; flex-wrap:wrap;
-    }
-
-    /* Right column: big label + visual */
-    .heroRight{
-      position:relative;
-      display:flex;
-      flex-direction:column;
-      justify-content:center;
-      gap: 18px;
-    }
-
-    .bigLabel{
-      position:absolute;
-      top: 8px;
-      right: 0;
-      text-align:right;
-      line-height: .86;
-      letter-spacing: 0.08em;
-      font-weight: 600;
-      color: color-mix(in srgb, var(--text) 35%, transparent);
-      user-select:none;
-      pointer-events:none;
-      font-size: clamp(44px, 4.2vw, 66px);
-      text-transform: uppercase;
-    }
-
-    .mainVisual{
-      width: 100%;
-      margin-top: 56px;
-      border:1px solid var(--line);
+    /* =========================
+      FRAME CARD (right preview style)
+      ========================= */
+    .frameCard{
+      border: 1px solid var(--line);
       border-radius: var(--radius);
-      overflow:hidden;
       background: color-mix(in srgb, var(--panel) 92%, transparent);
       box-shadow: var(--shadow);
+      overflow: hidden;
     }
-    .mainVisualInner{
-      position:relative;
-      aspect-ratio: 21 / 8; /* cinematic strip */
-      background: rgba(0,0,0,.04);
+    .frameInner{
+      padding: 18px;
+      position: relative;
+      min-height: 360px;
     }
-    .mainVisualInner img{
-      width:100%;
-      height:100%;
-      object-fit: cover;
-      transform: scale(1.02);
-      filter: saturate(0.98);
-    }
-    .mainVisualInner::before{
-      content:"";
+    .frameDot{
       position:absolute;
-      inset: 12px;
-      border:1px solid var(--line);
-      border-radius: calc(var(--radius) - 8px);
-      opacity:.55;
-      pointer-events:none;
+      top: 18px;
+      right: 18px;
+      width: 8px; height: 8px;
+      border-radius: 99px;
+      background: var(--accent);
     }
-
-    /* Meta row under hero */
-    .metaRow{
-      margin-top: 22px;
-      border-top: 1px solid var(--line);
-      padding-top: 18px;
-      display:grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 18px;
-    }
-    .metaCol .label{ font-size: 11px; letter-spacing: 0.18em; }
-    .metaCol .value{
-      margin-top: 10px;
+    .frameLabel{
       font-size: 12px;
-      line-height: 1.85;
-      letter-spacing: 0.06em;
+      letter-spacing: 0.22em;
+      color: color-mix(in srgb, var(--text) 70%, transparent);
+    }
+    .frameLines{
+      margin-top: 10px;
+      border-top: 1px solid var(--line);
+    }
+    .frameLines .line{
+      height: 1px;
+      background: var(--line);
+      opacity: .75;
+      margin: 22px 0;
+    }
+    .frameTitle{
+      margin: 18px 0 6px;
+      font-size: 34px;
+      letter-spacing: -0.02em;
       text-transform: none;
-      font-family: var(--mono);
-      color: color-mix(in srgb, var(--text) 92%, transparent);
-    }
-
-    /* Experience (still part of INFO page) */
-    .sectionHead{
-      display:flex; justify-content:space-between; align-items:baseline;
-      gap: 16px;
-      margin-top: 38px;
-      border-top:1px solid var(--line);
-      padding-top: 16px;
-    }
-    .sectionHead h2{ margin:0; font-size: 14px; }
-
-    .expGrid{
-      margin-top: 16px;
-      display:grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 14px;
-    }
-    .expCard{
-      padding: 16px;
-    }
-    .expCard h3{
-      margin: 10px 0 6px;
-      font-size: 18px;
-      letter-spacing:-0.02em;
-      text-transform:none;
       font-family: var(--sans);
     }
-    .expCard p{
-      margin:0;
-      font-size: 13px;
-      line-height: 1.75;
+    .frameSub{
+      margin: 0;
+      font-size: 14px;
       color: var(--muted);
-    }
-    .expList{
-      margin: 12px 0 0;
-      padding-left: 18px;
-    }
-    .expList li{
-      margin: 6px 0;
-      font-size: 13px;
       line-height: 1.7;
-      color: color-mix(in srgb, var(--text) 92%, transparent);
+      max-width: 56ch;
+      text-transform: none;
+      letter-spacing: -0.01em;
+      font-family: var(--sans);
     }
 
     /* =========================
-      PROJECTS (scroll after info)
+      SHEET LAYOUT (like your second image)
       ========================= */
-    .projectsShell{
-      margin-top: 34px;
+    .sheet{
+      padding: 8px 0 26px;
     }
-    .projectStage{
-      margin-top: 16px;
+    .sheetGrid{
       display:grid;
-      grid-template-columns: 1fr 1.2fr;
-      gap: 18px;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 32px;
       align-items: start;
+      min-height: min(78vh, 820px);
+      position: relative;
     }
 
-    .projLeft{
-      padding: 18px;
-    }
-    .projControls{
-      display:flex; align-items:center; gap: 10px; justify-content:space-between;
-      margin-bottom: 16px;
-    }
-    .projControls .mini{
-      display:flex; align-items:center; gap: 10px;
-    }
-    .projTitle{
-      margin: 12px 0 12px;
-      font-size: clamp(34px, 3.6vw, 52px);
-      line-height: .92;
-      letter-spacing: -0.03em;
-      text-transform: uppercase;
-      color: color-mix(in srgb, var(--text) 64%, transparent);
-    }
-    .projDesc{
-      margin: 0;
-      font-size: 14px;
-      line-height: 1.75;
-      color: var(--muted);
-      max-width: 56ch;
-      text-transform:none;
-      letter-spacing:-0.01em;
-      font-family: var(--sans);
-    }
-    .projActions{
-      margin-top: 16px;
-      display:flex; gap: 10px; flex-wrap:wrap;
+    /* Right card sits more "up" to create whitespace like the screenshot */
+    .sheetRight{
+      padding-top: 56px;
     }
 
-    .projImage{
-      border:1px solid var(--line);
-      border-radius: var(--radius);
-      overflow:hidden;
-      background: color-mix(in srgb, var(--panel) 92%, transparent);
-      box-shadow: var(--shadow);
+    /* Left side: lots of whitespace + bottom content */
+    .sheetLeft{
+      min-height: min(78vh, 820px);
+      display:flex;
+      flex-direction:column;
+      justify-content:flex-end;
+      gap: 18px;
+      padding-bottom: 8px;
     }
-    .projImageInner{
-      aspect-ratio: 16 / 9;
-      background: rgba(0,0,0,.04);
-      position:relative;
+
+    .navRow{
+      display:flex;
+      align-items:center;
+      gap: 14px;
     }
-    .projImageInner img{
-      width:100%;
-      height:100%;
-      object-fit: cover;
-      transform: scale(1.02);
-      filter: saturate(0.98);
+    .progressLine{
+      flex: 1;
+      height: 1px;
+      background: color-mix(in srgb, var(--line) 88%, transparent);
+      position: relative;
+      border-radius: 99px;
+      opacity: .95;
     }
-    .projImageInner::before{
+    .progressLine::after{
       content:"";
       position:absolute;
-      inset: 12px;
-      border:1px solid var(--line);
-      border-radius: calc(var(--radius) - 8px);
-      opacity:.55;
-      pointer-events:none;
+      left:0; top:-1px;
+      height: 3px;
+      width: 120px;
+      background: color-mix(in srgb, var(--text) 35%, transparent);
+      border-radius: 999px;
+    }
+    .codeLine{
+      display:flex;
+      align-items:baseline;
+      gap: 12px;
+      font-size: 12px;
+      letter-spacing: 0.22em;
+      color: color-mix(in srgb, var(--text) 62%, transparent);
     }
 
-    .projMeta{
-      margin-top: 14px;
+    .bigTitle{
+      margin: 0;
+      font-size: clamp(56px, 6.2vw, 120px);
+      line-height: .86;
+      letter-spacing: -0.045em;
+      text-transform: uppercase;
+      color: color-mix(in srgb, var(--text) 58%, transparent);
+    }
+
+    .actionsRow{
+      display:flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    /* Meta line under actions (keep minimal) */
+    .miniMeta{
       display:grid;
       grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 12px;
-    }
-    .projMeta .m{
+      gap: 14px;
+      margin-top: 8px;
+      padding-top: 14px;
       border-top: 1px dashed var(--line);
-      padding-top: 10px;
     }
-    .projMeta .k{
+    .miniMeta .k{
       font-size: 11px;
-      letter-spacing: 0.18em;
+      letter-spacing: 0.20em;
+      color: var(--muted);
     }
-    .projMeta .v{
+    .miniMeta .v{
       margin-top: 8px;
       font-size: 12px;
-      line-height: 1.8;
-      text-transform:none;
-      letter-spacing: 0.02em;
+      line-height: 1.75;
+      letter-spacing: 0.06em;
+      text-transform: none;
       font-family: var(--mono);
       color: color-mix(in srgb, var(--text) 92%, transparent);
       white-space: pre-line;
     }
 
-    /* CONTACT */
-    .contactCard{
-      margin-top: 16px;
-      padding: 18px;
+    /* About card body */
+    .aboutBody{
+      margin-top: 14px;
+      display:grid;
+      grid-template-columns: 1fr;
+      gap: 14px;
+    }
+    .portrait{
+      border: 1px solid var(--line);
+      border-radius: calc(var(--radius) - 8px);
+      overflow: hidden;
+      background: rgba(0,0,0,.04);
+      aspect-ratio: 4 / 5;
+    }
+    .portrait img{
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transform: scale(1.02);
+      filter: saturate(0.98);
+    }
+    .aboutCopy{
+      border-top: 1px dashed var(--line);
+      padding-top: 12px;
+    }
+    .aboutCopy p{
+      margin: 0;
+      font-size: 14px;
+      line-height: 1.75;
+      color: var(--muted);
+      text-transform: none;
+      letter-spacing: -0.01em;
+      font-family: var(--sans);
+    }
+
+    /* Project preview image inside frame card */
+    .previewImage{
+      margin-top: 14px;
+      border: 1px solid var(--line);
+      border-radius: calc(var(--radius) - 8px);
+      overflow: hidden;
+      background: rgba(0,0,0,.04);
+      aspect-ratio: 16 / 10;
+      position: relative;
+    }
+    .previewImage img{
+      width:100%;
+      height:100%;
+      object-fit: cover;
+      transform: scale(1.02);
+      filter: saturate(0.98);
     }
 
     /* =========================
-      RESPONSIVE (mobile-first polish)
+      MOBILE POLISH (must look good)
       ========================= */
     @media (max-width: 980px){
-      .heroGrid{
+      .sheetGrid{
         grid-template-columns: 1fr;
-        min-height: auto;
         gap: 18px;
+        min-height: auto;
       }
-      .heroRight{
-        order: -1; /* show visual first on mobile/tablet */
+      .sheetRight{
+        padding-top: 0;
+        order: -1; /* show card first on mobile */
       }
-      .bigLabel{
-        position: relative;
-        top: auto; right: auto;
-        text-align: right;
-        margin-bottom: 4px;
-        opacity: .95;
+      .sheetLeft{
+        min-height: auto;
+        justify-content: flex-start;
+        padding-bottom: 0;
       }
-      .mainVisual{ margin-top: 8px; }
-      .metaRow{ grid-template-columns: repeat(2, minmax(0,1fr)); }
-      .expGrid{ grid-template-columns: 1fr; }
-
-      .projectStage{ grid-template-columns: 1fr; }
-      .projMeta{ grid-template-columns: repeat(2, minmax(0,1fr)); }
+      .bigTitle{
+        font-size: clamp(44px, 12vw, 70px);
+      }
+      .miniMeta{
+        grid-template-columns: repeat(2, minmax(0,1fr));
+      }
+      .progressLine::after{ width: 84px; }
     }
 
     @media (max-width: 560px){
-      .wrap{ width: min(1180px, calc(100% - 28px)); }
-      .hero{ padding: 26px 0 18px; }
-      .featuredTitle{ font-size: 44px; }
-      .mainVisualInner{ aspect-ratio: 16 / 8; }
-      .bigLabel{ font-size: 44px; }
-
-      .metaRow{ grid-template-columns: 1fr; }
-      .projTitle{ font-size: 40px; }
+      .wrap{ width: min(1220px, calc(100% - 28px)); }
+      .sectionTop{ padding-top: 20px; }
+      .sheet{ padding-bottom: 18px; }
+      .frameInner{ padding: 14px; }
+      .frameTitle{ font-size: 28px; }
+      .frameLines .line{ margin: 18px 0; }
+      .miniMeta{ grid-template-columns: 1fr; }
     }
 
     @media (prefers-reduced-motion: reduce){
@@ -548,190 +469,200 @@
       <button class="pill mono" id="closeBtn" type="button">close</button>
     </div>
     <div class="drawerLinks mono">
-      <a href="#projects">projects <span class="muted">↗</span></a>
       <a href="#info">info <span class="muted">↗</span></a>
+      <a href="#projects">projects <span class="muted">↗</span></a>
       <a href="#contact">contact <span class="muted">↗</span></a>
       <a href="#info" id="drawerTheme">theme <span class="muted">↗</span></a>
     </div>
   </aside>
 
   <main class="wrap">
-    <!-- INFO / ABOUT (reference-style) -->
-    <section class="hero" id="info">
-      <div class="heroGrid">
-        <!-- LEFT: INFO + FEATURED -->
-        <div class="heroLeft">
-          <div class="infoBlock">
-            <div class="mono tiny">
-              <b>WACHIRAWIT PANSUNGNOEN</b> IS A BRAND DESIGNER<br/>
-              FOCUSING ON IDENTITY / PACKAGING SYSTEMS / MOTION<br/>
-              BUILDING CONSISTENT VISUALS FOR REAL PRODUCTION<br/>
-              BASED IN THAILAND / AVAILABLE WORLDWIDE
-            </div>
-          </div>
 
-          <div class="featured">
-            <div class="featuredTop">
-              <div class="mono tiny muted">prev</div>
-              <div class="progress" aria-hidden="true"></div>
-              <div class="mono tiny muted">next</div>
-            </div>
-
-            <div class="mono featuredCode muted" id="featCode">P/01</div>
-            <div class="featuredTitle" id="featTitle">FEATURED</div>
-
-            <div class="featuredActions">
-              <a class="btn primary mono" href="#projects">visit <span class="arrow">↗</span></a>
-              <a class="btn mono" href="#contact">contact <span class="arrow">↗</span></a>
-            </div>
-          </div>
-        </div>
-
-        <!-- RIGHT: BIG LABEL + MAIN VISUAL -->
-        <div class="heroRight">
-          <div class="bigLabel" aria-hidden="true">
-            folio<br/>selected
-          </div>
-
-          <div class="mainVisual">
-            <div class="mainVisualInner">
-              <img id="heroImg" alt="Main visual" />
-            </div>
-          </div>
-        </div>
+    <!-- =========================
+      INFO (About) — "sheet 2" layout
+      Right card = your portrait + about
+      ========================= -->
+    <section class="sheet" id="info">
+      <div class="sectionTop">
+        <div class="mono left">info</div>
+        <div class="mono right muted">scroll</div>
       </div>
 
-      <!-- META ROW (scan-fast) -->
-      <div class="metaRow" aria-label="Quick meta">
-        <div class="metaCol">
-          <div class="mono tiny muted label">capabilities</div>
-          <div class="value">Brand Identity<br/>Packaging Systems<br/>Motion / Edit</div>
-        </div>
-        <div class="metaCol">
-          <div class="mono tiny muted label">industries</div>
-          <div class="value">Real Estate<br/>Retail<br/>Regulated Consumer</div>
-        </div>
-        <div class="metaCol">
-          <div class="mono tiny muted label">role</div>
-          <div class="value">Lead Designer (Solo)<br/>Visual System / KV</div>
-        </div>
-        <div class="metaCol">
-          <div class="mono tiny muted label">deliverables</div>
-          <div class="value">Guidelines / Templates<br/>Social Kits / Print</div>
-        </div>
-      </div>
+      <div class="sheetGrid">
+        <!-- LEFT (bottom typography) -->
+        <div class="sheetLeft">
+          <div class="codeLine mono">
+            <span class="muted">P/00</span>
+            <span class="muted">ABOUT</span>
+          </div>
 
-      <!-- EXPERIENCE (still info page) -->
-      <div class="sectionHead">
-        <h2 class="mono">experience</h2>
-        <p class="mono tiny muted">In-house credibility</p>
-      </div>
+          <h1 class="bigTitle">Wachirawit<br/>Pansungnoen</h1>
 
-      <div class="expGrid">
-        <div class="card expCard">
-          <div class="mono tiny muted">real estate</div>
-          <h3>Condo industry (well-known)</h3>
-          <p>Brand & visual system · KV · production layout</p>
-          <ul class="expList">
-            <li>Built consistent visual language across campaign + print.</li>
-            <li>Designed templates for speed + quality in production.</li>
-            <li>Aligned stakeholders with clear hierarchy rules.</li>
-          </ul>
+          <div class="actionsRow">
+            <a class="btn primary mono" href="#projects">projects <span class="arrow">↗</span></a>
+            <a class="btn mono" href="#contact">contact <span class="arrow">↗</span></a>
+          </div>
+
+          <!-- keep ABOUT minimal (you can edit text here) -->
+          <div class="miniMeta" aria-label="About quick meta">
+            <div>
+              <div class="mono k">focus</div>
+              <div class="v">Brand · Identity · Motion</div>
+            </div>
+            <div>
+              <div class="mono k">based</div>
+              <div class="v">Thailand</div>
+            </div>
+            <div>
+              <div class="mono k">work</div>
+              <div class="v">In-house + Freelance</div>
+            </div>
+            <div>
+              <div class="mono k">email</div>
+              <div class="v">you@email.com</div>
+            </div>
+          </div>
         </div>
 
-        <div class="card expCard">
-          <div class="mono tiny muted">regulated consumer</div>
-          <h3>Compliance-led brand (recognized)</h3>
-          <p>Packaging system · information design</p>
-          <ul class="expList">
-            <li>Designed under constraints while keeping premium look.</li>
-            <li>Improved readability in dense information layouts.</li>
-            <li>Built scalable monthly update workflow.</li>
-          </ul>
+        <!-- RIGHT CARD (portrait + about) -->
+        <div class="sheetRight">
+          <div class="frameCard">
+            <div class="frameInner">
+              <div class="frameDot" aria-hidden="true"></div>
+              <div class="mono frameLabel">image</div>
+
+              <div class="frameLines" aria-hidden="true">
+                <div class="line"></div>
+              </div>
+
+              <div class="frameTitle">About</div>
+              <p class="frameSub">A one-person studio delivering brand systems and production-ready design across print, social, and motion.</p>
+
+              <div class="aboutBody">
+                <div class="portrait">
+                  <img id="portraitImg" alt="Portrait" />
+                </div>
+                <div class="aboutCopy">
+                  <p>
+                    I build clear hierarchy and consistent typography — so the brand looks sharp everywhere.
+                  </p>
+                </div>
+              </div>
+
+              <div class="frameLines" aria-hidden="true" style="margin-top:16px;">
+                <div class="line"></div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- PROJECTS -->
-    <section class="projectsShell" id="projects">
-      <div class="sectionHead">
-        <h2 class="mono">projects</h2>
-        <p class="mono tiny muted">Scroll / prev-next</p>
+    <!-- =========================
+      PROJECTS — moved down + "sheet 2" layout
+      Left = big title at bottom
+      Right card = preview (image)
+      (NO experience on homepage)
+      ========================= -->
+    <section class="sheet" id="projects">
+      <div class="sectionTop">
+        <div class="mono left">projects</div>
+        <div class="mono right muted">scroll / prev-next</div>
       </div>
 
-      <div class="projectStage">
-        <!-- LEFT: project info -->
-        <div class="card projLeft">
-          <div class="projControls">
-            <div class="mini">
-              <button class="pill mono" id="prevBtn" type="button">prev</button>
-              <button class="pill mono" id="nextBtn" type="button">next</button>
-            </div>
-            <div class="mono tiny muted" id="projCode">P/01</div>
+      <div class="sheetGrid">
+        <!-- LEFT (bottom project typography) -->
+        <div class="sheetLeft">
+          <div class="navRow">
+            <button class="pill mono" id="prevBtn" type="button">prev</button>
+            <div class="progressLine" aria-hidden="true"></div>
+            <button class="pill mono" id="nextBtn" type="button">next</button>
           </div>
 
-          <div class="projTitle" id="projTitle">PROJECT</div>
-          <p class="projDesc" id="projDesc">Description</p>
+          <div class="codeLine mono">
+            <span id="projCode" class="muted">P/01</span>
+          </div>
 
-          <div class="projActions">
+          <h2 class="bigTitle" id="projTitle">Brand System</h2>
+
+          <div class="actionsRow">
             <a class="btn primary mono" id="projVisit" href="#projects" target="_blank" rel="noopener">visit <span class="arrow">↗</span></a>
             <a class="btn mono" href="#contact">contact <span class="arrow">↗</span></a>
           </div>
 
-          <div class="projMeta" id="projMeta"></div>
+          <!-- keep meta minimal (optional) -->
+          <div class="miniMeta" id="projMeta"></div>
         </div>
 
-        <!-- RIGHT: image -->
-        <div class="projImage">
-          <div class="projImageInner">
-            <img id="projImg" alt="Project cover" />
+        <!-- RIGHT CARD (preview) -->
+        <div class="sheetRight">
+          <div class="frameCard">
+            <div class="frameInner">
+              <div class="frameDot" aria-hidden="true"></div>
+              <div class="mono frameLabel">image</div>
+
+              <div class="frameLines" aria-hidden="true">
+                <div class="line"></div>
+              </div>
+
+              <div class="codeLine mono" style="letter-spacing:0.14em; gap:10px; margin-top: -6px;">
+                <span id="cardCode">P/01</span>
+                <span class="muted">/</span>
+                <span id="cardSub" class="muted">Project Preview</span>
+              </div>
+
+              <div class="previewImage">
+                <img id="projImg" alt="Project preview" />
+              </div>
+
+              <div class="frameLines" aria-hidden="true" style="margin-top:16px;">
+                <div class="line"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="sheet">
+      <div class="sectionTop">
+        <div class="mono left">contact</div>
+        <div class="mono right muted">simple</div>
+      </div>
+
+      <div class="frameCard" style="margin-top:14px;">
+        <div class="frameInner" style="min-height:auto;">
+          <div class="frameDot" aria-hidden="true"></div>
+          <div class="mono frameLabel">email</div>
+          <div style="margin-top:10px;">you@email.com</div>
+
+          <div class="frameLines" aria-hidden="true" style="margin-top:16px;">
+            <div class="line"></div>
+          </div>
+
+          <div class="mono frameLabel" style="margin-top:10px;">links</div>
+          <div class="tiny mono muted" style="margin-top:10px; line-height:1.9; letter-spacing:0.16em;">
+            <div>// behance: behance.net/yourprofile</div>
+            <div>// instagram: @yourhandle</div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- CONTACT -->
-    <section id="contact">
-      <div class="sectionHead">
-        <h2 class="mono">contact</h2>
-        <p class="mono tiny muted">Keep it simple</p>
-      </div>
-
-      <div class="card contactCard">
-        <div class="mono tiny muted">email</div>
-        <div style="margin-top:8px;">you@email.com</div>
-
-        <div class="rule" style="margin:16px 0;"></div>
-
-        <div class="mono tiny muted">links</div>
-        <div class="mono tiny" style="margin-top:8px; line-height:1.9; letter-spacing:0.10em;">
-          <div>// behance: behance.net/yourprofile</div>
-          <div>// instagram: @yourhandle</div>
-        </div>
-      </div>
-    </section>
   </main>
 
   <script>
     /* =========================
       EDIT THESE PATHS
-      =========================
-      Suggested structure:
-      assets/
-        hero.jpg
-        p01/cover.jpg
-        p02/cover.jpg
-        p03/cover.jpg
-        p04/cover.jpg
-    */
-
-    const HERO_VISUAL = "assets/hero.jpg";
+      ========================= */
+    const PORTRAIT = "assets/portrait.jpg";
 
     const PROJECTS = [
       {
         code: "P/01",
         title: "Brand System",
-        desc: "Identity · packaging system · guideline — built for consistent real production.",
         client: "Client name (or Studio)",
         role: "Lead designer (solo)",
         deliverables: "Guideline · templates · packaging",
@@ -742,7 +673,6 @@
       {
         code: "P/02",
         title: "Logo & Identity",
-        desc: "Logo suite · lockups · usage — clarity + scalability across touchpoints.",
         client: "Client name",
         role: "Designer",
         deliverables: "Logo · identity system",
@@ -753,7 +683,6 @@
       {
         code: "P/03",
         title: "Graphic / KV",
-        desc: "Campaign KV · social kit — consistent typography and pacing.",
         client: "Client name",
         role: "Art direction",
         deliverables: "KV · social kit · print",
@@ -764,7 +693,6 @@
       {
         code: "P/04",
         title: "Motion / Video",
-        desc: "Edit · motion graphics — brand consistency across moving visuals.",
         client: "Client name",
         role: "Motion / editor",
         deliverables: "Reels · short video · motion",
@@ -793,9 +721,9 @@
       const title = payload?.title || "PREVIEW";
 
       const svg =
-`<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900">
-  <rect width="1600" height="900" fill="${bg}"/>
-  <rect x="40" y="40" width="1520" height="820" rx="28" fill="none" stroke="${mut}" stroke-width="2"/>
+`<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000">
+  <rect width="1600" height="1000" fill="${bg}"/>
+  <rect x="36" y="36" width="1528" height="928" rx="28" fill="none" stroke="${mut}" stroke-width="2"/>
   <g fill="none" stroke="${mut}" stroke-width="2">
     <line x1="80" y1="220" x2="1520" y2="220"/>
     <line x1="80" y1="300" x2="1520" y2="300"/>
@@ -847,35 +775,31 @@
       localStorage.setItem("theme", next);
       setThemeUI();
 
-      // re-render placeholders to match theme
-      renderHero();
+      // re-render placeholders so they match theme
+      renderPortrait();
       renderProject(active);
     }
 
     bindButton($("#themeBtn"), toggleTheme);
-    bindButton($("#drawerTheme"), (e) => toggleTheme());
+    bindButton($("#drawerTheme"), () => toggleTheme());
 
     /* =========================
-      HERO render (featured)
+      PORTRAIT (About card)
       ========================= */
-    function renderHero(){
-      setImgWithFallback($("#heroImg"), HERO_VISUAL, { code: "INFO", title: "Main Visual" });
-
-      // featured = current project (active)
-      const p = PROJECTS[active];
-      $("#featCode").textContent = p.code;
-      $("#featTitle").textContent = p.title.toUpperCase();
+    function renderPortrait(){
+      setImgWithFallback($("#portraitImg"), PORTRAIT, { code: "P/00", title: "Portrait" });
     }
+    renderPortrait();
 
     /* =========================
-      PROJECT STAGE render
+      PROJECTS (sheet layout)
       ========================= */
     let active = 0;
 
-    function metaBlock(k, v){
+    function metaHTML(k, v){
       return `
-        <div class="m">
-          <div class="mono tiny muted k">${k}</div>
+        <div>
+          <div class="mono k">${escapeXML(k)}</div>
           <div class="v">${escapeXML(v || "—")}</div>
         </div>
       `;
@@ -883,9 +807,10 @@
 
     function renderProject(i){
       const p = PROJECTS[i];
+
       $("#projCode").textContent = p.code;
       $("#projTitle").textContent = p.title.toUpperCase();
-      $("#projDesc").textContent = p.desc;
+      $("#cardCode").textContent = p.code;
 
       const visit = $("#projVisit");
       visit.href = p.link || "#projects";
@@ -893,25 +818,28 @@
       setImgWithFallback($("#projImg"), p.cover, { code: p.code, title: p.title });
 
       $("#projMeta").innerHTML = [
-        metaBlock("client", p.client),
-        metaBlock("role", p.role),
-        metaBlock("deliverables", p.deliverables),
-        metaBlock("tools", p.tools),
+        metaHTML("client", p.client),
+        metaHTML("role", p.role),
+        metaHTML("deliverables", p.deliverables),
+        metaHTML("tools", p.tools),
       ].join("");
     }
 
     function setActive(i){
       active = (i + PROJECTS.length) % PROJECTS.length;
-      renderHero();
       renderProject(active);
     }
 
     bindButton($("#prevBtn"), () => setActive(active - 1));
     bindButton($("#nextBtn"), () => setActive(active + 1));
 
-    // Initial render
-    renderHero();
     renderProject(active);
+
+    // Keyboard (optional): left/right switches projects
+    window.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowLeft") setActive(active - 1);
+      if (e.key === "ArrowRight") setActive(active + 1);
+    });
 
     /* =========================
       MOBILE DRAWER
@@ -946,12 +874,6 @@
         if (a) closeDrawer();
       });
     }
-
-    // Keyboard: left/right to change project (when on page)
-    window.addEventListener("keydown", (e) => {
-      if (e.key === "ArrowLeft") setActive(active - 1);
-      if (e.key === "ArrowRight") setActive(active + 1);
-    });
   </script>
 </body>
 </html>
