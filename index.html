@@ -28,8 +28,18 @@
       --mono:"IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
 
       --radius: 22px;
+      --radius2: 14px;
       --wrap: min(1260px, calc(100% - 44px));
+
+      /* Type scale (tuned) */
+      --h1: clamp(44px, 4.8vw, 76px);
+      --h2: clamp(56px, 6.2vw, 118px);
+
+      /* Micro motion */
+      --ease: cubic-bezier(.2,.8,.2,1);
+      --t: 180ms var(--ease);
     }
+
     body[data-theme="dark"]{
       --bg:#0b0c0f;
       --panel:#11131a;
@@ -41,17 +51,23 @@
 
     *{ box-sizing:border-box; }
     html,body{ height:100%; }
+    html{ scroll-behavior:smooth; }
+
     body{
       margin:0;
       font-family: var(--sans);
       color: var(--text);
       background: var(--bg);
       letter-spacing:-0.01em;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: geometricPrecision;
     }
+
     a{ color:inherit; text-decoration:none; }
     a:hover{ opacity:.92; }
     img{ display:block; max-width:100%; }
     button{ font:inherit; color:inherit; background:none; border:none; }
+    ::selection{ background: color-mix(in srgb, var(--accent) 55%, transparent); }
 
     .wrap{ width:var(--wrap); margin:0 auto; padding: 0 0 96px; }
 
@@ -62,6 +78,13 @@
     }
     .muted{ color:var(--muted); }
     .tiny{ font-size:12px; line-height:1.7; }
+
+    .pill,
+    .btn,
+    .drawerLinks a{
+      transition: transform var(--t), background var(--t), border-color var(--t), opacity var(--t);
+      will-change: transform;
+    }
 
     .pill{
       display:inline-flex; align-items:center; justify-content:center;
@@ -75,7 +98,11 @@
       line-height:1;
       white-space:nowrap;
     }
-    .pill:hover{ background: color-mix(in srgb, var(--panel) 58%, transparent); }
+    .pill:hover{
+      background: color-mix(in srgb, var(--panel) 58%, transparent);
+      transform: translateY(-1px);
+    }
+    .pill:active{ transform: translateY(0px); }
     .pill.primary{
       background: color-mix(in srgb, var(--accent) 42%, var(--panel));
       border-color: color-mix(in srgb, var(--accent) 66%, var(--line));
@@ -89,18 +116,29 @@
       border:1px solid var(--line);
       background: transparent;
     }
+    .btn:hover{ transform: translateY(-1px); }
+    .btn:active{ transform: translateY(0px); }
     .btn.primary{
       background: color-mix(in srgb, var(--accent) 40%, var(--panel));
       border-color: color-mix(in srgb, var(--accent) 62%, var(--line));
     }
+
     .arrow{
       font-family: var(--mono);
       letter-spacing: 0.02em;
       text-transform: none;
     }
 
+    /* Focus */
+    :focus{ outline:none; }
+    :focus-visible{
+      outline: 2px solid color-mix(in srgb, var(--accent) 55%, var(--text));
+      outline-offset: 3px;
+      border-radius: 999px;
+    }
+
     /* =========================
-      TOP BAR (minimal)
+      TOP BAR (minimal, aligned with wrap)
       ========================= */
     .topbar{
       position: sticky;
@@ -109,7 +147,10 @@
       display:flex;
       align-items:center;
       justify-content:space-between;
-      padding: 12px 14px;
+
+      /* align with wrap edges */
+      padding: 12px max(14px, calc((100% - 1260px)/2 + 22px));
+
       backdrop-filter: blur(12px);
       background: color-mix(in srgb, var(--bg) 82%, transparent);
       border-bottom: 1px solid var(--line);
@@ -166,12 +207,17 @@
       display:flex; align-items:center; justify-content:space-between;
       padding: 12px 12px;
       border:1px solid var(--line);
-      border-radius: 14px;
+      border-radius: var(--radius2);
       background: transparent;
     }
+    .drawerLinks a:hover{
+      background: color-mix(in srgb, var(--panel) 65%, transparent);
+      transform: translateY(-1px);
+    }
+    .drawerLinks a:active{ transform: translateY(0px); }
 
     /* =========================
-      SECTION TOP (INFO / PROJECTS)
+      SECTION TOP
       ========================= */
     .sectionTop{
       display:flex;
@@ -185,7 +231,7 @@
     .sectionTop .right{ font-size: 12px; letter-spacing: 0.20em; }
 
     /* =========================
-      INFO — Layout 1
+      INFO — Layout
       ========================= */
     .infoHero{ padding-bottom: 22px; }
 
@@ -205,8 +251,8 @@
     }
 
     .namePanel{
-      width: min(520px, 100%);
-      padding: 18px 18px 16px;
+      width: min(560px, 100%);
+      padding: 18px 18px 18px;
       border-radius: 18px;
       background: color-mix(in srgb, var(--panel) 62%, transparent);
       border: 1px solid color-mix(in srgb, var(--line) 70%, transparent);
@@ -215,23 +261,44 @@
       font-size: 10px;
       letter-spacing: 0.22em;
       opacity: .9;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
     }
     .nameBig{
       margin: 0;
-      font-size: clamp(48px, 5.4vw, 84px);
-      line-height: .88;
-      letter-spacing: -0.045em;
+      font-size: var(--h1);
+      line-height: .94;
+      letter-spacing: -0.04em;
       text-transform: uppercase;
-      color: color-mix(in srgb, var(--text) 48%, transparent);
+      color: color-mix(in srgb, var(--text) 52%, transparent);
     }
     body[data-theme="dark"] .nameBig{
-      color: color-mix(in srgb, var(--text) 78%, transparent);
+      color: color-mix(in srgb, var(--text) 84%, transparent);
     }
-    .actionRow{
+
+    /* Rule under name (tuned) */
+    .nameRule{
       margin-top: 14px;
+      height: 1px;
+      background: color-mix(in srgb, var(--line) 92%, transparent);
+      border-radius: 999px;
+      position: relative;
+      overflow: hidden;
+    }
+    .nameRule::after{
+      content:"";
+      position:absolute;
+      left:0;
+      top:-1px;
+      height:3px;
+      width:96px;
+      background: color-mix(in srgb, var(--accent) 58%, transparent);
+      border-radius:999px;
+    }
+
+    .actionRow{
+      margin-top: 16px;
       display:flex;
-      gap: 10px;
+      gap: 12px;
       flex-wrap: wrap;
     }
 
@@ -243,8 +310,8 @@
     }
     .portraitBig{
       width: min(420px, 100%);
-      aspect-ratio: 1 / 1;   /* square like reference */
-      border-radius: 0px;
+      aspect-ratio: 1 / 1;
+      border-radius: 18px; /* tuned to match cards */
       overflow:hidden;
       background: rgba(0,0,0,.06);
       box-shadow: var(--shadow);
@@ -259,12 +326,12 @@
     }
 
     .infoMeta{
-      margin-top: 18px;
-      padding-top: 14px;
+      margin-top: 22px;
+      padding-top: 16px;
       border-top: 1px dashed var(--line);
       display:grid;
       grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 18px;
+      gap: 22px;
     }
     .infoMeta .k{
       font-size: 11px;
@@ -275,7 +342,7 @@
       margin-top: 8px;
       font-size: 12px;
       line-height: 1.8;
-      letter-spacing: 0.06em;
+      letter-spacing: 0.04em;
       text-transform: none;
       font-family: var(--mono);
       color: color-mix(in srgb, var(--text) 92%, transparent);
@@ -283,7 +350,7 @@
     }
 
     /* =========================
-      PROJECTS — Layout 2 (your screenshot)
+      PROJECTS — Layout
       ========================= */
     .sheet{ padding: 8px 0 26px; }
 
@@ -295,9 +362,7 @@
       min-height: min(78vh, 820px);
       position: relative;
     }
-    .sheetRight{
-      padding-top: 56px;
-    }
+    .sheetRight{ padding-top: 56px; }
     .sheetLeft{
       min-height: min(78vh, 820px);
       display:flex;
@@ -340,23 +405,47 @@
       font-size: 12px;
       letter-spacing: 0.22em;
       color: color-mix(in srgb, var(--text) 62%, transparent);
+      margin-top: 6px;
     }
 
     .bigTitle{
       margin: 0;
-      font-size: clamp(64px, 7.0vw, 132px);
-      line-height: .84;
-      letter-spacing: -0.055em;
+      font-size: var(--h2);
+      line-height: .90;
+      letter-spacing: -0.05em;
       text-transform: uppercase;
-      color: color-mix(in srgb, var(--text) 55%, transparent);
+      color: color-mix(in srgb, var(--text) 62%, transparent);
+    }
+    body[data-theme="dark"] .bigTitle{
+      color: color-mix(in srgb, var(--text) 72%, transparent);
+    }
+
+    /* Rule under big title */
+    .titleRule{
+      margin-top: 14px;
+      height: 1px;
+      background: color-mix(in srgb, var(--line) 92%, transparent);
+      border-radius: 999px;
+      position: relative;
+      overflow: hidden;
+    }
+    .titleRule::after{
+      content:"";
+      position:absolute;
+      left:0;
+      top:-1px;
+      height:3px;
+      width:110px;
+      background: color-mix(in srgb, var(--text) 26%, transparent);
+      border-radius:999px;
     }
 
     .miniMeta{
       display:grid;
       grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 14px;
-      margin-top: 10px;
-      padding-top: 14px;
+      gap: 16px;
+      margin-top: 14px;
+      padding-top: 16px;
       border-top: 1px dashed var(--line);
     }
     .miniMeta .k{
@@ -367,8 +456,8 @@
     .miniMeta .v{
       margin-top: 8px;
       font-size: 12px;
-      line-height: 1.75;
-      letter-spacing: 0.06em;
+      line-height: 1.8;
+      letter-spacing: 0.04em;
       text-transform: none;
       font-family: var(--mono);
       color: color-mix(in srgb, var(--text) 92%, transparent);
@@ -415,11 +504,11 @@
       height: 1px;
       background: var(--line);
       opacity: .75;
-      margin: 22px 0;
+      margin: 26px 0;
     }
 
     .cardSubline{
-      margin-top: 16px;
+      margin-top: 18px;
       display:flex;
       align-items:baseline;
       gap: 10px;
@@ -429,7 +518,7 @@
     }
 
     .miniFrame{
-      margin-top: 14px;
+      margin-top: 12px;
       border: 1px solid var(--line);
       border-radius: calc(var(--radius) - 8px);
       background: color-mix(in srgb, var(--panel) 82%, transparent);
@@ -442,7 +531,7 @@
       border-radius: calc(var(--radius) - 12px);
       background: color-mix(in srgb, var(--panel) 92%, transparent);
       overflow:hidden;
-      padding: 14px;
+      padding: 16px;
       min-height: 240px;
     }
     .miniDot{
@@ -470,15 +559,15 @@
     }
     .miniCode{
       margin-top: 8px;
-      font-size: 30px;
-      letter-spacing: -0.02em;
+      font-size: 26px;
+      letter-spacing: -0.01em;
       font-family: var(--sans);
     }
     .miniTitle{
       margin-top: 4px;
       font-size: 14px;
       color: var(--muted);
-      line-height: 1.6;
+      line-height: 1.65;
       font-family: var(--sans);
       letter-spacing: -0.01em;
     }
@@ -521,6 +610,7 @@
       .portraitBig{
         width: min(520px, 100%);
         aspect-ratio: 4 / 5;
+        border-radius: 18px;
       }
       .infoMeta{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
 
@@ -538,7 +628,8 @@
         justify-content:flex-start;
       }
       .miniMeta{ grid-template-columns: repeat(2, minmax(0,1fr)); }
-      .bigTitle{ font-size: clamp(44px, 12vw, 72px); }
+
+      .bigTitle{ font-size: clamp(44px, 11vw, 78px); }
       .rail::after{ width: 84px; }
     }
 
@@ -549,11 +640,12 @@
       .infoMeta{ grid-template-columns: 1fr; }
       .miniMeta{ grid-template-columns: 1fr; }
       .frameInner{ padding: 14px; }
-      .frameLines .line{ margin: 18px 0; }
+      .frameLines .line{ margin: 22px 0; }
     }
 
     @media (prefers-reduced-motion: reduce){
-      *{ scroll-behavior:auto !important; transition:none !important; animation:none !important; }
+      html{ scroll-behavior:auto; }
+      *{ transition:none !important; animation:none !important; }
     }
   </style>
 </head>
@@ -567,7 +659,7 @@
       <span class="mono muted">STUDIO</span>
     </a>
 
-    <nav class="nav">
+    <nav class="nav" aria-label="Primary navigation">
       <a class="pill mono navLink" href="#projects">projects</a>
       <a class="pill mono navLink" href="#info">info</a>
       <a class="pill mono navLink" href="#contact">contact</a>
@@ -600,7 +692,7 @@
   <main class="wrap">
 
     <!-- =========================
-      INFO — Layout 1
+      INFO
       ========================= -->
     <section class="infoHero" id="info">
       <div class="sectionTop">
@@ -613,6 +705,7 @@
           <div class="namePanel">
             <div class="mono tiny muted pcode">P/00  ABOUT</div>
             <h1 class="nameBig">WACHIRAWIT<br/>PANSUNGNOEN</h1>
+            <div class="nameRule" aria-hidden="true"></div>
 
             <div class="actionRow">
               <a class="pill primary mono" href="#projects">projects <span class="arrow">↗</span></a>
@@ -649,7 +742,7 @@
     </section>
 
     <!-- =========================
-      PROJECTS — Layout 2 (Prev/Next rail + nested preview card)
+      PROJECTS
       ========================= -->
     <section class="sheet" id="projects">
       <div class="sectionTop">
@@ -661,9 +754,9 @@
         <!-- LEFT -->
         <div class="sheetLeft">
           <div class="railRow">
-            <button class="pill mono" id="prevBtn" type="button">prev</button>
+            <button class="pill mono" id="prevBtn" type="button" aria-label="Previous project">prev</button>
             <div class="rail" aria-hidden="true"></div>
-            <button class="pill mono" id="nextBtn" type="button">next</button>
+            <button class="pill mono" id="nextBtn" type="button" aria-label="Next project">next</button>
           </div>
 
           <div class="codeLine mono">
@@ -671,6 +764,7 @@
           </div>
 
           <h2 class="bigTitle" id="projTitle">MOTION / VIDEO</h2>
+          <div class="titleRule" aria-hidden="true"></div>
 
           <div class="actionsRow">
             <a class="btn primary mono" id="projVisit" href="#projects" target="_blank" rel="noopener">visit <span class="arrow">↗</span></a>
@@ -810,7 +904,7 @@
     const $ = (q) => document.querySelector(q);
 
     function escapeXML(s){
-      return String(s).replace(/[<>&'"]/g, c => ({
+      return String(s ?? "").replace(/[<>&'"]/g, c => ({
         "<":"&lt;","&":"&amp;",">":"&gt;","'":"&apos;",'"':"&quot;"
       }[c]));
     }
@@ -884,7 +978,44 @@
     }
 
     bindButton($("#themeBtn"), toggleTheme);
-    bindButton($("#drawerTheme"), () => toggleTheme());
+    bindButton($("#drawerTheme"), () => { toggleTheme(); closeDrawer(); });
+
+    /* =========================
+      DRAWER (mobile)
+      ========================= */
+    const backdrop = $("#backdrop");
+    const drawer = $("#drawer");
+
+    function openDrawer(){
+      if (!backdrop || !drawer) return;
+      backdrop.style.display = "block";
+      drawer.style.display = "block";
+      backdrop.setAttribute("aria-hidden", "false");
+      drawer.setAttribute("aria-hidden", "false");
+      document.body.style.overflow = "hidden";
+    }
+
+    function closeDrawer(){
+      if (!backdrop || !drawer) return;
+      backdrop.style.display = "none";
+      drawer.style.display = "none";
+      backdrop.setAttribute("aria-hidden", "true");
+      drawer.setAttribute("aria-hidden", "true");
+      document.body.style.overflow = "";
+    }
+
+    bindButton($("#menuBtn"), openDrawer);
+    bindButton($("#closeBtn"), closeDrawer);
+
+    if (backdrop) backdrop.addEventListener("click", closeDrawer);
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") closeDrawer();
+    });
+
+    // Close drawer when clicking any drawer link
+    document.querySelectorAll(".drawerLinks a").forEach(a => {
+      a.addEventListener("click", () => closeDrawer());
+    });
 
     /* =========================
       PORTRAIT
@@ -908,24 +1039,64 @@
       `;
     }
 
+    function wrapIndex(i){
+      const n = PROJECTS.length || 1;
+      return (i % n + n) % n;
+    }
+
     function renderProject(i){
-      const p = PROJECTS[i];
+      if (!PROJECTS.length) return;
+      active = wrapIndex(i);
 
-      $("#projCode").textContent = p.code;
-      $("#projTitle").textContent = p.title.toUpperCase();
-      $("#cardCode").textContent = p.code;
+      const p = PROJECTS[active];
 
-      // nested mini
-      $("#miniCode").textContent = p.code;
-      $("#miniTitle").textContent = p.title;
-
+      const projCode = $("#projCode");
+      const projTitle = $("#projTitle");
+      const cardCode = $("#cardCode");
+      const miniCode = $("#miniCode");
+      const miniTitle = $("#miniTitle");
       const visit = $("#projVisit");
-      visit.href = p.link || "#projects";
+      const meta = $("#projMeta");
+
+      if (projCode) projCode.textContent = p.code || "P/--";
+      if (projTitle) projTitle.textContent = String(p.title || "Project").toUpperCase();
+      if (cardCode) cardCode.textContent = p.code || "P/--";
+
+      if (miniCode) miniCode.textContent = p.code || "P/--";
+      if (miniTitle) miniTitle.textContent = p.title || "Project";
+
+      if (visit) visit.href = p.link || "#projects";
 
       setImgWithFallback($("#projImg"), p.cover, { code: p.code, title: p.title });
 
-      $("#projMeta").innerHTML = [
-        metaHTML("client", p.client),
-        metaHTML("role", p.role),
-        metaHTML("deliverables", p.deliverables),
-        metaHTML("tools", p.tools),
+      if (meta){
+        meta.innerHTML = [
+          metaHTML("client", p.client),
+          metaHTML("role", p.role),
+          metaHTML("deliverables", p.deliverables),
+          metaHTML("tools", p.tools),
+        ].join("");
+      }
+    }
+
+    function prevProject(){ renderProject(active - 1); }
+    function nextProject(){ renderProject(active + 1); }
+
+    bindButton($("#prevBtn"), prevProject);
+    bindButton($("#nextBtn"), nextProject);
+
+    // Optional: Arrow keys (won't trigger when typing)
+    document.addEventListener("keydown", (e) => {
+      const tag = (document.activeElement && document.activeElement.tagName) ? document.activeElement.tagName.toLowerCase() : "";
+      const typing = tag === "input" || tag === "textarea" || tag === "select";
+      if (typing) return;
+
+      if (e.key === "ArrowLeft") prevProject();
+      if (e.key === "ArrowRight") nextProject();
+    });
+
+    // initial
+    renderProject(0);
+  </script>
+</body>
+</html>
