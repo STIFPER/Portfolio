@@ -27,7 +27,7 @@
       --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
     }
 
-    /* Dark Mode */
+    /* Dark Mode Override */
     body[data-theme="dark"] {
       --bg: #111111;
       --text: #F0F0F0;
@@ -90,9 +90,10 @@
       font-family: var(--font-mono); font-size: 11px; cursor: pointer;
       text-transform: uppercase;
     }
+    .theme-btn:hover { background: var(--text); color: var(--bg); border-color: var(--text); }
 
     /* =========================
-       HERO
+       HERO (Liam Bennett Style)
        ========================= */
     .hero-container {
       position: relative;
@@ -108,6 +109,7 @@
       margin-top: 40px; z-index: 2;
     }
 
+    /* รูป Portrait */
     .portrait-wrapper {
       position: absolute;
       top: 45%; right: 15%; 
@@ -144,47 +146,86 @@
     @keyframes bounce { 0%,100%{transform:translateY(0);} 50%{transform:translateY(5px);} }
 
     /* =========================
-       PROJECTS
+       PROJECTS (EDITORIAL STYLE)
        ========================= */
-    .projects-section { padding: 0 var(--pad) 100px; }
+    .projects-section {
+      padding: 0 var(--pad) 120px;
+    }
 
     .section-header {
-      display: flex; justify-content: space-between; margin-bottom: 24px;
+      display: flex; justify-content: space-between;
+      margin-bottom: 40px;
       font-family: var(--font-mono); font-size: 12px; 
       text-transform: uppercase; letter-spacing: 0.05em; opacity: 0.6;
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 20px;
     }
 
-    .bento-grid {
+    /* FEATURED PROJECT (TOP) */
+    .featured-project {
       display: grid;
-      grid-template-columns: 1.4fr 1fr 1.4fr; 
-      grid-template-rows: 340px 340px; 
-      gap: 16px;
+      grid-template-columns: 1.6fr 1fr;
+      gap: 60px;
+      margin-bottom: 80px;
+      align-items: center;
     }
 
-    .b-item {
-      position: relative; background: var(--card-bg);
-      overflow: hidden; display: block;
+    .feat-img-box {
+      width: 100%; aspect-ratio: 16/9;
+      overflow: hidden; background: var(--card-bg);
     }
-    .tall-left { grid-column: 1; grid-row: 1 / span 2; }
-    .mid-top   { grid-column: 2; grid-row: 1; }
-    .mid-bot   { grid-column: 2; grid-row: 2; }
-    .tall-right{ grid-column: 3; grid-row: 1 / span 2; }
-
-    .b-img {
-      width: 100%; height: 100%; object-fit: cover;
+    .feat-img-box img {
       transition: transform 0.7s var(--ease); filter: grayscale(100%);
     }
-    .b-item:hover .b-img { transform: scale(1.05); filter: grayscale(0%); }
-
-    .b-info {
-      position: absolute; top: 24px; left: 24px; color: #fff;
-      mix-blend-mode: difference; z-index: 2;
+    .featured-project:hover .feat-img-box img {
+      transform: scale(1.03); filter: grayscale(0%);
     }
-    .b-code { font-family: var(--font-mono); font-size: 12px; margin-bottom: 8px; display:block; }
-    .b-title { font-family: var(--font-main); font-size: 24px; font-weight: 500; line-height: 1; letter-spacing: -0.02em;}
+
+    .feat-content { display: flex; flex-direction: column; justify-content: center; }
+    .feat-cat {
+      font-family: var(--font-mono); font-size: 11px; 
+      opacity: 0.5; text-transform: uppercase; margin-bottom: 16px; letter-spacing: 0.1em;
+    }
+    .feat-title {
+      font-family: var(--font-main); font-size: clamp(32px, 4vw, 48px);
+      font-weight: 500; line-height: 1.1; margin: 0 0 24px 0; letter-spacing: -0.02em;
+    }
+    .feat-desc {
+      font-size: 14px; line-height: 1.6; opacity: 0.8; margin-bottom: 30px; max-width: 400px;
+    }
+    .feat-link {
+      font-family: var(--font-mono); font-size: 12px; text-transform: uppercase; 
+      text-decoration: underline; opacity: 0.7;
+    }
+
+    /* PROJECT ROW (BOTTOM) */
+    .project-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 30px;
+    }
+    .p-card { display: block; }
+    .p-img-box {
+      width: 100%; aspect-ratio: 4/3;
+      background: var(--card-bg); overflow: hidden; margin-bottom: 20px;
+    }
+    .p-img-box img {
+      transition: transform 0.6s var(--ease); filter: grayscale(100%);
+    }
+    .p-card:hover .p-img-box img {
+      transform: scale(1.05); filter: grayscale(0%);
+    }
+    .p-meta {
+      font-family: var(--font-mono); font-size: 10px; 
+      opacity: 0.5; text-transform: uppercase; margin-bottom: 8px; letter-spacing: 0.05em;
+    }
+    .p-title {
+      font-family: var(--font-main); font-size: 18px; 
+      font-weight: 500; line-height: 1.3;
+    }
 
     /* =========================
-       FOOTER (NEW)
+       FOOTER
        ========================= */
     footer {
       padding: 80px var(--pad) 40px;
@@ -192,69 +233,51 @@
     }
 
     .footer-main {
-      display: grid;
-      grid-template-columns: 1.5fr 1fr;
-      gap: 60px;
+      display: grid; grid-template-columns: 1.5fr 1fr; gap: 60px;
       margin-bottom: 100px;
     }
 
     .footer-cta {
       font-family: var(--font-main);
       font-size: clamp(40px, 5vw, 80px);
-      font-weight: 500;
-      line-height: 1.1;
-      letter-spacing: -0.02em;
+      font-weight: 500; line-height: 1.1; letter-spacing: -0.02em;
     }
 
     .footer-links {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 40px;
-      font-family: var(--font-mono);
-      font-size: 13px;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 40px;
+      font-family: var(--font-mono); font-size: 13px;
     }
 
     .link-group h4 {
-      margin: 0 0 20px 0;
-      opacity: 0.5;
-      font-weight: 500;
-      text-transform: uppercase;
-      font-size: 11px;
+      margin: 0 0 20px 0; opacity: 0.5; font-weight: 500;
+      text-transform: uppercase; font-size: 11px;
     }
-
-    .link-group a {
-      display: block;
-      margin-bottom: 12px;
-      opacity: 0.9;
-    }
+    .link-group a { display: block; margin-bottom: 12px; opacity: 0.9; }
 
     .footer-btm {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-end;
-      font-family: var(--font-mono);
-      font-size: 11px;
-      opacity: 0.5;
-      text-transform: uppercase;
+      display: flex; justify-content: space-between; align-items: flex-end;
+      font-family: var(--font-mono); font-size: 11px; opacity: 0.5; text-transform: uppercase;
     }
 
     /* RESPONSIVE */
-    @media (max-width: 1024px) {
-      .portrait-wrapper { right: 5%; width: 240px; }
-      .bento-grid { grid-template-rows: 280px 280px; }
+    @media (max-width: 900px) {
+      .featured-project { grid-template-columns: 1fr; gap: 30px; margin-bottom: 60px; }
+      .project-row { grid-template-columns: 1fr; gap: 40px; }
+      .portrait-wrapper { right: 5%; width: 220px; top: 40%; }
+      .intro-grid { grid-template-columns: 1fr; gap: 20px; }
+      
+      .footer-main { grid-template-columns: 1fr; gap: 40px; }
+      .footer-links { grid-template-columns: 1fr 1fr; }
     }
 
     @media (max-width: 768px) {
       header { flex-direction: column; align-items: flex-start; gap: 20px; }
       .nav-group { width: 100%; justify-content: space-between; }
       .hero-name { font-size: 56px; margin-top: 20px; }
-      .portrait-wrapper { position: relative; top: auto; right: auto; transform: none; margin: 40px 0; width: 100%; max-width: 300px; }
-      .intro-grid { grid-template-columns: 1fr; gap: 20px; }
-      .bento-grid { display: flex; flex-direction: column; height: auto; }
-      .b-item { aspect-ratio: 4/3; }
-      
-      .footer-main { grid-template-columns: 1fr; gap: 40px; }
-      .footer-links { grid-template-columns: 1fr 1fr; }
+      .portrait-wrapper { 
+        position: relative; top: auto; right: auto; transform: none; 
+        margin: 40px 0; width: 100%; max-width: 300px; 
+      }
     }
   </style>
 </head>
@@ -283,10 +306,10 @@
       <div class="intro-grid">
         <div class="intro-label">About</div>
         <div class="intro-text">
-          Experienced Brand Identity Designer based in Thailand. Transforming complex ideas into clean, impactful visual systems for over 10 years.
+          [cite_start]Branding & Graphic Design Specialist based in Thailand. [cite: 5, 34] [cite_start]Transforming complex ideas into clear, impactful visual systems for over 10 years. [cite: 3]
         </div>
         <div class="intro-text">
-          Specialize in Branding, Packaging, and Web Design. Creating identities that communicate core values clearly to the world.
+          [cite_start]Expertise in Brand Identity, Packaging, and Web Design. [cite: 3] [cite_start]Helping businesses communicate their core values to the world. [cite: 68]
         </div>
       </div>
     </div>
@@ -298,26 +321,47 @@
 
   <section class="projects-section" id="projects">
     <div class="section-header">
-      <div>Selected Works</div>
-      <div>2023 — 2026</div>
+      <div>Featured Works</div>
+      <div>( 2023 — 2026 )</div>
     </div>
 
-    <div class="bento-grid">
-      <a href="#" class="b-item tall-left">
-        <div class="b-info"><span class="b-code">P/01</span><span class="b-title">Wangwela</span></div>
-        <img class="b-img" src="assets/wangwela.jpg" onerror="this.src='https://images.unsplash.com/photo-1600334089648-b0d9d3028eb2?q=80&w=800&auto=format&fit=crop'" alt="Wangwela">
+    <a href="#" class="featured-project">
+      <div class="feat-img-box">
+        <img src="assets/wangwela.jpg" onerror="this.src='https://images.unsplash.com/photo-1600334089648-b0d9d3028eb2?q=80&w=1200&auto=format&fit=crop'" alt="Wangwela Highlight">
+      </div>
+      <div class="feat-content">
+        <div class="feat-cat">Brand Identity / P-01</div>
+        <h3 class="feat-title">Wangwela Spa & Wellness</h3>
+        <p class="feat-desc">
+          [cite_start]Designing a calming visual identity with a hand-shaped logo that connects traditional relaxation with modern wellness. [cite: 142]
+        </p>
+        <span class="feat-link">View Project ↗</span>
+      </div>
+    </a>
+
+    <div class="project-row">
+      <a href="#" class="p-card">
+        <div class="p-img-box">
+          <img src="assets/bionest.jpg" onerror="this.src='https://images.unsplash.com/photo-1622483767028-3f66f32aef97?q=80&w=600&auto=format&fit=crop'" alt="Bionest">
+        </div>
+        <div class="p-meta">Packaging / P-02</div>
+        [cite_start]<div class="p-title">Bionest Kombucha [cite: 225]</div>
       </a>
-      <a href="#" class="b-item mid-top">
-        <div class="b-info"><span class="b-code">P/02</span><span class="b-title">Bionest</span></div>
-        <img class="b-img" src="assets/bionest.jpg" onerror="this.src='https://images.unsplash.com/photo-1622483767028-3f66f32aef97?q=80&w=800&auto=format&fit=crop'" alt="Bionest">
+
+      <a href="#" class="p-card">
+        <div class="p-img-box">
+          <img src="assets/pulse.jpg" onerror="this.src='https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=600&auto=format&fit=crop'" alt="Pulse">
+        </div>
+        <div class="p-meta">Identity System / P-03</div>
+        [cite_start]<div class="p-title">Pulse Fitness [cite: 196]</div>
       </a>
-      <a href="#" class="b-item mid-bot">
-        <div class="b-info"><span class="b-code">P/03</span><span class="b-title">Pulse</span></div>
-        <img class="b-img" src="assets/pulse.jpg" onerror="this.src='https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=800&auto=format&fit=crop'" alt="Pulse">
-      </a>
-      <a href="#" class="b-item tall-right">
-        <div class="b-info"><span class="b-code">P/04</span><span class="b-title">Leymo</span></div>
-        <img class="b-img" src="assets/leymo.jpg" onerror="this.src='https://images.unsplash.com/photo-1513364776144-60967b0f800f?q=80&w=800&auto=format&fit=crop'" alt="Leymo">
+
+      <a href="#" class="p-card">
+        <div class="p-img-box">
+          <img src="assets/leymo.jpg" onerror="this.src='https://images.unsplash.com/photo-1513364776144-60967b0f800f?q=80&w=600&auto=format&fit=crop'" alt="Leymo">
+        </div>
+        <div class="p-meta">Character Design / P-04</div>
+        [cite_start]<div class="p-title">Leymo Import Shop [cite: 305]</div>
       </a>
     </div>
   </section>
@@ -333,21 +377,20 @@
       <div class="footer-links">
         <div class="link-group">
           <h4>Contact</h4>
-          <a href="mailto:stifper@gmail.com">stifper@gmail.com</a>
-          <a href="tel:0665745895">+66 65 745 895</a>
-          <a href="#">Line: Chopper</a>
+          [cite_start]<a href="mailto:stifper@gmail.com">stifper@gmail.com [cite: 6]</a>
+          [cite_start]<a href="tel:0665745895">+66 65 745 895 [cite: 7]</a>
+          [cite_start]<a href="#">Line: Chopper [cite: 9]</a>
         </div>
-
         <div class="link-group">
           <h4>Socials</h4>
-          <a href="https://behance.net/stifper" target="_blank">Behance ↗</a>
-          <a href="#">Instagram ↗</a>
+          [cite_start]<a href="https://behance.net/stifper" target="_blank">Behance ↗ [cite: 8]</a>
+          [cite_start]<a href="#">Instagram: stifper ↗ [cite: 10]</a>
         </div>
       </div>
     </div>
 
     <div class="footer-btm">
-      <div>© 2026 MESTYLE STUDIO</div>
+      [cite_start]<div>© 2026 MESTYLE STUDIO [cite: 43]</div>
       <a href="#" onclick="window.scrollTo(0,0); return false;">( BACK TO TOP )</a>
     </div>
   </footer>
