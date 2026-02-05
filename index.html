@@ -6,7 +6,7 @@
   <title>Wachirawit Pansungnoen — Portfolio</title>
   <meta name="description" content="Brand systems, identity, and motion — built for real production." />
 
-  <!-- Fonts (same as before) -->
+  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -115,7 +115,7 @@
       display:flex;
       justify-content:space-between;
       align-items:center;
-      padding: 10px 14px; /* smaller */
+      padding: 10px 14px;
       backdrop-filter: blur(12px);
       background: color-mix(in srgb, var(--bg) 82%, transparent);
       border-bottom: 1px solid var(--line);
@@ -124,24 +124,15 @@
       display:flex; align-items:baseline; gap:10px;
       min-width: 0;
     }
-    .brandTitle{
-      font-size: 13px;
-      letter-spacing: 0.02em;
-    }
+    .brandTitle{ font-size: 13px; letter-spacing: 0.02em; }
     .dot{ color: var(--accent); }
-    .brandSub{
-      font-size: 12px;
-    }
+    .brandSub{ font-size: 12px; }
 
-    .navRow{
-      display:flex; align-items:center; gap:8px;
-      flex-wrap:nowrap;
-    }
+    .navRow{ display:flex; align-items:center; gap:8px; flex-wrap:nowrap; }
     .navLinks{ display:flex; align-items:center; gap:8px; }
 
     .menuBtn{ display:none; }
 
-    /* Mobile: hide many pills, show MENU only */
     @media (max-width: 860px){
       .navLinks{ display:none; }
       .menuBtn{ display:inline-flex; }
@@ -198,11 +189,9 @@
     }
 
     /* =========================
-      HERO — Layout C + 2×2 grid
+      HERO — Layout C + single portrait
       ========================= */
-    .hero{
-      padding: 18px 0 10px;
-    }
+    .hero{ padding: 18px 0 10px; }
     .heroGrid{
       display:grid;
       grid-template-columns: 1.05fr .95fr;
@@ -216,13 +205,7 @@
       line-height: 0.92;
       letter-spacing: -0.04em;
     }
-    .heroSub{
-      margin-top: 10px;
-      display:flex;
-      gap:10px;
-      align-items:center;
-      flex-wrap:wrap;
-    }
+    .heroSub{ margin-top: 10px; display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
     .heroHook{
       margin: 10px 0 0;
       color: var(--muted);
@@ -230,80 +213,91 @@
       line-height: 1.7;
       max-width: 58ch;
     }
-    .heroActions{
-      margin-top: 16px;
-      display:flex;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
+    .heroActions{ margin-top: 16px; display:flex; gap: 10px; flex-wrap: wrap; }
 
-    .heroMediaGrid{
-      display:grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      align-content: start;
-      padding-top: 6px;
-    }
-    .heroTile{
+    /* Portrait card */
+    .heroPortrait{
       position: relative;
       border: 1px solid var(--line);
       border-radius: var(--radius);
       overflow: hidden;
       background: color-mix(in srgb, var(--panel) 92%, transparent);
       box-shadow: var(--shadow);
-      aspect-ratio: 1 / 1;
-      cursor:pointer;
+
+      aspect-ratio: 4 / 5;
+      width: 100%;
+      max-width: 520px;
+      margin-left: auto;
     }
-    .heroTile img{
+    .heroPortrait::before{
+      content:"";
+      position:absolute;
+      inset: 12px;
+      border-radius: calc(var(--radius) - 10px);
+      border: 1px solid var(--line);
+      pointer-events:none;
+      opacity: .6;
+    }
+    .heroPortrait img{
       width:100%;
       height:100%;
       object-fit: cover;
       transform: scale(1.02);
       filter: saturate(0.98);
     }
-    .heroCaption{
-      position:absolute;
-      left: 10px;
-      bottom: 10px;
-      right: 10px;
-      display:flex;
-      justify-content:space-between;
-      align-items:flex-end;
-      gap: 10px;
-      pointer-events:none;
-    }
-    .capBox{
-      display:inline-flex;
-      flex-direction:column;
-      gap: 2px;
-      padding: 9px 10px;
-      border-radius: 14px;
-      border: 1px solid var(--line);
-      background: color-mix(in srgb, var(--bg) 68%, transparent);
-      backdrop-filter: blur(10px);
-      max-width: 100%;
-    }
-    .capCode{ font-size: 11px; color: var(--muted); }
-    .capTitle{
-      font-size: 12px;
-      white-space: nowrap;
-      overflow:hidden;
-      text-overflow: ellipsis;
-    }
 
     @media (max-width: 980px){
-      .heroGrid{
-        grid-template-columns: 1fr;
-        min-height: auto;
-      }
-      .heroMediaGrid{
-        grid-template-columns: 1fr 1fr;
-      }
+      .heroGrid{ grid-template-columns: 1fr; min-height: auto; }
+      .heroPortrait{ margin: 10px auto 0; max-width: 520px; }
     }
     @media (max-width: 560px){
-      .heroMediaGrid{ grid-template-columns: 1fr 1fr; }
       .heroHook{ font-size: 14px; }
     }
+
+    /* =========================
+      ABOUT — now before works
+      ========================= */
+    .aboutGrid{
+      display:grid;
+      grid-template-columns: 140px 1fr;
+      gap: 16px;
+      margin-top: 16px;
+    }
+    .aboutCols{
+      display:grid;
+      grid-template-columns: 1.2fr 1.2fr .8fr;
+      gap: 18px;
+      align-items: start;
+    }
+    .aboutP{
+      margin: 0;
+      line-height: 1.75;
+      font-size: 14px;
+      color: color-mix(in srgb, var(--text) 92%, transparent);
+    }
+    .aboutMeta{ line-height: 1.9; }
+    .metaLine{ white-space: nowrap; overflow:hidden; text-overflow: ellipsis; }
+
+    /* =========================
+      EXPERIENCE — now before works
+      ========================= */
+    .expGrid{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-top: 16px;
+    }
+    .expCard{
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: color-mix(in srgb, var(--panel) 92%, transparent);
+      box-shadow: var(--shadow);
+      padding: 16px;
+    }
+    .expTitle{ margin:0; font-size: 18px; letter-spacing:-0.02em; }
+    .expRole{ margin: 6px 0 0; color: var(--muted); font-size: 13px; line-height:1.7; }
+    .expBullets{ margin: 12px 0 0; padding-left: 18px; }
+    .expBullets li{ margin: 6px 0; color: color-mix(in srgb, var(--text) 92%, transparent); font-size: 13px; line-height:1.7; }
 
     /* =========================
       SELECTED WORKS (index + preview)
@@ -385,52 +379,13 @@
     .previewActions{ display:flex; gap: 10px; margin-top: 16px; flex-wrap:wrap; }
 
     /* =========================
-      ABOUT — moved under fold
+      REGULATED (optional / gated)
       ========================= */
-    .aboutGrid{
-      display:grid;
-      grid-template-columns: 140px 1fr;
-      gap: 16px;
-      margin-top: 16px;
-    }
-    .aboutCols{
-      display:grid;
-      grid-template-columns: 1.2fr 1.2fr .8fr;
-      gap: 18px;
-      align-items: start;
-    }
-    .aboutP{
-      margin: 0;
-      line-height: 1.75;
-      font-size: 14px;
-      color: color-mix(in srgb, var(--text) 92%, transparent);
-    }
-    .aboutMeta{ line-height: 1.9; }
-    .metaLine{ white-space: nowrap; overflow:hidden; text-overflow: ellipsis; }
-
-    /* =========================
-      EXPERIENCE / REGULATED / ARCHIVE / CONTACT (light placeholders)
-      ========================= */
-    .expGrid{
-      display:grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 14px;
-      margin-top: 16px;
-    }
-    .expCard{
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      background: color-mix(in srgb, var(--panel) 92%, transparent);
-      box-shadow: var(--shadow);
-      padding: 16px;
-    }
-    .expTitle{ margin:0; font-size: 18px; letter-spacing:-0.02em; }
-    .expRole{ margin: 6px 0 0; color: var(--muted); font-size: 13px; line-height:1.7; }
-    .expBullets{ margin: 12px 0 0; padding-left: 18px; }
-    .expBullets li{ margin: 6px 0; color: color-mix(in srgb, var(--text) 92%, transparent); font-size: 13px; line-height:1.7; }
-
     .regulatedList{ display:none; margin-top: 14px; }
 
+    /* =========================
+      ARCHIVE
+      ========================= */
     .archive{
       margin-top: 16px;
       border: 1px solid var(--line);
@@ -471,14 +426,15 @@
     }
 
     @media (max-width: 980px){
-      .indexGrid{ grid-template-columns: 1fr; }
-      .preview{ min-height: 420px; }
-
       .aboutGrid{ grid-template-columns: 1fr; }
       .aboutCols{ grid-template-columns: 1fr; }
       .metaLine{ white-space: normal; }
 
       .expGrid{ grid-template-columns: 1fr; }
+
+      .indexGrid{ grid-template-columns: 1fr; }
+      .preview{ min-height: 420px; }
+
       .archiveGrid{ grid-template-columns: repeat(3, 1fr); }
     }
 
@@ -498,9 +454,10 @@
 
     <div class="navRow">
       <div class="navLinks mono">
-        <a class="pill mono" href="#projects">WORKS</a>
+        <!-- order per your request -->
         <a class="pill mono" href="#about">ABOUT</a>
         <a class="pill mono" href="#experience">EXPERIENCE</a>
+        <a class="pill mono" href="#projects">WORKS</a>
         <a class="pill mono" href="#archive">ARCHIVE</a>
         <a class="pill mono" href="#contact">CONTACT</a>
       </div>
@@ -524,9 +481,9 @@
     </div>
 
     <div class="drawerLinks mono">
-      <a href="#projects">WORKS <span class="muted">↗</span></a>
       <a href="#about">ABOUT <span class="muted">↗</span></a>
       <a href="#experience">EXPERIENCE <span class="muted">↗</span></a>
+      <a href="#projects">WORKS <span class="muted">↗</span></a>
       <a href="#regulated">REGULATED <span class="muted">↗</span></a>
       <a href="#archive">ARCHIVE <span class="muted">↗</span></a>
       <a href="#contact">CONTACT <span class="muted">↗</span></a>
@@ -535,7 +492,7 @@
 
   <main class="wrap" id="top">
 
-    <!-- HERO (minimal text + 2×2 images) -->
+    <!-- HERO (minimal text + portrait) -->
     <section class="hero" id="intro">
       <div class="heroGrid">
         <div>
@@ -555,52 +512,74 @@
           </div>
         </div>
 
-        <!-- 2×2 HERO GRID -->
-        <div class="heroMediaGrid" aria-label="Hero gallery">
-          <a class="heroTile" href="#projects" data-hero="h01">
-            <img id="heroImg1" alt="" />
-            <div class="heroCaption">
-              <div class="capBox">
-                <div class="mono capCode">P/01</div>
-                <div class="mono capTitle">Brand System</div>
-              </div>
-            </div>
-          </a>
-
-          <a class="heroTile" href="#projects" data-hero="h02">
-            <img id="heroImg2" alt="" />
-            <div class="heroCaption">
-              <div class="capBox">
-                <div class="mono capCode">P/02</div>
-                <div class="mono capTitle">Logo & Identity</div>
-              </div>
-            </div>
-          </a>
-
-          <a class="heroTile" href="#projects" data-hero="h03">
-            <img id="heroImg3" alt="" />
-            <div class="heroCaption">
-              <div class="capBox">
-                <div class="mono capCode">P/03</div>
-                <div class="mono capTitle">Graphic / KV</div>
-              </div>
-            </div>
-          </a>
-
-          <a class="heroTile" href="#projects" data-hero="h04">
-            <img id="heroImg4" alt="" />
-            <div class="heroCaption">
-              <div class="capBox">
-                <div class="mono capCode">P/04</div>
-                <div class="mono capTitle">Motion / Video</div>
-              </div>
-            </div>
-          </a>
+        <!-- Single Portrait -->
+        <div class="heroPortrait" aria-label="Portrait">
+          <img id="portraitImg" alt="Portrait — Wachirawit Pansungnoen" />
         </div>
       </div>
     </section>
 
-    <!-- SELECTED WORKS (index + preview) -->
+    <!-- ABOUT (now before works) -->
+    <section id="about">
+      <div class="sectionHead">
+        <h2 class="mono">ABOUT</h2>
+        <p class="mono tiny muted">Quick scan</p>
+      </div>
+
+      <div class="aboutGrid">
+        <div class="mono tiny muted">BIO</div>
+
+        <div class="aboutCols">
+          <p class="aboutP">
+            I design brand identity and packaging systems with clear hierarchy — built to scale across print, social, and real production constraints.
+          </p>
+
+          <p class="aboutP">
+            I also deliver graphic assets and motion/video edits with consistent typography and pacing — so the brand stays sharp everywhere.
+          </p>
+
+          <div class="aboutMeta mono tiny">
+            <div class="metaLine"><span class="muted">//</span> Focus: Brand · Identity · Motion</div>
+            <div class="metaLine"><span class="muted">//</span> Based in: Thailand</div>
+            <div class="metaLine"><span class="muted">//</span> Email: you@email.com</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- EXPERIENCE (now before works) -->
+    <section id="experience">
+      <div class="sectionHead">
+        <h2 class="mono">EXPERIENCE</h2>
+        <p class="mono tiny muted">In-house credibility</p>
+      </div>
+
+      <div class="expGrid">
+        <div class="expCard">
+          <div class="mono tiny muted">REAL ESTATE</div>
+          <h3 class="expTitle">Condo Industry (well-known)</h3>
+          <p class="expRole mono">Brand & visual system · KV · production layout</p>
+          <ul class="expBullets">
+            <li>Designed consistent visual language across campaign + print.</li>
+            <li>Built templates for speed + quality in production.</li>
+            <li>Aligned stakeholders with clear hierarchy rules.</li>
+          </ul>
+        </div>
+
+        <div class="expCard">
+          <div class="mono tiny muted">REGULATED CONSUMER</div>
+          <h3 class="expTitle">Compliance-led Brand (industry-recognized)</h3>
+          <p class="expRole mono">Packaging system · information design</p>
+          <ul class="expBullets">
+            <li>Designed under constraints while keeping premium look.</li>
+            <li>Improved readability in dense information layouts.</li>
+            <li>Built reusable monthly update workflow.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- SELECTED WORKS (now after About + Experience) -->
     <section id="projects">
       <div class="sectionHead">
         <h2 class="mono">SELECTED WORKS</h2>
@@ -632,66 +611,6 @@
             </div>
           </div>
         </section>
-      </div>
-    </section>
-
-    <!-- ABOUT (moved under fold) -->
-    <section id="about">
-      <div class="sectionHead">
-        <h2 class="mono">ABOUT</h2>
-        <p class="mono tiny muted">Short, readable</p>
-      </div>
-
-      <div class="aboutGrid">
-        <div class="mono tiny muted">BIO</div>
-
-        <div class="aboutCols">
-          <p class="aboutP">
-            I design brand identity and packaging systems with clear hierarchy — built to scale across print, social, and real production constraints.
-          </p>
-
-          <p class="aboutP">
-            I also deliver graphic assets and motion/video edits with consistent typography and pacing — so the brand stays sharp everywhere.
-          </p>
-
-          <div class="aboutMeta mono tiny">
-            <div class="metaLine"><span class="muted">//</span> Focus: Brand · Identity · Motion</div>
-            <div class="metaLine"><span class="muted">//</span> Based in: Thailand</div>
-            <div class="metaLine"><span class="muted">//</span> Email: you@email.com</div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- EXPERIENCE -->
-    <section id="experience">
-      <div class="sectionHead">
-        <h2 class="mono">EXPERIENCE</h2>
-        <p class="mono tiny muted">In-house credibility</p>
-      </div>
-
-      <div class="expGrid">
-        <div class="expCard">
-          <div class="mono tiny muted">REAL ESTATE</div>
-          <h3 class="expTitle">Condo Industry (well-known)</h3>
-          <p class="expRole mono">Brand & visual system · KV · production layout</p>
-          <ul class="expBullets">
-            <li>Designed consistent visual language across campaign + print.</li>
-            <li>Built templates for speed + quality in production.</li>
-            <li>Aligned stakeholders with clear hierarchy rules.</li>
-          </ul>
-        </div>
-
-        <div class="expCard">
-          <div class="mono tiny muted">REGULATED CONSUMER</div>
-          <h3 class="expTitle">Compliance-led Brand (industry-recognized)</h3>
-          <p class="expRole mono">Packaging system · information design</p>
-          <ul class="expBullets">
-            <li>Designed under constraints while keeping premium look.</li>
-            <li>Improved readability in dense information layouts.</li>
-            <li>Built reusable monthly update workflow.</li>
-          </ul>
-        </div>
       </div>
     </section>
 
@@ -789,14 +708,12 @@
 
   <script>
     /* =========================
-      DATA — you will replace these later
+      CONFIG (put your portrait here)
       ========================= */
-    const HERO = [
-      { id:"h01", code:"P/01", title:"Brand System", src:"assets/hero/01.jpg" },
-      { id:"h02", code:"P/02", title:"Logo & Identity", src:"assets/hero/02.jpg" },
-      { id:"h03", code:"P/03", title:"Graphic / KV", src:"assets/hero/03.jpg" },
-      { id:"h04", code:"P/04", title:"Motion / Video", src:"assets/hero/04.jpg" }
-    ];
+    const PORTRAIT = {
+      src: "assets/portrait.jpg",   // <-- add this file in your repo
+      title: "Portrait"
+    };
 
     const PROJECTS = [
       {
@@ -860,7 +777,7 @@
       const mut = isDark ? "rgba(233,237,245,.28)" : "rgba(11,12,15,.20)";
       const accent = getComputedStyle(document.documentElement).getPropertyValue("--accent").trim() || "#d7ff3a";
 
-      const code = payload?.code || "P/00";
+      const code = payload?.code || "—";
       const title = payload?.title || "PREVIEW";
 
       const svg =
@@ -874,13 +791,20 @@
     <line x1="80" y1="500" x2="1320" y2="500"/>
   </g>
   <g font-family="IBM Plex Mono, ui-monospace" fill="${fg}">
-    <text x="92" y="220" font-size="28" opacity="0.75">HERO</text>
+    <text x="92" y="220" font-size="28" opacity="0.75">IMAGE</text>
     <text x="92" y="310" font-size="70">${escapeXML(code)}</text>
     <text x="92" y="392" font-size="56" opacity="0.92">${escapeXML(title)}</text>
   </g>
   <circle cx="1260" cy="170" r="10" fill="${accent}"/>
 </svg>`;
       return "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(svg);
+    }
+
+    function setImgWithFallback(imgEl, src, fallbackPayload){
+      if (!imgEl) return;
+      imgEl.onerror = () => { imgEl.src = placeholderSVG(fallbackPayload); };
+      imgEl.src = src;
+      imgEl.alt = fallbackPayload?.title ? `${fallbackPayload.title}` : "";
     }
 
     function metaCell(label, value){
@@ -916,6 +840,11 @@
       });
     }
 
+    function renderPortrait(){
+      setImgWithFallback($("#portraitImg"), PORTRAIT.src, { code: "", title: PORTRAIT.title });
+    }
+    renderPortrait();
+
     bindButton($("#themeBtn"), () => {
       const next = (body.dataset.theme === "dark") ? "light" : "dark";
       body.dataset.theme = next;
@@ -923,28 +852,10 @@
       setThemeUI();
 
       // re-render placeholders to match theme
-      renderHero();
+      renderPortrait();
       renderPreview(PROJECTS[active]);
       renderArchive();
     });
-
-    /* =========================
-      HERO 2×2 images
-      ========================= */
-    function setImgWithFallback(imgEl, src, fallbackPayload){
-      if (!imgEl) return;
-      imgEl.onerror = () => { imgEl.src = placeholderSVG(fallbackPayload); };
-      imgEl.src = src;
-      imgEl.alt = fallbackPayload?.title ? `${fallbackPayload.title}` : "";
-    }
-
-    function renderHero(){
-      setImgWithFallback($("#heroImg1"), HERO[0].src, { code: HERO[0].code, title: HERO[0].title });
-      setImgWithFallback($("#heroImg2"), HERO[1].src, { code: HERO[1].code, title: HERO[1].title });
-      setImgWithFallback($("#heroImg3"), HERO[2].src, { code: HERO[2].code, title: HERO[2].title });
-      setImgWithFallback($("#heroImg4"), HERO[3].src, { code: HERO[3].code, title: HERO[3].title });
-    }
-    renderHero();
 
     /* =========================
       SELECTED WORKS list + preview
@@ -1047,7 +958,6 @@
       archiveGrid.innerHTML = "";
 
       const tiles = [];
-      // Use project covers; if missing, placeholders
       PROJECTS.forEach(p => tiles.push(p.cover || placeholderSVG({ code:p.code, title:p.title })));
       while (tiles.length < 12) tiles.push(tiles[tiles.length % PROJECTS.length]);
 
@@ -1094,7 +1004,6 @@
     if (closeBtn) closeBtn.addEventListener("click", closeDrawer);
     if (backdrop) backdrop.addEventListener("click", closeDrawer);
 
-    // Close drawer when clicking any drawer link
     if (drawer) {
       drawer.addEventListener("click", (e) => {
         const a = e.target.closest("a");
