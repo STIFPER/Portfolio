@@ -20,8 +20,8 @@
       --line: #CCCCCC;
       --card-bg: #EAEAEA;
       
-      --font-main: "Manrope", sans-serif;       /* ชื่อใหญ่ / เนื้อหา */
-      --font-mono: "IBM Plex Mono", monospace;  /* เมนู / ดีเทล / H2 (ฟอนต์ใหม่) */
+      --font-main: "Manrope", sans-serif;       
+      --font-mono: "IBM Plex Mono", monospace;  
       
       --pad: max(5vw, 24px);
       --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
@@ -37,6 +37,8 @@
 
     * { box-sizing: border-box; }
 
+    html { scroll-behavior: smooth; }
+
     body {
       margin: 0;
       background: var(--bg);
@@ -46,11 +48,12 @@
       transition: background 0.3s ease, color 0.3s ease;
     }
 
-    a { text-decoration: none; color: inherit; }
+    a { text-decoration: none; color: inherit; transition: opacity 0.2s; }
+    a:hover { opacity: 0.6; }
     img { display: block; width: 100%; height: 100%; object-fit: cover; }
 
     /* =========================
-       HEADER (NAVBAR)
+       HEADER
        ========================= */
     header {
       padding: 30px var(--pad);
@@ -69,30 +72,17 @@
       text-transform: uppercase;
     }
 
-    .nav-group {
-      display: flex;
-      align-items: center;
-      gap: 32px;
-    }
+    .nav-group { display: flex; align-items: center; gap: 32px; }
 
     .nav {
-      display: flex;
-      gap: 24px;
-      /* ใช้ฟอนต์ Mono ตามที่ขอ เพื่อให้ดู Technical */
+      display: flex; gap: 24px;
       font-family: var(--font-mono); 
-      font-size: 12px;
-      font-weight: 500;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
+      font-size: 12px; font-weight: 500;
+      text-transform: uppercase; letter-spacing: 0.05em;
     }
     
-    .nav a { position: relative; opacity: 0.7; transition: opacity 0.2s; }
+    .nav a { position: relative; opacity: 0.7; }
     .nav a:hover { opacity: 1; }
-    .nav a::after {
-      content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 1px;
-      background: var(--text); transition: width 0.3s var(--ease);
-    }
-    .nav a:hover::after { width: 100%; }
 
     .theme-btn {
       background: none; border: 1px solid var(--line);
@@ -100,65 +90,43 @@
       font-family: var(--font-mono); font-size: 11px; cursor: pointer;
       text-transform: uppercase;
     }
-    .theme-btn:hover { border-color: var(--text); background: var(--text); color: var(--bg); }
 
     /* =========================
-       HERO (LIAM BENNETT STYLE)
+       HERO
        ========================= */
     .hero-container {
       position: relative;
       min-height: 85vh;
       padding: 0 var(--pad);
-      display: flex;
-      flex-direction: column;
+      display: flex; flex-direction: column;
     }
 
-    /* ชื่อใหญ่ (H1) ใช้ Manrope เพื่อความคลีน */
     .hero-name {
       font-family: var(--font-main);
       font-size: clamp(50px, 9vw, 130px);
-      font-weight: 500;
-      line-height: 0.95;
-      letter-spacing: -0.03em;
-      margin-top: 40px;
-      z-index: 2;
+      font-weight: 500; line-height: 0.95; letter-spacing: -0.03em;
+      margin-top: 40px; z-index: 2;
     }
 
-    /* รูป Portrait */
     .portrait-wrapper {
       position: absolute;
-      top: 45%; 
-      right: 15%; 
+      top: 45%; right: 15%; 
       width: clamp(220px, 25vw, 340px);
-      aspect-ratio: 3/4;
-      z-index: 1;
+      aspect-ratio: 3/4; z-index: 1;
       transform: translateY(-50%);
     }
     .portrait-wrapper img { filter: grayscale(100%); transition: filter 0.5s; }
     .portrait-wrapper:hover img { filter: grayscale(0%); }
 
-    /* Divider & About */
-    .hero-bottom {
-      margin-top: auto;
-      padding-bottom: 40px;
-      z-index: 2;
-    }
-    .divider {
-      width: 100%; height: 1px;
-      background: var(--line);
-      margin-bottom: 30px;
-    }
+    .hero-bottom { margin-top: auto; padding-bottom: 40px; z-index: 2; }
+    .divider { width: 100%; height: 1px; background: var(--line); margin-bottom: 30px; }
     
     .intro-grid {
-      display: grid;
-      grid-template-columns: 150px 1fr 1fr;
-      gap: 40px;
+      display: grid; grid-template-columns: 150px 1fr 1fr; gap: 40px;
     }
-    /* ใช้ฟอนต์ Mono กับ Label */
     .intro-label { 
       font-family: var(--font-mono);
-      font-size: 12px; font-weight: 500; 
-      opacity: 0.6; text-transform: uppercase; 
+      font-size: 12px; font-weight: 500; opacity: 0.6; text-transform: uppercase; 
     }
     .intro-text { font-size: 15px; line-height: 1.6; opacity: 0.9; max-width: 480px; }
 
@@ -166,8 +134,7 @@
        SPACER
        ========================= */
     .spacer {
-      height: 25vh;
-      display: flex; justify-content: center; align-items: center;
+      height: 25vh; display: flex; justify-content: center; align-items: center;
     }
     .scroll-hint {
       font-family: var(--font-mono);
@@ -177,36 +144,27 @@
     @keyframes bounce { 0%,100%{transform:translateY(0);} 50%{transform:translateY(5px);} }
 
     /* =========================
-       PROJECTS (BENTO GRID)
+       PROJECTS
        ========================= */
-    .projects-section {
-      padding: 0 var(--pad) 120px;
-    }
+    .projects-section { padding: 0 var(--pad) 100px; }
 
     .section-header {
-      display: flex; justify-content: space-between;
-      margin-bottom: 24px;
-      font-family: var(--font-mono); /* ใช้ฟอนต์ใหม่ตรงนี้ด้วย */
-      font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; opacity: 0.6;
+      display: flex; justify-content: space-between; margin-bottom: 24px;
+      font-family: var(--font-mono); font-size: 12px; 
+      text-transform: uppercase; letter-spacing: 0.05em; opacity: 0.6;
     }
 
     .bento-grid {
       display: grid;
-      /* Grid ตามรูปที่ส่งมา: 1.4fr 1fr 1.4fr */
       grid-template-columns: 1.4fr 1fr 1.4fr; 
-      /* ปรับความสูงไม่ให้ใหญ่เกินไป */
       grid-template-rows: 340px 340px; 
       gap: 16px;
     }
 
     .b-item {
-      position: relative;
-      background: var(--card-bg);
-      overflow: hidden;
-      display: block;
+      position: relative; background: var(--card-bg);
+      overflow: hidden; display: block;
     }
-
-    /* Layout Classes */
     .tall-left { grid-column: 1; grid-row: 1 / span 2; }
     .mid-top   { grid-column: 2; grid-row: 1; }
     .mid-bot   { grid-column: 2; grid-row: 2; }
@@ -214,22 +172,71 @@
 
     .b-img {
       width: 100%; height: 100%; object-fit: cover;
-      transition: transform 0.7s var(--ease);
-      filter: grayscale(100%);
+      transition: transform 0.7s var(--ease); filter: grayscale(100%);
     }
     .b-item:hover .b-img { transform: scale(1.05); filter: grayscale(0%); }
 
     .b-info {
-      position: absolute;
-      top: 24px; left: 24px;
-      color: #fff;
-      mix-blend-mode: difference;
-      z-index: 2;
+      position: absolute; top: 24px; left: 24px; color: #fff;
+      mix-blend-mode: difference; z-index: 2;
     }
-    /* ใช้ Mono กับรหัสโปรเจกต์ */
     .b-code { font-family: var(--font-mono); font-size: 12px; margin-bottom: 8px; display:block; }
-    /* ชื่อโปรเจกต์ใช้ Manrope */
     .b-title { font-family: var(--font-main); font-size: 24px; font-weight: 500; line-height: 1; letter-spacing: -0.02em;}
+
+    /* =========================
+       FOOTER (NEW)
+       ========================= */
+    footer {
+      padding: 80px var(--pad) 40px;
+      border-top: 1px solid var(--line);
+    }
+
+    .footer-main {
+      display: grid;
+      grid-template-columns: 1.5fr 1fr;
+      gap: 60px;
+      margin-bottom: 100px;
+    }
+
+    .footer-cta {
+      font-family: var(--font-main);
+      font-size: clamp(40px, 5vw, 80px);
+      font-weight: 500;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+    }
+
+    .footer-links {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      font-family: var(--font-mono);
+      font-size: 13px;
+    }
+
+    .link-group h4 {
+      margin: 0 0 20px 0;
+      opacity: 0.5;
+      font-weight: 500;
+      text-transform: uppercase;
+      font-size: 11px;
+    }
+
+    .link-group a {
+      display: block;
+      margin-bottom: 12px;
+      opacity: 0.9;
+    }
+
+    .footer-btm {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      opacity: 0.5;
+      text-transform: uppercase;
+    }
 
     /* RESPONSIVE */
     @media (max-width: 1024px) {
@@ -245,6 +252,9 @@
       .intro-grid { grid-template-columns: 1fr; gap: 20px; }
       .bento-grid { display: flex; flex-direction: column; height: auto; }
       .b-item { aspect-ratio: 4/3; }
+      
+      .footer-main { grid-template-columns: 1fr; gap: 40px; }
+      .footer-links { grid-template-columns: 1fr 1fr; }
     }
   </style>
 </head>
@@ -253,11 +263,9 @@
 
   <header>
     <div class="logo">MESTYLE STUDIO</div>
-    
     <div class="nav-group">
       <nav class="nav">
         <a href="#about">About</a>
-        <a href="#services">Services</a>
         <a href="#projects">Work</a>
         <a href="#contact">Contact</a>
       </nav>
@@ -265,13 +273,11 @@
     </div>
   </header>
 
-  <section class="hero-container">
+  <section class="hero-container" id="about">
     <div class="hero-name">Wachirawit<br>Pansungnoen</div>
-    
     <div class="portrait-wrapper">
       <img src="assets/portrait.jpg" onerror="this.src='https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=600&auto=format&fit=crop'" alt="Portrait">
     </div>
-
     <div class="hero-bottom">
       <div class="divider"></div>
       <div class="intro-grid">
@@ -297,41 +303,54 @@
     </div>
 
     <div class="bento-grid">
-      
       <a href="#" class="b-item tall-left">
-        <div class="b-info">
-          <span class="b-code">P/01</span>
-          <span class="b-title">Wangwela</span>
-        </div>
+        <div class="b-info"><span class="b-code">P/01</span><span class="b-title">Wangwela</span></div>
         <img class="b-img" src="assets/wangwela.jpg" onerror="this.src='https://images.unsplash.com/photo-1600334089648-b0d9d3028eb2?q=80&w=800&auto=format&fit=crop'" alt="Wangwela">
       </a>
-
       <a href="#" class="b-item mid-top">
-        <div class="b-info">
-          <span class="b-code">P/02</span>
-          <span class="b-title">Bionest</span>
-        </div>
+        <div class="b-info"><span class="b-code">P/02</span><span class="b-title">Bionest</span></div>
         <img class="b-img" src="assets/bionest.jpg" onerror="this.src='https://images.unsplash.com/photo-1622483767028-3f66f32aef97?q=80&w=800&auto=format&fit=crop'" alt="Bionest">
       </a>
-
       <a href="#" class="b-item mid-bot">
-        <div class="b-info">
-          <span class="b-code">P/03</span>
-          <span class="b-title">Pulse</span>
-        </div>
+        <div class="b-info"><span class="b-code">P/03</span><span class="b-title">Pulse</span></div>
         <img class="b-img" src="assets/pulse.jpg" onerror="this.src='https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=800&auto=format&fit=crop'" alt="Pulse">
       </a>
-
       <a href="#" class="b-item tall-right">
-        <div class="b-info">
-          <span class="b-code">P/04</span>
-          <span class="b-title">Leymo</span>
-        </div>
+        <div class="b-info"><span class="b-code">P/04</span><span class="b-title">Leymo</span></div>
         <img class="b-img" src="assets/leymo.jpg" onerror="this.src='https://images.unsplash.com/photo-1513364776144-60967b0f800f?q=80&w=800&auto=format&fit=crop'" alt="Leymo">
       </a>
-
     </div>
   </section>
+
+  <footer id="contact">
+    <div class="footer-main">
+      <div class="footer-cta">
+        Have an idea?<br>
+        Let's create something<br>
+        timeless.
+      </div>
+
+      <div class="footer-links">
+        <div class="link-group">
+          <h4>Contact</h4>
+          <a href="mailto:stifper@gmail.com">stifper@gmail.com</a>
+          <a href="tel:0665745895">+66 65 745 895</a>
+          <a href="#">Line: Chopper</a>
+        </div>
+
+        <div class="link-group">
+          <h4>Socials</h4>
+          <a href="https://behance.net/stifper" target="_blank">Behance ↗</a>
+          <a href="#">Instagram ↗</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-btm">
+      <div>© 2026 MESTYLE STUDIO</div>
+      <a href="#" onclick="window.scrollTo(0,0); return false;">( BACK TO TOP )</a>
+    </div>
+  </footer>
 
   <script>
     const btn = document.getElementById('themeBtn');
