@@ -3,10 +3,10 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>MeStyle Studio — Portfolio</title>
-  <meta name="description" content="Senior portfolio — brand systems, identity, graphics, motion." />
+  <title>Wachirawit Pansungnoen — Portfolio</title>
+  <meta name="description" content="Brand systems, identity, and motion — built for real production." />
 
-  <!-- Fonts (same as we set) -->
+  <!-- Fonts (same as before) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -28,10 +28,9 @@
       --mono:"IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
 
       --radius: 22px;
-      --wrap: min(1180px, calc(100% - 48px));
+      --wrap: min(1180px, calc(100% - 40px));
     }
 
-    /* DARK theme */
     body[data-theme="dark"]{
       --bg:#0b0c0f;
       --panel:#11131a;
@@ -53,36 +52,14 @@
     a{ color:inherit; text-decoration:none; }
     a:hover{ opacity:.92; }
     img{ max-width:100%; display:block; }
-    button{ font:inherit; color:inherit; }
+    button{ font:inherit; color:inherit; background:none; border:none; }
 
-    .wrap{ width: var(--wrap); margin: 0 auto; padding: 22px 0 72px; }
+    .wrap{ width: var(--wrap); margin: 0 auto; padding: 18px 0 72px; }
 
     .mono{ font-family: var(--mono); letter-spacing: 0.02em; }
     .muted{ color: var(--muted); }
     .tiny{ font-size: 12px; line-height: 1.6; }
-    .kicker{ margin:0 0 10px; color: var(--muted); }
 
-    /* =========================
-      TOPBAR
-      ========================= */
-    .topbar{
-      position: sticky;
-      top:0;
-      z-index:50;
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      padding: 14px 20px;
-      backdrop-filter: blur(12px);
-      background: color-mix(in srgb, var(--bg) 82%, transparent);
-      border-bottom: 1px solid var(--line);
-    }
-    .brand{ display:flex; align-items:center; gap:10px; }
-    .dot{ color: var(--accent); }
-    .nav{
-      display:flex; align-items:center; gap:10px;
-      flex-wrap:wrap; justify-content:flex-end;
-    }
     .pill{
       display:inline-flex; align-items:center; justify-content:center;
       padding: 10px 12px;
@@ -92,10 +69,11 @@
       gap: 8px;
       cursor:pointer;
       user-select:none;
+      line-height: 1;
+      white-space: nowrap;
     }
     .pill:hover{ background: color-mix(in srgb, var(--panel) 62%, transparent); }
 
-    /* CTA capsule */
     .btnCapsule{
       display:inline-flex; align-items:center; gap:10px;
       padding: 12px 16px;
@@ -109,7 +87,6 @@
     }
     .arrow{ font-family: var(--mono); }
 
-    /* Card / Divider */
     .card{
       border: 1px solid var(--line);
       background: color-mix(in srgb, var(--panel) 92%, transparent);
@@ -119,165 +96,214 @@
     }
     .divider{ height:1px; background: var(--line); margin: 16px 0; }
 
-    /* Section Head */
     .sectionHead{
       display:flex; justify-content:space-between; align-items:baseline;
       gap: 16px;
       border-top: 1px solid var(--line);
-      padding-top: 18px;
+      padding-top: 16px;
       margin-top: 18px;
     }
     .sectionHead h2{ margin:0; font-size: 14px; }
 
     /* =========================
-      INTRO (open screen) — like ref
+      TOPBAR — smaller on mobile
       ========================= */
-    .heroIntro{ padding: 18px 0 18px; }
+    .topbar{
+      position: sticky;
+      top:0;
+      z-index:50;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      padding: 10px 14px; /* smaller */
+      backdrop-filter: blur(12px);
+      background: color-mix(in srgb, var(--bg) 82%, transparent);
+      border-bottom: 1px solid var(--line);
+    }
+    .brand{
+      display:flex; align-items:baseline; gap:10px;
+      min-width: 0;
+    }
+    .brandTitle{
+      font-size: 13px;
+      letter-spacing: 0.02em;
+    }
+    .dot{ color: var(--accent); }
+    .brandSub{
+      font-size: 12px;
+    }
 
-    .introTop{
+    .navRow{
+      display:flex; align-items:center; gap:8px;
+      flex-wrap:nowrap;
+    }
+    .navLinks{ display:flex; align-items:center; gap:8px; }
+
+    .menuBtn{ display:none; }
+
+    /* Mobile: hide many pills, show MENU only */
+    @media (max-width: 860px){
+      .navLinks{ display:none; }
+      .menuBtn{ display:inline-flex; }
+      .pill{ padding: 9px 10px; font-size: 12px; }
+      .topbar{ padding: 8px 12px; }
+      .brandTitle{ font-size: 12px; }
+      .brandSub{ display:none; }
+    }
+
+    /* =========================
+      MENU DRAWER (mobile)
+      ========================= */
+    .drawerBackdrop{
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.28);
+      display:none;
+      z-index: 80;
+    }
+    .drawer{
+      position: fixed;
+      top: 12px;
+      right: 12px;
+      width: min(360px, calc(100% - 24px));
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: color-mix(in srgb, var(--panel) 92%, transparent);
+      box-shadow: var(--shadow);
+      padding: 12px;
+      display:none;
+      z-index: 90;
+    }
+    .drawerTop{
+      display:flex; justify-content:space-between; align-items:center;
+      gap: 10px;
+      padding: 4px 4px 10px;
+      border-bottom: 1px solid var(--line);
+      margin-bottom: 10px;
+    }
+    .drawerLinks{
+      display:flex;
+      flex-direction:column;
+      gap: 8px;
+      padding: 4px;
+    }
+    .drawerLinks a{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      padding: 12px 12px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: transparent;
+    }
+
+    /* =========================
+      HERO — Layout C + 2×2 grid
+      ========================= */
+    .hero{
+      padding: 18px 0 10px;
+    }
+    .heroGrid{
       display:grid;
-      grid-template-columns: 1.25fr .75fr;
+      grid-template-columns: 1.05fr .95fr;
       gap: 18px;
       align-items: start;
-      min-height: min(72vh, 740px);
+      min-height: min(70vh, 720px);
     }
-    .introLeft{ padding: 10px 0; }
-    .introName{
-      margin: 8px 0 10px;
-      font-size: clamp(56px, 6vw, 96px);
+    .heroTitle{
+      margin: 0;
+      font-size: clamp(52px, 5.6vw, 92px);
       line-height: 0.92;
       letter-spacing: -0.04em;
     }
-    .introOneLiner{
-      margin: 0;
+    .heroSub{
+      margin-top: 10px;
+      display:flex;
+      gap:10px;
+      align-items:center;
+      flex-wrap:wrap;
+    }
+    .heroHook{
+      margin: 10px 0 0;
       color: var(--muted);
-      max-width: 62ch;
       font-size: 16px;
       line-height: 1.7;
+      max-width: 58ch;
     }
-    .introActions{
-      margin-top: 18px;
+    .heroActions{
+      margin-top: 16px;
       display:flex;
       gap: 10px;
       flex-wrap: wrap;
     }
-    .introRight{
-      display:flex;
-      justify-content: center;
-      align-items: flex-start;
-      padding-top: 26px;
+
+    .heroMediaGrid{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      align-content: start;
+      padding-top: 6px;
     }
-    .introPortrait{
-      width: min(320px, 100%);
-      aspect-ratio: 1 / 1;
+    .heroTile{
+      position: relative;
+      border: 1px solid var(--line);
       border-radius: var(--radius);
       overflow: hidden;
-      border: 1px solid var(--line);
       background: color-mix(in srgb, var(--panel) 92%, transparent);
       box-shadow: var(--shadow);
+      aspect-ratio: 1 / 1;
+      cursor:pointer;
     }
-    .introPortrait img{
-      width:100%; height:100%;
+    .heroTile img{
+      width:100%;
+      height:100%;
       object-fit: cover;
+      transform: scale(1.02);
       filter: saturate(0.98);
     }
-
-    .introRule{
-      margin-top: 18px;
-      height: 1px;
-      background: var(--line);
-    }
-
-    .introBottom{
-      display:grid;
-      grid-template-columns: 140px 1fr;
-      gap: 16px;
-      padding-top: 14px;
-    }
-    .introCols{
-      display:grid;
-      grid-template-columns: 1.15fr 1.15fr .9fr;
-      gap: 18px;
-      align-items: start;
-    }
-    .introP{
-      margin: 0;
-      line-height: 1.75;
-      font-size: 14px;
-      color: color-mix(in srgb, var(--text) 92%, transparent);
-    }
-    .introMeta{ line-height: 1.9; }
-    .metaLine{ white-space: nowrap; overflow:hidden; text-overflow: ellipsis; }
-
-    /* =========================
-      QUICK LINKS (future pages)
-      ========================= */
-    .quickLinksGrid{
-      display:grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      gap: 14px;
-      margin-top: 16px;
-    }
-    .linkCard{
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      background: color-mix(in srgb, var(--panel) 92%, transparent);
-      box-shadow: var(--shadow);
-      padding: 16px;
+    .heroCaption{
+      position:absolute;
+      left: 10px;
+      bottom: 10px;
+      right: 10px;
       display:flex;
+      justify-content:space-between;
+      align-items:flex-end;
+      gap: 10px;
+      pointer-events:none;
+    }
+    .capBox{
+      display:inline-flex;
       flex-direction:column;
-      gap: 10px;
-      min-height: 140px;
-    }
-    .linkTop{
-      display:flex; justify-content:space-between; align-items:center;
-      gap: 10px;
-    }
-    .tag{
-      display:inline-flex; align-items:center; justify-content:center;
-      padding: 6px 10px;
-      border-radius: 999px;
+      gap: 2px;
+      padding: 9px 10px;
+      border-radius: 14px;
       border: 1px solid var(--line);
-      background: transparent;
-      font-size: 11px;
+      background: color-mix(in srgb, var(--bg) 68%, transparent);
+      backdrop-filter: blur(10px);
+      max-width: 100%;
     }
-    .linkTitle{
-      font-size: 18px;
-      letter-spacing: -0.02em;
-      margin: 0;
-    }
-    .linkDesc{
-      margin: 0;
-      color: var(--muted);
-      font-size: 13px;
-      line-height: 1.7;
+    .capCode{ font-size: 11px; color: var(--muted); }
+    .capTitle{
+      font-size: 12px;
+      white-space: nowrap;
+      overflow:hidden;
+      text-overflow: ellipsis;
     }
 
-    /* =========================
-      CAPABILITIES (categories / filter later)
-      ========================= */
-    .capGrid{
-      display:grid;
-      grid-template-columns: 1.2fr .8fr;
-      gap: 16px;
-      margin-top: 16px;
+    @media (max-width: 980px){
+      .heroGrid{
+        grid-template-columns: 1fr;
+        min-height: auto;
+      }
+      .heroMediaGrid{
+        grid-template-columns: 1fr 1fr;
+      }
     }
-    .capList{
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      overflow: clip;
-      background: color-mix(in srgb, var(--panel) 92%, transparent);
-      box-shadow: var(--shadow);
+    @media (max-width: 560px){
+      .heroMediaGrid{ grid-template-columns: 1fr 1fr; }
+      .heroHook{ font-size: 14px; }
     }
-    .capItem{
-      display:flex; justify-content:space-between; align-items:flex-start;
-      padding: 14px 14px;
-      border-bottom: 1px solid var(--line);
-      gap: 14px;
-    }
-    .capItem:last-child{ border-bottom:none; }
-    .capName{ margin:0; font-size: 16px; }
-    .capNote{ margin:0; color: var(--muted); font-size: 12px; line-height: 1.7; }
 
     /* =========================
       SELECTED WORKS (index + preview)
@@ -333,7 +359,8 @@
       aspect-ratio: 16 / 10;
     }
     .previewMedia img{
-      width:100%; height:100%;
+      width:100%;
+      height:100%;
       object-fit: cover;
       transform: scale(1.01);
       filter: saturate(0.98);
@@ -342,7 +369,7 @@
     .metaRow{ display:flex; justify-content:space-between; align-items:center; }
     .previewMeta h3{
       margin: 10px 0 6px;
-      font-size: 32px;
+      font-size: 30px;
       line-height: 1.05;
       letter-spacing: -0.02em;
     }
@@ -358,7 +385,31 @@
     .previewActions{ display:flex; gap: 10px; margin-top: 16px; flex-wrap:wrap; }
 
     /* =========================
-      EXPERIENCE (in-house)
+      ABOUT — moved under fold
+      ========================= */
+    .aboutGrid{
+      display:grid;
+      grid-template-columns: 140px 1fr;
+      gap: 16px;
+      margin-top: 16px;
+    }
+    .aboutCols{
+      display:grid;
+      grid-template-columns: 1.2fr 1.2fr .8fr;
+      gap: 18px;
+      align-items: start;
+    }
+    .aboutP{
+      margin: 0;
+      line-height: 1.75;
+      font-size: 14px;
+      color: color-mix(in srgb, var(--text) 92%, transparent);
+    }
+    .aboutMeta{ line-height: 1.9; }
+    .metaLine{ white-space: nowrap; overflow:hidden; text-overflow: ellipsis; }
+
+    /* =========================
+      EXPERIENCE / REGULATED / ARCHIVE / CONTACT (light placeholders)
       ========================= */
     .expGrid{
       display:grid;
@@ -378,38 +429,8 @@
     .expBullets{ margin: 12px 0 0; padding-left: 18px; }
     .expBullets li{ margin: 6px 0; color: color-mix(in srgb, var(--text) 92%, transparent); font-size: 13px; line-height:1.7; }
 
-    /* =========================
-      REGULATED (optional / gated)
-      ========================= */
-    .regulatedWrap{ margin-top: 16px; }
     .regulatedList{ display:none; margin-top: 14px; }
 
-    /* =========================
-      SERVICES (freelance offering)
-      ========================= */
-    .svcGrid{
-      display:grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      gap: 14px;
-      margin-top: 16px;
-    }
-    .svcCard{
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      background: color-mix(in srgb, var(--panel) 92%, transparent);
-      box-shadow: var(--shadow);
-      padding: 16px;
-      min-height: 160px;
-      display:flex;
-      flex-direction:column;
-      gap: 10px;
-    }
-    .svcTitle{ margin:0; font-size: 16px; }
-    .svcDesc{ margin:0; color: var(--muted); font-size: 13px; line-height: 1.7; }
-
-    /* =========================
-      ARCHIVE GRID
-      ========================= */
     .archive{
       margin-top: 16px;
       border: 1px solid var(--line);
@@ -443,36 +464,21 @@
       transform: scale(1.02);
     }
 
-    /* Footer */
     .footer{
       border-top: 1px solid var(--line);
       padding-top: 18px;
       margin-top: 26px;
     }
 
-    /* Responsive */
     @media (max-width: 980px){
-      .introTop{
-        grid-template-columns: 1fr;
-        min-height: auto;
-      }
-      .introRight{
-        justify-content: flex-start;
-        padding-top: 0;
-      }
-      .introBottom{ grid-template-columns: 1fr; }
-      .introCols{ grid-template-columns: 1fr; }
-      .metaLine{ white-space: normal; }
-
-      .quickLinksGrid{ grid-template-columns: 1fr; }
-      .capGrid{ grid-template-columns: 1fr; }
-
       .indexGrid{ grid-template-columns: 1fr; }
       .preview{ min-height: 420px; }
 
-      .expGrid{ grid-template-columns: 1fr; }
-      .svcGrid{ grid-template-columns: 1fr; }
+      .aboutGrid{ grid-template-columns: 1fr; }
+      .aboutCols{ grid-template-columns: 1fr; }
+      .metaLine{ white-space: normal; }
 
+      .expGrid{ grid-template-columns: 1fr; }
       .archiveGrid{ grid-template-columns: repeat(3, 1fr); }
     }
 
@@ -482,197 +488,123 @@
   </style>
 </head>
 
-<!-- START WHITE -->
 <body data-theme="light">
+  <!-- TOP BAR -->
   <header class="topbar">
     <a class="brand" href="#top" aria-label="Home">
-      <span class="mono">MESTYLE</span><span class="dot">•</span><span class="muted">STUDIO</span>
+      <span class="mono brandTitle">MESTYLE</span><span class="dot">•</span>
+      <span class="muted brandSub">STUDIO</span>
     </a>
 
-    <nav class="nav">
-      <!-- These are "layout map" links for now -->
-      <a class="pill mono" href="#capabilities">CAPABILITIES</a>
-      <a class="pill mono" href="#projects">WORKS</a>
-      <a class="pill mono" href="#experience">EXPERIENCE</a>
-      <a class="pill mono" href="#services">SERVICES</a>
-      <a class="pill mono" href="#archive">ARCHIVE</a>
+    <div class="navRow">
+      <div class="navLinks mono">
+        <a class="pill mono" href="#projects">WORKS</a>
+        <a class="pill mono" href="#about">ABOUT</a>
+        <a class="pill mono" href="#experience">EXPERIENCE</a>
+        <a class="pill mono" href="#archive">ARCHIVE</a>
+        <a class="pill mono" href="#contact">CONTACT</a>
+      </div>
 
       <div class="pill mono" id="themeBtn" role="button" tabindex="0" aria-label="Toggle theme">
         THEME <span class="muted">/</span> <span id="themeLabel">LIGHT</span>
       </div>
-    </nav>
+
+      <button class="pill mono menuBtn" id="menuBtn" type="button" aria-label="Open menu">
+        MENU <span class="arrow">↗</span>
+      </button>
+    </div>
   </header>
+
+  <!-- Mobile Drawer -->
+  <div class="drawerBackdrop" id="drawerBackdrop" aria-hidden="true"></div>
+  <aside class="drawer" id="drawer" aria-hidden="true">
+    <div class="drawerTop">
+      <div class="mono tiny muted">NAV</div>
+      <button class="pill mono" id="drawerClose" type="button">CLOSE</button>
+    </div>
+
+    <div class="drawerLinks mono">
+      <a href="#projects">WORKS <span class="muted">↗</span></a>
+      <a href="#about">ABOUT <span class="muted">↗</span></a>
+      <a href="#experience">EXPERIENCE <span class="muted">↗</span></a>
+      <a href="#regulated">REGULATED <span class="muted">↗</span></a>
+      <a href="#archive">ARCHIVE <span class="muted">↗</span></a>
+      <a href="#contact">CONTACT <span class="muted">↗</span></a>
+    </div>
+  </aside>
 
   <main class="wrap" id="top">
 
-    <!-- =========================
-      SECTION: INTRO (about-first)
-      - Put: your name / your portrait / short about
-      - Image: assets/portrait.jpg
-      ========================= -->
-    <section class="heroIntro" id="intro">
-      <div class="introTop">
-        <div class="introLeft">
-          <p class="kicker mono">PORTFOLIO / 2026</p>
+    <!-- HERO (minimal text + 2×2 images) -->
+    <section class="hero" id="intro">
+      <div class="heroGrid">
+        <div>
+          <h1 class="heroTitle">Wachirawit Pansungnoen</h1>
 
-          <!-- H1: your name/brand -->
-          <h1 class="introName">MeStyle Studio</h1>
+          <div class="heroSub">
+            <span class="mono tiny muted">MESTYLE • STUDIO</span>
+          </div>
 
-          <!-- One-liner (senior, confident, short) -->
-          <p class="introOneLiner">
-            Brand designer building systems across identity, graphics, and motion — designed to stay consistent in real production.
+          <p class="heroHook">
+            Brand systems, identity, and motion — built for real production.
           </p>
 
-          <!-- Primary actions: scroll to sections now, case pages later -->
-          <div class="introActions">
-            <a class="btnCapsule primary mono" href="#projects">view selected works <span class="arrow">↗</span></a>
-            <a class="btnCapsule mono" href="#capabilities">capabilities <span class="arrow">↗</span></a>
+          <div class="heroActions">
+            <a class="btnCapsule primary mono" href="#projects">selected works <span class="arrow">↗</span></a>
+            <a class="btnCapsule mono" href="#contact">contact <span class="arrow">↗</span></a>
           </div>
         </div>
 
-        <div class="introRight">
-          <!-- Portrait / or swap to a "hero image" later -->
-          <div class="introPortrait">
-            <img id="portraitImg" src="assets/portrait.jpg" alt="" loading="eager">
-          </div>
-        </div>
-      </div>
+        <!-- 2×2 HERO GRID -->
+        <div class="heroMediaGrid" aria-label="Hero gallery">
+          <a class="heroTile" href="#projects" data-hero="h01">
+            <img id="heroImg1" alt="" />
+            <div class="heroCaption">
+              <div class="capBox">
+                <div class="mono capCode">P/01</div>
+                <div class="mono capTitle">Brand System</div>
+              </div>
+            </div>
+          </a>
 
-      <div class="introRule"></div>
+          <a class="heroTile" href="#projects" data-hero="h02">
+            <img id="heroImg2" alt="" />
+            <div class="heroCaption">
+              <div class="capBox">
+                <div class="mono capCode">P/02</div>
+                <div class="mono capTitle">Logo & Identity</div>
+              </div>
+            </div>
+          </a>
 
-      <div class="introBottom">
-        <div class="introLabel mono tiny muted">ABOUT</div>
+          <a class="heroTile" href="#projects" data-hero="h03">
+            <img id="heroImg3" alt="" />
+            <div class="heroCaption">
+              <div class="capBox">
+                <div class="mono capCode">P/03</div>
+                <div class="mono capTitle">Graphic / KV</div>
+              </div>
+            </div>
+          </a>
 
-        <div class="introCols">
-          <p class="introP">
-            I create brand identity and packaging systems with clear hierarchy, built to scale across print, social, and production constraints.
-          </p>
-
-          <p class="introP">
-            I also deliver graphic assets and motion/video edits with consistent typography and pacing—so the brand looks sharp everywhere.
-          </p>
-
-          <div class="introMeta mono tiny">
-            <div class="metaLine"><span class="muted">//</span> Focus: Brand · Identity · Motion</div>
-            <div class="metaLine"><span class="muted">//</span> Based in: Thailand</div>
-            <div class="metaLine"><span class="muted">//</span> Contact: you@email.com</div>
-          </div>
+          <a class="heroTile" href="#projects" data-hero="h04">
+            <img id="heroImg4" alt="" />
+            <div class="heroCaption">
+              <div class="capBox">
+                <div class="mono capCode">P/04</div>
+                <div class="mono capTitle">Motion / Video</div>
+              </div>
+            </div>
+          </a>
         </div>
       </div>
     </section>
 
-    <!-- =========================
-      SECTION: QUICK LINKS (future pages map)
-      - These are "highlight topics" you wanted.
-      - Later you can link to about.html / services.html / motion.html etc.
-      ========================= -->
-    <section id="map">
-      <div class="sectionHead">
-        <h2 class="mono">SITE MAP / HIGHLIGHTS</h2>
-        <p class="mono tiny muted">Placeholders → future pages</p>
-      </div>
-
-      <div class="quickLinksGrid">
-        <a class="linkCard" href="#capabilities">
-          <div class="linkTop">
-            <span class="tag mono">01 / WHAT I DO</span>
-            <span class="mono tiny muted">↗</span>
-          </div>
-          <h3 class="linkTitle">Capabilities</h3>
-          <p class="linkDesc">Brand systems, logo/identity, graphics/KV, motion & video.</p>
-        </a>
-
-        <a class="linkCard" href="#experience">
-          <div class="linkTop">
-            <span class="tag mono">02 / IN-HOUSE</span>
-            <span class="mono tiny muted">↗</span>
-          </div>
-          <h3 class="linkTitle">Experience</h3>
-          <p class="linkDesc">Credibility from well-known industries (real estate, regulated consumer).</p>
-        </a>
-
-        <a class="linkCard" href="#services">
-          <div class="linkTop">
-            <span class="tag mono">03 / FREELANCE</span>
-            <span class="mono tiny muted">↗</span>
-          </div>
-          <h3 class="linkTitle">Services</h3>
-          <p class="linkDesc">Clear packages + deliverables (so clients understand scope fast).</p>
-        </a>
-      </div>
-    </section>
-
-    <!-- =========================
-      SECTION: CAPABILITIES (categories)
-      - This is where you "split" your disciplines.
-      - Later can become filter buttons for works.
-      ========================= -->
-    <section id="capabilities">
-      <div class="sectionHead">
-        <h2 class="mono">CAPABILITIES</h2>
-        <p class="mono tiny muted">Categories for organizing projects</p>
-      </div>
-
-      <div class="capGrid">
-        <div class="capList">
-          <div class="capItem">
-            <div>
-              <h3 class="capName">Brand Systems</h3>
-              <p class="mono capNote">Strategy → identity → applications (guideline-ready).</p>
-            </div>
-            <span class="tag mono">BRAND</span>
-          </div>
-          <div class="capItem">
-            <div>
-              <h3 class="capName">Logo & Identity</h3>
-              <p class="mono capNote">Marks, wordmarks, identity core assets.</p>
-            </div>
-            <span class="tag mono">IDENTITY</span>
-          </div>
-          <div class="capItem">
-            <div>
-              <h3 class="capName">Graphic & KV</h3>
-              <p class="mono capNote">Campaign KV, social kits, print & layout systems.</p>
-            </div>
-            <span class="tag mono">GRAPHIC</span>
-          </div>
-          <div class="capItem">
-            <div>
-              <h3 class="capName">Motion & Video</h3>
-              <p class="mono capNote">Editing + motion graphics with consistent brand rhythm.</p>
-            </div>
-            <span class="tag mono">MOTION</span>
-          </div>
-        </div>
-
-        <div class="card">
-          <p class="mono tiny muted">HOW TO READ THIS PORTFOLIO</p>
-          <div class="mono tiny" style="line-height:1.9;">
-            <div>// Selected Works = best & universal</div>
-            <div>// Experience = in-house credibility</div>
-            <div>// Regulated = optional / view on request</div>
-            <div>// Archive = breadth</div>
-          </div>
-          <div class="divider"></div>
-          <p class="mono tiny muted">NEXT (LATER)</p>
-          <div class="mono tiny" style="line-height:1.9;">
-            <div>// Add pages: about.html, services.html, motion.html</div>
-            <div>// Add case page: project.html?id=...</div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- =========================
-      SECTION: SELECTED WORKS (interactive list + preview)
-      - Put: your best 6–10 projects here.
-      - Images: assets/p01/cover.jpg etc.
-      - Later: clicking opens project.html?id=p01
-      ========================= -->
+    <!-- SELECTED WORKS (index + preview) -->
     <section id="projects">
       <div class="sectionHead">
         <h2 class="mono">SELECTED WORKS</h2>
-        <p class="mono tiny muted">Freelance (public-safe) + best case studies</p>
+        <p class="mono tiny muted">Hover / click to preview</p>
       </div>
 
       <div class="indexGrid">
@@ -695,64 +627,79 @@
             <div class="metaGrid" id="previewGrid"></div>
 
             <div class="previewActions">
-              <!-- later you will link to project page -->
-              <a class="btnCapsule primary mono" id="previewOpen" href="#projects">
-                open case (later) <span class="arrow">↗</span>
-              </a>
-              <a class="btnCapsule mono" id="previewNext" href="#projects">
-                next <span class="arrow">↗</span>
-              </a>
+              <a class="btnCapsule primary mono" id="previewOpen" href="#projects">open case (later) <span class="arrow">↗</span></a>
+              <a class="btnCapsule mono" id="previewNext" href="#projects">next <span class="arrow">↗</span></a>
             </div>
           </div>
         </section>
       </div>
     </section>
 
-    <!-- =========================
-      SECTION: EXPERIENCE (in-house)
-      - Show credibility.
-      - Keep cannabis wording neutral on first view.
-      ========================= -->
+    <!-- ABOUT (moved under fold) -->
+    <section id="about">
+      <div class="sectionHead">
+        <h2 class="mono">ABOUT</h2>
+        <p class="mono tiny muted">Short, readable</p>
+      </div>
+
+      <div class="aboutGrid">
+        <div class="mono tiny muted">BIO</div>
+
+        <div class="aboutCols">
+          <p class="aboutP">
+            I design brand identity and packaging systems with clear hierarchy — built to scale across print, social, and real production constraints.
+          </p>
+
+          <p class="aboutP">
+            I also deliver graphic assets and motion/video edits with consistent typography and pacing — so the brand stays sharp everywhere.
+          </p>
+
+          <div class="aboutMeta mono tiny">
+            <div class="metaLine"><span class="muted">//</span> Focus: Brand · Identity · Motion</div>
+            <div class="metaLine"><span class="muted">//</span> Based in: Thailand</div>
+            <div class="metaLine"><span class="muted">//</span> Email: you@email.com</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- EXPERIENCE -->
     <section id="experience">
       <div class="sectionHead">
         <h2 class="mono">EXPERIENCE</h2>
-        <p class="mono tiny muted">In-house / high-stakes production</p>
+        <p class="mono tiny muted">In-house credibility</p>
       </div>
 
       <div class="expGrid">
         <div class="expCard">
           <div class="mono tiny muted">REAL ESTATE</div>
-          <h3 class="expTitle">Condo Industry (Well-known developer)</h3>
-          <p class="expRole mono">Scope: brand & visual system · KV · sales materials · layout standards</p>
+          <h3 class="expTitle">Condo Industry (well-known)</h3>
+          <p class="expRole mono">Brand & visual system · KV · production layout</p>
           <ul class="expBullets">
-            <li>Built consistent visual language across campaign and print deliverables.</li>
-            <li>Designed typography hierarchy and layout templates for production speed.</li>
-            <li>Collaborated with stakeholders to keep brand clarity across teams.</li>
+            <li>Designed consistent visual language across campaign + print.</li>
+            <li>Built templates for speed + quality in production.</li>
+            <li>Aligned stakeholders with clear hierarchy rules.</li>
           </ul>
         </div>
 
         <div class="expCard">
           <div class="mono tiny muted">REGULATED CONSUMER</div>
-          <h3 class="expTitle">Compliance-led Brand (Industry-recognized)</h3>
-          <p class="expRole mono">Scope: packaging system · menu/info design · brand application</p>
+          <h3 class="expTitle">Compliance-led Brand (industry-recognized)</h3>
+          <p class="expRole mono">Packaging system · information design</p>
           <ul class="expBullets">
-            <li>Designed systems under constraints (legal copy, warnings, information density).</li>
-            <li>Maintained premium look while staying compliant and readable.</li>
-            <li>Built reusable templates for frequent monthly updates.</li>
+            <li>Designed under constraints while keeping premium look.</li>
+            <li>Improved readability in dense information layouts.</li>
+            <li>Built reusable monthly update workflow.</li>
           </ul>
         </div>
       </div>
     </section>
 
-    <!-- =========================
-      SECTION: REGULATED (optional / gated)
-      - Keep sensitive work from being forced on visitors.
-      - People who want it will click.
-      ========================= -->
-    <section id="regulated" class="regulatedWrap">
+    <!-- REGULATED (optional / gated) -->
+    <section id="regulated">
       <div class="sectionHead">
         <h2 class="mono">REGULATED INDUSTRIES</h2>
-        <p class="mono tiny muted">Optional · View on request</p>
+        <p class="mono tiny muted">Optional · view on request</p>
       </div>
 
       <div class="card">
@@ -775,87 +722,66 @@
           <div class="mono tiny muted" style="margin-bottom:10px;">SELECTED (RESTRICTED)</div>
 
           <div class="indexList" style="box-shadow:none;">
-            <div class="item">
+            <div class="item" style="cursor:default;">
               <div class="itemLeft">
                 <div class="mono itemCode">R/01</div>
                 <h4 class="itemTitle">Regulated Consumer Brand</h4>
                 <p class="mono itemLine">Brand system · Packaging · Compliance layout</p>
               </div>
-              <div class="mono itemYear">2025</div>
+              <div class="mono itemYear">—</div>
             </div>
 
-            <div class="item">
+            <div class="item" style="cursor:default;">
               <div class="itemLeft">
                 <div class="mono itemCode">R/02</div>
                 <h4 class="itemTitle">Retail Menu System</h4>
                 <p class="mono itemLine">Information design · Typography · Update workflow</p>
               </div>
-              <div class="mono itemYear">2024</div>
+              <div class="mono itemYear">—</div>
             </div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- =========================
-      SECTION: SERVICES (freelance)
-      - Clear packages so people “get you” quickly.
-      - Later this can link to services.html
-      ========================= -->
-    <section id="services">
-      <div class="sectionHead">
-        <h2 class="mono">SERVICES</h2>
-        <p class="mono tiny muted">Freelance offerings</p>
-      </div>
-
-      <div class="svcGrid">
-        <div class="svcCard">
-          <div class="mono tiny muted">PACKAGE 01</div>
-          <h3 class="svcTitle">Brand System</h3>
-          <p class="svcDesc">Identity core + typography + layout rules + applications (guideline-ready).</p>
-          <div class="divider"></div>
-          <div class="mono tiny muted">// Deliverables: logo suite, type system, color, layout templates</div>
-        </div>
-
-        <div class="svcCard">
-          <div class="mono tiny muted">PACKAGE 02</div>
-          <h3 class="svcTitle">Logo & Identity</h3>
-          <p class="svcDesc">Focused identity work for brands that need a strong mark + system starter.</p>
-          <div class="divider"></div>
-          <div class="mono tiny muted">// Deliverables: logo/wordmark, lockups, basic usage, files</div>
-        </div>
-
-        <div class="svcCard">
-          <div class="mono tiny muted">PACKAGE 03</div>
-          <h3 class="svcTitle">Motion & Video</h3>
-          <p class="svcDesc">Editing + motion graphics aligned with brand typography and pacing.</p>
-          <div class="divider"></div>
-          <div class="mono tiny muted">// Deliverables: reels/ads, motion KV, title system</div>
-        </div>
-      </div>
-    </section>
-
-    <!-- =========================
-      SECTION: ARCHIVE (breadth)
-      - Put many thumbnails here.
-      - Clicking a tile can later open a case.
-      ========================= -->
+    <!-- ARCHIVE -->
     <section id="archive">
       <div class="sectionHead">
         <h2 class="mono">ARCHIVE</h2>
-        <p class="mono tiny muted">Breadth / thumbnails</p>
+        <p class="mono tiny muted">Thumbnails</p>
       </div>
 
       <div class="archive">
         <div class="archiveHead">
           <div class="mono">ARCHIVE GRID</div>
-          <div class="mono tiny muted">place thumbnails in assets/ …</div>
+          <div class="mono tiny muted">auto placeholders until you add images</div>
         </div>
         <div class="archiveGrid" id="archiveGrid"></div>
       </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact">
+      <div class="sectionHead">
+        <h2 class="mono">CONTACT</h2>
+        <p class="mono tiny muted">Keep it simple</p>
+      </div>
+
+      <div class="card">
+        <div class="mono tiny muted">EMAIL</div>
+        <div style="margin-top:8px;">you@email.com</div>
+
+        <div class="divider"></div>
+
+        <div class="mono tiny muted">LINKS</div>
+        <div class="mono tiny" style="line-height:1.9; margin-top:8px;">
+          <div>// Behance: behance.net/yourprofile</div>
+          <div>// Instagram: @yourhandle</div>
+        </div>
+      </div>
 
       <footer class="footer">
-        <p class="mono tiny muted">© <span id="year"></span> MeStyle Studio</p>
+        <p class="mono tiny muted">© <span id="year"></span> Wachirawit Pansungnoen</p>
       </footer>
     </section>
 
@@ -863,19 +789,22 @@
 
   <script>
     /* =========================
-      PROJECT DATA (edit here)
-      - Place images in:
-        assets/portrait.jpg
-        assets/p01/cover.jpg
-        assets/p02/cover.jpg ...
+      DATA — you will replace these later
       ========================= */
+    const HERO = [
+      { id:"h01", code:"P/01", title:"Brand System", src:"assets/hero/01.jpg" },
+      { id:"h02", code:"P/02", title:"Logo & Identity", src:"assets/hero/02.jpg" },
+      { id:"h03", code:"P/03", title:"Graphic / KV", src:"assets/hero/03.jpg" },
+      { id:"h04", code:"P/04", title:"Motion / Video", src:"assets/hero/04.jpg" }
+    ];
+
     const PROJECTS = [
       {
         id: "p01",
         code: "P/01",
         title: "Brand System Project",
-        line: "Identity · Packaging · Guidelines",
-        year: "2025",
+        line: "Identity · Packaging · Guideline",
+        year: "—",
         role: "Brand Designer",
         scope: ["Identity", "Packaging", "System"],
         tools: ["Illustrator", "Photoshop"],
@@ -886,7 +815,7 @@
         code: "P/02",
         title: "Logo & Identity",
         line: "Logo suite · Lockups · Usage",
-        year: "2024",
+        year: "—",
         role: "Designer",
         scope: ["Logo", "Identity"],
         tools: ["Illustrator"],
@@ -897,7 +826,7 @@
         code: "P/03",
         title: "Graphic / KV System",
         line: "Campaign KV · Social kit",
-        year: "2024",
+        year: "—",
         role: "Art Direction",
         scope: ["KV", "Graphic"],
         tools: ["InDesign", "Illustrator"],
@@ -907,8 +836,8 @@
         id: "p04",
         code: "P/04",
         title: "Motion & Video",
-        line: "Edit · Motion Graphics",
-        year: "2023",
+        line: "Edit · Motion graphics",
+        year: "—",
         role: "Motion / Editor",
         scope: ["Motion", "Video"],
         tools: ["After Effects", "Premiere"],
@@ -918,37 +847,38 @@
 
     const $ = (q) => document.querySelector(q);
 
-    /* =========================
-      Helpers
-      ========================= */
     function escapeXML(s){
       return String(s).replace(/[<>&'"]/g, c => ({
         "<":"&lt;","&":"&amp;",">":"&gt;","'":"&apos;",'"':"&quot;"
       }[c]));
     }
 
-    function placeholderSVG(p){
+    function placeholderSVG(payload){
       const isDark = document.body.dataset.theme === "dark";
       const bg = isDark ? "#11131a" : "#ffffff";
       const fg = isDark ? "#e9edf5" : "#0b0c0f";
       const mut = isDark ? "rgba(233,237,245,.28)" : "rgba(11,12,15,.20)";
       const accent = getComputedStyle(document.documentElement).getPropertyValue("--accent").trim() || "#d7ff3a";
 
+      const code = payload?.code || "P/00";
+      const title = payload?.title || "PREVIEW";
+
       const svg =
-`<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000">
-  <rect width="1600" height="1000" fill="${bg}"/>
-  <rect x="44" y="44" width="1512" height="912" rx="40" fill="none" stroke="${mut}" stroke-width="2"/>
+`<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="1400" viewBox="0 0 1400 1400">
+  <rect width="1400" height="1400" fill="${bg}"/>
+  <rect x="44" y="44" width="1312" height="1312" rx="44" fill="none" stroke="${mut}" stroke-width="2"/>
   <g fill="none" stroke="${mut}" stroke-width="2">
-    ${Array.from({length: 10}).map((_,i)=>`<line x1="70" y1="${140+i*80}" x2="1530" y2="${140+i*80}"/>`).join("")}
-    ${Array.from({length: 8}).map((_,i)=>`<line x1="${180+i*175}" y1="70" x2="${180+i*175}" y2="930"/>`).join("")}
+    <line x1="80" y1="260" x2="1320" y2="260"/>
+    <line x1="80" y1="340" x2="1320" y2="340"/>
+    <line x1="80" y1="420" x2="1320" y2="420"/>
+    <line x1="80" y1="500" x2="1320" y2="500"/>
   </g>
   <g font-family="IBM Plex Mono, ui-monospace" fill="${fg}">
-    <text x="92" y="150" font-size="28" opacity="0.75">PREVIEW</text>
-    <text x="92" y="225" font-size="62">${escapeXML(p.code || "P/00")}</text>
-    <text x="92" y="300" font-size="62" opacity="0.92">${escapeXML(p.title || "PROJECT")}</text>
-    <text x="92" y="360" font-size="28" fill="${isDark ? 'rgba(233,237,245,.55)' : 'rgba(11,12,15,.55)'}">${escapeXML(p.line || "")}</text>
+    <text x="92" y="220" font-size="28" opacity="0.75">HERO</text>
+    <text x="92" y="310" font-size="70">${escapeXML(code)}</text>
+    <text x="92" y="392" font-size="56" opacity="0.92">${escapeXML(title)}</text>
   </g>
-  <circle cx="1480" cy="140" r="10" fill="${accent}"/>
+  <circle cx="1260" cy="170" r="10" fill="${accent}"/>
 </svg>`;
       return "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(svg);
     }
@@ -964,22 +894,20 @@
     }
 
     /* =========================
-      Theme toggle (start white + remember)
+      THEME (start white, remember)
       ========================= */
     const body = document.body;
     const themeLabel = $("#themeLabel");
 
     const savedTheme = localStorage.getItem("theme");
-    if (savedTheme === "dark") body.dataset.theme = "dark";
-    if (!savedTheme) localStorage.setItem("theme", "light");
+    body.dataset.theme = (savedTheme === "dark") ? "dark" : "light";
 
     function setThemeUI(){
-      themeLabel.textContent = (body.dataset.theme || "light").toUpperCase();
+      if (themeLabel) themeLabel.textContent = (body.dataset.theme || "light").toUpperCase();
     }
     setThemeUI();
 
-    function bindPill(id, fn){
-      const el = $(id);
+    function bindButton(el, fn){
       if (!el) return;
       const act = () => fn();
       el.addEventListener("click", act);
@@ -988,27 +916,38 @@
       });
     }
 
-    bindPill("#themeBtn", () => {
+    bindButton($("#themeBtn"), () => {
       const next = (body.dataset.theme === "dark") ? "light" : "dark";
       body.dataset.theme = next;
       localStorage.setItem("theme", next);
       setThemeUI();
+
+      // re-render placeholders to match theme
+      renderHero();
       renderPreview(PROJECTS[active]);
       renderArchive();
     });
 
     /* =========================
-      Portrait fallback
+      HERO 2×2 images
       ========================= */
-    const portrait = $("#portraitImg");
-    if (portrait) {
-      portrait.addEventListener("error", () => {
-        portrait.src = placeholderSVG({ code:"INFO", title:"PORTRAIT", line:"Add assets/portrait.jpg" });
-      });
+    function setImgWithFallback(imgEl, src, fallbackPayload){
+      if (!imgEl) return;
+      imgEl.onerror = () => { imgEl.src = placeholderSVG(fallbackPayload); };
+      imgEl.src = src;
+      imgEl.alt = fallbackPayload?.title ? `${fallbackPayload.title}` : "";
     }
 
+    function renderHero(){
+      setImgWithFallback($("#heroImg1"), HERO[0].src, { code: HERO[0].code, title: HERO[0].title });
+      setImgWithFallback($("#heroImg2"), HERO[1].src, { code: HERO[1].code, title: HERO[1].title });
+      setImgWithFallback($("#heroImg3"), HERO[2].src, { code: HERO[2].code, title: HERO[2].title });
+      setImgWithFallback($("#heroImg4"), HERO[3].src, { code: HERO[3].code, title: HERO[3].title });
+    }
+    renderHero();
+
     /* =========================
-      Selected works: list + preview
+      SELECTED WORKS list + preview
       ========================= */
     const list = $("#indexList");
     const img = $("#previewImg");
@@ -1024,7 +963,8 @@
     let active = 0;
 
     function renderPreview(p){
-      const src = p.cover ? p.cover : placeholderSVG(p);
+      const src = p.cover ? p.cover : placeholderSVG({ code:p.code, title:p.title });
+      img.onerror = () => { img.src = placeholderSVG({ code:p.code, title:p.title }); };
       img.src = src;
       img.alt = `${p.title} cover`;
 
@@ -1033,15 +973,12 @@
       line.textContent = p.line || "";
 
       grid.innerHTML = "";
-      grid.appendChild(metaCell("YEAR", p.year || "—"));
       grid.appendChild(metaCell("ROLE", p.role || "—"));
       grid.appendChild(metaCell("SCOPE", (p.scope || []).join(" · ") || "—"));
       grid.appendChild(metaCell("TOOLS", (p.tools || []).join(" · ") || "—"));
+      grid.appendChild(metaCell("TYPE", "Selected"));
 
-      /* Future: link to project page
-         openBtn.href = `project.html?id=${encodeURIComponent(p.id)}`
-         For now: keep it safe (layout-only)
-      */
+      // Later: openBtn.href = `project.html?id=${encodeURIComponent(p.id)}`
       openBtn.href = "#projects";
     }
 
@@ -1086,7 +1023,7 @@
     setActive(0);
 
     /* =========================
-      Regulated gate toggle
+      REGULATED gate toggle
       ========================= */
     const btnR = $("#toggleRegulated");
     const boxR = $("#regulatedList");
@@ -1101,8 +1038,7 @@
     }
 
     /* =========================
-      Archive auto grid (uses covers)
-      - Later: replace with real thumbnails list
+      ARCHIVE auto grid (placeholders until you add images)
       ========================= */
     const archiveGrid = $("#archiveGrid");
 
@@ -1111,28 +1047,60 @@
       archiveGrid.innerHTML = "";
 
       const tiles = [];
-      PROJECTS.forEach(p => tiles.push(p.cover || placeholderSVG(p)));
+      // Use project covers; if missing, placeholders
+      PROJECTS.forEach(p => tiles.push(p.cover || placeholderSVG({ code:p.code, title:p.title })));
       while (tiles.length < 12) tiles.push(tiles[tiles.length % PROJECTS.length]);
 
-      tiles.slice(0, 12).forEach((src, idx) => {
+      tiles.slice(0, 12).forEach((src) => {
         const t = document.createElement("div");
         t.className = "tile";
         const im = document.createElement("img");
         im.src = src;
         im.alt = "";
         im.loading = "lazy";
+        im.onerror = () => { im.src = placeholderSVG({ code:"A/00", title:"ARCHIVE" }); };
         t.appendChild(im);
 
-        // Future: click tile to open archive page or case
-        t.addEventListener("click", () => {
-          // placeholder: just scroll to works for now
-          location.hash = "#projects";
-        });
-
+        t.addEventListener("click", () => { location.hash = "#projects"; });
         archiveGrid.appendChild(t);
       });
     }
     renderArchive();
+
+    /* =========================
+      MOBILE MENU drawer
+      ========================= */
+    const menuBtn = $("#menuBtn");
+    const drawer = $("#drawer");
+    const backdrop = $("#drawerBackdrop");
+    const closeBtn = $("#drawerClose");
+
+    function openDrawer(){
+      if (!drawer || !backdrop) return;
+      drawer.style.display = "block";
+      backdrop.style.display = "block";
+      drawer.setAttribute("aria-hidden", "false");
+      backdrop.setAttribute("aria-hidden", "false");
+    }
+    function closeDrawer(){
+      if (!drawer || !backdrop) return;
+      drawer.style.display = "none";
+      backdrop.style.display = "none";
+      drawer.setAttribute("aria-hidden", "true");
+      backdrop.setAttribute("aria-hidden", "true");
+    }
+
+    if (menuBtn) menuBtn.addEventListener("click", openDrawer);
+    if (closeBtn) closeBtn.addEventListener("click", closeDrawer);
+    if (backdrop) backdrop.addEventListener("click", closeDrawer);
+
+    // Close drawer when clicking any drawer link
+    if (drawer) {
+      drawer.addEventListener("click", (e) => {
+        const a = e.target.closest("a");
+        if (a) closeDrawer();
+      });
+    }
   </script>
 </body>
 </html>
