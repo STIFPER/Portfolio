@@ -31,13 +31,12 @@
       --radius2: 14px;
       --wrap: min(1260px, calc(100% - 44px));
 
-      /* Type scale (tuned) */
-      --h1: clamp(44px, 4.8vw, 76px);
-      --h2: clamp(56px, 6.2vw, 118px);
+      /* ↓ tuned type scale (smaller, cleaner) */
+      --h1: clamp(38px, 4.2vw, 68px);
+      --h2: clamp(46px, 5.6vw, 104px);
 
-      /* Micro motion */
       --ease: cubic-bezier(.2,.8,.2,1);
-      --t: 180ms var(--ease);
+      --t: 170ms var(--ease);
     }
 
     body[data-theme="dark"]{
@@ -129,7 +128,6 @@
       text-transform: none;
     }
 
-    /* Focus */
     :focus{ outline:none; }
     :focus-visible{
       outline: 2px solid color-mix(in srgb, var(--accent) 55%, var(--text));
@@ -138,7 +136,7 @@
     }
 
     /* =========================
-      TOP BAR (minimal, aligned with wrap)
+      TOP BAR
       ========================= */
     .topbar{
       position: sticky;
@@ -148,9 +146,7 @@
       align-items:center;
       justify-content:space-between;
 
-      /* align with wrap edges */
       padding: 12px max(14px, calc((100% - 1260px)/2 + 22px));
-
       backdrop-filter: blur(12px);
       background: color-mix(in srgb, var(--bg) 82%, transparent);
       border-bottom: 1px solid var(--line);
@@ -163,9 +159,7 @@
     .dot{ color:var(--accent); }
     .brand span{ font-size:12px; }
 
-    .nav{
-      display:flex; align-items:center; gap:8px;
-    }
+    .nav{ display:flex; align-items:center; gap:8px; }
 
     /* Mobile nav */
     .menuBtn{ display:none; }
@@ -231,7 +225,7 @@
     .sectionTop .right{ font-size: 12px; letter-spacing: 0.20em; }
 
     /* =========================
-      INFO — Layout
+      INFO — (no frame behind name)
       ========================= */
     .infoHero{ padding-bottom: 22px; }
 
@@ -243,6 +237,7 @@
       gap: 36px;
       position: relative;
     }
+
     .infoLeft{
       display:flex;
       flex-direction:column;
@@ -250,49 +245,33 @@
       min-height: min(86vh, 900px);
     }
 
+    /* ↓ formerly "namePanel": now just a clean block (no border/bg) */
     .namePanel{
-      width: min(560px, 100%);
-      padding: 18px 18px 18px;
-      border-radius: 18px;
-      background: color-mix(in srgb, var(--panel) 62%, transparent);
-      border: 1px solid color-mix(in srgb, var(--line) 70%, transparent);
+      width: min(720px, 100%);
+      padding: 0;
+      border: 0;
+      background: transparent;
     }
+
     .pcode{
       font-size: 10px;
       letter-spacing: 0.22em;
       opacity: .9;
       margin-bottom: 10px;
     }
+
     .nameBig{
       margin: 0;
       font-size: var(--h1);
-      line-height: .94;
-      letter-spacing: -0.04em;
+      line-height: .98;
+      letter-spacing: -0.035em;
       text-transform: uppercase;
-      color: color-mix(in srgb, var(--text) 52%, transparent);
+
+      /* darker & clearer than the screenshot */
+      color: color-mix(in srgb, var(--text) 78%, transparent);
     }
     body[data-theme="dark"] .nameBig{
-      color: color-mix(in srgb, var(--text) 84%, transparent);
-    }
-
-    /* Rule under name (tuned) */
-    .nameRule{
-      margin-top: 14px;
-      height: 1px;
-      background: color-mix(in srgb, var(--line) 92%, transparent);
-      border-radius: 999px;
-      position: relative;
-      overflow: hidden;
-    }
-    .nameRule::after{
-      content:"";
-      position:absolute;
-      left:0;
-      top:-1px;
-      height:3px;
-      width:96px;
-      background: color-mix(in srgb, var(--accent) 58%, transparent);
-      border-radius:999px;
+      color: color-mix(in srgb, var(--text) 92%, transparent);
     }
 
     .actionRow{
@@ -308,10 +287,11 @@
       justify-content:flex-end;
       padding-right: 6px;
     }
+
     .portraitBig{
       width: min(420px, 100%);
       aspect-ratio: 1 / 1;
-      border-radius: 18px; /* tuned to match cards */
+      border-radius: 18px;
       overflow:hidden;
       background: rgba(0,0,0,.06);
       box-shadow: var(--shadow);
@@ -341,16 +321,15 @@
     .infoMeta .v{
       margin-top: 8px;
       font-size: 12px;
-      line-height: 1.8;
+      line-height: 1.85;
       letter-spacing: 0.04em;
-      text-transform: none;
       font-family: var(--mono);
       color: color-mix(in srgb, var(--text) 92%, transparent);
       white-space: pre-line;
     }
 
     /* =========================
-      PROJECTS — Layout
+      PROJECTS
       ========================= */
     .sheet{ padding: 8px 0 26px; }
 
@@ -372,7 +351,6 @@
       padding-bottom: 8px;
     }
 
-    /* PREV —— line —— NEXT */
     .railRow{
       display:grid;
       grid-template-columns: auto 1fr auto;
@@ -383,18 +361,6 @@
     .rail{
       height: 1px;
       background: color-mix(in srgb, var(--line) 88%, transparent);
-      border-radius: 999px;
-      position: relative;
-      overflow: hidden;
-    }
-    .rail::after{
-      content:"";
-      position:absolute;
-      left: 0;
-      top: -1px;
-      height: 3px;
-      width: 110px;
-      background: color-mix(in srgb, var(--text) 30%, transparent);
       border-radius: 999px;
     }
 
@@ -411,33 +377,13 @@
     .bigTitle{
       margin: 0;
       font-size: var(--h2);
-      line-height: .90;
-      letter-spacing: -0.05em;
+      line-height: .92;
+      letter-spacing: -0.045em;
       text-transform: uppercase;
-      color: color-mix(in srgb, var(--text) 62%, transparent);
+      color: color-mix(in srgb, var(--text) 74%, transparent);
     }
     body[data-theme="dark"] .bigTitle{
-      color: color-mix(in srgb, var(--text) 72%, transparent);
-    }
-
-    /* Rule under big title */
-    .titleRule{
-      margin-top: 14px;
-      height: 1px;
-      background: color-mix(in srgb, var(--line) 92%, transparent);
-      border-radius: 999px;
-      position: relative;
-      overflow: hidden;
-    }
-    .titleRule::after{
-      content:"";
-      position:absolute;
-      left:0;
-      top:-1px;
-      height:3px;
-      width:110px;
-      background: color-mix(in srgb, var(--text) 26%, transparent);
-      border-radius:999px;
+      color: color-mix(in srgb, var(--text) 84%, transparent);
     }
 
     .miniMeta{
@@ -456,9 +402,8 @@
     .miniMeta .v{
       margin-top: 8px;
       font-size: 12px;
-      line-height: 1.8;
+      line-height: 1.85;
       letter-spacing: 0.04em;
-      text-transform: none;
       font-family: var(--mono);
       color: color-mix(in srgb, var(--text) 92%, transparent);
       white-space: pre-line;
@@ -470,7 +415,10 @@
       flex-wrap: wrap;
     }
 
-    /* Right card with nested card */
+    /* =========================
+      RIGHT PREVIEW (SIMPLE)
+      - removed nested frames + lines completely
+      ========================= */
     .frameCard{
       border: 1px solid var(--line);
       border-radius: var(--radius);
@@ -481,7 +429,6 @@
     .frameInner{
       padding: 18px;
       position: relative;
-      min-height: 420px;
     }
     .frameDot{
       position:absolute;
@@ -491,95 +438,53 @@
       border-radius: 99px;
       background: var(--accent);
     }
+
+    .previewTop{
+      display:flex;
+      align-items:baseline;
+      justify-content:space-between;
+      gap: 12px;
+      padding-right: 18px; /* leave room for dot */
+    }
     .frameLabel{
       font-size: 12px;
       letter-spacing: 0.22em;
-      color: color-mix(in srgb, var(--text) 70%, transparent);
+      color: color-mix(in srgb, var(--text) 68%, transparent);
     }
-    .frameLines{
-      margin-top: 10px;
-      border-top: 1px solid var(--line);
-    }
-    .frameLines .line{
-      height: 1px;
-      background: var(--line);
-      opacity: .75;
-      margin: 26px 0;
-    }
-
-    .cardSubline{
-      margin-top: 18px;
-      display:flex;
-      align-items:baseline;
-      gap: 10px;
+    .previewSub{
       font-size: 11px;
       letter-spacing: 0.20em;
-      color: color-mix(in srgb, var(--text) 58%, transparent);
+      color: color-mix(in srgb, var(--text) 52%, transparent);
+      font-family: var(--mono);
+      text-transform: uppercase;
+      white-space: nowrap;
     }
 
-    .miniFrame{
-      margin-top: 12px;
-      border: 1px solid var(--line);
-      border-radius: calc(var(--radius) - 8px);
-      background: color-mix(in srgb, var(--panel) 82%, transparent);
-      overflow:hidden;
-      padding: 12px;
+    .previewMeta{
+      margin-top: 18px;
     }
-    .miniInner{
-      position: relative;
-      border: 1px solid color-mix(in srgb, var(--line) 85%, transparent);
-      border-radius: calc(var(--radius) - 12px);
-      background: color-mix(in srgb, var(--panel) 92%, transparent);
-      overflow:hidden;
-      padding: 16px;
-      min-height: 240px;
+    .previewCode{
+      font-size: 34px;
+      letter-spacing: -0.02em;
+      line-height: 1.05;
+      font-weight: 600;
     }
-    .miniDot{
-      position:absolute;
-      top: 14px;
-      right: 14px;
-      width: 7px; height: 7px;
-      border-radius: 99px;
-      background: var(--accent);
-    }
-    .miniLabel{
-      font-size: 11px;
-      letter-spacing: 0.22em;
-      color: color-mix(in srgb, var(--text) 65%, transparent);
-    }
-    .miniRules{
-      margin-top: 10px;
-      border-top: 1px solid var(--line);
-    }
-    .miniRules .line{
-      height: 1px;
-      background: var(--line);
-      opacity: .75;
-      margin: 18px 0;
-    }
-    .miniCode{
-      margin-top: 8px;
-      font-size: 26px;
-      letter-spacing: -0.01em;
-      font-family: var(--sans);
-    }
-    .miniTitle{
-      margin-top: 4px;
-      font-size: 14px;
+    .previewTitle{
+      margin-top: 6px;
+      font-size: 15px;
       color: var(--muted);
-      line-height: 1.65;
-      font-family: var(--sans);
-      letter-spacing: -0.01em;
+      line-height: 1.6;
     }
-    .miniImage{
-      margin-top: 14px;
+
+    .previewImage{
+      margin-top: 16px;
       border: 1px solid var(--line);
-      border-radius: 14px;
+      border-radius: 16px;
       overflow:hidden;
       background: rgba(0,0,0,.04);
       aspect-ratio: 16 / 10;
     }
-    .miniImage img{
+    .previewImage img{
       width:100%;
       height:100%;
       object-fit: cover;
@@ -588,9 +493,24 @@
     }
 
     /* =========================
-      CONTACT
+      CONTACT (simple)
       ========================= */
     #contact .frameInner{ min-height:auto; }
+    .contactBlock{
+      margin-top: 10px;
+      display:grid;
+      gap: 10px;
+      font-size: 14px;
+    }
+    .contactLinks{
+      margin-top: 8px;
+      font-family: var(--mono);
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      font-size: 12px;
+      line-height: 1.9;
+      color: var(--muted);
+    }
 
     /* =========================
       MOBILE
@@ -610,7 +530,6 @@
       .portraitBig{
         width: min(520px, 100%);
         aspect-ratio: 4 / 5;
-        border-radius: 18px;
       }
       .infoMeta{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
 
@@ -628,19 +547,16 @@
         justify-content:flex-start;
       }
       .miniMeta{ grid-template-columns: repeat(2, minmax(0,1fr)); }
-
-      .bigTitle{ font-size: clamp(44px, 11vw, 78px); }
-      .rail::after{ width: 84px; }
     }
 
     @media (max-width: 560px){
       .wrap{ width: min(1260px, calc(100% - 28px)); }
       .sectionTop{ padding-top: 20px; }
-      .namePanel{ padding: 16px; }
       .infoMeta{ grid-template-columns: 1fr; }
       .miniMeta{ grid-template-columns: 1fr; }
       .frameInner{ padding: 14px; }
-      .frameLines .line{ margin: 22px 0; }
+      .previewTop{ padding-right: 14px; }
+      .previewCode{ font-size: 30px; }
     }
 
     @media (prefers-reduced-motion: reduce){
@@ -691,9 +607,7 @@
 
   <main class="wrap">
 
-    <!-- =========================
-      INFO
-      ========================= -->
+    <!-- INFO -->
     <section class="infoHero" id="info">
       <div class="sectionTop">
         <div class="mono left">info</div>
@@ -705,7 +619,6 @@
           <div class="namePanel">
             <div class="mono tiny muted pcode">P/00  ABOUT</div>
             <h1 class="nameBig">WACHIRAWIT<br/>PANSUNGNOEN</h1>
-            <div class="nameRule" aria-hidden="true"></div>
 
             <div class="actionRow">
               <a class="pill primary mono" href="#projects">projects <span class="arrow">↗</span></a>
@@ -741,9 +654,7 @@
       </div>
     </section>
 
-    <!-- =========================
-      PROJECTS
-      ========================= -->
+    <!-- PROJECTS -->
     <section class="sheet" id="projects">
       <div class="sectionTop">
         <div class="mono left">projects</div>
@@ -764,7 +675,6 @@
           </div>
 
           <h2 class="bigTitle" id="projTitle">MOTION / VIDEO</h2>
-          <div class="titleRule" aria-hidden="true"></div>
 
           <div class="actionsRow">
             <a class="btn primary mono" id="projVisit" href="#projects" target="_blank" rel="noopener">visit <span class="arrow">↗</span></a>
@@ -774,48 +684,27 @@
           <div class="miniMeta" id="projMeta"></div>
         </div>
 
-        <!-- RIGHT -->
+        <!-- RIGHT (simple card) -->
         <div class="sheetRight">
           <div class="frameCard">
             <div class="frameInner">
               <div class="frameDot" aria-hidden="true"></div>
-              <div class="mono frameLabel">image</div>
 
-              <div class="frameLines" aria-hidden="true">
-                <div class="line"></div>
-              </div>
-
-              <div class="cardSubline mono">
-                <span id="cardCode">P/01</span>
-                <span class="muted">/</span>
-                <span class="muted">project preview</span>
-              </div>
-
-              <!-- nested card -->
-              <div class="miniFrame">
-                <div class="miniInner">
-                  <div class="miniDot" aria-hidden="true"></div>
-                  <div class="mono miniLabel">image</div>
-
-                  <div class="miniRules" aria-hidden="true">
-                    <div class="line"></div>
-                  </div>
-
-                  <div class="miniCode" id="miniCode">P/01</div>
-                  <div class="miniTitle" id="miniTitle">Brand System</div>
-
-                  <div class="miniRules" aria-hidden="true">
-                    <div class="line"></div>
-                  </div>
-
-                  <div class="miniImage">
-                    <img id="projImg" alt="Project preview" />
-                  </div>
+              <div class="previewTop">
+                <div class="mono frameLabel">preview</div>
+                <div class="previewSub">
+                  <span id="cardCode">P/01</span>
+                  <span class="muted"> / project</span>
                 </div>
               </div>
 
-              <div class="frameLines" aria-hidden="true" style="margin-top:16px;">
-                <div class="line"></div>
+              <div class="previewMeta">
+                <div class="previewCode" id="miniCode">P/01</div>
+                <div class="previewTitle" id="miniTitle">Brand System</div>
+              </div>
+
+              <div class="previewImage">
+                <img id="projImg" alt="Project preview" />
               </div>
             </div>
           </div>
@@ -834,17 +723,14 @@
       <div class="frameCard" style="margin-top:14px;">
         <div class="frameInner">
           <div class="frameDot" aria-hidden="true"></div>
-          <div class="mono frameLabel">email</div>
-          <div style="margin-top:10px;">you@email.com</div>
+          <div class="mono frameLabel">contact</div>
 
-          <div class="frameLines" aria-hidden="true" style="margin-top:16px;">
-            <div class="line"></div>
-          </div>
-
-          <div class="mono frameLabel" style="margin-top:10px;">links</div>
-          <div class="tiny mono muted" style="margin-top:10px; line-height:1.9; letter-spacing:0.16em;">
-            <div>// behance: behance.net/yourprofile</div>
-            <div>// instagram: @yourhandle</div>
+          <div class="contactBlock">
+            <div><span class="mono tiny muted">email</span><div>you@email.com</div></div>
+            <div class="contactLinks">
+              <div>// behance: behance.net/yourprofile</div>
+              <div>// instagram: @yourhandle</div>
+            </div>
           </div>
         </div>
       </div>
@@ -909,6 +795,9 @@
       }[c]));
     }
 
+    /* =========================
+      SIMPLE PLACEHOLDER (NO LINES)
+    ========================= */
     function placeholderSVG(payload){
       const isDark = document.body.dataset.theme === "dark";
       const bg = isDark ? "#11131a" : "#ffffff";
@@ -923,15 +812,12 @@
 `<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000">
   <rect width="1600" height="1000" fill="${bg}"/>
   <rect x="36" y="36" width="1528" height="928" rx="28" fill="none" stroke="${mut}" stroke-width="2"/>
-  <g fill="none" stroke="${mut}" stroke-width="2">
-    <line x1="80" y1="220" x2="1520" y2="220"/>
-    <line x1="80" y1="300" x2="1520" y2="300"/>
-    <line x1="80" y1="380" x2="1520" y2="380"/>
-  </g>
   <g font-family="IBM Plex Mono, ui-monospace" fill="${fg}">
-    <text x="92" y="190" font-size="24" opacity="0.75">IMAGE</text>
-    <text x="92" y="282" font-size="62">${escapeXML(code)}</text>
-    <text x="92" y="350" font-size="44" opacity="0.92">${escapeXML(title)}</text>
+    <text x="92" y="170" font-size="22" opacity="0.70">PREVIEW</text>
+  </g>
+  <g font-family="Space Grotesk, system-ui" fill="${fg}">
+    <text x="92" y="300" font-size="74" opacity="0.92">${escapeXML(code)}</text>
+    <text x="92" y="372" font-size="44" opacity="0.70">${escapeXML(title)}</text>
   </g>
   <circle cx="1460" cy="150" r="9" fill="${accent}"/>
 </svg>`;
@@ -978,7 +864,6 @@
     }
 
     bindButton($("#themeBtn"), toggleTheme);
-    bindButton($("#drawerTheme"), () => { toggleTheme(); closeDrawer(); });
 
     /* =========================
       DRAWER (mobile)
@@ -1006,13 +891,13 @@
 
     bindButton($("#menuBtn"), openDrawer);
     bindButton($("#closeBtn"), closeDrawer);
+    bindButton($("#drawerTheme"), () => { toggleTheme(); closeDrawer(); });
 
     if (backdrop) backdrop.addEventListener("click", closeDrawer);
     document.addEventListener("keydown", (e) => {
       if (e.key === "Escape") closeDrawer();
     });
 
-    // Close drawer when clicking any drawer link
     document.querySelectorAll(".drawerLinks a").forEach(a => {
       a.addEventListener("click", () => closeDrawer());
     });
@@ -1047,7 +932,6 @@
     function renderProject(i){
       if (!PROJECTS.length) return;
       active = wrapIndex(i);
-
       const p = PROJECTS[active];
 
       const projCode = $("#projCode");
@@ -1085,7 +969,6 @@
     bindButton($("#prevBtn"), prevProject);
     bindButton($("#nextBtn"), nextProject);
 
-    // Optional: Arrow keys (won't trigger when typing)
     document.addEventListener("keydown", (e) => {
       const tag = (document.activeElement && document.activeElement.tagName) ? document.activeElement.tagName.toLowerCase() : "";
       const typing = tag === "input" || tag === "textarea" || tag === "select";
@@ -1095,7 +978,6 @@
       if (e.key === "ArrowRight") nextProject();
     });
 
-    // initial
     renderProject(0);
   </script>
 </body>
