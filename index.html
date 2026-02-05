@@ -28,7 +28,7 @@
       --mono:"IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
 
       --radius: 22px;
-      --wrap: min(1220px, calc(100% - 44px));
+      --wrap: min(1260px, calc(100% - 44px));
     }
     body[data-theme="dark"]{
       --bg:#0b0c0f;
@@ -53,7 +53,7 @@
     img{ display:block; max-width:100%; }
     button{ font:inherit; color:inherit; background:none; border:none; }
 
-    .wrap{ width:var(--wrap); margin:0 auto; padding: 0 0 88px; }
+    .wrap{ width:var(--wrap); margin:0 auto; padding: 0 0 96px; }
 
     .mono{
       font-family: var(--mono);
@@ -69,13 +69,13 @@
       padding: 10px 12px;
       border-radius:999px;
       border:1px solid var(--line);
-      background: color-mix(in srgb, var(--panel) 72%, transparent);
+      background: color-mix(in srgb, var(--panel) 70%, transparent);
       cursor:pointer;
       user-select:none;
       line-height:1;
       white-space:nowrap;
     }
-    .pill:hover{ background: color-mix(in srgb, var(--panel) 60%, transparent); }
+    .pill:hover{ background: color-mix(in srgb, var(--panel) 58%, transparent); }
     .pill.primary{
       background: color-mix(in srgb, var(--accent) 42%, var(--panel));
       border-color: color-mix(in srgb, var(--accent) 66%, var(--line));
@@ -171,7 +171,7 @@
     }
 
     /* =========================
-      SECTION HEAD (like your screenshot)
+      SECTION TOP (INFO / PROJECTS)
       ========================= */
     .sectionTop{
       display:flex;
@@ -185,63 +185,113 @@
     .sectionTop .right{ font-size: 12px; letter-spacing: 0.20em; }
 
     /* =========================
-      FRAME CARD (right preview style)
+      INFO — Layout 1 (your screenshot)
       ========================= */
-    .frameCard{
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      background: color-mix(in srgb, var(--panel) 92%, transparent);
-      box-shadow: var(--shadow);
-      overflow: hidden;
+    .infoHero{
+      padding-bottom: 22px;
     }
-    .frameInner{
-      padding: 18px;
+
+    /* makes big whitespace like reference */
+    .infoStage{
+      margin-top: 18px;
+      min-height: min(86vh, 900px);
+      display:grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 36px;
       position: relative;
-      min-height: 360px;
     }
-    .frameDot{
-      position:absolute;
-      top: 18px;
-      right: 18px;
-      width: 8px; height: 8px;
-      border-radius: 99px;
-      background: var(--accent);
+
+    .infoLeft{
+      display:flex;
+      flex-direction:column;
+      justify-content:space-between;
+      min-height: min(86vh, 900px);
     }
-    .frameLabel{
-      font-size: 12px;
+
+    /* Top-left block */
+    .namePanel{
+      width: min(520px, 100%);
+      padding: 18px 18px 16px;
+      border-radius: 18px;
+      background: color-mix(in srgb, var(--panel) 62%, transparent);
+      border: 1px solid color-mix(in srgb, var(--line) 70%, transparent);
+    }
+    .pcode{
+      font-size: 10px;
       letter-spacing: 0.22em;
-      color: color-mix(in srgb, var(--text) 70%, transparent);
+      opacity: .9;
+      margin-bottom: 12px;
     }
-    .frameLines{
-      margin-top: 10px;
-      border-top: 1px solid var(--line);
-    }
-    .frameLines .line{
-      height: 1px;
-      background: var(--line);
-      opacity: .75;
-      margin: 22px 0;
-    }
-    .frameTitle{
-      margin: 18px 0 6px;
-      font-size: 34px;
-      letter-spacing: -0.02em;
-      text-transform: none;
-      font-family: var(--sans);
-    }
-    .frameSub{
+    .nameBig{
       margin: 0;
-      font-size: 14px;
+      font-size: clamp(48px, 5.4vw, 84px);
+      line-height: .88;
+      letter-spacing: -0.045em;
+      text-transform: uppercase;
+      /* grey like screenshot */
+      color: color-mix(in srgb, var(--text) 48%, transparent);
+    }
+    body[data-theme="dark"] .nameBig{
+      color: color-mix(in srgb, var(--text) 78%, transparent);
+    }
+    .actionRow{
+      margin-top: 14px;
+      display:flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    /* Right big portrait (no card UI) */
+    .infoRight{
+      display:flex;
+      align-items:center;
+      justify-content:flex-end;
+      padding-right: 6px;
+    }
+    .portraitBig{
+      width: min(420px, 100%);
+      aspect-ratio: 1 / 1;
+      border-radius: 0px; /* screenshot looks square */
+      overflow:hidden;
+      background: rgba(0,0,0,.06);
+      box-shadow: var(--shadow);
+      border: 1px solid color-mix(in srgb, var(--line) 70%, transparent);
+    }
+    .portraitBig img{
+      width:100%;
+      height:100%;
+      object-fit: cover;
+      transform: scale(1.02);
+      filter: saturate(0.98);
+    }
+
+    /* Bottom meta row like screenshot */
+    .infoMeta{
+      margin-top: 18px;
+      padding-top: 14px;
+      border-top: 1px dashed var(--line);
+      display:grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 18px;
+    }
+    .infoMeta .k{
+      font-size: 11px;
+      letter-spacing: 0.20em;
       color: var(--muted);
-      line-height: 1.7;
-      max-width: 56ch;
+    }
+    .infoMeta .v{
+      margin-top: 8px;
+      font-size: 12px;
+      line-height: 1.8;
+      letter-spacing: 0.06em;
       text-transform: none;
-      letter-spacing: -0.01em;
-      font-family: var(--sans);
+      font-family: var(--mono);
+      color: color-mix(in srgb, var(--text) 92%, transparent);
+      white-space: pre-line;
     }
 
     /* =========================
-      SHEET LAYOUT (like your second image)
+      PROJECTS (below) — sheet-style (prev/next + preview card)
       ========================= */
     .sheet{
       padding: 8px 0 26px;
@@ -254,13 +304,9 @@
       min-height: min(78vh, 820px);
       position: relative;
     }
-
-    /* Right card sits more "up" to create whitespace like the screenshot */
     .sheetRight{
-      padding-top: 56px;
+      padding-top: 56px; /* keeps card floating higher */
     }
-
-    /* Left side: lots of whitespace + bottom content */
     .sheetLeft{
       min-height: min(78vh, 820px);
       display:flex;
@@ -316,7 +362,6 @@
       flex-wrap: wrap;
     }
 
-    /* Meta line under actions (keep minimal) */
     .miniMeta{
       display:grid;
       grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -341,42 +386,42 @@
       white-space: pre-line;
     }
 
-    /* About card body */
-    .aboutBody{
-      margin-top: 14px;
-      display:grid;
-      grid-template-columns: 1fr;
-      gap: 14px;
-    }
-    .portrait{
+    .frameCard{
       border: 1px solid var(--line);
-      border-radius: calc(var(--radius) - 8px);
+      border-radius: var(--radius);
+      background: color-mix(in srgb, var(--panel) 92%, transparent);
+      box-shadow: var(--shadow);
       overflow: hidden;
-      background: rgba(0,0,0,.04);
-      aspect-ratio: 4 / 5;
     }
-    .portrait img{
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transform: scale(1.02);
-      filter: saturate(0.98);
+    .frameInner{
+      padding: 18px;
+      position: relative;
+      min-height: 360px;
     }
-    .aboutCopy{
-      border-top: 1px dashed var(--line);
-      padding-top: 12px;
+    .frameDot{
+      position:absolute;
+      top: 18px;
+      right: 18px;
+      width: 8px; height: 8px;
+      border-radius: 99px;
+      background: var(--accent);
     }
-    .aboutCopy p{
-      margin: 0;
-      font-size: 14px;
-      line-height: 1.75;
-      color: var(--muted);
-      text-transform: none;
-      letter-spacing: -0.01em;
-      font-family: var(--sans);
+    .frameLabel{
+      font-size: 12px;
+      letter-spacing: 0.22em;
+      color: color-mix(in srgb, var(--text) 70%, transparent);
+    }
+    .frameLines{
+      margin-top: 10px;
+      border-top: 1px solid var(--line);
+    }
+    .frameLines .line{
+      height: 1px;
+      background: var(--line);
+      opacity: .75;
+      margin: 22px 0;
     }
 
-    /* Project preview image inside frame card */
     .previewImage{
       margin-top: 14px;
       border: 1px solid var(--line);
@@ -395,9 +440,30 @@
     }
 
     /* =========================
-      MOBILE POLISH (must look good)
+      MOBILE (must look good)
       ========================= */
     @media (max-width: 980px){
+      .infoStage{
+        grid-template-columns: 1fr;
+        gap: 18px;
+        min-height: auto;
+      }
+      .infoLeft{
+        min-height: auto;
+      }
+      .infoRight{
+        justify-content:flex-start;
+        order: -1; /* show portrait first on mobile */
+        padding-right: 0;
+      }
+      .portraitBig{
+        width: min(520px, 100%);
+        aspect-ratio: 4 / 5; /* portrait feels better on mobile */
+      }
+      .infoMeta{
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
       .sheetGrid{
         grid-template-columns: 1fr;
         gap: 18px;
@@ -405,12 +471,11 @@
       }
       .sheetRight{
         padding-top: 0;
-        order: -1; /* show card first on mobile */
+        order: -1;
       }
       .sheetLeft{
         min-height: auto;
-        justify-content: flex-start;
-        padding-bottom: 0;
+        justify-content:flex-start;
       }
       .bigTitle{
         font-size: clamp(44px, 12vw, 70px);
@@ -422,13 +487,13 @@
     }
 
     @media (max-width: 560px){
-      .wrap{ width: min(1220px, calc(100% - 28px)); }
+      .wrap{ width: min(1260px, calc(100% - 28px)); }
       .sectionTop{ padding-top: 20px; }
-      .sheet{ padding-bottom: 18px; }
-      .frameInner{ padding: 14px; }
-      .frameTitle{ font-size: 28px; }
-      .frameLines .line{ margin: 18px 0; }
+      .namePanel{ padding: 16px; }
+      .infoMeta{ grid-template-columns: 1fr; }
       .miniMeta{ grid-template-columns: 1fr; }
+      .frameInner{ padding: 14px; }
+      .frameLines .line{ margin: 18px 0; }
     }
 
     @media (prefers-reduced-motion: reduce){
@@ -479,32 +544,29 @@
   <main class="wrap">
 
     <!-- =========================
-      INFO (About) — "sheet 2" layout
-      Right card = your portrait + about
+      INFO — Layout 1 (your screenshot)
       ========================= -->
-    <section class="sheet" id="info">
+    <section class="infoHero" id="info">
       <div class="sectionTop">
         <div class="mono left">info</div>
         <div class="mono right muted">scroll</div>
       </div>
 
-      <div class="sheetGrid">
-        <!-- LEFT (bottom typography) -->
-        <div class="sheetLeft">
-          <div class="codeLine mono">
-            <span class="muted">P/00</span>
-            <span class="muted">ABOUT</span>
+      <div class="infoStage">
+        <!-- LEFT -->
+        <div class="infoLeft">
+          <div class="namePanel">
+            <div class="mono tiny muted pcode">P/00  ABOUT</div>
+            <h1 class="nameBig">WACHIRAWIT<br/>PANSUNGNOEN</h1>
+
+            <div class="actionRow">
+              <a class="pill primary mono" href="#projects">projects <span class="arrow">↗</span></a>
+              <a class="pill mono" href="#contact">contact <span class="arrow">↗</span></a>
+            </div>
           </div>
 
-          <h1 class="bigTitle">Wachirawit<br/>Pansungnoen</h1>
-
-          <div class="actionsRow">
-            <a class="btn primary mono" href="#projects">projects <span class="arrow">↗</span></a>
-            <a class="btn mono" href="#contact">contact <span class="arrow">↗</span></a>
-          </div>
-
-          <!-- keep ABOUT minimal (you can edit text here) -->
-          <div class="miniMeta" aria-label="About quick meta">
+          <!-- Bottom meta row (like screenshot) -->
+          <div class="infoMeta" aria-label="About quick meta">
             <div>
               <div class="mono k">focus</div>
               <div class="v">Brand · Identity · Motion</div>
@@ -524,45 +586,17 @@
           </div>
         </div>
 
-        <!-- RIGHT CARD (portrait + about) -->
-        <div class="sheetRight">
-          <div class="frameCard">
-            <div class="frameInner">
-              <div class="frameDot" aria-hidden="true"></div>
-              <div class="mono frameLabel">image</div>
-
-              <div class="frameLines" aria-hidden="true">
-                <div class="line"></div>
-              </div>
-
-              <div class="frameTitle">About</div>
-              <p class="frameSub">A one-person studio delivering brand systems and production-ready design across print, social, and motion.</p>
-
-              <div class="aboutBody">
-                <div class="portrait">
-                  <img id="portraitImg" alt="Portrait" />
-                </div>
-                <div class="aboutCopy">
-                  <p>
-                    I build clear hierarchy and consistent typography — so the brand looks sharp everywhere.
-                  </p>
-                </div>
-              </div>
-
-              <div class="frameLines" aria-hidden="true" style="margin-top:16px;">
-                <div class="line"></div>
-              </div>
-            </div>
+        <!-- RIGHT -->
+        <div class="infoRight" aria-label="Portrait">
+          <div class="portraitBig">
+            <img id="portraitImg" alt="Portrait" />
           </div>
         </div>
       </div>
     </section>
 
     <!-- =========================
-      PROJECTS — moved down + "sheet 2" layout
-      Left = big title at bottom
-      Right card = preview (image)
-      (NO experience on homepage)
+      PROJECTS — below (prev/next + preview card)
       ========================= -->
     <section class="sheet" id="projects">
       <div class="sectionTop">
@@ -571,7 +605,7 @@
       </div>
 
       <div class="sheetGrid">
-        <!-- LEFT (bottom project typography) -->
+        <!-- LEFT (bottom typography) -->
         <div class="sheetLeft">
           <div class="navRow">
             <button class="pill mono" id="prevBtn" type="button">prev</button>
@@ -590,7 +624,6 @@
             <a class="btn mono" href="#contact">contact <span class="arrow">↗</span></a>
           </div>
 
-          <!-- keep meta minimal (optional) -->
           <div class="miniMeta" id="projMeta"></div>
         </div>
 
@@ -656,7 +689,10 @@
   <script>
     /* =========================
       EDIT THESE PATHS
-      ========================= */
+      =========================
+      assets/portrait.jpg
+      assets/p01/cover.jpg ... etc
+    */
     const PORTRAIT = "assets/portrait.jpg";
 
     const PROJECTS = [
@@ -712,29 +748,33 @@
 
     function placeholderSVG(payload){
       const isDark = document.body.dataset.theme === "dark";
-      const bg = isDark ? "#11131a" : "#ffffff";
-      const fg = isDark ? "#e9edf5" : "#0b0c0f";
-      const mut = isDark ? "rgba(233,237,245,.28)" : "rgba(11,12,15,.20)";
+      const bg = isDark ? "#11131a" : "#0b0c0f";
+      const fg = isDark ? "#e9edf5" : "#f6f5f0";
+      const mut = isDark ? "rgba(233,237,245,.22)" : "rgba(246,245,240,.22)";
       const accent = getComputedStyle(document.documentElement).getPropertyValue("--accent").trim() || "#d7ff3a";
 
       const code = payload?.code || "—";
-      const title = payload?.title || "PREVIEW";
+      const title = payload?.title || "IMAGE";
 
       const svg =
-`<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000">
-  <rect width="1600" height="1000" fill="${bg}"/>
-  <rect x="36" y="36" width="1528" height="928" rx="28" fill="none" stroke="${mut}" stroke-width="2"/>
-  <g fill="none" stroke="${mut}" stroke-width="2">
-    <line x1="80" y1="220" x2="1520" y2="220"/>
-    <line x1="80" y1="300" x2="1520" y2="300"/>
-    <line x1="80" y1="380" x2="1520" y2="380"/>
+`<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1200" viewBox="0 0 1200 1200">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="${bg}"/>
+      <stop offset="1" stop-color="${isDark ? "#0b0c0f" : "#121212"}"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="1200" fill="url(#g)"/>
+  <g fill="none" stroke="${mut}" stroke-width="2" opacity="0.7">
+    <rect x="46" y="46" width="1108" height="1108" rx="22"/>
+    <line x1="86" y1="220" x2="1114" y2="220"/>
+    <line x1="86" y1="300" x2="1114" y2="300"/>
   </g>
   <g font-family="IBM Plex Mono, ui-monospace" fill="${fg}">
-    <text x="92" y="190" font-size="24" opacity="0.75">IMAGE</text>
-    <text x="92" y="282" font-size="62">${escapeXML(code)}</text>
-    <text x="92" y="350" font-size="44" opacity="0.92">${escapeXML(title)}</text>
+    <text x="92" y="190" font-size="22" opacity="0.75">${escapeXML(title)}</text>
+    <text x="92" y="285" font-size="56" opacity="0.92">${escapeXML(code)}</text>
   </g>
-  <circle cx="1460" cy="150" r="9" fill="${accent}"/>
+  <circle cx="1080" cy="140" r="9" fill="${accent}"/>
 </svg>`;
       return "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(svg);
     }
@@ -769,30 +809,24 @@
       });
     }
 
+    function renderAll(){
+      setImgWithFallback($("#portraitImg"), PORTRAIT, { code:"P/00", title:"PORTRAIT" });
+      renderProject(active);
+    }
+
     function toggleTheme(){
       const next = (body.dataset.theme === "dark") ? "light" : "dark";
       body.dataset.theme = next;
       localStorage.setItem("theme", next);
       setThemeUI();
-
-      // re-render placeholders so they match theme
-      renderPortrait();
-      renderProject(active);
+      renderAll();
     }
 
     bindButton($("#themeBtn"), toggleTheme);
     bindButton($("#drawerTheme"), () => toggleTheme());
 
     /* =========================
-      PORTRAIT (About card)
-      ========================= */
-    function renderPortrait(){
-      setImgWithFallback($("#portraitImg"), PORTRAIT, { code: "P/00", title: "Portrait" });
-    }
-    renderPortrait();
-
-    /* =========================
-      PROJECTS (sheet layout)
+      PROJECTS (prev/next)
       ========================= */
     let active = 0;
 
@@ -807,7 +841,6 @@
 
     function renderProject(i){
       const p = PROJECTS[i];
-
       $("#projCode").textContent = p.code;
       $("#projTitle").textContent = p.title.toUpperCase();
       $("#cardCode").textContent = p.code;
@@ -815,7 +848,7 @@
       const visit = $("#projVisit");
       visit.href = p.link || "#projects";
 
-      setImgWithFallback($("#projImg"), p.cover, { code: p.code, title: p.title });
+      setImgWithFallback($("#projImg"), p.cover, { code:p.code, title:p.title });
 
       $("#projMeta").innerHTML = [
         metaHTML("client", p.client),
@@ -833,7 +866,8 @@
     bindButton($("#prevBtn"), () => setActive(active - 1));
     bindButton($("#nextBtn"), () => setActive(active + 1));
 
-    renderProject(active);
+    // Initial render
+    renderAll();
 
     // Keyboard (optional): left/right switches projects
     window.addEventListener("keydown", (e) => {
