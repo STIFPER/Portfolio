@@ -419,84 +419,111 @@
     <style>
       .projects-section { padding: 0 var(--pad) 100px; }
 
-      /* Masonry Grid Layout */
-      .masonry-grid {
+      /* Section Header */
+      .section-header {
+        display: flex; justify-content: space-between; margin-bottom: 40px;
+        font-family: var(--font-mono); font-size: 12px; 
+        text-transform: uppercase; letter-spacing: 0.05em; opacity: 0.6;
+        border-bottom: 1px solid var(--line); padding-bottom: 20px;
+      }
+
+      /* COLLAGE GRID LAYOUT */
+      .collage-grid {
         display: grid;
         grid-template-columns: 1fr;
-        gap: 24px;
+        gap: 16px; /* ช่องว่างระหว่างรูปเล็กๆ แบบ Pro */
+        auto-rows: 300px;
       }
 
-      /* Desktop: 3 คอลัมน์ แบบ Bento Grid */
       @media (min-width: 900px) {
-        .masonry-grid {
-          grid-template-columns: repeat(3, 1fr);
-          grid-auto-rows: 300px; /* ความสูงพื้นฐานของแต่ละบล็อก */
+        .collage-grid {
+          grid-template-columns: 2fr 1fr; /* แบ่งเป็น 2 ส่วนใหญ่ (ซ้าย 2/3, ขวา 1/3) */
+          grid-template-rows: 320px 320px; /* ความสูง 2 แถว */
+          gap: 24px;
         }
-        /* กำหนดขนาดของแต่ละการ์ดให้ดูเหมือนจิ๊กซอว์ */
-        .grid-item-1 { grid-column: span 2; grid-row: span 2; } /* รูปใหญ่สุด */
-        .grid-item-2 { grid-column: span 1; grid-row: span 1; } /* รูปตั้ง */
-        .grid-item-3 { grid-column: span 1; grid-row: span 1; } /* รูปสั้น */
-        .grid-item-4 { grid-column: span 3; grid-row: span 1; } /* รูปยาวแนวนอนด้านล่าง */
+        
+        /* จัดตำแหน่งแต่ละรูปให้ลงล็อค (Jigsaw) */
+        .c-item-1 {
+          grid-column: 1 / 2;     /* อยู่คอลัมน์ซ้าย */
+          grid-row: 1 / 3;        /* สูงยาวลงมา 2 แถว */
+        }
+        .c-item-2 {
+          grid-column: 2 / 3;     /* อยู่คอลัมน์ขวา */
+          grid-row: 1 / 2;        /* แถวบน */
+        }
+        .c-item-3 {
+          grid-column: 2 / 3;     /* อยู่คอลัมน์ขวา */
+          grid-row: 2 / 3;        /* แถวล่าง */
+        }
       }
 
-      /* Card Style */
-      .project-card {
-        display: flex; flex-direction: column;
-        text-decoration: none; color: inherit;
-        height: 100%;
+      /* CARD STYLE (Overlay) */
+      .collage-card {
         position: relative;
-        group; /* สำหรับ Hover effect */
-      }
-
-      /* Image Wrapper */
-      .pc-img {
+        display: block;
         width: 100%; height: 100%;
-        border-radius: 4px; overflow: hidden;
+        border-radius: 4px;
+        overflow: hidden;
         background: var(--card-bg);
-        margin-bottom: 16px; /* ระยะห่างจากรูปถึงชื่อ */
       }
-      .pc-img img {
-        width: 100%; height: 100%; object-fit: cover;
+
+      /* Image */
+      .collage-card img {
+        width: 100%; height: 100%;
+        object-fit: cover;
         transition: transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1);
-        filter: grayscale(100%);
+        filter: grayscale(20%); /* ปรับให้ดูขรึมๆ หน่อย */
       }
-      .project-card:hover .pc-img img {
-        transform: scale(1.05); filter: grayscale(0%);
-      }
-
-      /* Footer: Title + Pill Button (ตาม Reference รูปที่ 3) */
-      .pc-footer {
-        display: flex; justify-content: space-between; align-items: center;
-        padding: 0 4px;
+      .collage-card:hover img {
+        transform: scale(1.05);
+        filter: grayscale(0%);
       }
 
-      .pc-title {
-        font-family: var(--font-main);
-        font-size: 16px; font-weight: 500;
-        text-transform: uppercase; letter-spacing: -0.01em;
+      /* OVERLAY CONTENT (Text & Button in Image) */
+      .c-overlay {
+        position: absolute;
+        bottom: 0; left: 0; width: 100%;
+        padding: 30px;
+        display: flex; justify-content: space-between; align-items: flex-end;
+        /* ไล่เฉดสีดำจางๆ ด้านล่าง เพื่อให้ตัวหนังสือสีขาวอ่านออกเสมอ */
+        background: linear-gradient(to top, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0) 100%);
+        opacity: 1; transition: opacity 0.3s;
       }
 
-      /* Pill Button Style */
-      .pill-btn {
-        width: 60px; height: 34px;
-        border: 1px solid var(--line);
-        border-radius: 50px; /* ทรงแคปซูล */
+      .c-info { color: #fff; /* บังคับสีขาวเสมอเพราะอยู่บนรูป */ }
+      
+      .c-cat {
+        font-family: var(--font-mono); font-size: 11px; 
+        text-transform: uppercase; letter-spacing: 0.1em;
+        margin-bottom: 8px; opacity: 0.8;
+      }
+      .c-title {
+        font-family: var(--font-main); font-size: 24px; font-weight: 500;
+        line-height: 1.1; margin: 0;
+      }
+
+      /* Pill Button Style (In Image) */
+      .c-btn {
+        width: 56px; height: 32px;
+        border: 1px solid rgba(255,255,255,0.4);
+        border-radius: 50px;
         display: flex; align-items: center; justify-content: center;
+        color: #fff;
+        backdrop-filter: blur(4px); /* เอฟเฟกต์เบลอหลังปุ่มดูแพง */
         transition: all 0.3s ease;
       }
-      .pill-btn svg {
-        width: 16px; height: 16px;
-        transition: transform 0.3s;
+      .c-btn svg { width: 14px; height: 14px; transition: transform 0.3s; }
+
+      /* Hover Effects */
+      .collage-card:hover .c-btn {
+        background: #fff; color: #000; border-color: #fff;
+      }
+      .collage-card:hover .c-btn svg {
+        transform: translate(2px, -2px); /* ลูกศรพุ่งเฉียงขึ้น */
       }
 
-      /* Hover Effect */
-      .project-card:hover .pill-btn {
-        background: var(--text); 
-        border-color: var(--text);
-        color: var(--bg);
-      }
-      .project-card:hover .pill-btn svg {
-        transform: translateX(2px); /* ลูกศรขยับขวานิดๆ */
+      @media (max-width: 900px) {
+        .c-title { font-size: 20px; }
       }
     </style>
 
@@ -505,7 +532,52 @@
       <div>( SELECTED )</div>
     </div>
 
-    <div class="masonry-grid">
+    <div class="collage-grid">
+      
+      <a href="project-detail.html" class="collage-card c-item-1">
+        <img src="assets/wangwela.jpg" onerror="this.src='https://images.unsplash.com/photo-1600334089648-b0d9d3028eb2?q=80&w=1200&auto=format&fit=crop'" alt="Wangwela">
+        
+        <div class="c-overlay">
+          <div class="c-info">
+            <div class="c-cat">Brand Identity</div>
+            <h3 class="c-title">Wangwela Spa</h3>
+          </div>
+          <div class="c-btn">
+            <svg class="icon-arrow" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H7M17 7V17"></path></svg>
+          </div>
+        </div>
+      </a>
+
+      <a href="project-detail.html" class="collage-card c-item-2">
+        <img src="assets/bionest.jpg" onerror="this.src='https://images.unsplash.com/photo-1622483767028-3f66f32aef97?q=80&w=800&auto=format&fit=crop'" alt="Bionest">
+        
+        <div class="c-overlay">
+          <div class="c-info">
+            <div class="c-cat">Packaging</div>
+            <h3 class="c-title">Bionest</h3>
+          </div>
+          <div class="c-btn">
+            <svg class="icon-arrow" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H7M17 7V17"></path></svg>
+          </div>
+        </div>
+      </a>
+
+      <a href="project-detail.html" class="collage-card c-item-3">
+        <img src="assets/pulse.jpg" onerror="this.src='https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=800&auto=format&fit=crop'" alt="Pulse">
+        
+        <div class="c-overlay">
+          <div class="c-info">
+            <div class="c-cat">Visual System</div>
+            <h3 class="c-title">Pulse Fitness</h3>
+          </div>
+          <div class="c-btn">
+            <svg class="icon-arrow" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H7M17 7V17"></path></svg>
+          </div>
+        </div>
+      </a>
+
+    </div>
+  </section>
       
       <a href="project-detail.html" class="project-card grid-item-1">
         <div class="pc-img">
