@@ -54,7 +54,7 @@
       width: 1em; height: 1em;
       fill: none; 
       stroke: currentColor; 
-      stroke-width: 2.5; /* ความหนาของเส้นลูกศร (ปรับตรงนี้) */
+      stroke-width: 2.5; 
       stroke-linecap: round; 
       stroke-linejoin: round;
       display: inline-block;
@@ -106,6 +106,7 @@
       width: clamp(220px, 25vw, 340px); aspect-ratio: 3/4; z-index: 1;
       transform: translateY(-50%);
     }
+    /* ฟิลเตอร์ขาวดำ */
     .portrait-wrapper img { filter: grayscale(100%); transition: filter 0.5s; }
     .portrait-wrapper:hover img { filter: grayscale(0%); }
 
@@ -177,7 +178,6 @@
       color: var(--text);
     }
     
-    /* ขนาดไอคอนในวงกลม */
     .svc-circle svg { width: 14px; height: 14px; }
 
     .svc-item:hover .svc-circle {
@@ -233,7 +233,7 @@
     .feat-link {
       font-family: var(--font-mono); font-size: 12px; text-transform: uppercase; 
       text-decoration: underline; opacity: 0.7; 
-      display: inline-flex; align-items: center; gap: 6px; /* จัดไอคอนให้ตรงกับ text */
+      display: inline-flex; align-items: center; gap: 6px;
     }
     .featured-project:hover { opacity: 0.8; }
 
@@ -299,7 +299,7 @@
       .portrait-wrapper { right: 5%; width: 220px; top: 40%; }
       .intro-grid { grid-template-columns: 1fr; gap: 20px; }
       .svc-item { grid-template-columns: 1fr; gap: 12px; } 
-      .svc-circle { position: absolute; right: 0; top: 24px; } /* ปุ่มลอยขวาบนมือถือ */
+      .svc-circle { position: absolute; right: 0; top: 24px; }
       .svc-dropdown { padding-left: 0; }
       .footer-wrapper { grid-template-columns: 1fr; }
     }
@@ -329,8 +329,9 @@
 
   <section class="hero-container" id="about">
     <div class="hero-name">Wachirawit<br>Pansungnoen</div>
+    
     <div class="portrait-wrapper">
-      <img src="assets/portrait.jpg" onerror="this.src='https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=600&auto=format&fit=crop'" alt="Portrait">
+      <img src="assets/hero-portrait.jpg" alt="Portrait">
     </div>
     <div class="hero-bottom">
       <div class="divider"></div>
