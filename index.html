@@ -415,49 +415,146 @@
   </section>
 
   <section class="projects-section" id="projects">
+    
+    <style>
+      .projects-section { padding: 0 var(--pad) 100px; }
+
+      /* Masonry Grid Layout */
+      .masonry-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 24px;
+      }
+
+      /* Desktop: 3 คอลัมน์ แบบ Bento Grid */
+      @media (min-width: 900px) {
+        .masonry-grid {
+          grid-template-columns: repeat(3, 1fr);
+          grid-auto-rows: 300px; /* ความสูงพื้นฐานของแต่ละบล็อก */
+        }
+        /* กำหนดขนาดของแต่ละการ์ดให้ดูเหมือนจิ๊กซอว์ */
+        .grid-item-1 { grid-column: span 2; grid-row: span 2; } /* รูปใหญ่สุด */
+        .grid-item-2 { grid-column: span 1; grid-row: span 1; } /* รูปตั้ง */
+        .grid-item-3 { grid-column: span 1; grid-row: span 1; } /* รูปสั้น */
+        .grid-item-4 { grid-column: span 3; grid-row: span 1; } /* รูปยาวแนวนอนด้านล่าง */
+      }
+
+      /* Card Style */
+      .project-card {
+        display: flex; flex-direction: column;
+        text-decoration: none; color: inherit;
+        height: 100%;
+        position: relative;
+        group; /* สำหรับ Hover effect */
+      }
+
+      /* Image Wrapper */
+      .pc-img {
+        width: 100%; height: 100%;
+        border-radius: 4px; overflow: hidden;
+        background: var(--card-bg);
+        margin-bottom: 16px; /* ระยะห่างจากรูปถึงชื่อ */
+      }
+      .pc-img img {
+        width: 100%; height: 100%; object-fit: cover;
+        transition: transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1);
+        filter: grayscale(100%);
+      }
+      .project-card:hover .pc-img img {
+        transform: scale(1.05); filter: grayscale(0%);
+      }
+
+      /* Footer: Title + Pill Button (ตาม Reference รูปที่ 3) */
+      .pc-footer {
+        display: flex; justify-content: space-between; align-items: center;
+        padding: 0 4px;
+      }
+
+      .pc-title {
+        font-family: var(--font-main);
+        font-size: 16px; font-weight: 500;
+        text-transform: uppercase; letter-spacing: -0.01em;
+      }
+
+      /* Pill Button Style */
+      .pill-btn {
+        width: 60px; height: 34px;
+        border: 1px solid var(--line);
+        border-radius: 50px; /* ทรงแคปซูล */
+        display: flex; align-items: center; justify-content: center;
+        transition: all 0.3s ease;
+      }
+      .pill-btn svg {
+        width: 16px; height: 16px;
+        transition: transform 0.3s;
+      }
+
+      /* Hover Effect */
+      .project-card:hover .pill-btn {
+        background: var(--text); 
+        border-color: var(--text);
+        color: var(--bg);
+      }
+      .project-card:hover .pill-btn svg {
+        transform: translateX(2px); /* ลูกศรขยับขวานิดๆ */
+      }
+    </style>
+
     <div class="section-header">
       <div>Featured Works</div>
-      <div>( 2023 — 2026 )</div>
+      <div>( SELECTED )</div>
     </div>
 
-    <a href="project-detail.html" class="featured-project">
-      <div class="feat-img-box">
-        <img src="assets/wangwela.jpg" onerror="this.src='https://images.unsplash.com/photo-1600334089648-b0d9d3028eb2?q=80&w=1200&auto=format&fit=crop'" alt="Wangwela Highlight">
-      </div>
-      <div class="feat-content">
-        <div class="feat-cat">Brand Identity / P-01</div>
-        <h3 class="feat-title">Wangwela Spa & Wellness</h3>
-        <span class="feat-link">
-          View Project 
-          <svg class="icon-arrow" viewBox="0 0 24 24" style="width:14px;height:14px;"><path d="M7 17L17 7M17 7H7M17 7V17"></path></svg>
-        </span>
-      </div>
-    </a>
+    <div class="masonry-grid">
+      
+      <a href="project-detail.html" class="project-card grid-item-1">
+        <div class="pc-img">
+          <img src="assets/wangwela.jpg" onerror="this.src='https://images.unsplash.com/photo-1600334089648-b0d9d3028eb2?q=80&w=1200&auto=format&fit=crop'" alt="Wangwela">
+        </div>
+        <div class="pc-footer">
+          <span class="pc-title">Wangwela Spa</span>
+          <div class="pill-btn">
+            <svg class="icon-arrow" viewBox="0 0 24 24"><path d="M5 12H19M19 12L12 5M19 12L12 19"></path></svg>
+          </div>
+        </div>
+      </a>
 
-    <div class="project-row">
-      <a href="project-detail.html" class="p-card">
-        <div class="p-img-box">
+      <a href="project-detail.html" class="project-card grid-item-2">
+        <div class="pc-img">
           <img src="assets/bionest.jpg" onerror="this.src='https://images.unsplash.com/photo-1622483767028-3f66f32aef97?q=80&w=600&auto=format&fit=crop'" alt="Bionest">
         </div>
-        <div class="p-meta">Packaging / P-02</div>
-        <div class="p-title">Bionest Kombucha</div>
+        <div class="pc-footer">
+          <span class="pc-title">Bionest</span>
+          <div class="pill-btn">
+            <svg class="icon-arrow" viewBox="0 0 24 24"><path d="M5 12H19M19 12L12 5M19 12L12 19"></path></svg>
+          </div>
+        </div>
       </a>
 
-      <a href="project-detail.html" class="p-card">
-        <div class="p-img-box">
+      <a href="project-detail.html" class="project-card grid-item-3">
+        <div class="pc-img">
           <img src="assets/pulse.jpg" onerror="this.src='https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=600&auto=format&fit=crop'" alt="Pulse">
         </div>
-        <div class="p-meta">Identity System / P-03</div>
-        <div class="p-title">Pulse Fitness</div>
+        <div class="pc-footer">
+          <span class="pc-title">Pulse Fitness</span>
+          <div class="pill-btn">
+            <svg class="icon-arrow" viewBox="0 0 24 24"><path d="M5 12H19M19 12L12 5M19 12L12 19"></path></svg>
+          </div>
+        </div>
       </a>
 
-      <a href="project-detail.html" class="p-card">
-        <div class="p-img-box">
-          <img src="assets/leymo.jpg" onerror="this.src='https://images.unsplash.com/photo-1513364776144-60967b0f800f?q=80&w=600&auto=format&fit=crop'" alt="Leymo">
+      <a href="project-detail.html" class="project-card grid-item-4">
+        <div class="pc-img">
+          <img src="assets/leymo.jpg" onerror="this.src='https://images.unsplash.com/photo-1513364776144-60967b0f800f?q=80&w=1200&auto=format&fit=crop'" alt="Leymo">
         </div>
-        <div class="p-meta">Character Design / P-04</div>
-        <div class="p-title">Leymo Import Shop</div>
+        <div class="pc-footer">
+          <span class="pc-title">Leymo Shop</span>
+          <div class="pill-btn">
+            <svg class="icon-arrow" viewBox="0 0 24 24"><path d="M5 12H19M19 12L12 5M19 12L12 19"></path></svg>
+          </div>
+        </div>
       </a>
+
     </div>
   </section>
 
