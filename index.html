@@ -52,27 +52,32 @@
     /* ICON STYLE (SVG) */
     .icon-arrow {
       width: 1em; height: 1em;
-      fill: none; 
-      stroke: currentColor; 
-      stroke-width: 2.5; 
-      stroke-linecap: round; 
-      stroke-linejoin: round;
-      display: inline-block;
-      vertical-align: middle;
+      fill: none; stroke: currentColor; 
+      stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round;
+      display: inline-block; vertical-align: middle;
     }
 
     /* =========================
-       HEADER
+       HEADER & LOGO SWITCHER
        ========================= */
     header {
       padding: 30px var(--pad);
       display: flex; justify-content: space-between; align-items: center;
       position: relative; z-index: 100;
     }
+    
     .logo {
       font-family: var(--font-main); font-weight: 700; font-size: 16px;
       letter-spacing: -0.02em; text-transform: uppercase;
+      display: flex; align-items: center; gap: 12px;
     }
+
+    /* Logic สลับโลโก้ */
+    .logo-dark { display: none; } /* ซ่อนโลโก้ Dark ไว้ก่อน */
+
+    body[data-theme="dark"] .logo-light { display: none !important; } /* ซ่อน Light เมื่อเป็น Dark Mode */
+    body[data-theme="dark"] .logo-dark { display: block !important; } /* โชว์ Dark เมื่อเป็น Dark Mode */
+
     .nav-group { display: flex; align-items: center; gap: 32px; }
     .nav {
       display: flex; gap: 24px;
@@ -132,7 +137,7 @@
     @keyframes bounce { 0%,100%{transform:translateY(0);} 50%{transform:translateY(5px);} }
 
     /* =========================
-       SERVICES (SVG ARROW)
+       SERVICES (Accordion + SVG)
        ========================= */
     .services-section { padding: 0 var(--pad) 80px; }
     
@@ -154,34 +159,21 @@
     }
     
     .svc-top {
-      display: grid; 
-      grid-template-columns: 1.5fr 2fr auto; 
-      gap: 20px;
-      align-items: center;
-      padding: 32px 0;
+      display: grid; grid-template-columns: 1.5fr 2fr auto; 
+      gap: 20px; align-items: center; padding: 32px 0;
     }
 
     .svc-name { font-family: var(--font-main); font-size: 22px; font-weight: 500; }
+    .svc-desc { font-family: var(--font-mono); font-size: 13px; opacity: 0.7; }
     
-    .svc-desc { 
-      font-family: var(--font-mono); font-size: 13px; opacity: 0.7; 
-    }
-    
-    /* ปุ่มวงกลม + ไอคอน */
     .svc-circle { 
-      width: 40px; height: 40px;
-      border-radius: 50%;
-      background: var(--btn-bg);
+      width: 40px; height: 40px; border-radius: 50%;
+      background: var(--btn-bg); color: var(--text);
       display: flex; align-items: center; justify-content: center;
       transition: all 0.3s ease;
-      color: var(--text);
     }
-    
     .svc-circle svg { width: 14px; height: 14px; }
-
-    .svc-item:hover .svc-circle {
-      background: var(--text); color: var(--bg); transform: rotate(45deg);
-    }
+    .svc-item:hover .svc-circle { background: var(--text); color: var(--bg); transform: rotate(45deg); }
 
     .svc-dropdown {
       max-height: 0; overflow: hidden;
@@ -198,7 +190,7 @@
     .svc-sub-link:hover { opacity: 1; padding-left: 10px; border-style: solid; }
 
     /* =========================
-       PROJECTS (MINIMAL - NO DESC)
+       PROJECTS (Minimal)
        ========================= */
     .projects-section { padding: 0 var(--pad) 100px; }
 
@@ -209,6 +201,7 @@
       border-bottom: 1px solid var(--line); padding-bottom: 20px;
     }
 
+    /* Highlight Project */
     .featured-project {
       display: grid; grid-template-columns: 1.6fr 1fr; gap: 60px;
       margin-bottom: 100px; align-items: center;
@@ -228,7 +221,6 @@
       font-family: var(--font-main); font-size: clamp(32px, 4vw, 48px);
       font-weight: 500; line-height: 1.1; margin: 0 0 24px 0; letter-spacing: -0.02em;
     }
-    
     .feat-link {
       font-family: var(--font-mono); font-size: 12px; text-transform: uppercase; 
       text-decoration: underline; opacity: 0.7; 
@@ -236,10 +228,8 @@
     }
     .featured-project:hover { opacity: 0.8; }
 
-    /* Project Row */
-    .project-row {
-      display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px;
-    }
+    /* Project Grid */
+    .project-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; }
     .p-card { display: block; }
     .p-img-box {
       width: 100%; aspect-ratio: 4/3; background: var(--card-bg); 
@@ -253,27 +243,22 @@
       text-transform: uppercase; margin-bottom: 10px; letter-spacing: 0.05em;
     }
     .p-title {
-      font-family: var(--font-main); font-size: 20px; font-weight: 500; 
-      line-height: 1.2;
+      font-family: var(--font-main); font-size: 20px; font-weight: 500; line-height: 1.2;
     }
 
     /* =========================
        FOOTER
        ========================= */
     footer {
-      padding: 60px var(--pad) 40px;
-      border-top: 1px solid var(--line);
+      padding: 60px var(--pad) 40px; border-top: 1px solid var(--line);
     }
     .footer-wrapper {
-      display: grid; grid-template-columns: 1fr 1fr; gap: 40px;
-      margin-bottom: 60px;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-bottom: 60px;
     }
-    
     .footer-msg {
       font-family: var(--font-main); font-size: 24px; font-weight: 500;
       line-height: 1.4; max-width: 400px;
     }
-
     .footer-cols {
       display: grid; grid-template-columns: repeat(2, 1fr); gap: 40px;
       font-family: var(--font-mono); font-size: 12px;
@@ -284,7 +269,6 @@
       margin-bottom: 10px; opacity: 0.9; width: 100%;
     }
     .f-link:hover { opacity: 0.6; }
-
     .footer-btm {
       display: flex; justify-content: space-between; align-items: flex-end;
       font-family: var(--font-mono); font-size: 11px; opacity: 0.5; text-transform: uppercase;
@@ -314,14 +298,12 @@
 <body data-theme="light">
 
   <header>
-    <a href="index.html" class="logo" style="display: flex; align-items: center; gap: 12px;">
+    <a href="index.html" class="logo">
       
-      <svg width="40" height="40" viewBox="0 0 680 680" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="339.79" cy="339.79" r="339.79" fill="#ffffff"/>
-        <path fill="#f1e6d4" d="M507.86,408.64c0,27.74-31.97,43.24-53.75,26.02l-63.18-49.8c-9.67-5.95-22.14,1.04-22.14,12.43v97.03c0,7.99-3.24,15.23-8.51,20.46-5.24,5.28-12.47,8.51-20.46,8.51s-15.27-3.24-20.46-8.51c-5.24-5.24-8.47-12.47-8.47-20.46v-97.03c0-11.39-12.47-18.38-22.22-12.43l-63.18,49.8c-21.78,17.22-53.75,1.72-53.75-26.02,0-7.11,2.28-13.83,6.19-19.38,3.92-5.44,9.63-9.75,16.35-12.11l85.76-29.13c10.47-3.56,21.9-3.24,32.13,1.16,10.99,4.72,22.02,14.43,22.02,34.13h11.27c0-19.7,11.03-29.41,21.98-34.13,10.23-4.4,21.66-4.72,32.21-1.16l85.76,29.13c6.71,2.36,12.35,6.67,16.27,12.11,3.92,5.55,6.19,12.27,6.19,19.38Z"/>
-        <path fill="#f1e6d4" d="M171.72,270.94c0-27.74,31.97-43.24,53.75-26.02l63.18,49.8c9.67,5.95,22.14-1.04,22.14-12.43v-97.03c0-7.99,3.24-15.23,8.51-20.46,5.24-5.28,12.47-8.51,20.46-8.51s15.27,3.24,20.46,8.51c5.24,5.24,8.47,12.47,8.47,20.46v97.03c0,11.39,12.47,18.38,22.22,12.43l63.18-49.8c21.78-17.22,53.75-1.72,53.75,26.02,0,7.11-2.28,13.83-6.19,19.38-3.92,5.44-9.63,9.75-16.35,12.11l-85.76,29.13c-10.47,3.56-21.9,3.24-32.13-1.16-10.99-4.72-22.02-14.43-22.02-34.13h-11.27c0,19.7-11.03,29.41-21.98,34.13-10.23,4.4-21.66,4.72-32.21,1.16l-85.76-29.13c-6.71-2.36-12.35-6.67-16.27-12.11-3.92-5.55-6.19-12.27-6.19-19.38Z"/>
-        <path fill="#0f0f10" d="M507.86,408.64c0,27.74-31.97,43.24-53.75,26.02l-63.18-49.8c-9.67-5.95-22.14,1.04-22.14,12.43v97.03c0,7.99-3.24,15.23-8.51,20.46-5.24,5.28-12.47,8.51-20.46,8.51s-15.27-3.24-20.46-8.51c-5.24-5.24-8.47-12.47-8.47-20.46v-97.03c0-11.39-12.47-18.38-22.22-12.43l-63.18,49.8c-21.78,17.22-53.75,1.72-53.75-26.02,0-7.11,2.28-13.83,6.19-19.38,3.92-5.44,9.63-9.75,16.35-12.11l85.76-29.13c10.47-3.56,21.9-3.24,32.13,1.16,10.99,4.72,22.02,14.43,22.02,34.13h11.27c0-19.7,11.03-29.41,21.98-34.13,10.23-4.4,21.66-4.72,32.21-1.16l85.76,29.13c6.71,2.36,12.35,6.67,16.27,12.11,3.92,5.55,6.19,12.27,6.19,19.38Z"/>
-      </svg>
+      <img src="assets/logo-light.png" class="logo-light" alt="Logo" style="width: 40px; height: 40px; object-fit: contain;">
+      
+      <img src="assets/logo-dark.png" class="logo-dark" alt="Logo" style="width: 40px; height: 40px; object-fit: contain;">
+      
       MESTYLE STUDIO
     </a>
 
@@ -512,16 +494,22 @@
   </footer>
 
   <script>
-    /* Theme Toggle */
+    /* Theme Toggle Logic */
     const btn = document.getElementById('themeBtn');
     const body = document.body;
-    if (localStorage.getItem('theme') === 'dark') body.setAttribute('data-theme', 'dark');
+    
+    // Check saved theme
+    if (localStorage.getItem('theme') === 'dark') {
+      body.setAttribute('data-theme', 'dark');
+    }
 
     btn.addEventListener('click', () => {
       if (body.getAttribute('data-theme') === 'dark') {
-        body.setAttribute('data-theme', 'light'); localStorage.setItem('theme', 'light');
+        body.setAttribute('data-theme', 'light');
+        localStorage.setItem('theme', 'light');
       } else {
-        body.setAttribute('data-theme', 'dark'); localStorage.setItem('theme', 'dark');
+        body.setAttribute('data-theme', 'dark');
+        localStorage.setItem('theme', 'dark');
       }
     });
 
