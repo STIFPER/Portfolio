@@ -164,7 +164,7 @@
     .svc-sub-link:hover { opacity: 1; padding-left: 10px; border-style: solid; }
 
     /* =========================
-       PROJECTS (8-GRID MOSAIC)
+       PROJECTS (SMART MOSAIC GRID)
        ========================= */
     .projects-section { padding: 0 var(--pad) 100px; }
 
@@ -175,41 +175,46 @@
       border-bottom: 1px solid var(--line); padding-bottom: 20px;
     }
 
-    /* GRID SYSTEM (8 ITEMS) */
+    /* GRID SETUP */
     .collage-grid {
       display: grid;
-      gap: 16px;
-      grid-template-columns: 1fr; /* Mobile: 1 col */
-      grid-auto-rows: 280px;
+      /* Mobile: 1 คอลัมน์เรียงลงมา */
+      grid-template-columns: 1fr;
+      grid-auto-rows: 300px; 
+      gap: 2px; /* ช่องว่างเส้นขาวบางๆ เหมือน Reference */
     }
 
+    /* Desktop: 3 Columns Locked Layout */
     @media (min-width: 900px) {
       .collage-grid {
-        /* Desktop: 3 Columns Grid */
-        grid-template-columns: repeat(3, 1fr);
-        grid-auto-rows: 280px;
-        gap: 24px;
+        grid-template-columns: repeat(3, 1fr); /* 3 ส่วนเท่ากัน */
+        grid-template-rows: repeat(4, 250px); /* 4 แถว สูงแถวละ 250px */
       }
 
-      /* กำหนดขนาดของแต่ละช่องให้หลากหลาย (Mosaic) */
+      /* Mapping 8 ชิ้นให้ลงล็อค (Jigsaw Puzzle) */
       
-      /* Item 1: ใหญ่ (กินพื้นที่ 2x2) */
-      .c-big { grid-column: span 2; grid-row: span 2; }
+      /* Row 1 */
+      .item-1 { grid-column: 1 / 2; grid-row: 1 / 3; } /* ซ้าย: สูง (2 แถว) */
+      .item-2 { grid-column: 2 / 4; grid-row: 1 / 2; } /* ขวาบน: ยาว (2 คอลัมน์) */
       
-      /* Item: ยาวแนวนอน (กินพื้นที่ 2 คอลัมน์) */
-      .c-wide { grid-column: span 2; }
-      
-      /* Item: สูงแนวตั้ง (กินพื้นที่ 2 แถว) */
-      .c-tall { grid-row: span 2; }
-      
-      /* Item: ปกติ (1x1) - ไม่ต้องใส่ class พิเศษ */
+      /* Row 2 */
+      .item-3 { grid-column: 2 / 3; grid-row: 2 / 3; } /* กลาง: ปกติ */
+      .item-4 { grid-column: 3 / 4; grid-row: 2 / 3; } /* ขวา: ปกติ */
+
+      /* Row 3 */
+      .item-5 { grid-column: 1 / 3; grid-row: 3 / 4; } /* ซ้ายล่าง: ยาว (2 คอลัมน์) */
+      .item-6 { grid-column: 3 / 4; grid-row: 3 / 5; } /* ขวาล่าง: สูง (2 แถว) */
+
+      /* Row 4 */
+      .item-7 { grid-column: 1 / 2; grid-row: 4 / 5; } /* ซ้ายสุด: ปกติ */
+      .item-8 { grid-column: 2 / 3; grid-row: 4 / 5; } /* กลางล่าง: ปกติ */
     }
 
-    /* Card Style */
+    /* Card Style & Overlay (คงเดิมตามที่ขอ) */
     .collage-card {
       position: relative; display: block;
       width: 100%; height: 100%;
-      border-radius: 4px; overflow: hidden;
+      overflow: hidden;
       background: var(--card-bg);
     }
 
@@ -220,7 +225,6 @@
     }
     .collage-card:hover img { transform: scale(1.05); filter: grayscale(0%); }
 
-    /* Overlay Content */
     .c-overlay {
       position: absolute; bottom: 0; left: 0; width: 100%;
       padding: 24px;
@@ -229,7 +233,6 @@
     }
 
     .c-info { color: #fff; }
-    
     .c-cat {
       font-family: var(--font-mono); font-size: 10px; 
       text-transform: uppercase; letter-spacing: 0.1em;
@@ -239,10 +242,7 @@
       font-family: var(--font-main); font-size: 20px; font-weight: 500;
       line-height: 1.1; margin: 0;
     }
-    /* ปรับขนาดตัวหนังสือสำหรับรูปใหญ่ */
-    .c-big .c-title { font-size: 32px; }
 
-    /* Button Style */
     .c-btn {
       width: 48px; height: 30px;
       border: 1px solid rgba(255,255,255,0.4);
@@ -252,42 +252,23 @@
       transition: all 0.3s ease;
     }
     .c-btn svg { width: 14px; height: 14px; transition: transform 0.3s; }
-
     .collage-card:hover .c-btn { background: #fff; color: #000; border-color: #fff; }
     .collage-card:hover .c-btn svg { transform: translate(2px, -2px); }
 
     /* =========================
        FOOTER
        ========================= */
-    footer {
-      padding: 60px var(--pad) 40px; border-top: 1px solid var(--line);
-    }
-    .footer-wrapper {
-      display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-bottom: 60px;
-    }
-    .footer-msg {
-      font-family: var(--font-main); font-size: 24px; font-weight: 500;
-      line-height: 1.4; max-width: 400px;
-    }
-    .footer-cols {
-      display: grid; grid-template-columns: repeat(2, 1fr); gap: 40px;
-      font-family: var(--font-mono); font-size: 12px;
-    }
+    footer { padding: 60px var(--pad) 40px; border-top: 1px solid var(--line); }
+    .footer-wrapper { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-bottom: 60px; }
+    .footer-msg { font-family: var(--font-main); font-size: 24px; font-weight: 500; line-height: 1.4; max-width: 400px; }
+    .footer-cols { display: grid; grid-template-columns: repeat(2, 1fr); gap: 40px; font-family: var(--font-mono); font-size: 12px; }
     .f-head { margin-bottom: 16px; opacity: 0.5; text-transform: uppercase; font-size: 11px; }
-    .f-link { 
-      display: inline-flex; align-items: center; gap: 6px;
-      margin-bottom: 10px; opacity: 0.9; width: 100%;
-    }
+    .f-link { display: inline-flex; align-items: center; gap: 6px; margin-bottom: 10px; opacity: 0.9; width: 100%; }
     .f-link:hover { opacity: 0.6; }
-    .footer-btm {
-      display: flex; justify-content: space-between; align-items: flex-end;
-      font-family: var(--font-mono); font-size: 11px; opacity: 0.5; text-transform: uppercase;
-    }
+    .footer-btm { display: flex; justify-content: space-between; align-items: flex-end; font-family: var(--font-mono); font-size: 11px; opacity: 0.5; text-transform: uppercase; }
     .footer-btm a:hover { opacity: 1; text-decoration: underline; }
 
     @media (max-width: 900px) {
-      .collage-grid { grid-template-columns: 1fr; grid-auto-rows: 300px; }
-      .c-big, .c-wide, .c-tall { grid-column: auto; grid-row: auto; }
       .footer-wrapper { grid-template-columns: 1fr; }
     }
     @media (max-width: 768px) {
@@ -403,15 +384,23 @@
 
     <div class="collage-grid">
       
-      <a href="project-detail.html" class="collage-card c-big">
-        <img src="assets/wangwela.jpg" onerror="this.src='https://images.unsplash.com/photo-1600334089648-b0d9d3028eb2?q=80&w=1200&auto=format&fit=crop'" alt="Wangwela">
+      <a href="project-detail.html" class="collage-card item-1">
+        <img src="assets/wangwela.jpg" onerror="this.src='https://images.unsplash.com/photo-1600334089648-b0d9d3028eb2?q=80&w=600&auto=format&fit=crop'" alt="Wangwela">
         <div class="c-overlay">
-          <div class="c-info"><div class="c-cat">Identity</div><h3 class="c-title">Wangwela Spa</h3></div>
+          <div class="c-info"><div class="c-cat">Identity</div><h3 class="c-title">Wangwela</h3></div>
           <div class="c-btn"><svg class="icon-arrow" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H7M17 7V17"></path></svg></div>
         </div>
       </a>
 
-      <a href="project-detail.html" class="collage-card c-tall">
+      <a href="project-detail.html" class="collage-card item-2">
+        <img src="https://images.unsplash.com/photo-1524758631624-e2822e304c36?q=80&w=1200&auto=format&fit=crop" alt="Project 2">
+        <div class="c-overlay">
+          <div class="c-info"><div class="c-cat">Furniture</div><h3 class="c-title">Modern Chair</h3></div>
+          <div class="c-btn"><svg class="icon-arrow" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H7M17 7V17"></path></svg></div>
+        </div>
+      </a>
+
+      <a href="project-detail.html" class="collage-card item-3">
         <img src="assets/bionest.jpg" onerror="this.src='https://images.unsplash.com/photo-1622483767028-3f66f32aef97?q=80&w=600&auto=format&fit=crop'" alt="Bionest">
         <div class="c-overlay">
           <div class="c-info"><div class="c-cat">Packaging</div><h3 class="c-title">Bionest</h3></div>
@@ -419,7 +408,7 @@
         </div>
       </a>
 
-      <a href="project-detail.html" class="collage-card">
+      <a href="project-detail.html" class="collage-card item-4">
         <img src="assets/pulse.jpg" onerror="this.src='https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=600&auto=format&fit=crop'" alt="Pulse">
         <div class="c-overlay">
           <div class="c-info"><div class="c-cat">Visual</div><h3 class="c-title">Pulse Fitness</h3></div>
@@ -427,42 +416,34 @@
         </div>
       </a>
 
-      <a href="project-detail.html" class="collage-card">
+      <a href="project-detail.html" class="collage-card item-5">
+        <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1200&auto=format&fit=crop" alt="Kalia">
+        <div class="c-overlay">
+          <div class="c-info"><div class="c-cat">Resort</div><h3 class="c-title">Kalia</h3></div>
+          <div class="c-btn"><svg class="icon-arrow" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H7M17 7V17"></path></svg></div>
+        </div>
+      </a>
+
+      <a href="project-detail.html" class="collage-card item-6">
         <img src="assets/leymo.jpg" onerror="this.src='https://images.unsplash.com/photo-1513364776144-60967b0f800f?q=80&w=600&auto=format&fit=crop'" alt="Leymo">
         <div class="c-overlay">
-          <div class="c-info"><div class="c-cat">Mascot</div><h3 class="c-title">Leymo Shop</h3></div>
+          <div class="c-info"><div class="c-cat">Character</div><h3 class="c-title">Leymo Shop</h3></div>
           <div class="c-btn"><svg class="icon-arrow" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H7M17 7V17"></path></svg></div>
         </div>
       </a>
 
-      <a href="project-detail.html" class="collage-card c-wide">
-        <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1200&auto=format&fit=crop" alt="Project 5">
-        <div class="c-overlay">
-          <div class="c-info"><div class="c-cat">Branding</div><h3 class="c-title">Kalia Resort</h3></div>
-          <div class="c-btn"><svg class="icon-arrow" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H7M17 7V17"></path></svg></div>
-        </div>
-      </a>
-
-      <a href="project-detail.html" class="collage-card">
-        <img src="https://images.unsplash.com/photo-1561070791-2526d30994b5?q=80&w=600&auto=format&fit=crop" alt="Project 6">
+      <a href="project-detail.html" class="collage-card item-7">
+        <img src="https://images.unsplash.com/photo-1561070791-2526d30994b5?q=80&w=600&auto=format&fit=crop" alt="Art Book">
         <div class="c-overlay">
           <div class="c-info"><div class="c-cat">Editorial</div><h3 class="c-title">Art Book</h3></div>
           <div class="c-btn"><svg class="icon-arrow" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H7M17 7V17"></path></svg></div>
         </div>
       </a>
 
-      <a href="project-detail.html" class="collage-card c-tall">
-        <img src="https://images.unsplash.com/photo-1596462502278-27bfdd403348?q=80&w=600&auto=format&fit=crop" alt="Project 7">
+      <a href="project-detail.html" class="collage-card item-8">
+        <img src="https://images.unsplash.com/photo-1596462502278-27bfdd403348?q=80&w=600&auto=format&fit=crop" alt="Candle">
         <div class="c-overlay">
-          <div class="c-info"><div class="c-cat">Packaging</div><h3 class="c-title">Scent Candle</h3></div>
-          <div class="c-btn"><svg class="icon-arrow" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H7M17 7V17"></path></svg></div>
-        </div>
-      </a>
-
-      <a href="project-detail.html" class="collage-card c-wide">
-        <img src="https://images.unsplash.com/photo-1524758631624-e2822e304c36?q=80&w=1200&auto=format&fit=crop" alt="Project 8">
-        <div class="c-overlay">
-          <div class="c-info"><div class="c-cat">Furniture</div><h3 class="c-title">Modern Chair</h3></div>
+          <div class="c-info"><div class="c-cat">Product</div><h3 class="c-title">Scent Candle</h3></div>
           <div class="c-btn"><svg class="icon-arrow" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H7M17 7V17"></path></svg></div>
         </div>
       </a>
