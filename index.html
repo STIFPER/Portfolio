@@ -58,7 +58,7 @@
     }
 
     /* =========================
-       HEADER & LOGO SWITCHER
+       HEADER
        ========================= */
     header {
       padding: 30px var(--pad);
@@ -72,7 +72,6 @@
       display: flex; align-items: center; gap: 12px;
     }
 
-    /* Logic สลับโลโก้ */
     .logo-dark { display: none; } 
     body[data-theme="dark"] .logo-light { display: none !important; } 
     body[data-theme="dark"] .logo-dark { display: block !important; }
@@ -124,7 +123,7 @@
     .intro-text { font-size: 15px; line-height: 1.6; opacity: 0.9; max-width: 480px; }
 
     /* =========================
-       SPACER
+       SPACER & SERVICES
        ========================= */
     .spacer {
       height: 25vh; display: flex; justify-content: center; align-items: center;
@@ -135,61 +134,37 @@
     }
     @keyframes bounce { 0%,100%{transform:translateY(0);} 50%{transform:translateY(5px);} }
 
-    /* =========================
-       SERVICES (Accordion)
-       ========================= */
     .services-section { padding: 0 var(--pad) 80px; }
-    
     .svc-header {
       display: flex; justify-content: space-between;
       margin-bottom: 20px; border-bottom: 1px solid var(--line); padding-bottom: 20px;
     }
     .svc-label {
-      font-family: var(--font-mono); font-size: 12px; 
-      text-transform: uppercase; letter-spacing: 0.05em; opacity: 0.6;
+      font-family: var(--font-mono); font-size: 12px; opacity: 0.6; text-transform: uppercase; letter-spacing: 0.05em;
     }
-
     .svc-list { display: flex; flex-direction: column; }
-    
-    .svc-item {
-      border-bottom: 1px solid var(--line);
-      cursor: pointer;
-      transition: background 0.3s;
-    }
-    
-    .svc-top {
-      display: grid; grid-template-columns: 1.5fr 2fr auto; 
-      gap: 20px; align-items: center; padding: 32px 0;
-    }
-
+    .svc-item { border-bottom: 1px solid var(--line); cursor: pointer; transition: background 0.3s; }
+    .svc-top { display: grid; grid-template-columns: 1.5fr 2fr auto; gap: 20px; align-items: center; padding: 32px 0; }
     .svc-name { font-family: var(--font-main); font-size: 22px; font-weight: 500; }
     .svc-desc { font-family: var(--font-mono); font-size: 13px; opacity: 0.7; }
-    
     .svc-circle { 
       width: 40px; height: 40px; border-radius: 50%;
       background: var(--btn-bg); color: var(--text);
-      display: flex; align-items: center; justify-content: center;
-      transition: all 0.3s ease;
+      display: flex; align-items: center; justify-content: center; transition: all 0.3s ease;
     }
     .svc-circle svg { width: 14px; height: 14px; }
     .svc-item:hover .svc-circle { background: var(--text); color: var(--bg); transform: rotate(45deg); }
-
     .svc-dropdown {
-      max-height: 0; overflow: hidden;
-      transition: max-height 0.5s var(--ease);
-      padding-left: calc(1.5fr + 20px);
+      max-height: 0; overflow: hidden; transition: max-height 0.5s var(--ease); padding-left: calc(1.5fr + 20px);
     }
     .svc-item.active .svc-dropdown { max-height: 300px; padding-bottom: 32px; }
-
     .svc-sub-link {
-      display: block; font-family: var(--font-mono); font-size: 14px;
-      padding: 8px 0; opacity: 0.6; border-bottom: 1px dashed var(--line);
-      width: 100%; max-width: 400px;
+      display: block; font-family: var(--font-mono); font-size: 14px; padding: 8px 0; opacity: 0.6; border-bottom: 1px dashed var(--line); width: 100%; max-width: 400px;
     }
     .svc-sub-link:hover { opacity: 1; padding-left: 10px; border-style: solid; }
 
     /* =========================
-       PROJECTS (BENTO GRID LAYOUT)
+       PROJECTS (8-GRID MOSAIC)
        ========================= */
     .projects-section { padding: 0 var(--pad) 100px; }
 
@@ -200,29 +175,37 @@
       border-bottom: 1px solid var(--line); padding-bottom: 20px;
     }
 
-    /* Grid Layout Definition */
+    /* GRID SYSTEM (8 ITEMS) */
     .collage-grid {
       display: grid;
-      grid-template-columns: 1fr; /* มือถือ: 1 คอลัมน์ */
       gap: 16px;
-      auto-rows: 300px; /* ความสูงพื้นฐาน */
+      grid-template-columns: 1fr; /* Mobile: 1 col */
+      grid-auto-rows: 280px;
     }
 
-    /* Desktop: 3 คอลัมน์แบบ Bento Grid */
     @media (min-width: 900px) {
       .collage-grid {
-        grid-template-columns: repeat(3, 1fr); /* แบ่งเป็น 3 ส่วนเท่ากัน */
-        grid-auto-rows: 280px; /* กำหนดความสูงต่อแถว */
+        /* Desktop: 3 Columns Grid */
+        grid-template-columns: repeat(3, 1fr);
+        grid-auto-rows: 280px;
         gap: 24px;
       }
-      /* จัดวางตำแหน่งชิ้นงาน (Jigsaw Layout) */
-      .c-item-1 { grid-column: span 2; grid-row: span 2; } /* รูปใหญ่ (2x2) */
-      .c-item-2 { grid-column: 3 / 4; grid-row: span 2; } /* รูปสูงด้านขวา (1x2) */
-      .c-item-3 { grid-column: span 2; } /* รูปกว้างด้านล่าง (2x1) */
-      .c-item-4 { grid-column: 3 / 4; } /* รูปเล็กด้านขวาล่าง (1x1) */
+
+      /* กำหนดขนาดของแต่ละช่องให้หลากหลาย (Mosaic) */
+      
+      /* Item 1: ใหญ่ (กินพื้นที่ 2x2) */
+      .c-big { grid-column: span 2; grid-row: span 2; }
+      
+      /* Item: ยาวแนวนอน (กินพื้นที่ 2 คอลัมน์) */
+      .c-wide { grid-column: span 2; }
+      
+      /* Item: สูงแนวตั้ง (กินพื้นที่ 2 แถว) */
+      .c-tall { grid-row: span 2; }
+      
+      /* Item: ปกติ (1x1) - ไม่ต้องใส่ class พิเศษ */
     }
 
-    /* Card Style (คงเดิม) */
+    /* Card Style */
     .collage-card {
       position: relative; display: block;
       width: 100%; height: 100%;
@@ -237,10 +220,10 @@
     }
     .collage-card:hover img { transform: scale(1.05); filter: grayscale(0%); }
 
-    /* Overlay Content (คงเดิม) */
+    /* Overlay Content */
     .c-overlay {
       position: absolute; bottom: 0; left: 0; width: 100%;
-      padding: 30px;
+      padding: 24px;
       display: flex; justify-content: space-between; align-items: flex-end;
       background: linear-gradient(to top, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0) 100%);
     }
@@ -248,18 +231,20 @@
     .c-info { color: #fff; }
     
     .c-cat {
-      font-family: var(--font-mono); font-size: 11px; 
+      font-family: var(--font-mono); font-size: 10px; 
       text-transform: uppercase; letter-spacing: 0.1em;
-      margin-bottom: 8px; opacity: 0.8;
+      margin-bottom: 6px; opacity: 0.8;
     }
     .c-title {
-      font-family: var(--font-main); font-size: 24px; font-weight: 500;
+      font-family: var(--font-main); font-size: 20px; font-weight: 500;
       line-height: 1.1; margin: 0;
     }
+    /* ปรับขนาดตัวหนังสือสำหรับรูปใหญ่ */
+    .c-big .c-title { font-size: 32px; }
 
-    /* Pill Button (คงเดิม) */
+    /* Button Style */
     .c-btn {
-      width: 56px; height: 32px;
+      width: 48px; height: 30px;
       border: 1px solid rgba(255,255,255,0.4);
       border-radius: 50px;
       display: flex; align-items: center; justify-content: center;
@@ -300,10 +285,9 @@
     }
     .footer-btm a:hover { opacity: 1; text-decoration: underline; }
 
-    /* RESPONSIVE */
     @media (max-width: 900px) {
       .collage-grid { grid-template-columns: 1fr; grid-auto-rows: 300px; }
-      .c-item-1, .c-item-2, .c-item-3, .c-item-4 { grid-column: auto; grid-row: auto; }
+      .c-big, .c-wide, .c-tall { grid-column: auto; grid-row: auto; }
       .footer-wrapper { grid-template-columns: 1fr; }
     }
     @media (max-width: 768px) {
@@ -337,11 +321,9 @@
 
   <section class="hero-container" id="about">
     <div class="hero-name">Wachirawit<br>Pansungnoen</div>
-    
     <div class="portrait-wrapper">
       <img src="assets/hero-portrait.jpg" alt="Portrait">
     </div>
-
     <div class="hero-bottom">
       <div class="divider"></div>
       <div class="intro-grid">
@@ -365,129 +347,123 @@
       <span class="svc-label">Expertise</span>
       <span class="svc-label">( ALL SERVICES )</span>
     </div>
-
     <div class="svc-list">
-      
       <div class="svc-item" onclick="toggleService(this)">
         <div class="svc-top">
           <div class="svc-name">Brand Identity</div>
           <div class="svc-desc">Logo Design, Visual Systems, Guidelines</div>
-          <div class="svc-circle">
-            <svg class="icon-arrow" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H7M17 7V17"></path></svg>
-          </div>
+          <div class="svc-circle"><svg class="icon-arrow" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H7M17 7V17"></path></svg></div>
         </div>
         <div class="svc-dropdown">
           <a href="project-detail.html" class="svc-sub-link">Wangwela Spa Identity</a>
           <a href="project-detail.html" class="svc-sub-link">Kasta Brand Redesign</a>
-          <a href="project-detail.html" class="svc-sub-link">Corporate Stationery System</a>
         </div>
       </div>
-
       <div class="svc-item" onclick="toggleService(this)">
         <div class="svc-top">
           <div class="svc-name">Packaging</div>
           <div class="svc-desc">Label Design, Box Structure, Mockups</div>
-          <div class="svc-circle">
-            <svg class="icon-arrow" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H7M17 7V17"></path></svg>
-          </div>
+          <div class="svc-circle"><svg class="icon-arrow" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H7M17 7V17"></path></svg></div>
         </div>
         <div class="svc-dropdown">
           <a href="project-detail.html" class="svc-sub-link">Bionest Kombucha Bottle</a>
           <a href="project-detail.html" class="svc-sub-link">Skin Care Product Line</a>
-          <a href="project-detail.html" class="svc-sub-link">Food Supplement Box</a>
         </div>
       </div>
-
       <div class="svc-item" onclick="toggleService(this)">
         <div class="svc-top">
           <div class="svc-name">Web Design</div>
           <div class="svc-desc">UI Design, Webflow, Digital Assets</div>
-          <div class="svc-circle">
-            <svg class="icon-arrow" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H7M17 7V17"></path></svg>
-          </div>
+          <div class="svc-circle"><svg class="icon-arrow" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H7M17 7V17"></path></svg></div>
         </div>
         <div class="svc-dropdown">
           <a href="project-detail.html" class="svc-sub-link">Cannabis Menu Website</a>
           <a href="project-detail.html" class="svc-sub-link">Clinic Landing Page</a>
-          <a href="project-detail.html" class="svc-sub-link">E-Commerce Redesign</a>
         </div>
       </div>
-
       <div class="svc-item" onclick="toggleService(this)">
         <div class="svc-top">
           <div class="svc-name">Illustration</div>
           <div class="svc-desc">Character Design, Mascots, Icons</div>
-          <div class="svc-circle">
-            <svg class="icon-arrow" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H7M17 7V17"></path></svg>
-          </div>
+          <div class="svc-circle"><svg class="icon-arrow" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H7M17 7V17"></path></svg></div>
         </div>
         <div class="svc-dropdown">
           <a href="project-detail.html" class="svc-sub-link">Leymo Shop Mascot</a>
           <a href="project-detail.html" class="svc-sub-link">Custom Icon Set</a>
-          <a href="project-detail.html" class="svc-sub-link">Editorial Illustration</a>
         </div>
       </div>
-
     </div>
   </section>
 
   <section class="projects-section" id="projects">
     <div class="section-header">
       <div>Featured Works</div>
-      <div>( SELECTED )</div>
+      <div>( 8 SELECTED )</div>
     </div>
 
     <div class="collage-grid">
       
-      <a href="project-detail.html" class="collage-card c-item-1">
+      <a href="project-detail.html" class="collage-card c-big">
         <img src="assets/wangwela.jpg" onerror="this.src='https://images.unsplash.com/photo-1600334089648-b0d9d3028eb2?q=80&w=1200&auto=format&fit=crop'" alt="Wangwela">
         <div class="c-overlay">
-          <div class="c-info">
-            <div class="c-cat">Brand Identity</div>
-            <h3 class="c-title">Wangwela Spa</h3>
-          </div>
-          <div class="c-btn">
-            <svg class="icon-arrow" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H7M17 7V17"></path></svg>
-          </div>
+          <div class="c-info"><div class="c-cat">Identity</div><h3 class="c-title">Wangwela Spa</h3></div>
+          <div class="c-btn"><svg class="icon-arrow" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H7M17 7V17"></path></svg></div>
         </div>
       </a>
 
-      <a href="project-detail.html" class="collage-card c-item-2">
-        <img src="assets/bionest.jpg" onerror="this.src='https://images.unsplash.com/photo-1622483767028-3f66f32aef97?q=80&w=800&auto=format&fit=crop'" alt="Bionest">
+      <a href="project-detail.html" class="collage-card c-tall">
+        <img src="assets/bionest.jpg" onerror="this.src='https://images.unsplash.com/photo-1622483767028-3f66f32aef97?q=80&w=600&auto=format&fit=crop'" alt="Bionest">
         <div class="c-overlay">
-          <div class="c-info">
-            <div class="c-cat">Packaging</div>
-            <h3 class="c-title">Bionest</h3>
-          </div>
-          <div class="c-btn">
-            <svg class="icon-arrow" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H7M17 7V17"></path></svg>
-          </div>
+          <div class="c-info"><div class="c-cat">Packaging</div><h3 class="c-title">Bionest</h3></div>
+          <div class="c-btn"><svg class="icon-arrow" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H7M17 7V17"></path></svg></div>
         </div>
       </a>
 
-      <a href="project-detail.html" class="collage-card c-item-3">
-        <img src="assets/pulse.jpg" onerror="this.src='https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=1200&auto=format&fit=crop'" alt="Pulse">
+      <a href="project-detail.html" class="collage-card">
+        <img src="assets/pulse.jpg" onerror="this.src='https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=600&auto=format&fit=crop'" alt="Pulse">
         <div class="c-overlay">
-          <div class="c-info">
-            <div class="c-cat">Visual System</div>
-            <h3 class="c-title">Pulse Fitness</h3>
-          </div>
-          <div class="c-btn">
-            <svg class="icon-arrow" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H7M17 7V17"></path></svg>
-          </div>
+          <div class="c-info"><div class="c-cat">Visual</div><h3 class="c-title">Pulse Fitness</h3></div>
+          <div class="c-btn"><svg class="icon-arrow" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H7M17 7V17"></path></svg></div>
         </div>
       </a>
 
-       <a href="project-detail.html" class="collage-card c-item-4">
-        <img src="assets/leymo.jpg" onerror="this.src='https://images.unsplash.com/photo-1513364776144-60967b0f800f?q=80&w=800&auto=format&fit=crop'" alt="Leymo">
+      <a href="project-detail.html" class="collage-card">
+        <img src="assets/leymo.jpg" onerror="this.src='https://images.unsplash.com/photo-1513364776144-60967b0f800f?q=80&w=600&auto=format&fit=crop'" alt="Leymo">
         <div class="c-overlay">
-          <div class="c-info">
-            <div class="c-cat">Character Design</div>
-            <h3 class="c-title">Leymo Shop</h3>
-          </div>
-          <div class="c-btn">
-            <svg class="icon-arrow" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H7M17 7V17"></path></svg>
-          </div>
+          <div class="c-info"><div class="c-cat">Mascot</div><h3 class="c-title">Leymo Shop</h3></div>
+          <div class="c-btn"><svg class="icon-arrow" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H7M17 7V17"></path></svg></div>
+        </div>
+      </a>
+
+      <a href="project-detail.html" class="collage-card c-wide">
+        <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1200&auto=format&fit=crop" alt="Project 5">
+        <div class="c-overlay">
+          <div class="c-info"><div class="c-cat">Branding</div><h3 class="c-title">Kalia Resort</h3></div>
+          <div class="c-btn"><svg class="icon-arrow" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H7M17 7V17"></path></svg></div>
+        </div>
+      </a>
+
+      <a href="project-detail.html" class="collage-card">
+        <img src="https://images.unsplash.com/photo-1561070791-2526d30994b5?q=80&w=600&auto=format&fit=crop" alt="Project 6">
+        <div class="c-overlay">
+          <div class="c-info"><div class="c-cat">Editorial</div><h3 class="c-title">Art Book</h3></div>
+          <div class="c-btn"><svg class="icon-arrow" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H7M17 7V17"></path></svg></div>
+        </div>
+      </a>
+
+      <a href="project-detail.html" class="collage-card c-tall">
+        <img src="https://images.unsplash.com/photo-1596462502278-27bfdd403348?q=80&w=600&auto=format&fit=crop" alt="Project 7">
+        <div class="c-overlay">
+          <div class="c-info"><div class="c-cat">Packaging</div><h3 class="c-title">Scent Candle</h3></div>
+          <div class="c-btn"><svg class="icon-arrow" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H7M17 7V17"></path></svg></div>
+        </div>
+      </a>
+
+      <a href="project-detail.html" class="collage-card c-wide">
+        <img src="https://images.unsplash.com/photo-1524758631624-e2822e304c36?q=80&w=1200&auto=format&fit=crop" alt="Project 8">
+        <div class="c-overlay">
+          <div class="c-info"><div class="c-cat">Furniture</div><h3 class="c-title">Modern Chair</h3></div>
+          <div class="c-btn"><svg class="icon-arrow" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H7M17 7V17"></path></svg></div>
         </div>
       </a>
 
@@ -496,11 +472,7 @@
 
   <footer id="contact">
     <div class="footer-wrapper">
-      <div class="footer-msg">
-        Interested in working together? <br>
-        Let's create something timeless.
-      </div>
-
+      <div class="footer-msg">Interested in working together? <br>Let's create something timeless.</div>
       <div class="footer-cols">
         <div>
           <div class="f-head">Contact</div>
@@ -510,16 +482,11 @@
         </div>
         <div>
           <div class="f-head">Socials</div>
-          <a href="https://behance.net/stifper" target="_blank" class="f-link">
-            Behance <svg class="icon-arrow" viewBox="0 0 24 24" style="width:10px;height:10px;"><path d="M7 17L17 7M17 7H7M17 7V17"></path></svg>
-          </a>
-          <a href="#" class="f-link">
-            Instagram <svg class="icon-arrow" viewBox="0 0 24 24" style="width:10px;height:10px;"><path d="M7 17L17 7M17 7H7M17 7V17"></path></svg>
-          </a>
+          <a href="https://behance.net/stifper" target="_blank" class="f-link">Behance <svg class="icon-arrow" viewBox="0 0 24 24" style="width:10px;height:10px;"><path d="M7 17L17 7M17 7H7M17 7V17"></path></svg></a>
+          <a href="#" class="f-link">Instagram <svg class="icon-arrow" viewBox="0 0 24 24" style="width:10px;height:10px;"><path d="M7 17L17 7M17 7H7M17 7V17"></path></svg></a>
         </div>
       </div>
     </div>
-
     <div class="footer-btm">
       <div>© 2026 MESTYLE STUDIO</div>
       <a href="#" onclick="window.scrollTo(0,0); return false;">( BACK TO TOP )</a>
@@ -527,29 +494,17 @@
   </footer>
 
   <script>
-    /* Theme Toggle Logic */
     const btn = document.getElementById('themeBtn');
     const body = document.body;
-    
-    // Check saved theme
-    if (localStorage.getItem('theme') === 'dark') {
-      body.setAttribute('data-theme', 'dark');
-    }
-
+    if (localStorage.getItem('theme') === 'dark') { body.setAttribute('data-theme', 'dark'); }
     btn.addEventListener('click', () => {
       if (body.getAttribute('data-theme') === 'dark') {
-        body.setAttribute('data-theme', 'light');
-        localStorage.setItem('theme', 'light');
+        body.setAttribute('data-theme', 'light'); localStorage.setItem('theme', 'light');
       } else {
-        body.setAttribute('data-theme', 'dark');
-        localStorage.setItem('theme', 'dark');
+        body.setAttribute('data-theme', 'dark'); localStorage.setItem('theme', 'dark');
       }
     });
-
-    /* Accordion Function */
-    function toggleService(element) {
-      element.classList.toggle('active');
-    }
+    function toggleService(element) { element.classList.toggle('active'); }
   </script>
 </body>
 </html>
