@@ -6,12 +6,12 @@
       name="viewport"
       content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
     />
-    <title>FolderStack UI - Fixed Detail View</title>
+    <title>FolderStack UI - Smooth Scroll</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Manrope:wght@300;400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Manrope:wght@300;400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
     <script src="https://cdn.tailwindcss.com"></script>
@@ -32,11 +32,29 @@
         background-color: var(--bg);
         color: var(--text);
         font-family: var(--font-main);
-        overflow: hidden;
         margin: 0;
+        /* เอา overflow: hidden ออก เพื่อให้ผู้ใช้สามารถ Scroll หน้าเว็บได้ตามธรรมชาติ */
+        overflow-x: hidden;
+      }
+
+      /* -------------------------------------------
+         STICKY SCROLL-JACKING SECTION
+         เพื่อให้แอนิเมชัน 3D ผูกกับการเลื่อนเมาส์
+      ------------------------------------------- */
+      .hero-scroll-container {
+        /* ความสูง 400vh เพื่อให้มีระยะการเลื่อนเมาส์ (Scroll) ที่ยาวพอจะแสดงโฟลเดอร์ครบ 6 อัน */
+        height: 400vh;
+        position: relative;
+        z-index: 10;
+      }
+
+      .sticky-scene {
+        position: sticky;
+        top: 0;
         height: 100vh;
-        height: 100dvh;
+        width: 100%;
         display: flex;
+        flex-direction: column;
         justify-content: center;
         align-items: center;
         background-image: radial-gradient(
@@ -44,24 +62,13 @@
           #ffffff 0%,
           #e4e4e7 100%
         );
-        touch-action: none;
-      }
-
-      .scene {
         perspective: 1200px;
-        width: 100%;
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        /* ปรับความเนียนของการดึงภาพเบลอกลับให้ละมุนขึ้น */
+        overflow: hidden;
         transition: filter 0.8s cubic-bezier(0.4, 0, 0.2, 1);
       }
 
-      /* เมื่อเปิด Lightbox ให้เบลอพื้นหลัง 3D ทิ้งไปเลย เพื่อดึงโฟกัสมาที่ภาพ */
-      body.is-expanded .scene {
-        filter: blur(10px) brightness(0.9);
+      body.is-expanded .sticky-scene {
+        filter: blur(8px) brightness(0.9);
         pointer-events: none;
       }
 
@@ -70,13 +77,7 @@
         width: var(--folder-w);
         height: var(--folder-h);
         transform-style: preserve-3d;
-        cursor: grab;
-        /* เอา margin-top ออกเพื่อให้ Stage อยู่กึ่งกลางจอจริงๆ */
-        transition: transform 0.1s var(--ease-out);
-      }
-
-      .folder-stage:active {
-        cursor: grabbing;
+        margin-top: 60px;
       }
 
       .folder-card {
@@ -86,11 +87,9 @@
         display: flex;
         flex-direction: column;
         justify-content: flex-end;
-        transition:
-          transform 0.8s var(--ease-out),
-          opacity 0.8s,
-          filter 0.8s;
-        border-radius: 20px;
+        border-radius: 24px;
+        /* แอนิเมชันจะถูกควบคุมด้วย JS ตอนเลื่อนเมาส์เป็นหลัก แต่ใส่ transition ไว้เผื่อไว้ */
+        transition: box-shadow 0.3s;
       }
 
       .folder-back {
@@ -101,9 +100,8 @@
         height: 100%;
         border-radius: 24px;
         box-shadow:
-          inset 0 0 0 1px rgba(255, 255, 255, 0.6),
-          inset 0 4px 12px rgba(255, 255, 255, 0.4),
-          0 20px 40px rgba(0, 0, 0, 0.05);
+          inset 0 0 0 1px rgba(255, 255, 255, 0.8),
+          0 20px 40px rgba(0, 0, 0, 0.1);
       }
 
       .folder-tab {
@@ -122,32 +120,26 @@
         letter-spacing: 1px;
         text-transform: uppercase;
         box-shadow:
-          inset 0 2px 2px rgba(255, 255, 255, 0.9),
-          inset 1px 0 2px rgba(255, 255, 255, 0.6);
+          inset 0 1px 0 rgba(255, 255, 255, 0.6),
+          inset 1px 0 0 rgba(255, 255, 255, 0.6);
       }
 
       .folder-front {
         position: relative;
         width: 100%;
         height: 90%;
-        /* ปรับสีเป็นโทน Glassy สว่างเจือ Gold เบาๆ */
+        /* ใส่ความเงางามและสีทองอ่อนๆ ด้านใน */
         background: linear-gradient(
           135deg,
           rgba(255, 255, 255, 0.95) 0%,
-          rgba(253, 248, 235, 0.6) 40%,
-          rgba(255, 255, 255, 0.2) 100%
+          rgba(255, 250, 240, 0.8) 50%,
+          rgba(255, 255, 255, 0.4) 100%
         );
-        backdrop-filter: blur(20px);
-        -webkit-backdrop-filter: blur(20px);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
         border-radius: 16px 16px 24px 24px;
-        /* ขอบสะท้อนแสง Gold */
-        border: 1px solid rgba(212, 175, 55, 0.25);
-        border-top: 1px solid rgba(255, 255, 255, 0.8);
-        border-left: 1px solid rgba(255, 255, 255, 0.6);
-        /* ความเงาด้านใน (Glossy effect) */
-        box-shadow:
-          inset 0 4px 6px rgba(255, 255, 255, 0.7),
-          inset 0 -4px 20px rgba(212, 175, 55, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.9);
+        box-shadow: inset 0 2px 20px rgba(255, 230, 180, 0.2);
         padding: 24px;
         display: flex;
         flex-direction: column;
@@ -213,20 +205,16 @@
 
       .status-bar {
         position: absolute;
-        bottom: 20px;
+        bottom: 30px;
         font-family: var(--font-mono);
         font-size: 10px;
         opacity: 0.4;
         letter-spacing: 2px;
-        transition: opacity 0.3s;
         text-align: center;
         width: 100%;
         z-index: 2;
       }
 
-      /* -------------------------------------------
-       NEW LIGHTBOX OVERLAY (2D FIXED)
-    ------------------------------------------- */
       .lightbox-overlay {
         position: fixed;
         top: 0;
@@ -249,23 +237,17 @@
         pointer-events: auto;
       }
 
-      /* กล่องสำหรับใส่รูป CI Board */
+      /* กล่องภาพฟิกซ์สัดส่วน 3:4 */
       .lightbox-content {
-        /* ปรับเป็น Fix ขนาดสัดส่วน 3:4 และไม่เอาตามพื้นที่จอ */
-        width: 480px;
-        height: 640px;
-        max-width: 90vw; /* กันล้นขอบจอมือถือ */
-        max-height: 120vw; /* ให้คงสัดส่วน 3:4 ไว้ในมือถือ (90vw * 4/3) */
-
+        width: min(90vw, 450px); /* กำหนดความกว้างสูงสุด */
+        aspect-ratio: 3 / 4; /* ล็อกสัดส่วนให้เป็น 3:4 เสมอ */
         background: #fff;
         border-radius: 16px;
         border: 4px solid #fff;
         box-shadow: 0 40px 80px -20px rgba(0, 0, 0, 0.3);
-        overflow: hidden; /* เปลี่ยนเป็น hidden เพราะรูปจะ fix พอดีกล่อง */
-
+        overflow: hidden;
         transform: scale(0.95) translateY(15px);
         opacity: 0;
-
         transition:
           transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
           opacity 0.3s ease-out;
@@ -274,7 +256,6 @@
       .lightbox-overlay.active .lightbox-content {
         transform: scale(1) translateY(0);
         opacity: 1;
-
         transition:
           transform 0.6s var(--ease-bounce) 0.05s,
           opacity 0.5s ease 0.05s;
@@ -283,8 +264,8 @@
       .lightbox-content img {
         width: 100%;
         height: 100%;
-        display: block;
         object-fit: cover;
+        display: block;
       }
 
       .lightbox-controls {
@@ -311,51 +292,185 @@
         letter-spacing: 1px;
         cursor: pointer;
         transition: all 0.3s ease;
-        text-decoration: none;
         display: flex;
         align-items: center;
         justify-content: center;
       }
-
       .btn-close {
         background: #fff;
         color: #18181b;
         box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
-        border: 1px solid rgba(0, 0, 0, 0.1);
       }
       .btn-close:hover {
         background: #e4e4e7;
         transform: translateY(-2px);
       }
 
-      .btn-full {
-        background: #18181b;
-        color: #fff;
-        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+      .content-section {
+        position: relative;
+        z-index: 20;
+        background: #ffffff;
+        border-top-left-radius: 40px;
+        border-top-right-radius: 40px;
+        box-shadow: 0 -20px 40px rgba(0, 0, 0, 0.02);
+        padding: 80px 20px 120px;
       }
-      .btn-full:hover {
-        background: #3f3f46;
-        transform: translateY(-2px);
+
+      .skills-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        justify-content: center;
+        margin-bottom: 80px;
+        max-width: 850px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .pill-tag {
+        padding: 10px 22px;
+        border-radius: 100px;
+        font-size: 14px;
+        font-weight: 600;
+        letter-spacing: -0.3px;
+        transition: all 0.3s ease;
+        cursor: default;
+        display: inline-flex;
+        align-items: center;
+      }
+      .pill-tag:hover {
+        transform: translateY(-2px) scale(1.02);
+      }
+
+      /* ระบบสีละมุน ไม่มีสีดำ ไฮไลต์แบบหลอกตา */
+      .tag-highlight {
+        background-color: #eef2ff;
+        color: #3730a3;
+        border: 1px solid #c7d2fe;
+        box-shadow: 0 4px 12px rgba(99, 102, 241, 0.08);
+      }
+      .tag-green {
+        background-color: #e8f5e9;
+        color: #1b5e20;
+      }
+      .tag-purple {
+        background-color: #f3e5f5;
+        color: #4a148c;
+      }
+      .tag-orange {
+        background-color: #fff3e0;
+        color: #e65100;
+      }
+      .tag-blue {
+        background-color: #e1f5fe;
+        color: #01579b;
+      }
+      .tag-pink {
+        background-color: #fbe9e7;
+        color: #bf360c;
+      }
+      .tag-cyan {
+        background-color: #e0f7fa;
+        color: #006064;
+      }
+      .tag-gray {
+        background-color: #f4f4f5;
+        color: #3f3f46;
+        border: 1px solid #e4e4e7;
+      }
+      .tag-outline {
+        background-color: transparent;
+        color: #52525b;
+        border: 1px solid #d4d4d8;
+      }
+
+      /* App-like Uniform Grid (เป็นระเบียบ เรียบง่าย) */
+      .portfolio-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 32px;
+        max-width: 1000px;
+        margin: 0 auto 80px auto;
+      }
+
+      .work-card {
+        background: #ffffff;
+        border: 1px solid #e4e4e7;
+        border-radius: 32px;
+        padding: 16px;
+        transition: all 0.4s ease;
+        display: flex;
+        flex-direction: column;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+      }
+
+      .work-card:hover {
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.06);
+        transform: translateY(-4px);
+        border-color: #d4d4d8;
+      }
+
+      .work-image-wrap {
+        width: 100%;
+        border-radius: 20px;
+        overflow: hidden;
+        background: #f4f4f5;
+        margin-bottom: 24px;
+        aspect-ratio: 4/3; /* ล็อกสัดส่วนภาพให้เท่ากันทุกอัน */
+      }
+
+      .work-image-wrap img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.6s ease;
+      }
+
+      .work-card:hover .work-image-wrap img {
+        transform: scale(1.05);
+      }
+
+      .work-content {
+        padding: 0 12px 12px;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .work-meta {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 16px;
+      }
+
+      .work-tag {
+        padding: 6px 14px;
+        border-radius: 100px;
+        font-size: 11px;
+        font-family: var(--font-mono);
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
       }
 
       @media (max-width: 768px) {
-        .lightbox-controls {
-          flex-direction: column;
-          width: min(90vw, 800px);
-          gap: 12px;
+        .portfolio-grid {
+          grid-template-columns: 1fr;
+          gap: 24px;
         }
-        .btn-control {
-          width: 100%;
-          font-size: 12px;
-          padding: 14px;
+        .work-card {
+          border-radius: 24px;
+          padding: 12px;
         }
       }
     </style>
   </head>
   <body>
+    <!-- Lightbox Overlay -->
     <div id="lightboxOverlay" class="lightbox-overlay">
       <div class="lightbox-content">
-        <img id="lightboxImage" src="" alt="CI Overview" />
+        <!-- ภาพจะแสดงผลเป็นแนวตั้ง 3:4 เสมอ -->
+        <img id="lightboxImage" src="" alt="Case Study" />
       </div>
       <div class="lightbox-controls">
         <button class="btn-control btn-close" onclick="closeProject()">
@@ -374,34 +489,191 @@
           </svg>
           Close
         </button>
-        <a href="#" class="btn-control btn-full" id="fullViewLink"
-          >View Full Case Study ➔</a
-        >
       </div>
     </div>
 
-    <div class="scene">
-      <!-- ปรับให้เป็น Absolute ติดขอบบนสุดของจอ (Top-0) -->
-      <div
-        class="absolute top-0 left-0 w-full pt-8 md:pt-12 text-center z-10 transition-transform duration-700"
-        id="mainHeader"
-      >
-        <p
-          class="font-mono text-[10px] md:text-[11px] opacity-40 uppercase tracking-[0.2em] mb-2"
-        >
-          Project Stack
-        </p>
-        <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight">
-          Wachirawit.
-        </h1>
-      </div>
+    <!-- Sticky Scroll Section -->
+    <div class="hero-scroll-container">
+      <div class="sticky-scene">
+        <div class="absolute top-10 left-0 w-full text-center z-10">
+          <p
+            class="font-mono text-[10px] md:text-[11px] opacity-40 uppercase tracking-[0.2em] mb-2"
+          >
+            Project Stack
+          </p>
+          <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight">
+            Wachirawit.
+          </h1>
+        </div>
 
-      <div class="folder-stage" id="folderStage">
-        <!-- JavaScript will inject folders here -->
-      </div>
+        <div class="folder-stage" id="folderStage">
+          <!-- JS injects folders -->
+        </div>
 
-      <div class="status-bar" id="statusBar">SWIPE OR SCROLL TO NAVIGATE</div>
+        <div class="status-bar" id="statusBar">
+          <div class="animate-bounce mb-2">↓</div>
+          SCROLL TO EXPLORE
+        </div>
+      </div>
     </div>
+
+    <!-- Content Section -->
+    <section class="content-section">
+      <div class="max-w-6xl mx-auto">
+        <div class="text-center mb-16 max-w-3xl mx-auto">
+          <h2
+            class="text-3xl md:text-4xl font-extrabold leading-tight tracking-tight mb-6"
+          >
+            Crafting digital experiences that are
+            <span class="italic font-light text-gray-500">structured</span>, yet
+            <span class="underline decoration-gray-300">effortless</span>.
+          </h2>
+        </div>
+
+        <!-- Thematic Tags (No black, Soft colors) -->
+        <div class="skills-container">
+          <div class="pill-tag tag-highlight">Innovative UX</div>
+          <div class="pill-tag tag-outline">Transformative</div>
+
+          <div class="pill-tag tag-green">Eco-friendly</div>
+          <div class="pill-tag tag-green">User Research</div>
+
+          <div class="pill-tag tag-purple">Sophisticated</div>
+          <div class="pill-tag tag-purple">Aesthetics</div>
+
+          <div class="pill-tag tag-orange">Design Systems</div>
+          <div class="pill-tag tag-orange">Architecture</div>
+
+          <div class="pill-tag tag-blue">Minimalist</div>
+          <div class="pill-tag tag-blue">Brand Identity</div>
+
+          <div class="pill-tag tag-pink">UX Strategy</div>
+          <div class="pill-tag tag-pink">Problem Solving</div>
+
+          <div class="pill-tag tag-cyan">Prototyping</div>
+          <div class="pill-tag tag-cyan">Comfortable UX</div>
+
+          <div class="pill-tag tag-gray">Wireframing</div>
+          <div class="pill-tag tag-highlight">Design Thinking</div>
+        </div>
+
+        <!-- App-like Grid Header (Clean, Centered, No extra links) -->
+        <div class="mb-12 text-center">
+          <p
+            class="font-mono text-xs opacity-50 uppercase tracking-[0.1em] mb-3"
+          >
+            The Archive
+          </p>
+          <h3 class="text-3xl md:text-4xl font-extrabold tracking-tight">
+            Selected Works
+          </h3>
+        </div>
+
+        <!-- Uniform App-like Grid -->
+        <div class="portfolio-grid">
+          <!-- Card 1 -->
+          <div class="work-card">
+            <div class="work-image-wrap">
+              <img
+                src="https://placehold.co/800x600/E8F5E9/1B5E20?text=Eco+Habit"
+                alt="Eco Habit"
+              />
+            </div>
+            <div class="work-content">
+              <div class="work-meta">
+                <span class="work-tag tag-green">Research</span>
+                <span class="opacity-40 font-mono text-xs font-bold">2024</span>
+              </div>
+              <h3 class="text-2xl font-extrabold mb-2">Eco Habit</h3>
+              <p class="opacity-70 text-sm mb-6 leading-relaxed">
+                Gamified carbon footprint reduction for urban dwellers.
+                Combining user research with playful, eco-friendly visuals.
+              </p>
+            </div>
+          </div>
+
+          <!-- Card 2 -->
+          <div class="work-card">
+            <div class="work-image-wrap">
+              <img
+                src="https://placehold.co/800x600/F3E5F5/4A148C?text=Neo-Bank"
+                alt="Neo-Bank"
+              />
+            </div>
+            <div class="work-content">
+              <div class="work-meta">
+                <span class="work-tag tag-purple">Visual</span>
+                <span class="opacity-40 font-mono text-xs font-bold">2023</span>
+              </div>
+              <h3 class="text-2xl font-extrabold mb-2">Neo-Bank UI</h3>
+              <p class="opacity-70 text-sm mb-6 leading-relaxed">
+                Redesigning the mobile banking experience for Gen-Z with
+                minimalist visuals and high-speed interaction UX.
+              </p>
+            </div>
+          </div>
+
+          <!-- Card 3 -->
+          <div class="work-card">
+            <div class="work-image-wrap">
+              <img
+                src="https://placehold.co/800x600/FFF3E0/E65100?text=Lumina+OS"
+                alt="Lumina OS"
+              />
+            </div>
+            <div class="work-content">
+              <div class="work-meta">
+                <span class="work-tag tag-orange">System</span>
+                <span class="opacity-40 font-mono text-xs font-bold">2023</span>
+              </div>
+              <h3 class="text-2xl font-extrabold mb-2">Lumina OS</h3>
+              <p class="opacity-70 text-sm mb-6 leading-relaxed">
+                A conceptual operating system focused on spatial computing and
+                light-based notifications for ambient info.
+              </p>
+            </div>
+          </div>
+
+          <!-- Card 4 -->
+          <div class="work-card">
+            <div class="work-image-wrap">
+              <img
+                src="https://placehold.co/800x600/E1F5FE/01579B?text=Origami"
+                alt="Origami Brand"
+              />
+            </div>
+            <div class="work-content">
+              <div class="work-meta">
+                <span class="work-tag tag-blue">Branding</span>
+                <span class="opacity-40 font-mono text-xs font-bold">2022</span>
+              </div>
+              <h3 class="text-2xl font-extrabold mb-2">Origami Studio</h3>
+              <p class="opacity-70 text-sm mb-6 leading-relaxed">
+                Crafting a flexible identity for a modern architectural firm
+                using folded-paper aesthetics and solid typography.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="text-center mt-16 pt-12 border-t border-gray-100">
+          <p
+            class="font-mono text-sm opacity-50 uppercase tracking-[0.2em] mb-4"
+          >
+            Get in touch
+          </p>
+          <a
+            href="#"
+            class="inline-block text-2xl font-bold hover:opacity-50 transition-opacity mb-8"
+            >hello@wachirawit.design</a
+          >
+          <p class="text-xs font-mono opacity-40 uppercase tracking-widest">
+            © 2024 Wachirawit.
+          </p>
+        </div>
+      </div>
+    </section>
 
     <script>
       const projects = [
@@ -461,215 +733,130 @@
         },
       ];
 
+      const stage = document.getElementById("folderStage");
       let activeIndex = 0;
       let isExpanded = false;
-      let autoTimer;
-
-      const stage = document.getElementById("folderStage");
-      const statusBar = document.getElementById("statusBar");
 
       function initFolders() {
         stage.innerHTML = "";
         projects.forEach((proj, i) => {
           const card = document.createElement("div");
           card.className = "folder-card";
-
           card.innerHTML = `
-          <div class="folder-back" style="background-color: ${proj.color}">
-            <div class="folder-tab">${proj.cat}</div>
-          </div>
-          <div class="folder-front">
-            <span class="font-mono text-[10px] mb-2 opacity-40 font-semibold uppercase tracking-wider">Project 0${i + 1}</span>
-            <h2>${proj.title}</h2>
-            <p class="folder-details">${proj.desc}</p>
-            <div class="stats-grid">
-              <div class="stat-item"><span>Role</span><p>${proj.role}</p></div>
-              <div class="stat-item"><span>Tools</span><p>${proj.tech}</p></div>
+            <div class="folder-back" style="background-color: ${proj.color}">
+              <div class="folder-tab">${proj.cat}</div>
             </div>
-            <button class="action-btn" onclick="openProject(${i})">Explore</button>
-          </div>
-        `;
+            <div class="folder-front">
+              <span class="font-mono text-[10px] mb-2 opacity-40 font-semibold uppercase tracking-wider">Project 0${i + 1}</span>
+              <h2>${proj.title}</h2>
+              <p class="folder-details">${proj.desc}</p>
+              <div class="stats-grid">
+                <div class="stat-item"><span>Role</span><p>${proj.role}</p></div>
+                <div class="stat-item"><span>Tools</span><p>${proj.tech}</p></div>
+              </div>
+              <button class="action-btn" onclick="openProject(${i})">Explore</button>
+            </div>
+          `;
           stage.appendChild(card);
         });
-        updatePosition();
-        startAutoPlay();
+
+        // Initial render
+        updateScrollPositions();
       }
 
-      function updatePosition() {
+      // เทคนิค Native Scroll: คำนวณตำแหน่ง 3D จากระยะทางที่ถูก Scroll ไปจริงๆ
+      function updateScrollPositions() {
+        if (isExpanded) return;
+
+        const scrollY = window.scrollY;
+        const hero = document.querySelector(".hero-scroll-container");
+        // พื้นที่ที่ให้ Scroll ได้คือ ความสูงคอนเทนเนอร์ ลบ ด้วยความสูงหน้าจอ 1 จอ
+        const maxScroll = hero.offsetHeight - window.innerHeight;
+
+        // หาสัดส่วนความคืบหน้า (0.0 ถึง 1.0)
+        let progress = scrollY / maxScroll;
+        if (progress < 0) progress = 0;
+        if (progress > 1) progress = 1;
+
+        // แปลงความคืบหน้าให้เป็นค่า Index เสมือน (Virtual Index)
+        const virtualIndex = progress * (projects.length - 1);
+        activeIndex = Math.round(virtualIndex); // อัปเดตเพื่อให้ปุ่มกดทำงานถูกอัน
+
         const cards = document.querySelectorAll(".folder-card");
 
         cards.forEach((card, i) => {
-          let diff = i - activeIndex;
+          const diff = i - virtualIndex;
 
-          if (diff > projects.length / 2) diff -= projects.length;
-          if (diff < -projects.length / 2) diff += projects.length;
+          let yOffset = 0,
+            zOffset = 0,
+            scale = 1,
+            opacity = 1,
+            rotateX = 0,
+            blurAmount = 0;
 
-          const yOffset = diff * -75;
-          const zOffset = Math.abs(diff) * -80;
-          const scale = 1 - Math.abs(diff) * 0.05;
-          const opacity = 1 - Math.abs(diff) * 0.15;
-          const rotateX = diff * 4;
-          const blurAmount = Math.abs(diff) === 0 ? 0 : Math.abs(diff) * 1.5;
+          if (diff >= 0) {
+            // โฟลเดอร์ที่ยังไม่ถึงคิว (ซ้อนอยู่ด้านหลัง)
+            yOffset = diff * -75;
+            zOffset = diff * -80;
+            scale = 1 - diff * 0.05;
+            opacity = 1 - diff * 0.15;
+            rotateX = diff * 4;
+            blurAmount = diff * 1.5;
 
-          card.style.zIndex = 100 - Math.abs(diff);
-          card.style.opacity = Math.max(opacity, 0);
-          card.style.filter =
-            blurAmount === 0 ? "none" : `blur(${blurAmount}px)`;
-          card.style.transform = `
-          translateY(${yOffset}px) 
-          translateZ(${zOffset}px) 
-          rotateX(${-rotateX}deg) 
-          scale(${scale})
-        `;
-
-          if (diff === 0) {
-            // โฟลเดอร์ที่ Active ปรับเงากลับมาเป็นโทนสีเทา/ดำ เสริมมิติด้านหลัง
+            // แสงเงาสีเทาด้านหลังเวลาซ้อนกัน
             card.style.boxShadow =
-              "0 30px 60px rgba(0, 0, 0, 0.15), 0 20px 40px rgba(0, 0, 0, 0.1), 0 10px 20px rgba(0, 0, 0, 0.05)";
+              diff < 0.5
+                ? "0 30px 60px rgba(0,0,0,0.15)"
+                : "0 10px 30px rgba(0,0,0,0.05)";
           } else {
-            card.style.boxShadow = "0 10px 30px rgba(0,0,0,0.05)";
+            // โฟลเดอร์ที่เลื่อนผ่านไปแล้ว (ร่วงลงด้านล่างอย่างสมูท)
+            const absDiff = Math.abs(diff);
+            yOffset = absDiff * 200; // ค่อยๆ ร่วงลง
+            zOffset = absDiff * 50; // ดันมาข้างหน้านิดนึง
+            scale = 1 + absDiff * 0.05;
+            opacity = 1 - absDiff * 1.2; // ค่อยๆ จางหายไป (Fade Out)
+            rotateX = diff * 2;
+            blurAmount = absDiff * 4; // เบลอตอนร่วง
           }
+
+          // อัปเดต CSS
+          card.style.zIndex = 100 - Math.round(Math.abs(diff));
+          card.style.opacity = Math.max(0, opacity);
+          card.style.filter =
+            blurAmount > 0.1 ? `blur(${blurAmount}px)` : "none";
+          card.style.transform = `translateY(${yOffset}px) translateZ(${zOffset}px) rotateX(${-rotateX}deg) scale(${scale})`;
         });
       }
 
+      // ติดตั้ง Event Listener ให้ยึดโยงกับการ Scroll ของเบราว์เซอร์
+      window.addEventListener(
+        "scroll",
+        () => {
+          requestAnimationFrame(updateScrollPositions);
+        },
+        { passive: true },
+      );
+
+      // Lightbox Logic (ล็อกสัดส่วนเป็น 3:4 ภาพแนวตั้ง)
       function openProject(index) {
         if (activeIndex !== index) return;
         isExpanded = true;
-        clearInterval(autoTimer);
-
         document.body.classList.add("is-expanded");
 
         const proj = projects[index];
         const hexColor = proj.color.substring(1);
 
-        // อัปเดต Placeholder Image ให้เป็นสัดส่วน 3:4 (600x800) ตามขนาดใหม่ของกล่อง
+        // ขอภาพจำลอง Placeholder เป็นแนวตั้ง (เช่น 600x800 จะเป็นสัดส่วน 3:4 พอดี)
         document.getElementById("lightboxImage").src =
-          `https://placehold.co/600x800/${hexColor}/18181B?text=${proj.title}+CI+Overview`;
-        document.getElementById("fullViewLink").href =
-          `#full-case-study-${proj.id}`;
-
+          `https://placehold.co/600x800/${hexColor}/18181B?text=${proj.title}+3:4`;
         document.getElementById("lightboxOverlay").classList.add("active");
       }
 
       function closeProject() {
         isExpanded = false;
-        resetTimer();
-
         document.body.classList.remove("is-expanded");
         document.getElementById("lightboxOverlay").classList.remove("active");
       }
-
-      function next() {
-        if (isExpanded) return;
-        activeIndex = (activeIndex + 1) % projects.length;
-        triggerMotion();
-      }
-
-      function prev() {
-        if (isExpanded) return;
-        activeIndex = (activeIndex - 1 + projects.length) % projects.length;
-        triggerMotion();
-      }
-
-      function triggerMotion() {
-        updatePosition();
-        statusBar.innerText = "NAVIGATING STACK...";
-        statusBar.style.opacity = "0.8";
-        setTimeout(() => {
-          if (!isExpanded) {
-            statusBar.innerText = "MANUAL CONTROL";
-            statusBar.style.opacity = "0.4";
-          }
-        }, 750);
-      }
-
-      function startAutoPlay() {
-        autoTimer = setInterval(() => {
-          if (!isExpanded) {
-            activeIndex = (activeIndex + 1) % projects.length;
-            updatePosition();
-            statusBar.innerText = "AUTO LOOPING";
-            statusBar.style.opacity = "0.4";
-          }
-        }, 3500);
-      }
-
-      function resetTimer() {
-        clearInterval(autoTimer);
-        if (!isExpanded) {
-          statusBar.innerText = "MANUAL CONTROL";
-          autoTimer = setInterval(() => {
-            if (!isExpanded) {
-              activeIndex = (activeIndex + 1) % projects.length;
-              updatePosition();
-              statusBar.innerText = "AUTO LOOPING";
-            }
-          }, 6000);
-        }
-      }
-
-      let wheelTimeout;
-      window.addEventListener(
-        "wheel",
-        (e) => {
-          if (isExpanded) return;
-          resetTimer();
-          if (!wheelTimeout) {
-            if (e.deltaY > 0) next();
-            else prev();
-            wheelTimeout = setTimeout(() => {
-              wheelTimeout = null;
-            }, 120);
-          }
-        },
-        { passive: true },
-      );
-
-      let isDragging = false;
-      let startY = 0;
-      window.addEventListener("mousedown", (e) => {
-        if (isExpanded) return;
-        isDragging = true;
-        startY = e.clientY;
-        resetTimer();
-      });
-      window.addEventListener("mousemove", (e) => {
-        if (!isDragging || isExpanded) return;
-        const diffY = startY - e.clientY;
-        if (Math.abs(diffY) > 40) {
-          if (diffY > 0) next();
-          else prev();
-          startY = e.clientY;
-        }
-      });
-      window.addEventListener("mouseup", () => {
-        isDragging = false;
-      });
-
-      let touchStartY = 0;
-      window.addEventListener(
-        "touchstart",
-        (e) => {
-          if (isExpanded) return;
-          touchStartY = e.touches[0].pageY;
-          resetTimer();
-        },
-        { passive: true },
-      );
-
-      window.addEventListener(
-        "touchmove",
-        (e) => {
-          if (isExpanded) return;
-          const diffY = touchStartY - e.touches[0].pageY;
-          if (Math.abs(diffY) > 40) {
-            if (diffY > 0) next();
-            else prev();
-            touchStartY = e.touches[0].pageY;
-          }
-        },
-        { passive: true },
-      );
 
       window.onload = initFolders;
     </script>
