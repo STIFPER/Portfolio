@@ -1,348 +1,485 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>FolderStack UI - Fixed Detail View</title>
-  
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <script src="https://cdn.tailwindcss.com"></script>
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <title>FolderStack UI - Fixed Detail View</title>
 
-  <style>
-    :root {
-      --bg: #F4F4F5;
-      --text: #18181B;
-      --font-main: "Manrope", sans-serif;
-      --font-mono: "IBM Plex Mono", monospace;
-      --folder-w: min(calc(100vw - 48px), 360px); /* ปรับให้กระชับขึ้นนิดนึง */
-      --folder-h: 260px; 
-      --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
-      --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
-    }
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Manrope:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
 
-    body {
-      background-color: var(--bg);
-      color: var(--text);
-      font-family: var(--font-main);
-      overflow: hidden;
-      margin: 0;
-      height: 100vh;
-      height: 100dvh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background-image: radial-gradient(circle at 50% 0%, #FFFFFF 0%, #E4E4E7 100%);
-      touch-action: none;
-    }
+    <style>
+      :root {
+        --bg: #f4f4f5;
+        --text: #18181b;
+        --font-main: "Manrope", sans-serif;
+        --font-mono: "IBM Plex Mono", monospace;
+        --folder-w: min(calc(100vw - 48px), 360px);
+        --folder-h: 260px;
+        --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+        --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+      }
 
-    .scene {
-      perspective: 1200px;
-      width: 100%;
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-    }
+      body {
+        background-color: var(--bg);
+        color: var(--text);
+        font-family: var(--font-main);
+        overflow: hidden;
+        margin: 0;
+        height: 100vh;
+        height: 100dvh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-image: radial-gradient(
+          circle at 50% 0%,
+          #ffffff 0%,
+          #e4e4e7 100%
+        );
+        touch-action: none;
+      }
 
-    .folder-stage {
-      position: relative;
-      width: var(--folder-w);
-      height: var(--folder-h);
-      transform-style: preserve-3d;
-      cursor: grab;
-      margin-top: 20px;
-    }
-    
-    .folder-stage:active {
-      cursor: grabbing;
-    }
+      .scene {
+        perspective: 1200px;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        /* ปรับความเนียนของการดึงภาพเบลอกลับให้ละมุนขึ้น */
+        transition: filter 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+      }
 
-    .folder-card {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      transition: transform 0.8s var(--ease-out), opacity 0.8s, filter 0.8s;
-      border-radius: 20px;
-    }
+      /* เมื่อเปิด Lightbox ให้เบลอพื้นหลัง 3D ทิ้งไปเลย เพื่อดึงโฟกัสมาที่ภาพ */
+      body.is-expanded .scene {
+        filter: blur(10px) brightness(0.9);
+        pointer-events: none;
+      }
 
-    .folder-back {
-      position: absolute;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      border-radius: 24px;
-      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.8), 0 20px 40px rgba(0,0,0,0.1);
-      transition: all 0.6s var(--ease-bounce);
-    }
+      .folder-stage {
+        position: relative;
+        width: var(--folder-w);
+        height: var(--folder-h);
+        transform-style: preserve-3d;
+        cursor: grab;
+        /* เอา margin-top ออกเพื่อให้ Stage อยู่กึ่งกลางจอจริงๆ */
+        transition: transform 0.1s var(--ease-out);
+      }
 
-    .folder-tab {
-      position: absolute;
-      top: -34px; left: 0;
-      height: 60px; width: 140px;
-      background-color: inherit;
-      border-radius: 16px 16px 0 0;
-      clip-path: polygon(0 0, 85% 0, 100% 100%, 0 100%);
-      padding: 10px 0 0 20px;
-      font-family: var(--font-mono);
-      font-size: 11px; font-weight: 600;
-      letter-spacing: 1px; text-transform: uppercase;
-      box-shadow: inset 0 1px 0 rgba(255,255,255,0.6), inset 1px 0 0 rgba(255,255,255,0.6);
-    }
+      .folder-stage:active {
+        cursor: grabbing;
+      }
 
-    .folder-front {
-      position: relative;
-      width: 100%; height: 90%;
-      background: linear-gradient(135deg, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0.3) 100%);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border-radius: 16px 16px 24px 24px;
-      border: 1px solid rgba(255, 255, 255, 0.9);
-      padding: 24px;
-      display: flex; flex-direction: column;
-      z-index: 3;
-      transition: all 0.6s var(--ease-bounce);
-    }
+      .folder-card {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        transition:
+          transform 0.8s var(--ease-out),
+          opacity 0.8s,
+          filter 0.8s;
+        border-radius: 20px;
+      }
 
-    .preview-carousel-container {
-      position: absolute;
-      top: 50%; left: 50%;
-      width: 0; height: 0;
-      display: flex; justify-content: center; align-items: center;
-      z-index: 10;
-      pointer-events: none;
-    }
+      .folder-back {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border-radius: 24px;
+        box-shadow:
+          inset 0 0 0 1px rgba(255, 255, 255, 0.6),
+          inset 0 4px 12px rgba(255, 255, 255, 0.4),
+          0 20px 40px rgba(0, 0, 0, 0.05);
+      }
 
-    .preview-card {
-      position: absolute;
-      width: 240px; height: 340px;
-      background: #FFF;
-      border-radius: 16px;
-      box-shadow: 0 30px 60px -12px rgba(0,0,0,0.3);
-      border: 4px solid #FFFFFF;
-      overflow: hidden;
-      /* ซ่อนไว้ตรงกลางและย่อขนาดรอ */
-      transform: translate(-50%, -50%) scale(0.3) rotate(0deg);
-      opacity: 0;
-      transition: transform 0.8s var(--ease-bounce), opacity 0.6s, box-shadow 0.4s;
-    }
+      .folder-tab {
+        position: absolute;
+        top: -34px;
+        left: 0;
+        height: 60px;
+        width: 140px;
+        background-color: inherit;
+        border-radius: 16px 16px 0 0;
+        clip-path: polygon(0 0, 85% 0, 100% 100%, 0 100%);
+        padding: 10px 0 0 20px;
+        font-family: var(--font-mono);
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        box-shadow:
+          inset 0 2px 2px rgba(255, 255, 255, 0.9),
+          inset 1px 0 2px rgba(255, 255, 255, 0.6);
+      }
 
-    .preview-card img {
-      width: 100%; height: 100%; object-fit: cover;
-    }
+      .folder-front {
+        position: relative;
+        width: 100%;
+        height: 90%;
+        /* ปรับสีเป็นโทน Glassy สว่างเจือ Gold เบาๆ */
+        background: linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.95) 0%,
+          rgba(253, 248, 235, 0.6) 40%,
+          rgba(255, 255, 255, 0.2) 100%
+        );
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border-radius: 16px 16px 24px 24px;
+        /* ขอบสะท้อนแสง Gold */
+        border: 1px solid rgba(212, 175, 55, 0.25);
+        border-top: 1px solid rgba(255, 255, 255, 0.8);
+        border-left: 1px solid rgba(255, 255, 255, 0.6);
+        /* ความเงาด้านใน (Glossy effect) */
+        box-shadow:
+          inset 0 4px 6px rgba(255, 255, 255, 0.7),
+          inset 0 -4px 20px rgba(212, 175, 55, 0.08);
+        padding: 24px;
+        display: flex;
+        flex-direction: column;
+        z-index: 3;
+      }
 
-    .preview-card:hover {
-      z-index: 100 !important;
-      box-shadow: 0 40px 80px -10px rgba(0,0,0,0.4);
-      cursor: pointer;
-    }
+      .folder-front h2 {
+        font-size: 24px;
+        font-weight: 800;
+        margin-bottom: 6px;
+        line-height: 1.2;
+        letter-spacing: -0.5px;
+      }
+      .folder-details {
+        font-size: 13px;
+        line-height: 1.5;
+        opacity: 0.75;
+        margin-bottom: 12px;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+      .stats-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+        margin-top: auto;
+        padding-top: 12px;
+        border-top: 1px solid rgba(0, 0, 0, 0.06);
+      }
+      .stat-item span {
+        display: block;
+        font-size: 10px;
+        font-family: var(--font-mono);
+        text-transform: uppercase;
+        opacity: 0.5;
+        margin-bottom: 2px;
+      }
+      .stat-item p {
+        font-weight: 700;
+        font-size: 13px;
+      }
 
-    .global-close-btn {
-      position: fixed;
-      top: 30px; right: 30px;
-      background: rgba(255, 255, 255, 0.9);
-      color: #18181B;
-      border: none; border-radius: 50px;
-      padding: 12px 24px;
-      font-size: 12px; font-family: var(--font-mono); font-weight: 700;
-      cursor: pointer;
-      opacity: 0; transform: translateY(-20px);
-      pointer-events: none;
-      transition: all 0.5s var(--ease-out);
-      z-index: 2000;
-      text-transform: uppercase; letter-spacing: 1px;
-      backdrop-filter: blur(10px);
-      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-      display: flex; align-items: center; gap: 8px;
-    }
-    
-    .global-close-btn:hover { background: white; transform: translateY(0) scale(1.05); }
+      .action-btn {
+        margin-top: 16px;
+        padding: 14px 0;
+        width: 100%;
+        border-radius: 12px;
+        background: rgba(0, 0, 0, 0.05);
+        font-weight: 700;
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        transition: all 0.3s ease;
+        cursor: pointer;
+      }
+      .action-btn:hover {
+        background: #18181b;
+        color: white;
+        transform: translateY(-2px);
+      }
 
-    .global-full-view-btn {
-      position: fixed;
-      bottom: 40px; left: 50%;
-      transform: translateX(-50%) translateY(30px);
-      padding: 16px 36px;
-      background: #18181B; color: white;
-      text-align: center; border-radius: 100px;
-      font-weight: 700; font-size: 14px;
-      text-transform: uppercase; letter-spacing: 1px;
-      text-decoration: none;
-      opacity: 0;
-      transition: all 0.6s var(--ease-bounce);
-      z-index: 2000; pointer-events: none;
-      box-shadow: 0 15px 30px rgba(0,0,0,0.3);
-      white-space: nowrap;
-    }
+      .status-bar {
+        position: absolute;
+        bottom: 20px;
+        font-family: var(--font-mono);
+        font-size: 10px;
+        opacity: 0.4;
+        letter-spacing: 2px;
+        transition: opacity 0.3s;
+        text-align: center;
+        width: 100%;
+        z-index: 2;
+      }
 
-    .global-full-view-btn:hover {
-      background: #3F3F46;
-      transform: translateX(-50%) translateY(-5px);
-    }
+      /* -------------------------------------------
+       NEW LIGHTBOX OVERLAY (2D FIXED)
+    ------------------------------------------- */
+      .lightbox-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(244, 244, 245, 0.85);
+        z-index: 9999;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      }
 
-    /* UI Details */
-    .folder-front h2 {
-      font-size: 24px; font-weight: 800; margin-bottom: 6px; line-height: 1.2; letter-spacing: -0.5px;
-    }
-    .folder-details {
-      font-size: 13px; line-height: 1.5; opacity: 0.75; margin-bottom: 12px;
-      display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
-    }
-    .stats-grid {
-      display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
-      margin-top: auto; padding-top: 12px; border-top: 1px solid rgba(0,0,0,0.06);
-    }
-    .stat-item span {
-      display: block; font-size: 10px; font-family: var(--font-mono); text-transform: uppercase; opacity: 0.5; margin-bottom: 2px;
-    }
-    .stat-item p { font-weight: 700; font-size: 13px; }
+      .lightbox-overlay.active {
+        opacity: 1;
+        pointer-events: auto;
+      }
 
-    .action-btn {
-      margin-top: 16px; padding: 14px 0; width: 100%; border-radius: 12px;
-      background: rgba(0, 0, 0, 0.05); font-weight: 700; font-size: 12px;
-      text-transform: uppercase; letter-spacing: 1px; transition: all 0.3s ease; cursor: pointer;
-    }
-    .action-btn:hover { background: #18181B; color: white; transform: translateY(-2px); }
+      /* กล่องสำหรับใส่รูป CI Board */
+      .lightbox-content {
+        /* ปรับเป็น Fix ขนาดสัดส่วน 3:4 และไม่เอาตามพื้นที่จอ */
+        width: 480px;
+        height: 640px;
+        max-width: 90vw; /* กันล้นขอบจอมือถือ */
+        max-height: 120vw; /* ให้คงสัดส่วน 3:4 ไว้ในมือถือ (90vw * 4/3) */
 
-    /* ซ่อนฝาและเนื้อหาโฟลเดอร์ตอนขยาย */
-    .folder-card.expanded .folder-back,
-    .folder-card.expanded .folder-front {
-      opacity: 0 !important;
-      transform: translateY(100px) scale(0.8);
-      pointer-events: none;
-    }
+        background: #fff;
+        border-radius: 16px;
+        border: 4px solid #fff;
+        box-shadow: 0 40px 80px -20px rgba(0, 0, 0, 0.3);
+        overflow: hidden; /* เปลี่ยนเป็น hidden เพราะรูปจะ fix พอดีกล่อง */
 
-    /* กางภาพออก */
-    .folder-card.expanded .preview-carousel-container {
-      pointer-events: auto;
-    }
-    .folder-card.expanded .preview-card {
-      opacity: 1; pointer-events: auto;
-    }
+        transform: scale(0.95) translateY(15px);
+        opacity: 0;
 
-    /* ตำแหน่งไพ่กระจายตัวบน Desktop (ใช้ % เทียบกับ Center เพื่อความเสถียร) */
-    .folder-card.expanded .preview-card:nth-child(1) { transform: translate(calc(-50% - 220px), calc(-50% + 20px)) rotate(-15deg); z-index: 1; transition-delay: 0.1s; }
-    .folder-card.expanded .preview-card:nth-child(2) { transform: translate(calc(-50% - 80px), calc(-50% - 40px)) rotate(-5deg); z-index: 2; transition-delay: 0.2s; }
-    .folder-card.expanded .preview-card:nth-child(3) { transform: translate(calc(-50% + 80px), calc(-50% - 20px)) rotate(6deg); z-index: 3; transition-delay: 0.3s; }
-    .folder-card.expanded .preview-card:nth-child(4) { transform: translate(calc(-50% + 220px), calc(-50% + 40px)) rotate(15deg); z-index: 4; transition-delay: 0.4s; }
-    
-    /* Hover state เมื่อกางไพ่แล้ว */
-    .folder-card.expanded .preview-card:nth-child(1):hover { transform: translate(calc(-50% - 230px), calc(-50% + 0px)) rotate(-15deg) scale(1.05); }
-    .folder-card.expanded .preview-card:nth-child(2):hover { transform: translate(calc(-50% - 80px), calc(-50% - 60px)) rotate(-5deg) scale(1.05); }
-    .folder-card.expanded .preview-card:nth-child(3):hover { transform: translate(calc(-50% + 80px), calc(-50% - 40px)) rotate(6deg) scale(1.05); }
-    .folder-card.expanded .preview-card:nth-child(4):hover { transform: translate(calc(-50% + 230px), calc(-50% + 20px)) rotate(15deg) scale(1.05); }
+        transition:
+          transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+          opacity 0.3s ease-out;
+      }
 
-    /* Responsive Mobile: กางไพ่เป็นแนวตั้ง หรือแคบลง */
-    @media (max-width: 768px) {
-      .preview-card { width: 160px; height: 230px; }
-      /* ซ้อนกันแบบเลื่อมๆ ให้ดูสวยงามในจอมือถือ */
-      .folder-card.expanded .preview-card:nth-child(1) { transform: translate(calc(-50% - 60px), calc(-50% - 100px)) rotate(-12deg); }
-      .folder-card.expanded .preview-card:nth-child(2) { transform: translate(calc(-50% + 50px), calc(-50% - 40px)) rotate(8deg); }
-      .folder-card.expanded .preview-card:nth-child(3) { transform: translate(calc(-50% - 50px), calc(-50% + 40px)) rotate(-6deg); }
-      .folder-card.expanded .preview-card:nth-child(4) { transform: translate(calc(-50% + 60px), calc(-50% + 110px)) rotate(12deg); }
-      
-      .global-close-btn { top: 20px; right: 20px; padding: 10px 20px; font-size: 10px; }
-      .global-full-view-btn { bottom: 20px; font-size: 12px; padding: 14px 28px; }
-    }
+      .lightbox-overlay.active .lightbox-content {
+        transform: scale(1) translateY(0);
+        opacity: 1;
 
-    /* ซ่อนการ์ดใบอื่นเมื่อมีการเปิด */
-    .folder-card.hidden-by-expand {
-      opacity: 0 !important;
-      transform: translateY(150px) translateZ(-300px) scale(0.7) !important;
-      pointer-events: none;
-    }
+        transition:
+          transform 0.6s var(--ease-bounce) 0.05s,
+          opacity 0.5s ease 0.05s;
+      }
 
-    /* Global UI Toggles */
-    body.is-expanded .global-close-btn {
-      opacity: 1; transform: translateY(0); pointer-events: auto; transition-delay: 0.4s;
-    }
-    body.is-expanded .global-full-view-btn {
-      opacity: 1; transform: translateX(-50%) translateY(0); pointer-events: auto; transition-delay: 0.5s;
-    }
-    /* พื้นหลังมืดลงนิดหน่อยตอนเปิดดู */
-    body.is-expanded::before {
-      content: ''; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-      background: rgba(244, 244, 245, 0.7); backdrop-filter: blur(4px);
-      z-index: 1; transition: all 0.8s ease; pointer-events: none;
-    }
+      .lightbox-content img {
+        width: 100%;
+        height: 100%;
+        display: block;
+        object-fit: cover;
+      }
 
-    .status-bar {
-      position: absolute; bottom: 20px;
-      font-family: var(--font-mono); font-size: 10px; opacity: 0.4;
-      letter-spacing: 2px; transition: opacity 0.3s; text-align: center; width: 100%; z-index: 2;
-    }
-  </style>
-</head>
-<body>
+      .lightbox-controls {
+        display: flex;
+        gap: 16px;
+        margin-top: 24px;
+        transform: translateY(15px);
+        opacity: 0;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      }
 
-  <!-- Global Buttons (อยู่นอกสุด จะได้ไม่โดน CSS Transform ดึงเพี้ยน) -->
-  <button class="global-close-btn" onclick="closeProject()">
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-    Close
-  </button>
-  <a href="#" class="global-full-view-btn" id="fullViewLink">View Full Case Study ➔</a>
+      .lightbox-overlay.active .lightbox-controls {
+        transform: translateY(0);
+        opacity: 1;
+        transition: all 0.6s var(--ease-bounce) 0.15s;
+      }
 
-  <div class="scene">
-    <!-- UI Header -->
-    <div class="mb-4 md:mb-8 text-center z-10 transition-transform duration-700 relative" id="mainHeader">
-      <p class="font-mono text-[10px] md:text-[11px] opacity-40 uppercase tracking-[0.2em] mb-2">Project Stack</p>
-      <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight">Wachirawit.</h1>
+      .btn-control {
+        padding: 14px 28px;
+        border-radius: 100px;
+        font-weight: 700;
+        font-size: 13px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .btn-close {
+        background: #fff;
+        color: #18181b;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+        border: 1px solid rgba(0, 0, 0, 0.1);
+      }
+      .btn-close:hover {
+        background: #e4e4e7;
+        transform: translateY(-2px);
+      }
+
+      .btn-full {
+        background: #18181b;
+        color: #fff;
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+      }
+      .btn-full:hover {
+        background: #3f3f46;
+        transform: translateY(-2px);
+      }
+
+      @media (max-width: 768px) {
+        .lightbox-controls {
+          flex-direction: column;
+          width: min(90vw, 800px);
+          gap: 12px;
+        }
+        .btn-control {
+          width: 100%;
+          font-size: 12px;
+          padding: 14px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="lightboxOverlay" class="lightbox-overlay">
+      <div class="lightbox-content">
+        <img id="lightboxImage" src="" alt="CI Overview" />
+      </div>
+      <div class="lightbox-controls">
+        <button class="btn-control btn-close" onclick="closeProject()">
+          <svg
+            width="18"
+            height="18"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            style="margin-right: 6px"
+          >
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+          Close
+        </button>
+        <a href="#" class="btn-control btn-full" id="fullViewLink"
+          >View Full Case Study ➔</a
+        >
+      </div>
     </div>
 
-    <!-- The 3D Stage -->
-    <div class="folder-stage" id="folderStage">
-      <!-- JavaScript will inject folders here -->
+    <div class="scene">
+      <!-- ปรับให้เป็น Absolute ติดขอบบนสุดของจอ (Top-0) -->
+      <div
+        class="absolute top-0 left-0 w-full pt-8 md:pt-12 text-center z-10 transition-transform duration-700"
+        id="mainHeader"
+      >
+        <p
+          class="font-mono text-[10px] md:text-[11px] opacity-40 uppercase tracking-[0.2em] mb-2"
+        >
+          Project Stack
+        </p>
+        <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight">
+          Wachirawit.
+        </h1>
+      </div>
+
+      <div class="folder-stage" id="folderStage">
+        <!-- JavaScript will inject folders here -->
+      </div>
+
+      <div class="status-bar" id="statusBar">SWIPE OR SCROLL TO NAVIGATE</div>
     </div>
 
-    <div class="status-bar" id="statusBar">SWIPE OR SCROLL TO NAVIGATE</div>
-  </div>
+    <script>
+      const projects = [
+        {
+          id: 1,
+          cat: "Research",
+          title: "Eco Habit",
+          color: "#E8F5E9",
+          desc: "A sustainable living app focusing on gamified carbon footprint reduction for urban dwellers.",
+          role: "Lead UX",
+          tech: "Figma",
+        },
+        {
+          id: 2,
+          cat: "Visual",
+          title: "Neo-Bank",
+          color: "#F3E5F5",
+          desc: "Redesigning the mobile banking experience for Gen-Z with minimalist visuals and high-speed UX.",
+          role: "UI Design",
+          tech: "Principle",
+        },
+        {
+          id: 3,
+          cat: "System",
+          title: "Lumina OS",
+          color: "#FFF3E0",
+          desc: "A conceptual operating system focused on spatial computing and light-based notifications.",
+          role: "Product",
+          tech: "SwiftUI",
+        },
+        {
+          id: 4,
+          cat: "Branding",
+          title: "Origami",
+          color: "#E1F5FE",
+          desc: "Crafting a flexible identity for a modern architectural firm using folded-paper aesthetics.",
+          role: "Brand Lead",
+          tech: "Illustrator",
+        },
+        {
+          id: 5,
+          cat: "Case",
+          title: "Sync 360",
+          color: "#FBE9E7",
+          desc: "Integrating wearable data into a cohesive medical dashboard for professional healthcare providers.",
+          role: "UX Strategy",
+          tech: "React",
+        },
+        {
+          id: 6,
+          cat: "Fintech",
+          title: "CoinVault",
+          color: "#E0F7FA",
+          desc: "Secure cryptocurrency wallet interface focusing on transparent transaction history.",
+          role: "UI/UX",
+          tech: "Framer",
+        },
+      ];
 
-  <script>
-    const projects = [
-      { id: 1, cat: "Research", title: "Eco Habit", color: "#E8F5E9", desc: "A sustainable living app focusing on gamified carbon footprint reduction for urban dwellers.", role: "Lead UX", tech: "Figma" },
-      { id: 2, cat: "Visual", title: "Neo-Bank", color: "#F3E5F5", desc: "Redesigning the mobile banking experience for Gen-Z with minimalist visuals and high-speed UX.", role: "UI Design", tech: "Principle" },
-      { id: 3, cat: "System", title: "Lumina OS", color: "#FFF3E0", desc: "A conceptual operating system focused on spatial computing and light-based notifications.", role: "Product", tech: "SwiftUI" },
-      { id: 4, cat: "Branding", title: "Origami", color: "#E1F5FE", desc: "Crafting a flexible identity for a modern architectural firm using folded-paper aesthetics.", role: "Brand Lead", tech: "Illustrator" },
-      { id: 5, cat: "Case", title: "Sync 360", color: "#FBE9E7", desc: "Integrating wearable data into a cohesive medical dashboard for professional healthcare providers.", role: "UX Strategy", tech: "React" },
-      { id: 6, cat: "Fintech", title: "CoinVault", color: "#E0F7FA", desc: "Secure cryptocurrency wallet interface focusing on transparent transaction history.", role: "UI/UX", tech: "Framer" }
-    ];
+      let activeIndex = 0;
+      let isExpanded = false;
+      let autoTimer;
 
-    let activeIndex = 0;
-    let isExpanded = false;
-    let autoTimer;
-    
-    const stage = document.getElementById('folderStage');
-    const statusBar = document.getElementById('statusBar');
-    const mainHeader = document.getElementById('mainHeader');
-    const fullViewLink = document.getElementById('fullViewLink');
+      const stage = document.getElementById("folderStage");
+      const statusBar = document.getElementById("statusBar");
 
-    function initFolders() {
-      stage.innerHTML = '';
-      projects.forEach((proj, i) => {
-        const card = document.createElement('div');
-        card.className = 'folder-card';
-        
-        const hexColor = proj.color.substring(1);
-        
-        card.innerHTML = `
+      function initFolders() {
+        stage.innerHTML = "";
+        projects.forEach((proj, i) => {
+          const card = document.createElement("div");
+          card.className = "folder-card";
+
+          card.innerHTML = `
           <div class="folder-back" style="background-color: ${proj.color}">
             <div class="folder-tab">${proj.cat}</div>
           </div>
-
-          <!-- เปลี่ยนให้ Container คุมแค่จุดกึ่งกลาง ไม่ต้องกางเต็มจอ -->
-          <div class="preview-carousel-container">
-              <div class="preview-card"><img src="https://placehold.co/400x560/${hexColor}/18181B?text=${proj.title}+01" alt="Work 1"></div>
-              <div class="preview-card"><img src="https://placehold.co/400x560/${hexColor}/18181B?text=${proj.title}+02" alt="Work 2"></div>
-              <div class="preview-card"><img src="https://placehold.co/400x560/${hexColor}/18181B?text=${proj.title}+03" alt="Work 3"></div>
-              <div class="preview-card"><img src="https://placehold.co/400x560/${hexColor}/18181B?text=${proj.title}+04" alt="Work 4"></div>
-          </div>
-
           <div class="folder-front">
-            <span class="font-mono text-[10px] mb-2 opacity-40 font-semibold uppercase tracking-wider">Project 0${i+1}</span>
+            <span class="font-mono text-[10px] mb-2 opacity-40 font-semibold uppercase tracking-wider">Project 0${i + 1}</span>
             <h2>${proj.title}</h2>
             <p class="folder-details">${proj.desc}</p>
             <div class="stats-grid">
@@ -352,186 +489,189 @@
             <button class="action-btn" onclick="openProject(${i})">Explore</button>
           </div>
         `;
-        stage.appendChild(card);
-      });
-      updatePosition();
-      startAutoPlay();
-    }
+          stage.appendChild(card);
+        });
+        updatePosition();
+        startAutoPlay();
+      }
 
-    function updatePosition() {
-      const cards = document.querySelectorAll('.folder-card');
-      
-      cards.forEach((card, i) => {
-        let diff = i - activeIndex;
-        
-        if (diff > projects.length / 2) diff -= projects.length;
-        if (diff < -projects.length / 2) diff += projects.length;
+      function updatePosition() {
+        const cards = document.querySelectorAll(".folder-card");
 
-        const yOffset = diff * -75; 
-        const zOffset = Math.abs(diff) * -80; 
-        const scale = 1 - (Math.abs(diff) * 0.05);
-        const opacity = 1 - (Math.abs(diff) * 0.15);
-        const rotateX = diff * 4; 
-        const blurAmount = Math.abs(diff) === 0 ? 0 : Math.abs(diff) * 1.5;
-        
-        card.style.zIndex = 100 - Math.abs(diff);
-        card.style.opacity = Math.max(opacity, 0);
-        card.style.filter = `blur(${blurAmount}px)`;
-        
-        card.style.transform = `
+        cards.forEach((card, i) => {
+          let diff = i - activeIndex;
+
+          if (diff > projects.length / 2) diff -= projects.length;
+          if (diff < -projects.length / 2) diff += projects.length;
+
+          const yOffset = diff * -75;
+          const zOffset = Math.abs(diff) * -80;
+          const scale = 1 - Math.abs(diff) * 0.05;
+          const opacity = 1 - Math.abs(diff) * 0.15;
+          const rotateX = diff * 4;
+          const blurAmount = Math.abs(diff) === 0 ? 0 : Math.abs(diff) * 1.5;
+
+          card.style.zIndex = 100 - Math.abs(diff);
+          card.style.opacity = Math.max(opacity, 0);
+          card.style.filter =
+            blurAmount === 0 ? "none" : `blur(${blurAmount}px)`;
+          card.style.transform = `
           translateY(${yOffset}px) 
           translateZ(${zOffset}px) 
           rotateX(${-rotateX}deg) 
           scale(${scale})
         `;
-        
-        if (diff === 0) {
-          card.style.boxShadow = '0 30px 60px rgba(0,0,0,0.15)';
-        } else {
-          card.style.boxShadow = '0 10px 30px rgba(0,0,0,0.05)';
-        }
-      });
-    }
 
-    function openProject(index) {
-      if (activeIndex !== index) return;
-      isExpanded = true;
-      clearInterval(autoTimer);
-      
-      // Update Body Class for Global UI
-      document.body.classList.add('is-expanded');
-      
-      // Update Link
-      fullViewLink.href = `#full-case-study-${projects[index].id}`;
-      
-      mainHeader.style.transform = 'translateY(-30px) scale(0.9)';
-      mainHeader.style.opacity = '0';
-      
-      const cards = document.querySelectorAll('.folder-card');
-      cards.forEach((card, i) => {
-        if (i === index) {
-          card.classList.add('expanded');
-        } else {
-          card.classList.add('hidden-by-expand');
-        }
-      });
-      statusBar.innerText = "EXPLORING DETAILS";
-      statusBar.style.opacity = "0";
-    }
+          if (diff === 0) {
+            // โฟลเดอร์ที่ Active ปรับเงากลับมาเป็นโทนสีเทา/ดำ เสริมมิติด้านหลัง
+            card.style.boxShadow =
+              "0 30px 60px rgba(0, 0, 0, 0.15), 0 20px 40px rgba(0, 0, 0, 0.1), 0 10px 20px rgba(0, 0, 0, 0.05)";
+          } else {
+            card.style.boxShadow = "0 10px 30px rgba(0,0,0,0.05)";
+          }
+        });
+      }
 
-    function closeProject() {
-      isExpanded = false;
-      resetTimer();
-      
-      // Remove Body Class for Global UI
-      document.body.classList.remove('is-expanded');
-      
-      mainHeader.style.transform = 'translateY(0) scale(1)';
-      mainHeader.style.opacity = '1';
-      
-      const cards = document.querySelectorAll('.folder-card');
-      cards.forEach(card => {
-        card.classList.remove('expanded');
-        card.classList.remove('hidden-by-expand');
-      });
-      
-      statusBar.innerText = "MANUAL CONTROL";
-      statusBar.style.opacity = "0.4";
-    }
+      function openProject(index) {
+        if (activeIndex !== index) return;
+        isExpanded = true;
+        clearInterval(autoTimer);
 
-    function next() {
-      if(isExpanded) return;
-      activeIndex = (activeIndex + 1) % projects.length;
-      triggerMotion();
-    }
+        document.body.classList.add("is-expanded");
 
-    function prev() {
-      if(isExpanded) return;
-      activeIndex = (activeIndex - 1 + projects.length) % projects.length;
-      triggerMotion();
-    }
+        const proj = projects[index];
+        const hexColor = proj.color.substring(1);
 
-    function triggerMotion() {
-      updatePosition();
-      statusBar.innerText = "NAVIGATING STACK...";
-      statusBar.style.opacity = "0.8";
-      setTimeout(() => {
-        if(!isExpanded) {
-          statusBar.innerText = "MANUAL CONTROL";
-          statusBar.style.opacity = "0.4";
-        }
-      }, 750);
-    }
+        // อัปเดต Placeholder Image ให้เป็นสัดส่วน 3:4 (600x800) ตามขนาดใหม่ของกล่อง
+        document.getElementById("lightboxImage").src =
+          `https://placehold.co/600x800/${hexColor}/18181B?text=${proj.title}+CI+Overview`;
+        document.getElementById("fullViewLink").href =
+          `#full-case-study-${proj.id}`;
 
-    function startAutoPlay() {
-      autoTimer = setInterval(() => {
-        if(!isExpanded) {
-          activeIndex = (activeIndex + 1) % projects.length;
-          updatePosition();
-          statusBar.innerText = "AUTO LOOPING";
-          statusBar.style.opacity = "0.4";
-        }
-      }, 3500);
-    }
+        document.getElementById("lightboxOverlay").classList.add("active");
+      }
 
-    function resetTimer() {
-      clearInterval(autoTimer);
-      if(!isExpanded) {
-        statusBar.innerText = "MANUAL CONTROL";
+      function closeProject() {
+        isExpanded = false;
+        resetTimer();
+
+        document.body.classList.remove("is-expanded");
+        document.getElementById("lightboxOverlay").classList.remove("active");
+      }
+
+      function next() {
+        if (isExpanded) return;
+        activeIndex = (activeIndex + 1) % projects.length;
+        triggerMotion();
+      }
+
+      function prev() {
+        if (isExpanded) return;
+        activeIndex = (activeIndex - 1 + projects.length) % projects.length;
+        triggerMotion();
+      }
+
+      function triggerMotion() {
+        updatePosition();
+        statusBar.innerText = "NAVIGATING STACK...";
+        statusBar.style.opacity = "0.8";
+        setTimeout(() => {
+          if (!isExpanded) {
+            statusBar.innerText = "MANUAL CONTROL";
+            statusBar.style.opacity = "0.4";
+          }
+        }, 750);
+      }
+
+      function startAutoPlay() {
         autoTimer = setInterval(() => {
-          if(!isExpanded) {
+          if (!isExpanded) {
             activeIndex = (activeIndex + 1) % projects.length;
             updatePosition();
             statusBar.innerText = "AUTO LOOPING";
+            statusBar.style.opacity = "0.4";
           }
-        }, 6000);
+        }, 3500);
       }
-    }
 
-    // Controls
-    let wheelTimeout;
-    window.addEventListener('wheel', (e) => {
-      if(isExpanded) return;
-      resetTimer();
-      if (!wheelTimeout) {
-        if (e.deltaY > 0) next();
-        else prev();
-        wheelTimeout = setTimeout(() => { wheelTimeout = null; }, 120);
+      function resetTimer() {
+        clearInterval(autoTimer);
+        if (!isExpanded) {
+          statusBar.innerText = "MANUAL CONTROL";
+          autoTimer = setInterval(() => {
+            if (!isExpanded) {
+              activeIndex = (activeIndex + 1) % projects.length;
+              updatePosition();
+              statusBar.innerText = "AUTO LOOPING";
+            }
+          }, 6000);
+        }
       }
-    }, { passive: true });
 
-    let isDragging = false;
-    let startY = 0;
-    window.addEventListener('mousedown', e => {
-      if(isExpanded) return;
-      isDragging = true; startY = e.clientY; resetTimer();
-    });
-    window.addEventListener('mousemove', e => {
-      if (!isDragging || isExpanded) return;
-      const diffY = startY - e.clientY;
-      if (Math.abs(diffY) > 40) {
-        if (diffY > 0) next(); else prev();
-        startY = e.clientY; 
-      }
-    });
-    window.addEventListener('mouseup', () => { isDragging = false; });
+      let wheelTimeout;
+      window.addEventListener(
+        "wheel",
+        (e) => {
+          if (isExpanded) return;
+          resetTimer();
+          if (!wheelTimeout) {
+            if (e.deltaY > 0) next();
+            else prev();
+            wheelTimeout = setTimeout(() => {
+              wheelTimeout = null;
+            }, 120);
+          }
+        },
+        { passive: true },
+      );
 
-    let touchStartY = 0;
-    window.addEventListener('touchstart', e => {
-      if(isExpanded) return;
-      touchStartY = e.touches[0].pageY; resetTimer();
-    }, { passive: true });
-    
-    window.addEventListener('touchmove', e => {
-      if(isExpanded) return;
-      const diffY = touchStartY - e.touches[0].pageY;
-      if (Math.abs(diffY) > 40) {
-        if (diffY > 0) next(); else prev();
-        touchStartY = e.touches[0].pageY; 
-      }
-    }, { passive: true });
+      let isDragging = false;
+      let startY = 0;
+      window.addEventListener("mousedown", (e) => {
+        if (isExpanded) return;
+        isDragging = true;
+        startY = e.clientY;
+        resetTimer();
+      });
+      window.addEventListener("mousemove", (e) => {
+        if (!isDragging || isExpanded) return;
+        const diffY = startY - e.clientY;
+        if (Math.abs(diffY) > 40) {
+          if (diffY > 0) next();
+          else prev();
+          startY = e.clientY;
+        }
+      });
+      window.addEventListener("mouseup", () => {
+        isDragging = false;
+      });
 
-    window.onload = initFolders;
-  </script>
-</body>
+      let touchStartY = 0;
+      window.addEventListener(
+        "touchstart",
+        (e) => {
+          if (isExpanded) return;
+          touchStartY = e.touches[0].pageY;
+          resetTimer();
+        },
+        { passive: true },
+      );
+
+      window.addEventListener(
+        "touchmove",
+        (e) => {
+          if (isExpanded) return;
+          const diffY = touchStartY - e.touches[0].pageY;
+          if (Math.abs(diffY) > 40) {
+            if (diffY > 0) next();
+            else prev();
+            touchStartY = e.touches[0].pageY;
+          }
+        },
+        { passive: true },
+      );
+
+      window.onload = initFolders;
+    </script>
+  </body>
 </html>
