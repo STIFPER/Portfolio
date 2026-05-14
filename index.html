@@ -1,513 +1,537 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Wachirawit — Portfolio</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>FolderStack UI - Fixed Detail View</title>
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Manrope:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
 
   <style>
-    /* =========================
-       THEME VARIABLES
-       ========================= */
     :root {
-      /* Light Mode */
-      --bg: #F4F4F0;
-      --text: #1A1A1A;
-      --line: #D0D0D0;
-      --card-bg: #EAEAEA;
-      --btn-bg: #E0E0E0;
-      
-      --font-main: "Manrope", sans-serif;       
-      --font-mono: "IBM Plex Mono", monospace;  
-      
-      --pad: max(5vw, 24px);
-      --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+      --bg: #F4F4F5;
+      --text: #18181B;
+      --font-main: "Manrope", sans-serif;
+      --font-mono: "IBM Plex Mono", monospace;
+      --folder-w: min(calc(100vw - 48px), 360px); /* ปรับให้กระชับขึ้นนิดนึง */
+      --folder-h: 260px; 
+      --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+      --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
     }
-
-    /* Dark Mode */
-    body[data-theme="dark"] {
-      --bg: #111111;
-      --text: #F0F0F0;
-      --line: #333333;
-      --card-bg: #222222;
-      --btn-bg: #333333;
-    }
-
-    * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
 
     body {
-      margin: 0; background: var(--bg); color: var(--text);
-      font-family: var(--font-main); -webkit-font-smoothing: antialiased;
-      transition: background 0.3s ease, color 0.3s ease;
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: var(--font-main);
+      overflow: hidden;
+      margin: 0;
+      height: 100vh;
+      height: 100dvh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-image: radial-gradient(circle at 50% 0%, #FFFFFF 0%, #E4E4E7 100%);
+      touch-action: none;
     }
 
-    a { text-decoration: none; color: inherit; transition: opacity 0.2s; }
-    img { display: block; width: 100%; height: 100%; object-fit: cover; }
-
-    /* ICON STYLE (SVG) */
-    .icon-arrow {
-      width: 1em; height: 1em;
-      fill: none; stroke: currentColor; 
-      stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round;
-      display: inline-block; vertical-align: middle;
+    .scene {
+      perspective: 1200px;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
     }
 
-    /* =========================
-       HEADER
-       ========================= */
-    header {
-      padding: 30px var(--pad);
-      display: flex; justify-content: space-between; align-items: center;
-      position: relative; z-index: 100;
+    .folder-stage {
+      position: relative;
+      width: var(--folder-w);
+      height: var(--folder-h);
+      transform-style: preserve-3d;
+      cursor: grab;
+      margin-top: 20px;
     }
     
-    .logo {
-      font-family: var(--font-main); font-weight: 700; font-size: 16px;
-      letter-spacing: -0.02em; text-transform: uppercase;
-      display: flex; align-items: center; gap: 12px;
+    .folder-stage:active {
+      cursor: grabbing;
     }
 
-    .logo-dark { display: none; } 
-    body[data-theme="dark"] .logo-light { display: none !important; } 
-    body[data-theme="dark"] .logo-dark { display: block !important; }
-
-    .nav-group { display: flex; align-items: center; gap: 32px; }
-    .nav {
-      display: flex; gap: 24px;
-      font-family: var(--font-mono); font-size: 12px; font-weight: 500;
-      text-transform: uppercase; letter-spacing: 0.05em;
-    }
-    .nav a:hover { opacity: 0.6; }
-
-    .theme-btn {
-      background: none; border: 1px solid var(--line);
-      color: var(--text); padding: 6px 14px; border-radius: 20px;
-      font-family: var(--font-mono); font-size: 11px; cursor: pointer;
-      text-transform: uppercase;
-    }
-    .theme-btn:hover { background: var(--text); color: var(--bg); border-color: var(--text); }
-
-    /* =========================
-       HERO
-       ========================= */
-    .hero-container {
-      position: relative; min-height: 85vh;
-      padding: 0 var(--pad); display: flex; flex-direction: column;
-    }
-    .hero-name {
-      font-family: var(--font-main); font-size: clamp(50px, 9vw, 130px);
-      font-weight: 500; line-height: 0.95; letter-spacing: -0.03em;
-      margin-top: 40px; z-index: 2;
-    }
-    .portrait-wrapper {
-      position: absolute; top: 45%; right: 15%; 
-      width: clamp(220px, 25vw, 340px); aspect-ratio: 3/4; z-index: 1;
-      transform: translateY(-50%);
-    }
-    .portrait-wrapper img { filter: grayscale(100%); transition: filter 0.5s; }
-    .portrait-wrapper:hover img { filter: grayscale(0%); }
-
-    .hero-bottom { margin-top: auto; padding-bottom: 40px; z-index: 2; }
-    .divider { width: 100%; height: 1px; background: var(--line); margin-bottom: 30px; }
-    
-    .intro-grid { display: grid; grid-template-columns: 150px 1fr 1fr; gap: 40px; }
-    .intro-label { 
-      font-family: var(--font-mono); font-size: 12px; font-weight: 500; 
-      opacity: 0.6; text-transform: uppercase; 
-    }
-    .intro-text { font-size: 15px; line-height: 1.6; opacity: 0.9; max-width: 480px; }
-
-    /* =========================
-       SPACER & SERVICES
-       ========================= */
-    .spacer {
-      height: 25vh; display: flex; justify-content: center; align-items: center;
-    }
-    .scroll-hint {
-      font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.1em; 
-      opacity: 0.5; animation: bounce 2s infinite;
-    }
-    @keyframes bounce { 0%,100%{transform:translateY(0);} 50%{transform:translateY(5px);} }
-
-    .services-section { padding: 0 var(--pad) 80px; }
-    .svc-header {
-      display: flex; justify-content: space-between;
-      margin-bottom: 20px; border-bottom: 1px solid var(--line); padding-bottom: 20px;
-    }
-    .svc-label {
-      font-family: var(--font-mono); font-size: 12px; opacity: 0.6; text-transform: uppercase; letter-spacing: 0.05em;
-    }
-    .svc-list { display: flex; flex-direction: column; }
-    .svc-item { border-bottom: 1px solid var(--line); cursor: pointer; transition: background 0.3s; }
-    .svc-top { display: grid; grid-template-columns: 1.5fr 2fr auto; gap: 20px; align-items: center; padding: 32px 0; }
-    .svc-name { font-family: var(--font-main); font-size: 22px; font-weight: 500; }
-    .svc-desc { font-family: var(--font-mono); font-size: 13px; opacity: 0.7; }
-    .svc-circle { 
-      width: 40px; height: 40px; border-radius: 50%;
-      background: var(--btn-bg); color: var(--text);
-      display: flex; align-items: center; justify-content: center; transition: all 0.3s ease;
-    }
-    .svc-circle svg { width: 14px; height: 14px; }
-    .svc-item:hover .svc-circle { background: var(--text); color: var(--bg); transform: rotate(45deg); }
-    .svc-dropdown {
-      max-height: 0; overflow: hidden; transition: max-height 0.5s var(--ease); padding-left: calc(1.5fr + 20px);
-    }
-    .svc-item.active .svc-dropdown { max-height: 300px; padding-bottom: 32px; }
-    .svc-sub-link {
-      display: block; font-family: var(--font-mono); font-size: 14px; padding: 8px 0; opacity: 0.6; border-bottom: 1px dashed var(--line); width: 100%; max-width: 400px;
-    }
-    .svc-sub-link:hover { opacity: 1; padding-left: 10px; border-style: solid; }
-
-    /* =========================
-       PROJECTS (MOSAIC GRID NO-GAP)
-       ========================= */
-    .projects-section { padding: 0 var(--pad) 100px; }
-
-    .section-header {
-      display: flex; justify-content: space-between; margin-bottom: 40px;
-      font-family: var(--font-mono); font-size: 12px; 
-      text-transform: uppercase; letter-spacing: 0.05em; opacity: 0.6;
-      border-bottom: 1px solid var(--line); padding-bottom: 20px;
+    .folder-card {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      transition: transform 0.8s var(--ease-out), opacity 0.8s, filter 0.8s;
+      border-radius: 20px;
     }
 
-    .collage-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      grid-auto-rows: 300px; 
-      gap: 2px;
-    }
-
-    @media (min-width: 900px) {
-      .collage-grid {
-        grid-template-columns: repeat(3, 1fr);
-        grid-template-rows: repeat(4, 250px);
-      }
-      .item-1 { grid-column: 1 / 2; grid-row: 1 / 3; }
-      .item-2 { grid-column: 2 / 4; grid-row: 1 / 2; }
-      .item-3 { grid-column: 2 / 3; grid-row: 2 / 3; }
-      .item-4 { grid-column: 3 / 4; grid-row: 2 / 3; }
-      .item-5 { grid-column: 1 / 3; grid-row: 3 / 4; }
-      .item-6 { grid-column: 3 / 4; grid-row: 3 / 5; }
-      .item-7 { grid-column: 1 / 2; grid-row: 4 / 5; }
-      .item-8 { grid-column: 2 / 3; grid-row: 4 / 5; }
-    }
-
-    .collage-card {
-      position: relative; display: block;
+    .folder-back {
+      position: absolute;
+      top: 0; left: 0;
       width: 100%; height: 100%;
-      overflow: hidden; background: var(--card-bg);
+      border-radius: 24px;
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.8), 0 20px 40px rgba(0,0,0,0.1);
+      transition: all 0.6s var(--ease-bounce);
     }
-    .collage-card img {
-      width: 100%; height: 100%; object-fit: cover;
-      transition: transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1);
-      filter: grayscale(20%);
-    }
-    .collage-card:hover img { transform: scale(1.05); filter: grayscale(0%); }
 
-    .c-overlay {
-      position: absolute; bottom: 0; left: 0; width: 100%;
+    .folder-tab {
+      position: absolute;
+      top: -34px; left: 0;
+      height: 60px; width: 140px;
+      background-color: inherit;
+      border-radius: 16px 16px 0 0;
+      clip-path: polygon(0 0, 85% 0, 100% 100%, 0 100%);
+      padding: 10px 0 0 20px;
+      font-family: var(--font-mono);
+      font-size: 11px; font-weight: 600;
+      letter-spacing: 1px; text-transform: uppercase;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.6), inset 1px 0 0 rgba(255,255,255,0.6);
+    }
+
+    .folder-front {
+      position: relative;
+      width: 100%; height: 90%;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0.3) 100%);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-radius: 16px 16px 24px 24px;
+      border: 1px solid rgba(255, 255, 255, 0.9);
       padding: 24px;
-      display: flex; justify-content: space-between; align-items: flex-end;
-      background: linear-gradient(to top, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0) 100%);
+      display: flex; flex-direction: column;
+      z-index: 3;
+      transition: all 0.6s var(--ease-bounce);
     }
 
-    .c-info { color: #fff; }
-    .c-cat {
-      font-family: var(--font-mono); font-size: 10px; 
-      text-transform: uppercase; letter-spacing: 0.1em;
-      margin-bottom: 6px; opacity: 0.8;
-    }
-    .c-title {
-      font-family: var(--font-main); font-size: 20px; font-weight: 500;
-      line-height: 1.1; margin: 0;
-    }
-    .c-btn {
-      width: 48px; height: 30px;
-      border: 1px solid rgba(255,255,255,0.4);
-      border-radius: 50px;
-      display: flex; align-items: center; justify-content: center;
-      color: #fff; backdrop-filter: blur(4px);
-      transition: all 0.3s ease;
-    }
-    .c-btn svg { width: 14px; height: 14px; transition: transform 0.3s; }
-    .collage-card:hover .c-btn { background: #fff; color: #000; border-color: #fff; }
-    .collage-card:hover .c-btn svg { transform: translate(2px, -2px); }
-
-    /* =========================
-       FOOTER
-       ========================= */
-    footer { padding: 60px var(--pad) 40px; border-top: 1px solid var(--line); }
-    .footer-wrapper { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-bottom: 60px; }
-    .footer-msg { font-family: var(--font-main); font-size: 24px; font-weight: 500; line-height: 1.4; max-width: 400px; }
-    .footer-cols { display: grid; grid-template-columns: repeat(2, 1fr); gap: 40px; font-family: var(--font-mono); font-size: 12px; }
-    .f-head { margin-bottom: 16px; opacity: 0.5; text-transform: uppercase; font-size: 11px; }
-    .f-link { display: inline-flex; align-items: center; gap: 6px; margin-bottom: 10px; opacity: 0.9; width: 100%; }
-    .f-link:hover { opacity: 0.6; }
-    .footer-btm { display: flex; justify-content: space-between; align-items: flex-end; font-family: var(--font-mono); font-size: 11px; opacity: 0.5; text-transform: uppercase; }
-    .footer-btm a:hover { opacity: 1; text-decoration: underline; }
-
-    /* =========================
-       RESPONSIVE (MOBILE FIXES)
-       ========================= */
-    @media (max-width: 900px) {
-      .footer-wrapper { grid-template-columns: 1fr; }
+    .preview-carousel-container {
+      position: absolute;
+      top: 50%; left: 50%;
+      width: 0; height: 0;
+      display: flex; justify-content: center; align-items: center;
+      z-index: 10;
+      pointer-events: none;
     }
 
+    .preview-card {
+      position: absolute;
+      width: 240px; height: 340px;
+      background: #FFF;
+      border-radius: 16px;
+      box-shadow: 0 30px 60px -12px rgba(0,0,0,0.3);
+      border: 4px solid #FFFFFF;
+      overflow: hidden;
+      /* ซ่อนไว้ตรงกลางและย่อขนาดรอ */
+      transform: translate(-50%, -50%) scale(0.3) rotate(0deg);
+      opacity: 0;
+      transition: transform 0.8s var(--ease-bounce), opacity 0.6s, box-shadow 0.4s;
+    }
+
+    .preview-card img {
+      width: 100%; height: 100%; object-fit: cover;
+    }
+
+    .preview-card:hover {
+      z-index: 100 !important;
+      box-shadow: 0 40px 80px -10px rgba(0,0,0,0.4);
+      cursor: pointer;
+    }
+
+    .global-close-btn {
+      position: fixed;
+      top: 30px; right: 30px;
+      background: rgba(255, 255, 255, 0.9);
+      color: #18181B;
+      border: none; border-radius: 50px;
+      padding: 12px 24px;
+      font-size: 12px; font-family: var(--font-mono); font-weight: 700;
+      cursor: pointer;
+      opacity: 0; transform: translateY(-20px);
+      pointer-events: none;
+      transition: all 0.5s var(--ease-out);
+      z-index: 2000;
+      text-transform: uppercase; letter-spacing: 1px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+      display: flex; align-items: center; gap: 8px;
+    }
+    
+    .global-close-btn:hover { background: white; transform: translateY(0) scale(1.05); }
+
+    .global-full-view-btn {
+      position: fixed;
+      bottom: 40px; left: 50%;
+      transform: translateX(-50%) translateY(30px);
+      padding: 16px 36px;
+      background: #18181B; color: white;
+      text-align: center; border-radius: 100px;
+      font-weight: 700; font-size: 14px;
+      text-transform: uppercase; letter-spacing: 1px;
+      text-decoration: none;
+      opacity: 0;
+      transition: all 0.6s var(--ease-bounce);
+      z-index: 2000; pointer-events: none;
+      box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+      white-space: nowrap;
+    }
+
+    .global-full-view-btn:hover {
+      background: #3F3F46;
+      transform: translateX(-50%) translateY(-5px);
+    }
+
+    /* UI Details */
+    .folder-front h2 {
+      font-size: 24px; font-weight: 800; margin-bottom: 6px; line-height: 1.2; letter-spacing: -0.5px;
+    }
+    .folder-details {
+      font-size: 13px; line-height: 1.5; opacity: 0.75; margin-bottom: 12px;
+      display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
+    }
+    .stats-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+      margin-top: auto; padding-top: 12px; border-top: 1px solid rgba(0,0,0,0.06);
+    }
+    .stat-item span {
+      display: block; font-size: 10px; font-family: var(--font-mono); text-transform: uppercase; opacity: 0.5; margin-bottom: 2px;
+    }
+    .stat-item p { font-weight: 700; font-size: 13px; }
+
+    .action-btn {
+      margin-top: 16px; padding: 14px 0; width: 100%; border-radius: 12px;
+      background: rgba(0, 0, 0, 0.05); font-weight: 700; font-size: 12px;
+      text-transform: uppercase; letter-spacing: 1px; transition: all 0.3s ease; cursor: pointer;
+    }
+    .action-btn:hover { background: #18181B; color: white; transform: translateY(-2px); }
+
+    /* ซ่อนฝาและเนื้อหาโฟลเดอร์ตอนขยาย */
+    .folder-card.expanded .folder-back,
+    .folder-card.expanded .folder-front {
+      opacity: 0 !important;
+      transform: translateY(100px) scale(0.8);
+      pointer-events: none;
+    }
+
+    /* กางภาพออก */
+    .folder-card.expanded .preview-carousel-container {
+      pointer-events: auto;
+    }
+    .folder-card.expanded .preview-card {
+      opacity: 1; pointer-events: auto;
+    }
+
+    /* ตำแหน่งไพ่กระจายตัวบน Desktop (ใช้ % เทียบกับ Center เพื่อความเสถียร) */
+    .folder-card.expanded .preview-card:nth-child(1) { transform: translate(calc(-50% - 220px), calc(-50% + 20px)) rotate(-15deg); z-index: 1; transition-delay: 0.1s; }
+    .folder-card.expanded .preview-card:nth-child(2) { transform: translate(calc(-50% - 80px), calc(-50% - 40px)) rotate(-5deg); z-index: 2; transition-delay: 0.2s; }
+    .folder-card.expanded .preview-card:nth-child(3) { transform: translate(calc(-50% + 80px), calc(-50% - 20px)) rotate(6deg); z-index: 3; transition-delay: 0.3s; }
+    .folder-card.expanded .preview-card:nth-child(4) { transform: translate(calc(-50% + 220px), calc(-50% + 40px)) rotate(15deg); z-index: 4; transition-delay: 0.4s; }
+    
+    /* Hover state เมื่อกางไพ่แล้ว */
+    .folder-card.expanded .preview-card:nth-child(1):hover { transform: translate(calc(-50% - 230px), calc(-50% + 0px)) rotate(-15deg) scale(1.05); }
+    .folder-card.expanded .preview-card:nth-child(2):hover { transform: translate(calc(-50% - 80px), calc(-50% - 60px)) rotate(-5deg) scale(1.05); }
+    .folder-card.expanded .preview-card:nth-child(3):hover { transform: translate(calc(-50% + 80px), calc(-50% - 40px)) rotate(6deg) scale(1.05); }
+    .folder-card.expanded .preview-card:nth-child(4):hover { transform: translate(calc(-50% + 230px), calc(-50% + 20px)) rotate(15deg) scale(1.05); }
+
+    /* Responsive Mobile: กางไพ่เป็นแนวตั้ง หรือแคบลง */
     @media (max-width: 768px) {
-      /* 1. Header Cleanup */
-      header { flex-direction: column; align-items: flex-start; gap: 20px; }
-      .nav-group { width: 100%; justify-content: space-between; }
+      .preview-card { width: 160px; height: 230px; }
+      /* ซ้อนกันแบบเลื่อมๆ ให้ดูสวยงามในจอมือถือ */
+      .folder-card.expanded .preview-card:nth-child(1) { transform: translate(calc(-50% - 60px), calc(-50% - 100px)) rotate(-12deg); }
+      .folder-card.expanded .preview-card:nth-child(2) { transform: translate(calc(-50% + 50px), calc(-50% - 40px)) rotate(8deg); }
+      .folder-card.expanded .preview-card:nth-child(3) { transform: translate(calc(-50% - 50px), calc(-50% + 40px)) rotate(-6deg); }
+      .folder-card.expanded .preview-card:nth-child(4) { transform: translate(calc(-50% + 60px), calc(-50% + 110px)) rotate(12deg); }
       
-      /* 2. Hero Section */
-      .hero-name { font-size: 56px; margin-top: 20px; }
-      
-      /* FIX: Profile Image Right Aligned */
-      .portrait-wrapper { 
-        position: relative; 
-        top: auto; right: auto; left: auto; /* Reset positioning */
-        transform: none; 
-        margin: 40px 0;
-        width: 70%; 
-        max-width: 280px;
-        margin-left: auto; /* ดันรูปไปชิดขวา */
-        margin-right: 0;   /* ชิดขอบ */
-      }
-      
-      /* 3. Intro/About Layout Cleanup */
-      .intro-grid {
-        display: flex; 
-        flex-direction: column;
-        gap: 32px; /* เพิ่มช่องว่างระหว่างหัวข้อกับเนื้อหา */
-      }
-      
-      .intro-label {
-        font-size: 11px;
-        letter-spacing: 0.1em;
-        padding-bottom: 12px;
-        border-bottom: 1px dashed var(--line); /* เพิ่มเส้นประคั่นให้ดูเป็นระเบียบ */
-        margin-bottom: 0;
-      }
-      
-      .intro-text {
-        font-size: 14px;
-        line-height: 1.7;
-        opacity: 0.85;
-      }
+      .global-close-btn { top: 20px; right: 20px; padding: 10px 20px; font-size: 10px; }
+      .global-full-view-btn { bottom: 20px; font-size: 12px; padding: 14px 28px; }
+    }
+
+    /* ซ่อนการ์ดใบอื่นเมื่อมีการเปิด */
+    .folder-card.hidden-by-expand {
+      opacity: 0 !important;
+      transform: translateY(150px) translateZ(-300px) scale(0.7) !important;
+      pointer-events: none;
+    }
+
+    /* Global UI Toggles */
+    body.is-expanded .global-close-btn {
+      opacity: 1; transform: translateY(0); pointer-events: auto; transition-delay: 0.4s;
+    }
+    body.is-expanded .global-full-view-btn {
+      opacity: 1; transform: translateX(-50%) translateY(0); pointer-events: auto; transition-delay: 0.5s;
+    }
+    /* พื้นหลังมืดลงนิดหน่อยตอนเปิดดู */
+    body.is-expanded::before {
+      content: ''; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+      background: rgba(244, 244, 245, 0.7); backdrop-filter: blur(4px);
+      z-index: 1; transition: all 0.8s ease; pointer-events: none;
+    }
+
+    .status-bar {
+      position: absolute; bottom: 20px;
+      font-family: var(--font-mono); font-size: 10px; opacity: 0.4;
+      letter-spacing: 2px; transition: opacity 0.3s; text-align: center; width: 100%; z-index: 2;
     }
   </style>
 </head>
+<body>
 
-<body data-theme="light">
+  <!-- Global Buttons (อยู่นอกสุด จะได้ไม่โดน CSS Transform ดึงเพี้ยน) -->
+  <button class="global-close-btn" onclick="closeProject()">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+    Close
+  </button>
+  <a href="#" class="global-full-view-btn" id="fullViewLink">View Full Case Study ➔</a>
 
-  <header>
-    <a href="index.html" class="logo">
-      <img src="assets/logo-light.png" class="logo-light" alt="Logo" style="width: 24px; height: 24px; object-fit: contain;">
-      <img src="assets/logo-dark.png" class="logo-dark" alt="Logo" style="width: 24px; height: 24px; object-fit: contain;">
-      MESTYLE STUDIO
-    </a>
-
-    <div class="nav-group">
-      <nav class="nav">
-        <a href="#about">About</a>
-        <a href="#services">Services</a>
-        <a href="#projects">Work</a>
-        <a href="#contact">Contact</a>
-      </nav>
-      <button class="theme-btn" id="themeBtn">Mode</button>
+  <div class="scene">
+    <!-- UI Header -->
+    <div class="mb-4 md:mb-8 text-center z-10 transition-transform duration-700 relative" id="mainHeader">
+      <p class="font-mono text-[10px] md:text-[11px] opacity-40 uppercase tracking-[0.2em] mb-2">Project Stack</p>
+      <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight">Wachirawit.</h1>
     </div>
-  </header>
 
-  <section class="hero-container" id="about">
-    <div class="hero-name">Wachirawit<br>Pansungnoen</div>
-    <div class="portrait-wrapper">
-      <img src="assets/hero-portrait.jpg" alt="Portrait">
+    <!-- The 3D Stage -->
+    <div class="folder-stage" id="folderStage">
+      <!-- JavaScript will inject folders here -->
     </div>
-    <div class="hero-bottom">
-      <div class="divider"></div>
-      <div class="intro-grid">
-        <div class="intro-label">About</div>
-        <div class="intro-text">
-          Branding & Graphic Design Specialist based in Thailand. Transforming complex ideas into clear, impactful visual systems for over 10 years.
-        </div>
-        <div class="intro-text">
-          Expertise in Brand Identity, Packaging, and Web Design. Helping businesses communicate their core values to the world.
-        </div>
-      </div>
-    </div>
-  </section>
 
-  <div class="spacer">
-    <div class="scroll-hint">( SCROLL TO EXPLORE )</div>
+    <div class="status-bar" id="statusBar">SWIPE OR SCROLL TO NAVIGATE</div>
   </div>
 
-  <section class="services-section" id="services">
-    <div class="svc-header">
-      <span class="svc-label">Expertise</span>
-      <span class="svc-label">( ALL SERVICES )</span>
-    </div>
-    <div class="svc-list">
-      <div class="svc-item" onclick="toggleService(this)">
-        <div class="svc-top">
-          <div class="svc-name">Brand Identity</div>
-          <div class="svc-desc">Logo Design, Visual Systems, Guidelines</div>
-          <div class="svc-circle"><svg class="icon-arrow" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H7M17 7V17"></path></svg></div>
-        </div>
-        <div class="svc-dropdown">
-          <a href="project-detail.html" class="svc-sub-link">Wangwela Spa Identity</a>
-          <a href="project-detail.html" class="svc-sub-link">Kasta Brand Redesign</a>
-        </div>
-      </div>
-      <div class="svc-item" onclick="toggleService(this)">
-        <div class="svc-top">
-          <div class="svc-name">Packaging</div>
-          <div class="svc-desc">Label Design, Box Structure, Mockups</div>
-          <div class="svc-circle"><svg class="icon-arrow" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H7M17 7V17"></path></svg></div>
-        </div>
-        <div class="svc-dropdown">
-          <a href="project-detail.html" class="svc-sub-link">Bionest Kombucha Bottle</a>
-          <a href="project-detail.html" class="svc-sub-link">Skin Care Product Line</a>
-        </div>
-      </div>
-      <div class="svc-item" onclick="toggleService(this)">
-        <div class="svc-top">
-          <div class="svc-name">Web Design</div>
-          <div class="svc-desc">UI Design, Webflow, Digital Assets</div>
-          <div class="svc-circle"><svg class="icon-arrow" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H7M17 7V17"></path></svg></div>
-        </div>
-        <div class="svc-dropdown">
-          <a href="project-detail.html" class="svc-sub-link">Cannabis Menu Website</a>
-          <a href="project-detail.html" class="svc-sub-link">Clinic Landing Page</a>
-        </div>
-      </div>
-      <div class="svc-item" onclick="toggleService(this)">
-        <div class="svc-top">
-          <div class="svc-name">Illustration</div>
-          <div class="svc-desc">Character Design, Mascots, Icons</div>
-          <div class="svc-circle"><svg class="icon-arrow" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H7M17 7V17"></path></svg></div>
-        </div>
-        <div class="svc-dropdown">
-          <a href="project-detail.html" class="svc-sub-link">Leymo Shop Mascot</a>
-          <a href="project-detail.html" class="svc-sub-link">Custom Icon Set</a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="projects-section" id="projects">
-    <div class="section-header">
-      <div>Featured Works</div>
-      <div>( 8 SELECTED )</div>
-    </div>
-
-    <div class="collage-grid">
-      
-      <a href="project-detail.html" class="collage-card item-1">
-        <img src="assets/wangwela.jpg" onerror="this.src='https://images.unsplash.com/photo-1600334089648-b0d9d3028eb2?q=80&w=600&auto=format&fit=crop'" alt="Wangwela">
-        <div class="c-overlay">
-          <div class="c-info"><div class="c-cat">Identity</div><h3 class="c-title">Wangwela</h3></div>
-          <div class="c-btn"><svg class="icon-arrow" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H7M17 7V17"></path></svg></div>
-        </div>
-      </a>
-
-      <a href="project-detail.html" class="collage-card item-2">
-        <img src="https://images.unsplash.com/photo-1524758631624-e2822e304c36?q=80&w=1200&auto=format&fit=crop" alt="Project 2">
-        <div class="c-overlay">
-          <div class="c-info"><div class="c-cat">Furniture</div><h3 class="c-title">Modern Chair</h3></div>
-          <div class="c-btn"><svg class="icon-arrow" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H7M17 7V17"></path></svg></div>
-        </div>
-      </a>
-
-      <a href="project-detail.html" class="collage-card item-3">
-        <img src="assets/bionest.jpg" onerror="this.src='https://images.unsplash.com/photo-1622483767028-3f66f32aef97?q=80&w=600&auto=format&fit=crop'" alt="Bionest">
-        <div class="c-overlay">
-          <div class="c-info"><div class="c-cat">Packaging</div><h3 class="c-title">Bionest</h3></div>
-          <div class="c-btn"><svg class="icon-arrow" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H7M17 7V17"></path></svg></div>
-        </div>
-      </a>
-
-      <a href="project-detail.html" class="collage-card item-4">
-        <img src="assets/pulse.jpg" onerror="this.src='https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=600&auto=format&fit=crop'" alt="Pulse">
-        <div class="c-overlay">
-          <div class="c-info"><div class="c-cat">Visual</div><h3 class="c-title">Pulse Fitness</h3></div>
-          <div class="c-btn"><svg class="icon-arrow" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H7M17 7V17"></path></svg></div>
-        </div>
-      </a>
-
-      <a href="project-detail.html" class="collage-card item-5">
-        <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1200&auto=format&fit=crop" alt="Kalia">
-        <div class="c-overlay">
-          <div class="c-info"><div class="c-cat">Resort</div><h3 class="c-title">Kalia</h3></div>
-          <div class="c-btn"><svg class="icon-arrow" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H7M17 7V17"></path></svg></div>
-        </div>
-      </a>
-
-      <a href="project-detail.html" class="collage-card item-6">
-        <img src="assets/leymo.jpg" onerror="this.src='https://images.unsplash.com/photo-1513364776144-60967b0f800f?q=80&w=600&auto=format&fit=crop'" alt="Leymo">
-        <div class="c-overlay">
-          <div class="c-info"><div class="c-cat">Character</div><h3 class="c-title">Leymo Shop</h3></div>
-          <div class="c-btn"><svg class="icon-arrow" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H7M17 7V17"></path></svg></div>
-        </div>
-      </a>
-
-      <a href="project-detail.html" class="collage-card item-7">
-        <img src="https://images.unsplash.com/photo-1561070791-2526d30994b5?q=80&w=600&auto=format&fit=crop" alt="Art Book">
-        <div class="c-overlay">
-          <div class="c-info"><div class="c-cat">Editorial</div><h3 class="c-title">Art Book</h3></div>
-          <div class="c-btn"><svg class="icon-arrow" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H7M17 7V17"></path></svg></div>
-        </div>
-      </a>
-
-      <a href="project-detail.html" class="collage-card item-8">
-        <img src="https://images.unsplash.com/photo-1596462502278-27bfdd403348?q=80&w=600&auto=format&fit=crop" alt="Candle">
-        <div class="c-overlay">
-          <div class="c-info"><div class="c-cat">Product</div><h3 class="c-title">Scent Candle</h3></div>
-          <div class="c-btn"><svg class="icon-arrow" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H7M17 7V17"></path></svg></div>
-        </div>
-      </a>
-
-    </div>
-  </section>
-
-  <footer id="contact">
-    <div class="footer-wrapper">
-      <div class="footer-msg">Interested in working together? <br>Let's create something timeless.</div>
-      <div class="footer-cols">
-        <div>
-          <div class="f-head">Contact</div>
-          <a href="mailto:stifper@gmail.com" class="f-link">stifper@gmail.com</a>
-          <a href="tel:0665745895" class="f-link">+66 65 745 895</a>
-          <a href="#" class="f-link">Line: Chopper</a>
-        </div>
-        <div>
-          <div class="f-head">Socials</div>
-          <a href="https://behance.net/stifper" target="_blank" class="f-link">Behance <svg class="icon-arrow" viewBox="0 0 24 24" style="width:10px;height:10px;"><path d="M7 17L17 7M17 7H7M17 7V17"></path></svg></a>
-          <a href="#" class="f-link">Instagram <svg class="icon-arrow" viewBox="0 0 24 24" style="width:10px;height:10px;"><path d="M7 17L17 7M17 7H7M17 7V17"></path></svg></a>
-        </div>
-      </div>
-    </div>
-    <div class="footer-btm">
-      <div>© 2026 MESTYLE STUDIO</div>
-      <a href="#" onclick="window.scrollTo(0,0); return false;">( BACK TO TOP )</a>
-    </div>
-  </footer>
-
   <script>
-    const btn = document.getElementById('themeBtn');
-    const body = document.body;
-    if (localStorage.getItem('theme') === 'dark') { body.setAttribute('data-theme', 'dark'); }
-    btn.addEventListener('click', () => {
-      if (body.getAttribute('data-theme') === 'dark') {
-        body.setAttribute('data-theme', 'light'); localStorage.setItem('theme', 'light');
-      } else {
-        body.setAttribute('data-theme', 'dark'); localStorage.setItem('theme', 'dark');
+    const projects = [
+      { id: 1, cat: "Research", title: "Eco Habit", color: "#E8F5E9", desc: "A sustainable living app focusing on gamified carbon footprint reduction for urban dwellers.", role: "Lead UX", tech: "Figma" },
+      { id: 2, cat: "Visual", title: "Neo-Bank", color: "#F3E5F5", desc: "Redesigning the mobile banking experience for Gen-Z with minimalist visuals and high-speed UX.", role: "UI Design", tech: "Principle" },
+      { id: 3, cat: "System", title: "Lumina OS", color: "#FFF3E0", desc: "A conceptual operating system focused on spatial computing and light-based notifications.", role: "Product", tech: "SwiftUI" },
+      { id: 4, cat: "Branding", title: "Origami", color: "#E1F5FE", desc: "Crafting a flexible identity for a modern architectural firm using folded-paper aesthetics.", role: "Brand Lead", tech: "Illustrator" },
+      { id: 5, cat: "Case", title: "Sync 360", color: "#FBE9E7", desc: "Integrating wearable data into a cohesive medical dashboard for professional healthcare providers.", role: "UX Strategy", tech: "React" },
+      { id: 6, cat: "Fintech", title: "CoinVault", color: "#E0F7FA", desc: "Secure cryptocurrency wallet interface focusing on transparent transaction history.", role: "UI/UX", tech: "Framer" }
+    ];
+
+    let activeIndex = 0;
+    let isExpanded = false;
+    let autoTimer;
+    
+    const stage = document.getElementById('folderStage');
+    const statusBar = document.getElementById('statusBar');
+    const mainHeader = document.getElementById('mainHeader');
+    const fullViewLink = document.getElementById('fullViewLink');
+
+    function initFolders() {
+      stage.innerHTML = '';
+      projects.forEach((proj, i) => {
+        const card = document.createElement('div');
+        card.className = 'folder-card';
+        
+        const hexColor = proj.color.substring(1);
+        
+        card.innerHTML = `
+          <div class="folder-back" style="background-color: ${proj.color}">
+            <div class="folder-tab">${proj.cat}</div>
+          </div>
+
+          <!-- เปลี่ยนให้ Container คุมแค่จุดกึ่งกลาง ไม่ต้องกางเต็มจอ -->
+          <div class="preview-carousel-container">
+              <div class="preview-card"><img src="https://placehold.co/400x560/${hexColor}/18181B?text=${proj.title}+01" alt="Work 1"></div>
+              <div class="preview-card"><img src="https://placehold.co/400x560/${hexColor}/18181B?text=${proj.title}+02" alt="Work 2"></div>
+              <div class="preview-card"><img src="https://placehold.co/400x560/${hexColor}/18181B?text=${proj.title}+03" alt="Work 3"></div>
+              <div class="preview-card"><img src="https://placehold.co/400x560/${hexColor}/18181B?text=${proj.title}+04" alt="Work 4"></div>
+          </div>
+
+          <div class="folder-front">
+            <span class="font-mono text-[10px] mb-2 opacity-40 font-semibold uppercase tracking-wider">Project 0${i+1}</span>
+            <h2>${proj.title}</h2>
+            <p class="folder-details">${proj.desc}</p>
+            <div class="stats-grid">
+              <div class="stat-item"><span>Role</span><p>${proj.role}</p></div>
+              <div class="stat-item"><span>Tools</span><p>${proj.tech}</p></div>
+            </div>
+            <button class="action-btn" onclick="openProject(${i})">Explore</button>
+          </div>
+        `;
+        stage.appendChild(card);
+      });
+      updatePosition();
+      startAutoPlay();
+    }
+
+    function updatePosition() {
+      const cards = document.querySelectorAll('.folder-card');
+      
+      cards.forEach((card, i) => {
+        let diff = i - activeIndex;
+        
+        if (diff > projects.length / 2) diff -= projects.length;
+        if (diff < -projects.length / 2) diff += projects.length;
+
+        const yOffset = diff * -75; 
+        const zOffset = Math.abs(diff) * -80; 
+        const scale = 1 - (Math.abs(diff) * 0.05);
+        const opacity = 1 - (Math.abs(diff) * 0.15);
+        const rotateX = diff * 4; 
+        const blurAmount = Math.abs(diff) === 0 ? 0 : Math.abs(diff) * 1.5;
+        
+        card.style.zIndex = 100 - Math.abs(diff);
+        card.style.opacity = Math.max(opacity, 0);
+        card.style.filter = `blur(${blurAmount}px)`;
+        
+        card.style.transform = `
+          translateY(${yOffset}px) 
+          translateZ(${zOffset}px) 
+          rotateX(${-rotateX}deg) 
+          scale(${scale})
+        `;
+        
+        if (diff === 0) {
+          card.style.boxShadow = '0 30px 60px rgba(0,0,0,0.15)';
+        } else {
+          card.style.boxShadow = '0 10px 30px rgba(0,0,0,0.05)';
+        }
+      });
+    }
+
+    function openProject(index) {
+      if (activeIndex !== index) return;
+      isExpanded = true;
+      clearInterval(autoTimer);
+      
+      // Update Body Class for Global UI
+      document.body.classList.add('is-expanded');
+      
+      // Update Link
+      fullViewLink.href = `#full-case-study-${projects[index].id}`;
+      
+      mainHeader.style.transform = 'translateY(-30px) scale(0.9)';
+      mainHeader.style.opacity = '0';
+      
+      const cards = document.querySelectorAll('.folder-card');
+      cards.forEach((card, i) => {
+        if (i === index) {
+          card.classList.add('expanded');
+        } else {
+          card.classList.add('hidden-by-expand');
+        }
+      });
+      statusBar.innerText = "EXPLORING DETAILS";
+      statusBar.style.opacity = "0";
+    }
+
+    function closeProject() {
+      isExpanded = false;
+      resetTimer();
+      
+      // Remove Body Class for Global UI
+      document.body.classList.remove('is-expanded');
+      
+      mainHeader.style.transform = 'translateY(0) scale(1)';
+      mainHeader.style.opacity = '1';
+      
+      const cards = document.querySelectorAll('.folder-card');
+      cards.forEach(card => {
+        card.classList.remove('expanded');
+        card.classList.remove('hidden-by-expand');
+      });
+      
+      statusBar.innerText = "MANUAL CONTROL";
+      statusBar.style.opacity = "0.4";
+    }
+
+    function next() {
+      if(isExpanded) return;
+      activeIndex = (activeIndex + 1) % projects.length;
+      triggerMotion();
+    }
+
+    function prev() {
+      if(isExpanded) return;
+      activeIndex = (activeIndex - 1 + projects.length) % projects.length;
+      triggerMotion();
+    }
+
+    function triggerMotion() {
+      updatePosition();
+      statusBar.innerText = "NAVIGATING STACK...";
+      statusBar.style.opacity = "0.8";
+      setTimeout(() => {
+        if(!isExpanded) {
+          statusBar.innerText = "MANUAL CONTROL";
+          statusBar.style.opacity = "0.4";
+        }
+      }, 750);
+    }
+
+    function startAutoPlay() {
+      autoTimer = setInterval(() => {
+        if(!isExpanded) {
+          activeIndex = (activeIndex + 1) % projects.length;
+          updatePosition();
+          statusBar.innerText = "AUTO LOOPING";
+          statusBar.style.opacity = "0.4";
+        }
+      }, 3500);
+    }
+
+    function resetTimer() {
+      clearInterval(autoTimer);
+      if(!isExpanded) {
+        statusBar.innerText = "MANUAL CONTROL";
+        autoTimer = setInterval(() => {
+          if(!isExpanded) {
+            activeIndex = (activeIndex + 1) % projects.length;
+            updatePosition();
+            statusBar.innerText = "AUTO LOOPING";
+          }
+        }, 6000);
+      }
+    }
+
+    // Controls
+    let wheelTimeout;
+    window.addEventListener('wheel', (e) => {
+      if(isExpanded) return;
+      resetTimer();
+      if (!wheelTimeout) {
+        if (e.deltaY > 0) next();
+        else prev();
+        wheelTimeout = setTimeout(() => { wheelTimeout = null; }, 120);
+      }
+    }, { passive: true });
+
+    let isDragging = false;
+    let startY = 0;
+    window.addEventListener('mousedown', e => {
+      if(isExpanded) return;
+      isDragging = true; startY = e.clientY; resetTimer();
+    });
+    window.addEventListener('mousemove', e => {
+      if (!isDragging || isExpanded) return;
+      const diffY = startY - e.clientY;
+      if (Math.abs(diffY) > 40) {
+        if (diffY > 0) next(); else prev();
+        startY = e.clientY; 
       }
     });
-    function toggleService(element) { element.classList.toggle('active'); }
+    window.addEventListener('mouseup', () => { isDragging = false; });
+
+    let touchStartY = 0;
+    window.addEventListener('touchstart', e => {
+      if(isExpanded) return;
+      touchStartY = e.touches[0].pageY; resetTimer();
+    }, { passive: true });
+    
+    window.addEventListener('touchmove', e => {
+      if(isExpanded) return;
+      const diffY = touchStartY - e.touches[0].pageY;
+      if (Math.abs(diffY) > 40) {
+        if (diffY > 0) next(); else prev();
+        touchStartY = e.touches[0].pageY; 
+      }
+    }, { passive: true });
+
+    window.onload = initFolders;
   </script>
 </body>
 </html>
