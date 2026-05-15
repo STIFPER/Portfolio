@@ -33,16 +33,13 @@
         color: var(--text);
         font-family: var(--font-main);
         margin: 0;
-        /* เอา overflow: hidden ออก เพื่อให้ผู้ใช้สามารถ Scroll หน้าเว็บได้ตามธรรมชาติ */
         overflow-x: hidden;
       }
 
       /* -------------------------------------------
          STICKY SCROLL-JACKING SECTION
-         เพื่อให้แอนิเมชัน 3D ผูกกับการเลื่อนเมาส์
       ------------------------------------------- */
       .hero-scroll-container {
-        /* ความสูง 400vh เพื่อให้มีระยะการเลื่อนเมาส์ (Scroll) ที่ยาวพอจะแสดงโฟลเดอร์ครบ 6 อัน */
         height: 400vh;
         position: relative;
         z-index: 10;
@@ -88,8 +85,13 @@
         flex-direction: column;
         justify-content: flex-end;
         border-radius: 24px;
-        /* แอนิเมชันจะถูกควบคุมด้วย JS ตอนเลื่อนเมาส์เป็นหลัก แต่ใส่ transition ไว้เผื่อไว้ */
         transition: box-shadow 0.3s;
+        /* ป้องกันไม่ให้การ์ดบังการคลิก จะถูกควบคุมด้วย JS อีกที */
+        pointer-events: none;
+      }
+
+      .folder-card.is-active {
+        pointer-events: auto; /* เฉพาะการ์ดที่อยู่ตรงกลางถึงจะกดได้ */
       }
 
       .folder-back {
@@ -128,7 +130,6 @@
         position: relative;
         width: 100%;
         height: 90%;
-        /* ใส่ความเงางามและสีทองอ่อนๆ ด้านใน */
         background: linear-gradient(
           135deg,
           rgba(255, 255, 255, 0.95) 0%,
@@ -196,6 +197,9 @@
         letter-spacing: 1px;
         transition: all 0.3s ease;
         cursor: pointer;
+        /* ป้องกันบักคลิกทะลุ */
+        position: relative;
+        z-index: 10;
       }
       .action-btn:hover {
         background: #18181b;
@@ -215,6 +219,9 @@
         z-index: 2;
       }
 
+      /* -------------------------------------------
+         UPDATED LIGHTBOX SECTION
+      ------------------------------------------- */
       .lightbox-overlay {
         position: fixed;
         top: 0;
@@ -296,6 +303,10 @@
         color: rgba(255, 255, 255, 0.7);
         font-size: 14px;
         margin-bottom: 24px;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
       }
 
       .btn-see-details {
@@ -338,7 +349,13 @@
         transition: background 0.3s;
         border: 1px solid rgba(255, 255, 255, 0.1);
       }
+      .btn-close-inside:hover {
+        background: rgba(255, 255, 255, 0.3);
+      }
 
+      /* -------------------------------------------
+         STATIC CONTENT SECTION
+      ------------------------------------------- */
       .content-section {
         position: relative;
         z-index: 20;
@@ -375,7 +392,6 @@
         transform: translateY(-2px) scale(1.02);
       }
 
-      /* ระบบสีละมุน ไม่มีสีดำ ไฮไลต์แบบหลอกตา */
       .tag-highlight {
         background-color: #eef2ff;
         color: #3730a3;
@@ -417,7 +433,6 @@
         border: 1px solid #d4d4d8;
       }
 
-      /* App-like Uniform Grid (เป็นระเบียบ เรียบง่าย) */
       .portfolio-grid {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
@@ -449,7 +464,7 @@
         overflow: hidden;
         background: #f4f4f5;
         margin-bottom: 24px;
-        aspect-ratio: 4/3; /* ล็อกสัดส่วนภาพให้เท่ากันทุกอัน */
+        aspect-ratio: 4/3;
       }
 
       .work-image-wrap img {
@@ -468,14 +483,12 @@
         display: flex;
         flex-direction: column;
       }
-
       .work-meta {
         display: flex;
         align-items: center;
         justify-content: space-between;
         margin-bottom: 16px;
       }
-
       .work-tag {
         padding: 6px 14px;
         border-radius: 100px;
@@ -499,9 +512,10 @@
     </style>
   </head>
   <body>
-    <!-- Lightbox Overlay -->
+    <!-- Updated Lightbox Overlay -->
     <div id="lightboxOverlay" class="lightbox-overlay">
       <div class="lightbox-content">
+        <!-- Close Button Inside -->
         <button
           class="btn-close-inside"
           onclick="closeProject()"
@@ -515,42 +529,43 @@
             stroke="currentColor"
             stroke-width="2"
             stroke-linecap="round"
-            stroke-linejoin="round"
           >
             <line x1="18" y1="6" x2="6" y2="18"></line>
             <line x1="6" y1="6" x2="18" y2="18"></line>
           </svg>
         </button>
+
+        <!-- Image -->
         <img
           id="lightboxImage"
           class="lightbox-image"
           src=""
-          alt="Case Study"
+          alt="Project Visual"
         />
+
+        <!-- Fade Bottom Area with Content -->
         <div class="lightbox-fade-bottom">
           <h3 id="lightboxTitle" class="lightbox-title-preview">
-            Project Name
+            Project Title
           </h3>
           <p id="lightboxDesc" class="lightbox-desc-preview">
-            Project description goes here...
+            Project description preview goes here...
           </p>
-          <a
-            href="#"
-            class="btn-see-details"
-            onclick="alert('Navigating to project details...')"
-          >
-            <span>See Details</span>
+
+          <a href="#" class="btn-see-details">
+            See Details
             <svg
-              width="18"
-              height="18"
+              width="16"
+              height="16"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
-              stroke-width="2"
+              stroke-width="2.5"
               stroke-linecap="round"
               stroke-linejoin="round"
             >
-              <path d="M5 12h14M12 5l7 7-7 7" />
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
             </svg>
           </a>
         </div>
@@ -595,34 +610,25 @@
           </h2>
         </div>
 
-        <!-- Thematic Tags (No black, Soft colors) -->
         <div class="skills-container">
           <div class="pill-tag tag-highlight">Innovative UX</div>
           <div class="pill-tag tag-outline">Transformative</div>
-
           <div class="pill-tag tag-green">Eco-friendly</div>
           <div class="pill-tag tag-green">User Research</div>
-
           <div class="pill-tag tag-purple">Sophisticated</div>
           <div class="pill-tag tag-purple">Aesthetics</div>
-
           <div class="pill-tag tag-orange">Design Systems</div>
           <div class="pill-tag tag-orange">Architecture</div>
-
           <div class="pill-tag tag-blue">Minimalist</div>
           <div class="pill-tag tag-blue">Brand Identity</div>
-
           <div class="pill-tag tag-pink">UX Strategy</div>
           <div class="pill-tag tag-pink">Problem Solving</div>
-
           <div class="pill-tag tag-cyan">Prototyping</div>
           <div class="pill-tag tag-cyan">Comfortable UX</div>
-
           <div class="pill-tag tag-gray">Wireframing</div>
           <div class="pill-tag tag-highlight">Design Thinking</div>
         </div>
 
-        <!-- App-like Grid Header (Clean, Centered, No extra links) -->
         <div class="mb-12 text-center">
           <p
             class="font-mono text-xs opacity-50 uppercase tracking-[0.1em] mb-3"
@@ -634,7 +640,6 @@
           </h3>
         </div>
 
-        <!-- Uniform App-like Grid -->
         <div class="portfolio-grid">
           <!-- Card 1 -->
           <div class="work-card">
@@ -825,18 +830,16 @@
           stage.appendChild(card);
         });
 
-        // Initial render
         updateScrollPositions();
       }
 
-      // เทคนิค Native Scroll: คำนวณตำแหน่ง 3D จากระยะทางที่ถูก Scroll ไปจริงๆ
       function updateScrollPositions() {
         if (isExpanded) return;
 
         const scrollY = window.scrollY;
         const hero = document.querySelector(".hero-scroll-container");
 
-        // [แก้ไขความเสถียร] ป้องกัน maxScroll เป็น 0 หรือติดลบ ในกรณีที่หน้าจอผิดปกติ
+        // ป้องกัน maxScroll เป็น 0 หรือติดลบ ในกรณีที่หน้าจอผิดปกติ
         const maxScroll = Math.max(1, hero.offsetHeight - window.innerHeight);
 
         // หาสัดส่วนความคืบหน้า (0.0 ถึง 1.0)
@@ -844,9 +847,20 @@
         if (progress < 0) progress = 0;
         if (progress > 1) progress = 1;
 
-        // แปลงความคืบหน้าให้เป็นค่า Index เสมือน (Virtual Index)
-        const virtualIndex = progress * (projects.length - 1);
-        activeIndex = Math.round(virtualIndex); // อัปเดตเพื่อให้ปุ่มกดทำงานถูกอัน
+        // --- เพิ่มระบบ "ล็อกฟันเฟือง" (Magnetic Gear-lock Effect) ---
+        const rawIndex = progress * (projects.length - 1);
+        const baseIndex = Math.floor(rawIndex);
+        const fraction = rawIndex - baseIndex;
+
+        // ใช้สมการคณิตศาสตร์ Smootherstep เพื่อสร้างความหนืดช่วยล็อกโฟลเดอร์
+        const gearFraction =
+          fraction *
+          fraction *
+          fraction *
+          (fraction * (fraction * 6 - 15) + 10);
+        const virtualIndex = baseIndex + gearFraction;
+
+        activeIndex = Math.round(virtualIndex);
 
         const cards = document.querySelectorAll(".folder-card");
 
@@ -860,8 +874,14 @@
             rotateX = 0,
             blurAmount = 0;
 
+          // จัดการให้กดปุ่มได้เฉพาะการ์ดที่กำลังแอคทีฟอยู่ (diff ใกล้ 0)
+          if (Math.abs(diff) < 0.4) {
+            card.classList.add("is-active");
+          } else {
+            card.classList.remove("is-active");
+          }
+
           if (diff >= 0) {
-            // โฟลเดอร์ที่ยังไม่ถึงคิว (ซ้อนอยู่ด้านหลัง)
             yOffset = diff * -75;
             zOffset = diff * -80;
             scale = 1 - diff * 0.05;
@@ -869,41 +889,28 @@
             rotateX = diff * 4;
             blurAmount = diff * 1.5;
 
-            // แสงเงาสีเทาด้านหลังเวลาซ้อนกัน
             card.style.boxShadow =
               diff < 0.5
                 ? "0 30px 60px rgba(0,0,0,0.15)"
                 : "0 10px 30px rgba(0,0,0,0.05)";
           } else {
-            // โฟลเดอร์ที่เลื่อนผ่านไปแล้ว (ร่วงลงด้านล่างอย่างสมูท)
             const absDiff = Math.abs(diff);
-            yOffset = absDiff * 200; // ค่อยๆ ร่วงลง
-            zOffset = absDiff * 50; // ดันมาข้างหน้านิดนึง ทำให้บังปุ่มของโฟลเดอร์ปัจจุบัน
+            yOffset = absDiff * 200;
+            zOffset = absDiff * 50;
             scale = 1 + absDiff * 0.05;
-            opacity = 1 - absDiff * 1.2; // ค่อยๆ จางหายไป (Fade Out)
+            opacity = 1 - absDiff * 1.2;
             rotateX = diff * 2;
-            blurAmount = absDiff * 4; // เบลอตอนร่วง
+            blurAmount = absDiff * 4;
           }
 
-          // อัปเดต CSS
           card.style.zIndex = 100 - Math.round(Math.abs(diff));
           card.style.opacity = Math.max(0, opacity);
           card.style.filter =
             blurAmount > 0.1 ? `blur(${blurAmount}px)` : "none";
           card.style.transform = `translateY(${yOffset}px) translateZ(${zOffset}px) rotateX(${-rotateX}deg) scale(${scale})`;
-
-          // [แก้ไขปัญหาปุ่มกดไม่ได้]
-          // ปิด pointer-events (การรับการคลิก) สำหรับการ์ดที่ไม่ได้อยู่ด้านหน้าสุด
-          // เพื่อป้องกันไม่ให้การ์ดที่โปร่งใส หรือการ์ดที่ซ้อนอยู่ บังการกดปุ่ม EXPLORE
-          if (Math.abs(diff) < 0.5) {
-            card.style.pointerEvents = "auto";
-          } else {
-            card.style.pointerEvents = "none";
-          }
         });
       }
 
-      // ติดตั้ง Event Listener ให้ยึดโยงกับการ Scroll ของเบราว์เซอร์
       window.addEventListener(
         "scroll",
         () => {
@@ -912,16 +919,7 @@
         { passive: true },
       );
 
-      // [เพิ่มความเสถียร] รีเซ็ตตำแหน่งเมื่อมีการย่อขยายหน้าจอ เพื่อให้ Scroll ไม่พัง
-      window.addEventListener(
-        "resize",
-        () => {
-          requestAnimationFrame(updateScrollPositions);
-        },
-        { passive: true },
-      );
-
-      // Lightbox Logic (ล็อกสัดส่วนเป็น 3:4 ภาพแนวตั้ง)
+      // Lightbox Logic - Updated for new design
       function openProject(index) {
         if (activeIndex !== index) return;
         isExpanded = true;
@@ -929,12 +927,12 @@
 
         const proj = projects[index];
         const hexColor = proj.color.substring(1);
+        const safeTitle = proj.title.replace(/\s+/g, "+");
 
-        // ขอภาพจำลอง Placeholder เป็นแนวตั้ง (เช่น 600x800 จะเป็นสัดส่วน 3:4 พอดี)
+        // อัปเดตข้อมูลใน Lightbox
         document.getElementById("lightboxImage").src =
-          `https://placehold.co/600x800/${hexColor}/18181B?text=${proj.title.replace(/\s+/g, "+")}+3:4`;
+          `https://placehold.co/600x800/${hexColor}/18181B?text=${safeTitle}+3:4`;
 
-        // อัปเดตข้อมูล Text ใน Lightbox แบบใหม่
         document.getElementById("lightboxTitle").textContent = proj.title;
         document.getElementById("lightboxDesc").textContent = proj.desc;
 
