@@ -15,6 +15,11 @@
       rel="stylesheet"
     />
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: "class",
+      };
+    </script>
 
     <style>
       :root {
@@ -27,6 +32,53 @@
         --folder-h: 260px;
         --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
         --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+        /* Theme variables */
+        --sticky-scene-bg: radial-gradient(
+          circle at 50% 0%,
+          #ffffff 0%,
+          #e4e4e7 100%
+        );
+        --folder-front-bg: linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.95) 0%,
+          rgba(255, 250, 240, 0.8) 50%,
+          rgba(255, 255, 255, 0.4) 100%
+        );
+        --folder-front-border: rgba(255, 255, 255, 0.9);
+        --content-bg: #ffffff;
+        --card-bg: #ffffff;
+        --border-color: #e4e4e7;
+        --btn-bg: rgba(0, 0, 0, 0.05);
+        --btn-hover-bg: #18181b;
+        --btn-hover-text: #ffffff;
+        --lightbox-overlay: rgba(244, 244, 245, 0.9);
+        --lightbox-bg: #ffffff;
+      }
+
+      .dark {
+        --bg: #09090b;
+        --text: #fafafa;
+        --sticky-scene-bg: radial-gradient(
+          circle at 50% 0%,
+          #18181b 0%,
+          #09090b 100%
+        );
+        --folder-front-bg: linear-gradient(
+          135deg,
+          rgba(39, 39, 42, 0.95) 0%,
+          rgba(24, 24, 27, 0.8) 50%,
+          rgba(9, 9, 11, 0.6) 100%
+        );
+        --folder-front-border: rgba(255, 255, 255, 0.05);
+        --content-bg: #09090b;
+        --card-bg: #18181b;
+        --border-color: #27272a;
+        --btn-bg: rgba(255, 255, 255, 0.1);
+        --btn-hover-bg: #fafafa;
+        --btn-hover-text: #18181b;
+        --lightbox-overlay: rgba(9, 9, 11, 0.9);
+        --lightbox-bg: #18181b;
       }
 
       body {
@@ -35,6 +87,9 @@
         font-family: var(--font-main);
         margin: 0;
         overflow-x: hidden;
+        transition:
+          background-color 0.4s ease,
+          color 0.4s ease;
       }
 
       /* -------------------------------------------
@@ -58,11 +113,21 @@
         line-height: 1.6;
       }
 
-      .scroll-indicator {
+      .dark .quote-text {
+        color: #a1a1aa; /* zinc-400 */
+      }
+
+      .scroll-indicator-wrapper {
         position: absolute;
         bottom: 40px;
-        left: 50%;
-        transform: translateX(-50%);
+        left: 0;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        z-index: 20;
+      }
+
+      .scroll-indicator {
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -74,18 +139,18 @@
       .scroll-line {
         width: 1px;
         height: 40px;
-        background: linear-gradient(to bottom, #18181b, transparent);
+        background: linear-gradient(to bottom, currentColor, transparent);
       }
 
       @keyframes fadeScroll {
         0%,
         100% {
           opacity: 0.3;
-          transform: translate(-50%, 0);
+          transform: translateY(0);
         }
         50% {
           opacity: 0.8;
-          transform: translate(-50%, 5px);
+          transform: translateY(5px);
         }
       }
 
@@ -161,14 +226,12 @@
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        background-image: radial-gradient(
-          circle at 50% 0%,
-          #ffffff 0%,
-          #e4e4e7 100%
-        );
+        background-image: var(--sticky-scene-bg);
         perspective: 1200px;
         overflow: hidden;
-        transition: filter 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        transition:
+          filter 0.8s cubic-bezier(0.4, 0, 0.2, 1),
+          background-image 0.4s ease;
       }
 
       body.is-expanded .sticky-scene {
@@ -236,21 +299,17 @@
         position: relative;
         width: 100%;
         height: 90%;
-        background: linear-gradient(
-          135deg,
-          rgba(255, 255, 255, 0.95) 0%,
-          rgba(255, 250, 240, 0.8) 50%,
-          rgba(255, 255, 255, 0.4) 100%
-        );
+        background: var(--folder-front-bg);
         backdrop-filter: blur(16px);
         -webkit-backdrop-filter: blur(16px);
         border-radius: 16px 16px 24px 24px;
-        border: 1px solid rgba(255, 255, 255, 0.9);
-        box-shadow: inset 0 2px 20px rgba(255, 230, 180, 0.2);
+        border: 1px solid var(--folder-front-border);
+        box-shadow: inset 0 2px 20px rgba(255, 230, 180, 0.05);
         padding: 24px;
         display: flex;
         flex-direction: column;
         z-index: 3;
+        color: var(--text);
       }
 
       .folder-front h2 {
@@ -296,7 +355,8 @@
         padding: 14px 0;
         width: 100%;
         border-radius: 12px;
-        background: rgba(0, 0, 0, 0.05);
+        background: var(--btn-bg);
+        color: var(--text);
         font-weight: 700;
         font-size: 12px;
         text-transform: uppercase;
@@ -307,8 +367,8 @@
         z-index: 10;
       }
       .action-btn:hover {
-        background: #18181b;
-        color: white;
+        background: var(--btn-hover-bg);
+        color: var(--btn-hover-text);
         transform: translateY(-2px);
       }
 
@@ -321,7 +381,7 @@
         left: 0;
         width: 100vw;
         height: 100vh;
-        background: rgba(244, 244, 245, 0.9);
+        background: var(--lightbox-overlay);
         backdrop-filter: blur(8px);
         -webkit-backdrop-filter: blur(8px);
         z-index: 9999;
@@ -330,7 +390,9 @@
         align-items: center;
         opacity: 0;
         pointer-events: none;
-        transition: opacity 0.4s var(--ease-out);
+        transition:
+          opacity 0.4s var(--ease-out),
+          background 0.4s ease;
       }
 
       .lightbox-overlay.active {
@@ -342,7 +404,7 @@
         width: 90vw;
         max-width: 450px;
         aspect-ratio: 3 / 4;
-        background: #fff;
+        background: var(--lightbox-bg);
         border-radius: 24px;
         box-shadow: 0 40px 80px -20px rgba(0, 0, 0, 0.2);
         position: relative;
@@ -351,7 +413,8 @@
         opacity: 0;
         transition:
           transform 0.4s var(--ease-out),
-          opacity 0.3s ease-out;
+          opacity 0.3s ease-out,
+          background 0.4s ease;
       }
 
       .lightbox-overlay.active .lightbox-content {
@@ -359,7 +422,8 @@
         opacity: 1;
         transition:
           transform 0.6s var(--ease-bounce) 0.05s,
-          opacity 0.5s ease 0.05s;
+          opacity 0.5s ease 0.05s,
+          background 0.4s ease;
       }
 
       .lightbox-image {
@@ -452,11 +516,12 @@
       .content-section {
         position: relative;
         z-index: 20;
-        background: #ffffff;
+        background: var(--content-bg);
         border-top-left-radius: 40px;
         border-top-right-radius: 40px;
         box-shadow: 0 -20px 40px rgba(0, 0, 0, 0.02);
         padding: 80px 20px 120px;
+        transition: background 0.4s ease;
       }
 
       .skills-container {
@@ -515,14 +580,15 @@
         color: #006064;
       }
       .tag-gray {
-        background-color: #f4f4f5;
-        color: #3f3f46;
-        border: 1px solid #e4e4e7;
+        background-color: var(--bg);
+        color: var(--text);
+        border: 1px solid var(--border-color);
       }
       .tag-outline {
         background-color: transparent;
-        color: #52525b;
-        border: 1px solid #d4d4d8;
+        color: var(--text);
+        border: 1px solid var(--border-color);
+        opacity: 0.8;
       }
 
       .portfolio-grid {
@@ -534,8 +600,8 @@
       }
 
       .work-card {
-        background: #ffffff;
-        border: 1px solid #e4e4e7;
+        background: var(--card-bg);
+        border: 1px solid var(--border-color);
         border-radius: 32px;
         padding: 16px;
         transition: all 0.4s ease;
@@ -546,14 +612,19 @@
       .work-card:hover {
         box-shadow: 0 20px 40px rgba(0, 0, 0, 0.06);
         transform: translateY(-4px);
-        border-color: #d4d4d8;
+        border-color: var(--text);
+      }
+
+      .dark .work-card:hover {
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+        border-color: #52525b;
       }
 
       .work-image-wrap {
         width: 100%;
         border-radius: 20px;
         overflow: hidden;
-        background: #f4f4f5;
+        background: var(--bg);
         margin-bottom: 24px;
         aspect-ratio: 4/3;
       }
@@ -603,6 +674,42 @@
     </style>
   </head>
   <body>
+    <!-- Theme Toggle Button -->
+    <button
+      id="themeToggle"
+      class="fixed top-6 right-6 z-50 w-12 h-12 rounded-full bg-white/70 dark:bg-black/50 backdrop-blur-md border border-gray-200 dark:border-zinc-800 flex items-center justify-center transition-transform hover:scale-105"
+      aria-label="Toggle Dark Mode"
+    >
+      <!-- Sun Icon (shows in dark mode) -->
+      <svg
+        class="hidden dark:block w-5 h-5 text-yellow-400"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"
+        ></path>
+      </svg>
+      <!-- Moon Icon (shows in light mode) -->
+      <svg
+        class="block dark:hidden w-5 h-5 text-gray-700"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
+        ></path>
+      </svg>
+    </button>
+
     <!-- Lightbox Overlay -->
     <div id="lightboxOverlay" class="lightbox-overlay">
       <div class="lightbox-content">
@@ -665,7 +772,7 @@
           <div class="hero-element delay-1 mb-10">
             <div class="float-1">
               <div
-                class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white border border-gray-200 text-xs font-mono font-semibold uppercase tracking-widest text-gray-600 shadow-sm transition-transform hover:scale-105"
+                class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-800 text-xs font-mono font-semibold uppercase tracking-widest text-gray-600 dark:text-zinc-300 shadow-sm transition-transform hover:scale-105"
               >
                 <span
                   class="w-2 h-2 rounded-full bg-green-500 animate-pulse"
@@ -681,7 +788,7 @@
           <div class="hero-element delay-2 mb-6">
             <div class="float-2">
               <h1
-                class="text-6xl md:text-8xl font-extrabold tracking-tighter text-[#18181b]"
+                class="text-6xl md:text-8xl font-extrabold tracking-tighter text-[#18181b] dark:text-zinc-50 transition-colors"
               >
                 Wachirawit.
               </h1>
@@ -694,11 +801,16 @@
           <div class="hero-element delay-3 mb-12">
             <div class="float-3">
               <p
-                class="text-lg md:text-2xl text-gray-500 font-medium max-w-2xl mx-auto leading-relaxed"
+                class="text-lg md:text-2xl text-gray-500 dark:text-zinc-400 font-medium max-w-2xl mx-auto leading-relaxed transition-colors"
               >
-                Digital Product Designer crafting experiences that are
-                <span class="text-gray-900">structured</span>, yet
-                <span class="underline decoration-gray-300">effortless</span>.
+                Digital Product Designer dedicated to the
+                <span class="text-gray-900 dark:text-zinc-100"
+                  >quiet art of craft</span
+                >. Distilling years of experience into spaces that are
+                <span
+                  class="underline decoration-gray-300 dark:decoration-zinc-700"
+                  >structured, yet effortless</span
+                >.
               </p>
             </div>
           </div>
@@ -708,8 +820,11 @@
         <div id="heroQuoteWrap">
           <div class="hero-element delay-4 flex justify-center">
             <div class="float-4">
-              <blockquote class="quote-text text-center max-w-lg">
-                "Good design is obvious. Great design is transparent."
+              <blockquote
+                class="quote-text text-center max-w-lg transition-colors"
+              >
+                "True craftsmanship doesn't need to shout. It is felt in the
+                deliberate choices, refined over years of quiet dedication."
               </blockquote>
             </div>
           </div>
@@ -717,11 +832,15 @@
       </div>
 
       <!-- Scroll Down Indicator -->
-      <div class="scroll-indicator hero-element delay-4">
-        <span class="font-mono text-[10px] tracking-widest uppercase mb-2"
-          >Scroll</span
-        >
-        <div class="scroll-line"></div>
+      <div class="scroll-indicator-wrapper">
+        <div class="hero-element delay-4">
+          <div class="scroll-indicator">
+            <span class="font-mono text-[10px] tracking-widest uppercase mb-2"
+              >Scroll</span
+            >
+            <div class="scroll-line"></div>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -881,7 +1000,9 @@
         </div>
 
         <!-- Footer -->
-        <div class="text-center mt-16 pt-12 border-t border-gray-100">
+        <div
+          class="text-center mt-16 pt-12 border-t border-gray-100 dark:border-zinc-800 transition-colors"
+        >
           <p
             class="font-mono text-sm opacity-50 uppercase tracking-[0.2em] mb-4"
           >
@@ -889,7 +1010,7 @@
           </p>
           <a
             href="#"
-            class="inline-block text-2xl md:text-3xl font-bold hover:text-gray-500 transition-colors mb-8"
+            class="inline-block text-2xl md:text-3xl font-bold hover:text-gray-500 dark:hover:text-zinc-400 transition-colors mb-8"
           >
             hello@wachirawit.design
           </a>
@@ -1135,6 +1256,29 @@
       }
 
       window.onload = initFolders;
+
+      // Theme Toggle Logic
+      const themeToggleBtn = document.getElementById("themeToggle");
+      const htmlElement = document.documentElement;
+
+      if (
+        localStorage.theme === "dark" ||
+        (!("theme" in localStorage) &&
+          window.matchMedia("(prefers-color-scheme: dark)").matches)
+      ) {
+        htmlElement.classList.add("dark");
+      } else {
+        htmlElement.classList.remove("dark");
+      }
+
+      themeToggleBtn.addEventListener("click", () => {
+        htmlElement.classList.toggle("dark");
+        if (htmlElement.classList.contains("dark")) {
+          localStorage.theme = "dark";
+        } else {
+          localStorage.theme = "light";
+        }
+      });
     </script>
   </body>
 </html>
