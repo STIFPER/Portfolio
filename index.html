@@ -212,7 +212,7 @@
          STICKY SCROLL-JACKING SECTION
       ------------------------------------------- */
       .hero-scroll-container {
-        height: 400vh; /* ความยาวเพื่อใช้เลื่อน */
+        /* ความยาวจะถูกคำนวณอัตโนมัติใน JS เพื่อให้มีระยะหน่วงและลดความไวในการรูด */
         position: relative;
         z-index: 10;
       }
@@ -1107,6 +1107,10 @@
           stage.appendChild(card);
         });
 
+        // กำหนดความสูงของ Container ใหม่เพื่อให้พื้นที่เพียงพอ
+        // เพิ่มระยะหน่วง (Pause) 100vh และให้แต่ละโปรเจกต์มีพื้นที่รูด 120vh (กันความไวเกินไปบนมือถือ)
+        scrollContainer.style.height = 200 + projects.length * 120 + "vh";
+
         updateScrollPositions();
       }
 
@@ -1144,16 +1148,21 @@
         // คำนวณระยะห่างของ container โฟลเดอร์จากขอบจอบนสุด
         const containerRect = scrollContainer.getBoundingClientRect();
 
-        // เราจะเริ่มเล่นแอนิเมชันก็ต่อเมื่อ scrollContainer ชนขอบจอบน (containerRect.top <= 0)
+        // เราจะเริ่มคำนวณก็ต่อเมื่อ scrollContainer ชนขอบจอบน
         let scrolledPastStickyTop = -containerRect.top;
 
-        // ความสูงทั้งหมดที่ใช้เลื่อนได้ (หักความสูงจอออกเพื่อให้เลื่อนสุดที่ท้ายคอนเทนเนอร์พอดี)
         const maxScroll = scrollContainer.offsetHeight - window.innerHeight;
+
+        // กำหนดระยะหน่วง (Pause) ก่อนที่โฟลเดอร์จะเริ่มเลื่อน
+        const startBuffer = window.innerHeight * 1.2; // หยุดพักให้เห็นหน้าแรกก่อน 1.2 หน้าจอ
+        const endBuffer = window.innerHeight * 0.5; // เผื่อระยะตอนท้ายนิดหน่อย
+
+        const activeScrollSpace = maxScroll - startBuffer - endBuffer;
 
         // คำนวณ Progress (0.0 ถึง 1.0)
         let progress = 0;
-        if (scrolledPastStickyTop > 0) {
-          progress = scrolledPastStickyTop / maxScroll;
+        if (scrolledPastStickyTop > startBuffer) {
+          progress = (scrolledPastStickyTop - startBuffer) / activeScrollSpace;
         }
 
         if (progress < 0) progress = 0;
