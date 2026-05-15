@@ -227,14 +227,18 @@
         fill="currentColor"
         viewBox="0 0 20 20"
       >
-        <path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"></path>
+        <path
+          d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"
+        ></path>
       </svg>
       <svg
         class="dark:hidden block w-5 h-5 text-zinc-800"
         fill="currentColor"
         viewBox="0 0 20 20"
       >
-        <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+        <path
+          d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"
+        ></path>
       </svg>
     </button>
 
@@ -242,8 +246,12 @@
     <div class="scroll-container" id="scrollHero">
       <div class="sticky-scene">
         <!-- Header Hero -->
-        <div class="absolute top-12 w-full text-center z-10 pointer-events-none hero-element">
-          <p class="font-mono text-[11px] opacity-40 uppercase tracking-[0.2em] mb-2">
+        <div
+          class="absolute top-12 w-full text-center z-10 pointer-events-none hero-element"
+        >
+          <p
+            class="font-mono text-[11px] opacity-40 uppercase tracking-[0.2em] mb-2"
+          >
             Project Stack
           </p>
           <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight">
@@ -270,20 +278,28 @@
     </div>
 
     <!-- Static Content -->
-    <section class="bg-white dark:bg-zinc-900 py-24 px-6 border-t border-black/5 dark:border-white/5 relative z-20">
+    <section
+      class="bg-white dark:bg-zinc-900 py-24 px-6 border-t border-black/5 dark:border-white/5 relative z-20"
+    >
       <div class="max-w-4xl mx-auto text-center">
         <h3 class="text-3xl font-extrabold mb-12">The Archive</h3>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8 text-left">
-          <div class="p-8 rounded-3xl border border-zinc-200 dark:border-zinc-800">
+          <div
+            class="p-8 rounded-3xl border border-zinc-200 dark:border-zinc-800"
+          >
             <h4 class="text-xl font-bold mb-2">Design Strategy</h4>
             <p class="opacity-60 text-sm">
-              Approaching problems with a systematic mindset to create scalable solutions.
+              Approaching problems with a systematic mindset to create scalable
+              solutions.
             </p>
           </div>
-          <div class="p-8 rounded-3xl border border-zinc-200 dark:border-zinc-800">
+          <div
+            class="p-8 rounded-3xl border border-zinc-200 dark:border-zinc-800"
+          >
             <h4 class="text-xl font-bold mb-2">Visual Craft</h4>
             <p class="opacity-60 text-sm">
-              Obsessing over details, typography, and spacing to deliver premium feel.
+              Obsessing over details, typography, and spacing to deliver premium
+              feel.
             </p>
           </div>
         </div>
@@ -292,34 +308,81 @@
 
     <!-- Lightbox (Modal รองรับภาพแนวตั้ง/แนวยาว และเลื่อน Scroll ได้) -->
     <div id="lightboxOverlay" class="lightbox-overlay" onclick="closeProject()">
-      
       <!-- Container หลักของ Modal ที่กำหนด Max-height ให้เลื่อนได้ -->
-      <div class="lightbox-content w-[95vw] max-w-[700px] bg-white dark:bg-zinc-900 rounded-3xl relative shadow-2xl flex flex-col h-auto max-h-[90vh] overflow-hidden" onclick="event.stopPropagation()">
-        
+      <div
+        class="lightbox-content w-[95vw] max-w-[700px] bg-white dark:bg-zinc-900 rounded-3xl relative shadow-2xl flex flex-col h-auto max-h-[90vh] overflow-hidden"
+        onclick="event.stopPropagation()"
+      >
         <!-- ปุ่มกากบาท (Close Icon) ปักหมุดไว้ขวาบนเสมอ แม้จะเลื่อนหน้าจอ -->
-        <button onclick="closeProject()" class="absolute top-4 right-4 z-20 w-10 h-10 flex items-center justify-center rounded-full bg-black/40 backdrop-blur-md text-white hover:bg-black/70 transition-colors shadow-lg" aria-label="Close">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        <button
+          onclick="closeProject()"
+          class="absolute top-4 right-4 z-20 w-10 h-10 flex items-center justify-center rounded-full bg-black/40 backdrop-blur-md text-white hover:bg-black/70 transition-colors shadow-lg"
+          aria-label="Close"
+        >
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
         </button>
-        
+
         <!-- พื้นที่ Scrollable (ส่วนที่เลื่อนได้ จะมีทั้งรูปและเนื้อหา) -->
         <div class="overflow-y-auto custom-scrollbar w-full h-full relative">
-          
           <!-- Image Placeholder (รองรับภาพแนวตั้ง/ยาว) -->
-          <img id="lightboxImage" src="" alt="Project Presentation" class="w-full h-auto object-cover min-h-[50vh] bg-zinc-100 dark:bg-zinc-800" />
-          
+          <img
+            id="lightboxImage"
+            src=""
+            alt="Project Presentation"
+            class="w-full h-auto object-cover min-h-[50vh] bg-zinc-100 dark:bg-zinc-800"
+          />
+
           <!-- เนื้อหาคำอธิบายด้านล่างรูปภาพ -->
           <div class="p-8 sm:p-10 bg-white dark:bg-zinc-900 relative z-10">
             <div class="mb-3">
-              <span id="lightboxCat" class="font-mono text-[11px] font-bold text-zinc-500 dark:text-zinc-400 uppercase tracking-widest"></span>
+              <span
+                id="lightboxCat"
+                class="font-mono text-[11px] font-bold text-zinc-500 dark:text-zinc-400 uppercase tracking-widest"
+              ></span>
             </div>
-            
+
             <h3 id="lightboxTitle" class="text-3xl font-extrabold mb-4"></h3>
-            
-            <p id="lightboxDesc" class="text-zinc-600 dark:text-zinc-300 mb-8 leading-relaxed text-sm sm:text-base"></p>
-            
-            <a id="lightboxLink" href="#" target="_blank" class="w-full sm:w-auto inline-flex justify-center items-center gap-2 px-6 py-3.5 bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 rounded-xl font-bold transition-transform hover:scale-[1.02] active:scale-95 text-sm">
+
+            <p
+              id="lightboxDesc"
+              class="text-zinc-600 dark:text-zinc-300 mb-8 leading-relaxed text-sm sm:text-base"
+            ></p>
+
+            <a
+              id="lightboxLink"
+              href="#"
+              target="_blank"
+              class="w-full sm:w-auto inline-flex justify-center items-center gap-2 px-6 py-3.5 bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 rounded-xl font-bold transition-transform hover:scale-[1.02] active:scale-95 text-sm"
+            >
               View Full Project
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path
+                  d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"
+                ></path>
+                <polyline points="15 3 21 3 21 9"></polyline>
+                <line x1="10" y1="14" x2="21" y2="3"></line>
+              </svg>
             </a>
           </div>
         </div>
@@ -333,62 +396,62 @@
           id: 1,
           cat: "Research",
           title: "Eco Habit",
-          color: "#D5D5D0", /* สีเทาหิน / Concrete */
+          color: "#D5D5D0" /* สีเทาหิน / Concrete */,
           role: "Lead UX",
           tech: "Figma",
           desc: "A mobile application designed to encourage sustainable living habits. The project focused heavily on user research to understand behavioral triggers for eco-friendly actions.",
-          link: "#"
+          link: "#",
         },
         {
           id: 2,
           cat: "Visual",
           title: "Neo-Bank",
-          color: "#C4CEDB", /* สีฟ้าตุ่น / Steel Blue */
+          color: "#C4CEDB" /* สีฟ้าตุ่น / Steel Blue */,
           role: "UI Design",
           tech: "Principle",
           desc: "A conceptual redesign for a modern digital bank, focusing on micro-interactions, dark mode aesthetics, and an intuitive transaction flow.",
-          link: "#"
+          link: "#",
         },
         {
           id: 3,
           cat: "System",
           title: "Lumina OS",
-          color: "#D0C8B6", /* สีเบจทราย / Warm Sand */
+          color: "#D0C8B6" /* สีเบจทราย / Warm Sand */,
           role: "Product",
           tech: "SwiftUI",
           desc: "A scalable design system created for an enterprise software suite. It includes over 200 components with strict accessibility guidelines.",
-          link: "#"
+          link: "#",
         },
         {
           id: 4,
           cat: "Branding",
           title: "Origami",
-          color: "#BFC5B8", /* สีเขียวใบชา / Sage Green */
+          color: "#BFC5B8" /* สีเขียวใบชา / Sage Green */,
           role: "Brand Lead",
           tech: "Illustrator",
           desc: "Comprehensive brand identity for an innovative logistics startup, featuring dynamic logo generation, color psychology, and typography rules.",
-          link: "#"
+          link: "#",
         },
         {
           id: 5,
           cat: "Medical",
           title: "Sync 360",
-          color: "#CDBBB7", /* สีชมพูอมน้ำตาลตุ่น / Dusty Rose */
+          color: "#CDBBB7" /* สีชมพูอมน้ำตาลตุ่น / Dusty Rose */,
           role: "UX Strategy",
           tech: "React",
           desc: "A healthcare dashboard aimed at bridging communication between doctors and patients, streamlining medical records access securely.",
-          link: "#"
+          link: "#",
         },
         {
           id: 6,
           cat: "Fintech",
           title: "CoinVault",
-          color: "#C2C3CE", /* สีม่วงเทา / Periwinkle Grey */
+          color: "#C2C3CE" /* สีม่วงเทา / Periwinkle Grey */,
           role: "UI/UX",
           tech: "Framer",
           desc: "An intuitive cryptocurrency wallet interface with a focus on simplifying complex trading data into easy-to-read, actionable charts.",
-          link: "#"
-        }
+          link: "#",
+        },
       ];
 
       const stage = document.getElementById("folderStage");
@@ -436,7 +499,7 @@
 
         requestAnimationFrame(renderLoop);
       }
-      
+
       const spacing = window.innerWidth < 768 ? 160 : 250;
 
       function renderLoop() {
@@ -452,7 +515,7 @@
           else card.classList.remove("is-active");
 
           const x = diff * spacing;
-          const z = Math.abs(diff) * -120; 
+          const z = Math.abs(diff) * -120;
           const rotateY = diff * -45;
 
           const scale = Math.max(0.7, 1 - Math.abs(diff) * 0.1);
@@ -512,7 +575,7 @@
         (e) => {
           if (isLightboxOpen) return;
           if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) {
-            e.preventDefault(); 
+            e.preventDefault();
             targetProgress += e.deltaX * 0.005;
             clearTimeout(wheelTimeout);
             wheelTimeout = setTimeout(() => {
@@ -531,9 +594,10 @@
         // ดึงสีและชื่อมาทำ Placeholder รูปแนวตั้ง (สัดส่วนประมาณ 10:16 หรือยาวกว่านั้น)
         const hexColor = proj.color.replace("#", "");
         const safeTitle = proj.title.replace(/\s+/g, "+");
-        
+
         // จำลองภาพพรีเซนเทชันแนวยาว (เช่น กว้าง 800 สูง 1200) เพื่อให้เห็นการทำงานของ Scroll
-        document.getElementById("lightboxImage").src = `https://placehold.co/800x1200/${hexColor}/18181B?text=${safeTitle}+Presentation`;
+        document.getElementById("lightboxImage").src =
+          `https://placehold.co/800x1200/${hexColor}/18181B?text=${safeTitle}+Presentation`;
 
         document.getElementById("lightboxCat").textContent = proj.cat;
         document.getElementById("lightboxTitle").textContent = proj.title;
@@ -546,7 +610,7 @@
       function closeProject() {
         isLightboxOpen = false;
         document.getElementById("lightboxOverlay").classList.remove("active");
-        
+
         // เคลียร์ภาพเพื่อป้องกันการโหลดค้าง
         setTimeout(() => {
           document.getElementById("lightboxImage").src = "";
