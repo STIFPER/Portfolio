@@ -153,9 +153,8 @@
         width: 100%;
         height: 100%;
         background: var(--folder-front-bg);
-        backdrop-filter: blur(20px);
-        -webkit-backdrop-filter: blur(20px);
         border-radius: 16px 16px 24px 24px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
         border: 1px solid var(--folder-front-border);
         padding: 24px;
         display: flex;
@@ -395,7 +394,7 @@
       const N = projects.length;
 
       // ตัวแปรสำหรับฟิสิกส์การสไลด์แบบไร้จุดจบ (Infinite Loop)
-      let targetProgress = 0;
+      let targetProgress = 0.001;
       let currentProgress = 0;
       let isDragging = false;
       let startX = 0;
@@ -475,7 +474,6 @@
 
           card.style.transform = `translateX(${x}px) translateZ(${z}px) rotateY(${rotateY}deg) scale(${scale})`;
           card.style.zIndex = zIndex;
-          card.style.filter = `blur(${blur}px)`;
           card.style.opacity = opacity;
 
           // บังคับให้การ์ดรอบข้างกดไม่ได้ ป้องกันการลั่น
