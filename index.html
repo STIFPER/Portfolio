@@ -22,206 +22,198 @@
     </script>
 
     <style>
-            :root {
-              --bg: #f4f4f5;
-              --text: #18181b;
-              --font-main: "Manrope", sans-serif;
-              --font-mono: "IBM Plex Mono", monospace;
-              --font-serif: "Playfair Display", serif;
-              --folder-w: min(
-                calc(100vw - 64px),
-                320px
-              ); /* ปรับความกว้างนิดหน่อยให้พอดีกับการหัน 45 องศา */
-              --folder-front-bg: linear-gradient(
-                135deg,
-                rgba(255, 255, 255, 0.95) 0%,
-                rgba(255, 250, 240, 0.8) 50%,
-                rgba(255, 255, 255, 0.4) 100%
-              );
-              --folder-front-border: rgba(255, 255, 255, 0.9);
-            }
-
-            .dark {
-              --bg: #09090b;
-              --text: #fafafa;
-              --folder-front-bg: linear-gradient(
-                135deg,
-                rgba(39, 39, 42, 0.95) 0%,
-                rgba(24, 24, 27, 0.8) 50%,
-                rgba(9, 9, 11, 0.6) 100%
-              );
-              --folder-front-border: rgba(255, 255, 255, 0.05);
-            }
-
-            body {
-              background-color: var(--bg);
-              color: var(--text);
-              font-family: var(--font-main);
-              margin: 0;
-              overflow-x: hidden;
-            }
-
-            /* --- FULL SCREEN HERO SECTION --- */
-            .scroll-container {
-              position: relative;
-              width: 100vw;
-              height: 100vh; /* ให้ Hero เต็มหน้าจอพอดี */
-              display: flex;
-              flex-direction: column;
-              justify-content: center;
-              overflow: hidden;
-            }
-
-            .sticky-scene {
-              position: relative;
-              width: 100%;
-              height: 100%;
-              display: flex;
-              align-items: center;
-            }
-
-            /* --- Infinite Carousel Wrapper --- */
-            .carousel-wrapper {
-              position: absolute;
-              top: 0;
-              left: 0;
-              width: 100%;
-              height: 100%;
-              touch-action: pan-y; /* ยอมให้เลื่อนขึ้นลงเพื่ออ่าน Content ข้างล่างได้ แต่ดักจับการปัดซ้ายขวา */
-              cursor: grab;
-              z-index: 5;
-              overflow: hidden;
-            }
-            .carousel-wrapper:active {
-              cursor: grabbing;
-            }
-
-            .folder-stage {
-              position: absolute;
-              top: 54%; /* ขยับลงมานิดนึงเพื่อหลบ Header */
-              left: 50%;
-              width: 0;
-              height: 0; /* เป็นจุดศูนย์กลางของจักรวาล 3D */
-              perspective: 800px; /* เพิ่มมิติ 3D ให้การหัน 45 องศาดูสมจริง */
-            }
-
-            .folder-card {
-              position: absolute;
-              width: var(--folder-w);
-              height: 270px; /* ย่อความสูงลงเพราะเอาคำบรรยาย (Desc) ออกแล้ว */
-              left: 0;
-              top: 0;
-              margin-left: calc(var(--folder-w) / -2);
-              margin-top: -135px;
-              transform-origin: center center;
-            will-change: transform, opacity;
+      :root {
+        --bg: #f4f4f5;
+        --text: #18181b;
+        --font-main: "Manrope", sans-serif;
+        --font-mono: "IBM Plex Mono", monospace;
+        --font-serif: "Playfair Display", serif;
+        --folder-w: min(calc(100vw - 64px), 320px);
       }
 
-            .folder-card:not(.is-active) {
-              pointer-events: none; /* กันยูสเซอร์กดใบที่เบลออยู่ */
-            }
+      .dark {
+        --bg: #09090b;
+        --text: #fafafa;
+      }
 
-            .folder-back {
-              position: absolute;
-              top: 0;
-              left: 0;
-              width: 100%;
-              height: 100%;
-              border-radius: 24px;
-              box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-            }
+      body {
+        background-color: var(--bg);
+        color: var(--text);
+        font-family: var(--font-main);
+        margin: 0;
+        overflow-x: hidden;
+      }
 
-            .folder-tab {
-              position: absolute;
-              top: -30px; /* ติ่งด้านบน */
-              left: 0;
-              height: 50px;
-              width: 120px;
-              background-color: inherit;
-              border-radius: 16px 16px 0 0;
-              clip-path: polygon(0 0, 80% 0, 100% 100%, 0 100%);
-              padding: 8px 0 0 16px;
-              font-family: var(--font-mono);
-              font-size: 10px;
-              font-weight: 700;
-              text-transform: uppercase;
-              letter-spacing: 1px;
-            }
+      /* --- FULL SCREEN HERO SECTION --- */
+      .scroll-container {
+        position: relative;
+        width: 100vw;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        overflow: hidden;
+      }
 
-          .folder-front {
-          position: relative;
-           width: 100%;
-          height: 100%;
-           /* ปรับสีพื้นหลังให้ทึบขึ้นอีกนิด เพื่อให้อ่านง่ายโดยไม่ต้องใช้ Blur */
-          background: rgba(255, 255, 255, 0.95);
-          border-radius: 16px 16px 24px 24px;
-          border: 1px solid rgba(255, 255, 255, 0.3);
-          padding: 24px;
-          display: flex;
-          flex-direction: column;
-          z-index: 3;
-          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      .sticky-scene {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+      }
 
-            /* --- Lightbox --- */
-            .lightbox-overlay {
-              position: fixed;
-              top: 0;
-              left: 0;
-              width: 100vw;
-              height: 100vh;
-              background: rgba(0, 0, 0, 0.85);
-              z-index: 9999;
-              display: flex;
-              justify-content: center;
-              align-items: center;
-              opacity: 0;
-              pointer-events: none;
-              transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-            }
-            .lightbox-overlay.active {
-              opacity: 1;
-              pointer-events: auto;
-            }
+      /* --- Infinite Carousel Wrapper --- */
+      .carousel-wrapper {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        touch-action: pan-y;
+        cursor: grab;
+        z-index: 5;
+        overflow: hidden;
+      }
+      .carousel-wrapper:active {
+        cursor: grabbing;
+      }
 
-            .lightbox-content {
-              width: 90vw;
-              max-width: 400px;
-              background: #fff;
-              border-radius: 32px;
-              overflow: hidden;
-              transform: scale(0.9);
-              transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-            }
-            .active .lightbox-content {
-              transform: scale(1);
-            }
+      .folder-stage {
+        position: absolute;
+        top: 54%;
+        left: 50%;
+        width: 0;
+        height: 0;
+        perspective: 800px;
+      }
 
-            .hero-element {
-              opacity: 0;
-              transform: translateY(20px);
-              animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-            }
-            @keyframes fadeUp {
-              to {
-                opacity: 1;
-                transform: translateY(0);
-              }
-            }
+      .folder-card {
+        position: absolute;
+        width: var(--folder-w);
+        height: 270px;
+        left: 0;
+        top: 0;
+        margin-left: calc(var(--folder-w) / -2);
+        margin-top: -135px;
+        transform-origin: center center;
+        will-change: transform, opacity;
+      }
 
-            /* Animation for swipe hint */
-            @keyframes swipeHint {
-              0%,
-              100% {
-                transform: translateX(0);
-              }
-              50% {
-                transform: translateX(5px);
-              }
-            }
-            .animate-swipe {
-              display: inline-block;
-              animation: swipeHint 1.5s infinite ease-in-out;
-            }
+      .folder-card:not(.is-active) {
+        pointer-events: none;
+      }
+
+      .folder-back {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border-radius: 24px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+      }
+
+      .folder-tab {
+        position: absolute;
+        top: -30px;
+        left: 0;
+        height: 50px;
+        width: 120px;
+        background-color: inherit;
+        border-radius: 16px 16px 0 0;
+        clip-path: polygon(0 0, 80% 0, 100% 100%, 0 100%);
+        padding: 8px 0 0 16px;
+        font-family: var(--font-mono);
+        font-size: 10px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+
+      .folder-front {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        border-radius: 16px 16px 24px 24px;
+        border: 1px solid rgba(255, 255, 255, 0.4);
+        padding: 24px;
+        display: flex;
+        flex-direction: column;
+        z-index: 3;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      }
+
+      /* --- Lightbox --- */
+      .lightbox-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(0, 0, 0, 0.7);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        z-index: 9999;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+      .lightbox-overlay.active {
+        opacity: 1;
+        pointer-events: auto;
+      }
+
+      .lightbox-content {
+        transform: scale(0.95) translateY(20px);
+        opacity: 0;
+        transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+      }
+      .active .lightbox-content {
+        transform: scale(1) translateY(0);
+        opacity: 1;
+      }
+
+      /* Custom Scrollbar for Lightbox */
+      .custom-scrollbar::-webkit-scrollbar {
+        width: 6px;
+      }
+      .custom-scrollbar::-webkit-scrollbar-track {
+        background: transparent;
+      }
+      .custom-scrollbar::-webkit-scrollbar-thumb {
+        background-color: rgba(156, 163, 175, 0.5);
+        border-radius: 20px;
+      }
+
+      .hero-element {
+        opacity: 0;
+        transform: translateY(20px);
+        animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      }
+      @keyframes fadeUp {
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes swipeHint {
+        0%,
+        100% {
+          transform: translateX(0);
+        }
+        50% {
+          transform: translateX(5px);
+        }
+      }
+      .animate-swipe {
+        display: inline-block;
+        animation: swipeHint 1.5s infinite ease-in-out;
+      }
     </style>
   </head>
   <body>
@@ -235,31 +227,23 @@
         fill="currentColor"
         viewBox="0 0 20 20"
       >
-        <path
-          d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"
-        ></path>
+        <path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"></path>
       </svg>
       <svg
         class="dark:hidden block w-5 h-5 text-zinc-800"
         fill="currentColor"
         viewBox="0 0 20 20"
       >
-        <path
-          d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"
-        ></path>
+        <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
       </svg>
     </button>
 
-    <!-- 1. FULL SCREEN HERO SECTION (WITH INFINITE CAROUSEL) -->
+    <!-- 1. FULL SCREEN HERO SECTION -->
     <div class="scroll-container" id="scrollHero">
       <div class="sticky-scene">
-        <!-- Header Hero (Wachirawit) -->
-        <div
-          class="absolute top-12 w-full text-center z-10 pointer-events-none hero-element"
-        >
-          <p
-            class="font-mono text-[11px] opacity-40 uppercase tracking-[0.2em] mb-2"
-          >
+        <!-- Header Hero -->
+        <div class="absolute top-12 w-full text-center z-10 pointer-events-none hero-element">
+          <p class="font-mono text-[11px] opacity-40 uppercase tracking-[0.2em] mb-2">
             Project Stack
           </p>
           <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight">
@@ -274,7 +258,7 @@
           </div>
         </div>
 
-        <!-- Hint ด้านล่าง -->
+        <!-- Hint -->
         <div
           class="absolute bottom-10 font-mono text-[10px] opacity-40 tracking-[0.2em] text-center w-full z-10 pointer-events-none transition-opacity duration-300"
           id="scrollHint"
@@ -286,112 +270,131 @@
     </div>
 
     <!-- Static Content -->
-    <section
-      class="bg-white dark:bg-zinc-900 py-24 px-6 border-t border-black/5 dark:border-white/5 relative z-20"
-    >
+    <section class="bg-white dark:bg-zinc-900 py-24 px-6 border-t border-black/5 dark:border-white/5 relative z-20">
       <div class="max-w-4xl mx-auto text-center">
         <h3 class="text-3xl font-extrabold mb-12">The Archive</h3>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8 text-left">
-          <div
-            class="p-8 rounded-3xl border border-zinc-200 dark:border-zinc-800"
-          >
+          <div class="p-8 rounded-3xl border border-zinc-200 dark:border-zinc-800">
             <h4 class="text-xl font-bold mb-2">Design Strategy</h4>
             <p class="opacity-60 text-sm">
-              Approaching problems with a systematic mindset to create scalable
-              solutions.
+              Approaching problems with a systematic mindset to create scalable solutions.
             </p>
           </div>
-          <div
-            class="p-8 rounded-3xl border border-zinc-200 dark:border-zinc-800"
-          >
+          <div class="p-8 rounded-3xl border border-zinc-200 dark:border-zinc-800">
             <h4 class="text-xl font-bold mb-2">Visual Craft</h4>
             <p class="opacity-60 text-sm">
-              Obsessing over details, typography, and spacing to deliver premium
-              feel.
+              Obsessing over details, typography, and spacing to deliver premium feel.
             </p>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Lightbox -->
+    <!-- Lightbox (Modal รองรับภาพแนวตั้ง/แนวยาว และเลื่อน Scroll ได้) -->
     <div id="lightboxOverlay" class="lightbox-overlay" onclick="closeProject()">
-      <div class="lightbox-content" onclick="event.stopPropagation()">
-        <img
-          id="lightboxImage"
-          class="w-full aspect-[3/4] object-cover"
-          src=""
-          alt=""
-        />
-        <div class="p-8 dark:bg-zinc-900 bg-white text-center">
-          <h3 id="lightboxTitle" class="text-2xl font-bold mb-6"></h3>
-          <button
-            onclick="closeProject()"
-            class="w-full py-4 bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-900 rounded-2xl font-bold"
-          >
-            Close Preview
-          </button>
+      
+      <!-- Container หลักของ Modal ที่กำหนด Max-height ให้เลื่อนได้ -->
+      <div class="lightbox-content w-[95vw] max-w-[700px] bg-white dark:bg-zinc-900 rounded-3xl relative shadow-2xl flex flex-col h-auto max-h-[90vh] overflow-hidden" onclick="event.stopPropagation()">
+        
+        <!-- ปุ่มกากบาท (Close Icon) ปักหมุดไว้ขวาบนเสมอ แม้จะเลื่อนหน้าจอ -->
+        <button onclick="closeProject()" class="absolute top-4 right-4 z-20 w-10 h-10 flex items-center justify-center rounded-full bg-black/40 backdrop-blur-md text-white hover:bg-black/70 transition-colors shadow-lg" aria-label="Close">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+        
+        <!-- พื้นที่ Scrollable (ส่วนที่เลื่อนได้ จะมีทั้งรูปและเนื้อหา) -->
+        <div class="overflow-y-auto custom-scrollbar w-full h-full relative">
+          
+          <!-- Image Placeholder (รองรับภาพแนวตั้ง/ยาว) -->
+          <img id="lightboxImage" src="" alt="Project Presentation" class="w-full h-auto object-cover min-h-[50vh] bg-zinc-100 dark:bg-zinc-800" />
+          
+          <!-- เนื้อหาคำอธิบายด้านล่างรูปภาพ -->
+          <div class="p-8 sm:p-10 bg-white dark:bg-zinc-900 relative z-10">
+            <div class="mb-3">
+              <span id="lightboxCat" class="font-mono text-[11px] font-bold text-zinc-500 dark:text-zinc-400 uppercase tracking-widest"></span>
+            </div>
+            
+            <h3 id="lightboxTitle" class="text-3xl font-extrabold mb-4"></h3>
+            
+            <p id="lightboxDesc" class="text-zinc-600 dark:text-zinc-300 mb-8 leading-relaxed text-sm sm:text-base"></p>
+            
+            <a id="lightboxLink" href="#" target="_blank" class="w-full sm:w-auto inline-flex justify-center items-center gap-2 px-6 py-3.5 bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 rounded-xl font-bold transition-transform hover:scale-[1.02] active:scale-95 text-sm">
+              View Full Project
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+            </a>
+          </div>
         </div>
       </div>
     </div>
 
     <script>
+      // อัปเดตโทนสีใหม่ (Sophisticated / Muted Colors) ให้ดูพรีเมียม สไตล์เรียบหรู
       const projects = [
         {
           id: 1,
           cat: "Research",
           title: "Eco Habit",
-          color: "#E8F5E9",
+          color: "#D5D5D0", /* สีเทาหิน / Concrete */
           role: "Lead UX",
           tech: "Figma",
+          desc: "A mobile application designed to encourage sustainable living habits. The project focused heavily on user research to understand behavioral triggers for eco-friendly actions.",
+          link: "#"
         },
         {
           id: 2,
           cat: "Visual",
           title: "Neo-Bank",
-          color: "#F3E5F5",
+          color: "#C4CEDB", /* สีฟ้าตุ่น / Steel Blue */
           role: "UI Design",
           tech: "Principle",
+          desc: "A conceptual redesign for a modern digital bank, focusing on micro-interactions, dark mode aesthetics, and an intuitive transaction flow.",
+          link: "#"
         },
         {
           id: 3,
           cat: "System",
           title: "Lumina OS",
-          color: "#FFF3E0",
+          color: "#D0C8B6", /* สีเบจทราย / Warm Sand */
           role: "Product",
           tech: "SwiftUI",
+          desc: "A scalable design system created for an enterprise software suite. It includes over 200 components with strict accessibility guidelines.",
+          link: "#"
         },
         {
           id: 4,
           cat: "Branding",
           title: "Origami",
-          color: "#E1F5FE",
+          color: "#BFC5B8", /* สีเขียวใบชา / Sage Green */
           role: "Brand Lead",
           tech: "Illustrator",
+          desc: "Comprehensive brand identity for an innovative logistics startup, featuring dynamic logo generation, color psychology, and typography rules.",
+          link: "#"
         },
         {
           id: 5,
           cat: "Medical",
           title: "Sync 360",
-          color: "#FBE9E7",
+          color: "#CDBBB7", /* สีชมพูอมน้ำตาลตุ่น / Dusty Rose */
           role: "UX Strategy",
           tech: "React",
+          desc: "A healthcare dashboard aimed at bridging communication between doctors and patients, streamlining medical records access securely.",
+          link: "#"
         },
         {
           id: 6,
           cat: "Fintech",
           title: "CoinVault",
-          color: "#E0F7FA",
+          color: "#C2C3CE", /* สีม่วงเทา / Periwinkle Grey */
           role: "UI/UX",
           tech: "Framer",
-        },
+          desc: "An intuitive cryptocurrency wallet interface with a focus on simplifying complex trading data into easy-to-read, actionable charts.",
+          link: "#"
+        }
       ];
 
       const stage = document.getElementById("folderStage");
       const wrapper = document.getElementById("carouselWrapper");
       const N = projects.length;
 
-      // ตัวแปรสำหรับฟิสิกส์การสไลด์แบบไร้จุดจบ (Infinite Loop)
       let targetProgress = 0.001;
       let currentProgress = 0;
       let isDragging = false;
@@ -405,29 +408,24 @@
           const card = document.createElement("div");
           card.className = "folder-card";
 
-          const btnBg = "var(--text)";
-          const btnText = "var(--bg)";
-
-          // โครงสร้างใหม่ที่เอา Desc ออก และดันปุ่มลงไปติดขอบล่าง
+          // สีของ Text ยังคงเป็น #18181b เพื่อให้ตัดกับสีโฟลเดอร์โทนตุ่นได้อย่างชัดเจน
           card.innerHTML = `
             <div class="folder-back" style="background-color: ${proj.color}">
-              <div class="folder-tab">${proj.cat}</div>
+              <div class="folder-tab" style="color: #18181b;">${proj.cat}</div>
             </div>
-            <div class="folder-front">
+            <div class="folder-front" style="background-color: ${proj.color}; color: #18181b;">
               
               <div class="mb-4">
-                <span class="font-mono text-[10px] opacity-40 font-bold uppercase tracking-widest">Project 0${i + 1}</span>
+                <span class="font-mono text-[10px] opacity-60 font-bold uppercase tracking-widest">Project 0${i + 1}</span>
                 <h2 class="text-3xl font-extrabold tracking-tight mt-1 leading-none">${proj.title}</h2>
               </div>
               
-              <!-- ข้อมูล Role/Tools ตรงกลาง -->
-              <div class="grid grid-cols-2 gap-4 mb-4 mt-auto border-t border-black/5 dark:border-white/5 pt-4">
-                <div><span class="text-[10px] font-mono opacity-40 uppercase block mb-1">Role</span><p class="font-bold text-xs">${proj.role}</p></div>
-                <div><span class="text-[10px] font-mono opacity-40 uppercase block mb-1">Tools</span><p class="font-bold text-xs">${proj.tech}</p></div>
+              <div class="grid grid-cols-2 gap-4 mb-4 mt-auto border-t border-black/10 pt-4">
+                <div><span class="text-[10px] font-mono opacity-60 uppercase block mb-1">Role</span><p class="font-bold text-xs">${proj.role}</p></div>
+                <div><span class="text-[10px] font-mono opacity-60 uppercase block mb-1">Tools</span><p class="font-bold text-xs">${proj.tech}</p></div>
               </div>
 
-              <!-- ปุ่ม Preview ด้านล่างสุด -->
-              <button onclick="openProject(${i})" class="w-full h-12 rounded-xl font-bold text-[11px] uppercase tracking-widest transition-transform active:scale-95 shadow-md flex items-center justify-center gap-2" style="background-color: ${btnBg}; color: ${btnText}">
+              <button onclick="openProject(${i})" class="w-full h-12 rounded-xl font-bold text-[11px] uppercase tracking-widest transition-transform hover:scale-[1.02] active:scale-95 bg-black/5 hover:bg-black/10 flex items-center justify-center gap-2">
                 Preview
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
               </button>
@@ -438,18 +436,14 @@
 
         requestAnimationFrame(renderLoop);
       }
-      // ระยะห่างระหว่างไพ่ (Spacing)
+      
       const spacing = window.innerWidth < 768 ? 160 : 250;
 
-      // ฟังก์ชันหัวใจสำคัญ: จัดการ 3D Cover Flow แบบ Infinite
       function renderLoop() {
-        // ใช้ Lerp (Linear Interpolation) ให้การเลื่อนสมูท
         currentProgress += (targetProgress - currentProgress) * 0.1;
 
         const cards = document.querySelectorAll(".folder-card");
         cards.forEach((card, i) => {
-          // คำนวณความต่างแบบลูป (Modulo Math)
-          // เช่น ถ้าเราอยู่ที่ใบที่ 1 (index 0) ใบที่ 6 (index 5) จะถูกคำนวณให้ไปอยู่ด้านซ้ายสุดแบบติดลบ (-1)
           let diff = (((i - currentProgress) % N) + N) % N;
           if (diff > N / 2) diff -= N;
 
@@ -457,11 +451,8 @@
           if (isActive) card.classList.add("is-active");
           else card.classList.remove("is-active");
 
-          // Physics - การหัน 45 องศา (Cover Flow)
           const x = diff * spacing;
-          const z = Math.abs(diff) * -120; // ดันใบที่ไม่ได้เลือกไปข้างหลัง
-
-          // นี่คือจุดเด่นที่คุณเปอร์ชอบ: เอียงการ์ด 45 องศา (หันหน้าเข้าหาตรงกลาง)
+          const z = Math.abs(diff) * -120; 
           const rotateY = diff * -45;
 
           const scale = Math.max(0.7, 1 - Math.abs(diff) * 0.1);
@@ -471,12 +462,9 @@
           card.style.transform = `translateX(${x}px) translateZ(${z}px) rotateY(${rotateY}deg) scale(${scale})`;
           card.style.zIndex = zIndex;
           card.style.opacity = opacity;
-
-          // บังคับให้การ์ดรอบข้างกดไม่ได้ ป้องกันการลั่น
           card.style.pointerEvents = isActive ? "auto" : "none";
         });
 
-        // ซ่อน Hint เมื่อเริ่มปัด
         const hint = document.getElementById("scrollHint");
         if (hint && Math.abs(currentProgress) > 0.1) {
           hint.style.opacity = "0";
@@ -485,7 +473,6 @@
         requestAnimationFrame(renderLoop);
       }
 
-      // --- ระบบจับการปัด (Drag & Swipe) ---
       function handleDragStart(e) {
         if (isLightboxOpen) return;
         isDragging = true;
@@ -499,45 +486,34 @@
           ? e.pageX
           : e.touches[0].pageX;
         const diffX = currentX - startX;
-        // ปรับตัวเลขหาร (250) เพื่อความหนืด/ไว ในการลากนิ้ว
         targetProgress = startProgress - diffX / 250;
       }
 
       function handleDragEnd() {
         if (!isDragging) return;
         isDragging = false;
-        // ดีดตัวกลับ (Snap) ให้ลงล็อกตำแหน่งแบบเป๊ะๆ 1, 2, 3...
         targetProgress = Math.round(targetProgress);
       }
 
-      // รองรับเมาส์บน Desktop (คลิกแล้วลาก)
       wrapper.addEventListener("mousedown", handleDragStart);
       window.addEventListener("mousemove", handleDragMove);
       window.addEventListener("mouseup", handleDragEnd);
       window.addEventListener("mouseleave", handleDragEnd);
 
-      // รองรับการทัชบนมือถือ (ปัดหน้าจอ)
       wrapper.addEventListener("touchstart", handleDragStart, {
         passive: true,
       });
       window.addEventListener("touchmove", handleDragMove, { passive: true });
       window.addEventListener("touchend", handleDragEnd);
 
-      // --- อัปเดตใหม่: รองรับ Apple Mouse / Trackpad (Wheel / Scroll แนวนอน) ---
       let wheelTimeout;
       wrapper.addEventListener(
         "wheel",
         (e) => {
           if (isLightboxOpen) return;
-
-          // เช็คว่าผู้ใช้กำลังไถ "แนวนอน" (deltaX) มากกว่า "แนวตั้ง" (deltaY)
           if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) {
-            e.preventDefault(); // ป้องกันเบราว์เซอร์เปลี่ยนหน้า (Back/Forward swipe)
-
-            // ปรับความไวของการไถ Trackpad (เพิ่ม/ลด 0.005 ได้ตามความชอบ)
+            e.preventDefault(); 
             targetProgress += e.deltaX * 0.005;
-
-            // เมื่อหยุดไถ Trackpad เป็นเวลา 150ms ให้ดีดตัว (Snap) เข้าล็อกการ์ดที่ใกล้ที่สุด
             clearTimeout(wheelTimeout);
             wheelTimeout = setTimeout(() => {
               targetProgress = Math.round(targetProgress);
@@ -547,22 +523,34 @@
         { passive: false },
       );
 
-      // --- Lightbox Logic ---
+      // --- Lightbox Logic (รองรับรูปภาพแนวตั้ง) ---
       function openProject(i) {
         isLightboxOpen = true;
         const proj = projects[i];
+
+        // ดึงสีและชื่อมาทำ Placeholder รูปแนวตั้ง (สัดส่วนประมาณ 10:16 หรือยาวกว่านั้น)
         const hexColor = proj.color.replace("#", "");
         const safeTitle = proj.title.replace(/\s+/g, "+");
+        
+        // จำลองภาพพรีเซนเทชันแนวยาว (เช่น กว้าง 800 สูง 1200) เพื่อให้เห็นการทำงานของ Scroll
+        document.getElementById("lightboxImage").src = `https://placehold.co/800x1200/${hexColor}/18181B?text=${safeTitle}+Presentation`;
 
-        document.getElementById("lightboxImage").src =
-          `https://placehold.co/600x800/${hexColor}/18181B?text=${safeTitle}+3:4`;
+        document.getElementById("lightboxCat").textContent = proj.cat;
         document.getElementById("lightboxTitle").textContent = proj.title;
+        document.getElementById("lightboxDesc").textContent = proj.desc;
+        document.getElementById("lightboxLink").href = proj.link;
+
         document.getElementById("lightboxOverlay").classList.add("active");
       }
 
       function closeProject() {
         isLightboxOpen = false;
         document.getElementById("lightboxOverlay").classList.remove("active");
+        
+        // เคลียร์ภาพเพื่อป้องกันการโหลดค้าง
+        setTimeout(() => {
+          document.getElementById("lightboxImage").src = "";
+        }, 400); // รอให้ Animation ปิดเสร็จก่อนค่อยเคลียร์รูป
       }
 
       // Theme Toggle Logic
