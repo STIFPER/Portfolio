@@ -74,6 +74,8 @@
         cursor: grab;
         z-index: 5;
         overflow: hidden;
+        contain: strict;
+        transform: translateZ(0);
       }
       .carousel-wrapper:active {
         cursor: grabbing;
@@ -98,6 +100,9 @@
         margin-top: -135px;
         transform-origin: center center;
         will-change: transform, opacity;
+        contain: layout style;
+        backface-visibility: hidden;
+        -webkit-backface-visibility: hidden;
       }
 
       .folder-card:not(.is-active) {
@@ -151,9 +156,9 @@
         left: 0;
         width: 100vw;
         height: 100vh;
-        background: rgba(0, 0, 0, 0.7);
-        backdrop-filter: blur(8px);
-        -webkit-backdrop-filter: blur(8px);
+        background: rgba(0, 0, 0, 0.85); /* พื้นหลังมืดเน้นงานเด่น */
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
         z-index: 9999;
         display: flex;
         justify-content: center;
@@ -171,22 +176,37 @@
         transform: scale(0.95) translateY(20px);
         opacity: 0;
         transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+        /* คำนวณความสูงสูงสุดตามสัดส่วน 800:1200 = 2:3 */
+        --img-max-h: min(calc(90vw * 1.5), calc(90vh * 0.6));
       }
       .active .lightbox-content {
         transform: scale(1) translateY(0);
         opacity: 1;
       }
 
+      /* รูป 800x1200 ให้แสดงเต็มความกว้าง ไม่ scroll หาย */
+      #lightboxImage {
+        width: 100%;
+        height: auto;
+        max-height: var(--img-max-h, 60vh);
+        object-fit: cover;
+        object-position: top;
+        display: block;
+      }
+
       /* Custom Scrollbar for Lightbox */
       .custom-scrollbar::-webkit-scrollbar {
-        width: 6px;
+        width: 8px;
       }
       .custom-scrollbar::-webkit-scrollbar-track {
         background: transparent;
       }
       .custom-scrollbar::-webkit-scrollbar-thumb {
-        background-color: rgba(156, 163, 175, 0.5);
+        background-color: rgba(156, 163, 175, 0.4);
         border-radius: 20px;
+      }
+      .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+        background-color: rgba(156, 163, 175, 0.7);
       }
 
       .hero-element {
@@ -306,14 +326,16 @@
       </div>
     </section>
 
-    <!-- Lightbox (Modal รองรับภาพแนวตั้ง/แนวยาว และเลื่อน Scroll ได้) -->
+    <!-- 
+      ปรับขนาด Lightbox ให้พอดีกับสัดส่วนงาน (max-w-[800px]) 
+      เพื่อให้แสดงผลรูป 800x1200 ได้สวยงามทั้งบนมือถือและคอมพิวเตอร์
+    -->
     <div id="lightboxOverlay" class="lightbox-overlay" onclick="closeProject()">
-      <!-- Container หลักของ Modal ที่กำหนด Max-height ให้เลื่อนได้ -->
       <div
-        class="lightbox-content w-[95vw] max-w-[700px] bg-white dark:bg-zinc-900 rounded-3xl relative shadow-2xl flex flex-col h-auto max-h-[90vh] overflow-hidden"
+        class="lightbox-content w-[95vw] max-w-[800px] h-auto max-h-[90vh] bg-white dark:bg-zinc-900 rounded-[2rem] relative shadow-2xl flex flex-col overflow-hidden"
         onclick="event.stopPropagation()"
       >
-        <!-- ปุ่มกากบาท (Close Icon) ปักหมุดไว้ขวาบนเสมอ แม้จะเลื่อนหน้าจอ -->
+        <!-- ปุ่มกากบาท -->
         <button
           onclick="closeProject()"
           class="absolute top-4 right-4 z-20 w-10 h-10 flex items-center justify-center rounded-full bg-black/40 backdrop-blur-md text-white hover:bg-black/70 transition-colors shadow-lg"
@@ -334,27 +356,29 @@
           </svg>
         </button>
 
-        <!-- พื้นที่ Scrollable (ส่วนที่เลื่อนได้ จะมีทั้งรูปและเนื้อหา) -->
+        <!-- พื้นที่ Scrollable -->
         <div class="overflow-y-auto custom-scrollbar w-full h-full relative">
-          <!-- Image Placeholder (รองรับภาพแนวตั้ง/ยาว) -->
+          <!-- Image -->
           <img
             id="lightboxImage"
             src=""
             alt="Project Presentation"
-            class="w-full h-auto object-cover min-h-[50vh] bg-zinc-100 dark:bg-zinc-800"
+            loading="lazy"
+            decoding="async"
+            class="w-full h-auto bg-zinc-100 dark:bg-zinc-800 block"
           />
 
           <!-- เนื้อหาคำอธิบายด้านล่างรูปภาพ -->
-          <div class="p-8 sm:p-10 bg-white dark:bg-zinc-900 relative z-10">
+          <div
+            class="bg-white dark:bg-zinc-900 relative z-10 p-8 sm:p-10 flex flex-col"
+          >
             <div class="mb-3">
               <span
                 id="lightboxCat"
                 class="font-mono text-[11px] font-bold text-zinc-500 dark:text-zinc-400 uppercase tracking-widest"
               ></span>
             </div>
-
             <h3 id="lightboxTitle" class="text-3xl font-extrabold mb-4"></h3>
-
             <p
               id="lightboxDesc"
               class="text-zinc-600 dark:text-zinc-300 mb-8 leading-relaxed text-sm sm:text-base"
@@ -390,13 +414,12 @@
     </div>
 
     <script>
-      // อัปเดตโทนสีใหม่ (Sophisticated / Muted Colors) ให้ดูพรีเมียม สไตล์เรียบหรู
       const projects = [
         {
           id: 1,
           cat: "Research",
           title: "Eco Habit",
-          color: "#D5D5D0" /* สีเทาหิน / Concrete */,
+          color: "#D5D5D0",
           role: "Lead UX",
           tech: "Figma",
           desc: "A mobile application designed to encourage sustainable living habits. The project focused heavily on user research to understand behavioral triggers for eco-friendly actions.",
@@ -406,7 +429,7 @@
           id: 2,
           cat: "Visual",
           title: "Neo-Bank",
-          color: "#C4CEDB" /* สีฟ้าตุ่น / Steel Blue */,
+          color: "#C4CEDB",
           role: "UI Design",
           tech: "Principle",
           desc: "A conceptual redesign for a modern digital bank, focusing on micro-interactions, dark mode aesthetics, and an intuitive transaction flow.",
@@ -416,7 +439,7 @@
           id: 3,
           cat: "System",
           title: "Lumina OS",
-          color: "#D0C8B6" /* สีเบจทราย / Warm Sand */,
+          color: "#D0C8B6",
           role: "Product",
           tech: "SwiftUI",
           desc: "A scalable design system created for an enterprise software suite. It includes over 200 components with strict accessibility guidelines.",
@@ -426,7 +449,7 @@
           id: 4,
           cat: "Branding",
           title: "Origami",
-          color: "#BFC5B8" /* สีเขียวใบชา / Sage Green */,
+          color: "#BFC5B8",
           role: "Brand Lead",
           tech: "Illustrator",
           desc: "Comprehensive brand identity for an innovative logistics startup, featuring dynamic logo generation, color psychology, and typography rules.",
@@ -436,7 +459,7 @@
           id: 5,
           cat: "Medical",
           title: "Sync 360",
-          color: "#CDBBB7" /* สีชมพูอมน้ำตาลตุ่น / Dusty Rose */,
+          color: "#CDBBB7",
           role: "UX Strategy",
           tech: "React",
           desc: "A healthcare dashboard aimed at bridging communication between doctors and patients, streamlining medical records access securely.",
@@ -446,7 +469,7 @@
           id: 6,
           cat: "Fintech",
           title: "CoinVault",
-          color: "#C2C3CE" /* สีม่วงเทา / Periwinkle Grey */,
+          color: "#C2C3CE",
           role: "UI/UX",
           tech: "Framer",
           desc: "An intuitive cryptocurrency wallet interface with a focus on simplifying complex trading data into easy-to-read, actionable charts.",
@@ -464,30 +487,33 @@
       let startX = 0;
       let startProgress = 0;
       let isLightboxOpen = false;
+      let rafId = null;
+      let isLoopRunning = false;
+
+      function startLoop() {
+        if (isLoopRunning) return;
+        isLoopRunning = true;
+        rafId = requestAnimationFrame(renderLoop);
+      }
 
       function initFolders() {
         stage.innerHTML = "";
         projects.forEach((proj, i) => {
           const card = document.createElement("div");
           card.className = "folder-card";
-
-          // สีของ Text ยังคงเป็น #18181b เพื่อให้ตัดกับสีโฟลเดอร์โทนตุ่นได้อย่างชัดเจน
           card.innerHTML = `
             <div class="folder-back" style="background-color: ${proj.color}">
               <div class="folder-tab" style="color: #18181b;">${proj.cat}</div>
             </div>
             <div class="folder-front" style="background-color: ${proj.color}; color: #18181b;">
-              
               <div class="mb-4">
                 <span class="font-mono text-[10px] opacity-60 font-bold uppercase tracking-widest">Project 0${i + 1}</span>
                 <h2 class="text-3xl font-extrabold tracking-tight mt-1 leading-none">${proj.title}</h2>
               </div>
-              
               <div class="grid grid-cols-2 gap-4 mb-4 mt-auto border-t border-black/10 pt-4">
                 <div><span class="text-[10px] font-mono opacity-60 uppercase block mb-1">Role</span><p class="font-bold text-xs">${proj.role}</p></div>
                 <div><span class="text-[10px] font-mono opacity-60 uppercase block mb-1">Tools</span><p class="font-bold text-xs">${proj.tech}</p></div>
               </div>
-
               <button onclick="openProject(${i})" class="w-full h-12 rounded-xl font-bold text-[11px] uppercase tracking-widest transition-transform hover:scale-[1.02] active:scale-95 bg-black/5 hover:bg-black/10 flex items-center justify-center gap-2">
                 Preview
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
@@ -496,20 +522,31 @@
           `;
           stage.appendChild(card);
         });
-
-        requestAnimationFrame(renderLoop);
+        startLoop();
       }
 
       const spacing = window.innerWidth < 768 ? 160 : 250;
 
       function renderLoop() {
-        currentProgress += (targetProgress - currentProgress) * 0.1;
+        const diff_prog = targetProgress - currentProgress;
+        // หยุด loop เมื่อ animation หยุดนิ่งแล้ว (ประหยัด CPU/GPU บนมือถือ)
+        if (!isDragging && Math.abs(diff_prog) < 0.0005) {
+          currentProgress = targetProgress;
+          isLoopRunning = false;
+          // วาด frame สุดท้ายแล้วหยุด
+          updateCards();
+          return;
+        }
+        currentProgress += diff_prog * 0.1;
+        updateCards();
+        rafId = requestAnimationFrame(renderLoop);
+      }
 
+      function updateCards() {
         const cards = document.querySelectorAll(".folder-card");
         cards.forEach((card, i) => {
           let diff = (((i - currentProgress) % N) + N) % N;
           if (diff > N / 2) diff -= N;
-
           const isActive = Math.abs(diff) < 0.5;
           if (isActive) card.classList.add("is-active");
           else card.classList.remove("is-active");
@@ -517,7 +554,6 @@
           const x = diff * spacing;
           const z = Math.abs(diff) * -120;
           const rotateY = diff * -45;
-
           const scale = Math.max(0.7, 1 - Math.abs(diff) * 0.1);
           const opacity = Math.max(0, 1 - Math.abs(diff) * 0.4);
           const zIndex = 100 - Math.round(Math.abs(diff) * 10);
@@ -532,8 +568,6 @@
         if (hint && Math.abs(currentProgress) > 0.1) {
           hint.style.opacity = "0";
         }
-
-        requestAnimationFrame(renderLoop);
       }
 
       function handleDragStart(e) {
@@ -541,6 +575,7 @@
         isDragging = true;
         startX = e.type.includes("mouse") ? e.pageX : e.touches[0].pageX;
         startProgress = targetProgress;
+        startLoop(); // ปลุก loop เมื่อเริ่ม drag
       }
 
       function handleDragMove(e) {
@@ -562,7 +597,6 @@
       window.addEventListener("mousemove", handleDragMove);
       window.addEventListener("mouseup", handleDragEnd);
       window.addEventListener("mouseleave", handleDragEnd);
-
       wrapper.addEventListener("touchstart", handleDragStart, {
         passive: true,
       });
@@ -577,6 +611,7 @@
           if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) {
             e.preventDefault();
             targetProgress += e.deltaX * 0.005;
+            startLoop(); // ปลุก loop เมื่อ scroll
             clearTimeout(wheelTimeout);
             wheelTimeout = setTimeout(() => {
               targetProgress = Math.round(targetProgress);
@@ -586,38 +621,30 @@
         { passive: false },
       );
 
-      // --- Lightbox Logic (รองรับรูปภาพแนวตั้ง) ---
       function openProject(i) {
         isLightboxOpen = true;
         const proj = projects[i];
-
-        // ดึงสีและชื่อมาทำ Placeholder รูปแนวตั้ง (สัดส่วนประมาณ 10:16 หรือยาวกว่านั้น)
         const hexColor = proj.color.replace("#", "");
         const safeTitle = proj.title.replace(/\s+/g, "+");
 
-        // จำลองภาพพรีเซนเทชันแนวยาว (เช่น กว้าง 800 สูง 1200) เพื่อให้เห็นการทำงานของ Scroll
+        // คืนค่าขนาดรูปกลับมาเป็น 800x1200 เพื่อให้สเกลถูกต้อง
         document.getElementById("lightboxImage").src =
           `https://placehold.co/800x1200/${hexColor}/18181B?text=${safeTitle}+Presentation`;
-
         document.getElementById("lightboxCat").textContent = proj.cat;
         document.getElementById("lightboxTitle").textContent = proj.title;
         document.getElementById("lightboxDesc").textContent = proj.desc;
         document.getElementById("lightboxLink").href = proj.link;
-
         document.getElementById("lightboxOverlay").classList.add("active");
       }
 
       function closeProject() {
         isLightboxOpen = false;
         document.getElementById("lightboxOverlay").classList.remove("active");
-
-        // เคลียร์ภาพเพื่อป้องกันการโหลดค้าง
         setTimeout(() => {
           document.getElementById("lightboxImage").src = "";
-        }, 400); // รอให้ Animation ปิดเสร็จก่อนค่อยเคลียร์รูป
+        }, 400);
       }
 
-      // Theme Toggle Logic
       const themeToggleBtn = document.getElementById("themeToggle");
       const htmlElement = document.documentElement;
 
