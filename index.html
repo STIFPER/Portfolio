@@ -6,12 +6,12 @@
       name="viewport"
       content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
     />
-    <title>FolderStack UI - Smooth Scroll</title>
+    <title>Wachirawit - Portfolio</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Manrope:wght@300;400;500;600;700;800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Manrope:wght@300;400;500;600;700;800&family=Playfair+Display:ital@1&display=swap"
       rel="stylesheet"
     />
     <script src="https://cdn.tailwindcss.com"></script>
@@ -22,6 +22,7 @@
         --text: #18181b;
         --font-main: "Manrope", sans-serif;
         --font-mono: "IBM Plex Mono", monospace;
+        --font-serif: "Playfair Display", serif;
         --folder-w: min(calc(100vw - 48px), 360px);
         --folder-h: 260px;
         --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
@@ -37,10 +38,116 @@
       }
 
       /* -------------------------------------------
+         INTRO HERO SECTION (NEW)
+      ------------------------------------------- */
+      .intro-hero {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+        z-index: 20;
+        background-color: var(--bg);
+      }
+
+      .quote-text {
+        font-family: var(--font-serif);
+        color: #71717a; /* zinc-500 */
+        font-size: clamp(1.125rem, 2vw, 1.5rem);
+        line-height: 1.6;
+      }
+
+      .scroll-indicator {
+        position: absolute;
+        bottom: 40px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+        opacity: 0.5;
+        animation: fadeScroll 2s infinite ease-in-out;
+      }
+
+      .scroll-line {
+        width: 1px;
+        height: 40px;
+        background: linear-gradient(to bottom, #18181b, transparent);
+      }
+
+      @keyframes fadeScroll {
+        0%,
+        100% {
+          opacity: 0.3;
+          transform: translate(-50%, 0);
+        }
+        50% {
+          opacity: 0.8;
+          transform: translate(-50%, 5px);
+        }
+      }
+
+      /* -------------------------------------------
+         HERO ENTRY ANIMATIONS
+      ------------------------------------------- */
+      .hero-element {
+        opacity: 0;
+        transform: translateY(30px);
+        animation: fadeUp 1s var(--ease-out) forwards;
+        will-change: transform, opacity;
+      }
+      .delay-1 {
+        animation-delay: 0.1s;
+      }
+      .delay-2 {
+        animation-delay: 0.2s;
+      }
+      .delay-3 {
+        animation-delay: 0.3s;
+      }
+      .delay-4 {
+        animation-delay: 0.4s;
+      }
+
+      @keyframes fadeUp {
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* -------------------------------------------
+         CONTINUOUS FLOAT ANIMATIONS (NEW)
+      ------------------------------------------- */
+      @keyframes floatMotion {
+        0%,
+        100% {
+          transform: translateY(0px);
+        }
+        50% {
+          transform: translateY(-8px);
+        }
+      }
+      .float-1 {
+        animation: floatMotion 5s ease-in-out infinite;
+      }
+      .float-2 {
+        animation: floatMotion 6s ease-in-out infinite 0.5s;
+      }
+      .float-3 {
+        animation: floatMotion 7s ease-in-out infinite 1s;
+      }
+      .float-4 {
+        animation: floatMotion 8s ease-in-out infinite 1.5s;
+      }
+
+      /* -------------------------------------------
          STICKY SCROLL-JACKING SECTION
       ------------------------------------------- */
       .hero-scroll-container {
-        height: 400vh;
+        height: 400vh; /* ความยาวเพื่อใช้เลื่อน */
         position: relative;
         z-index: 10;
       }
@@ -86,12 +193,11 @@
         justify-content: flex-end;
         border-radius: 24px;
         transition: box-shadow 0.3s;
-        /* ป้องกันไม่ให้การ์ดบังการคลิก จะถูกควบคุมด้วย JS อีกที */
         pointer-events: none;
       }
 
       .folder-card.is-active {
-        pointer-events: auto; /* เฉพาะการ์ดที่อยู่ตรงกลางถึงจะกดได้ */
+        pointer-events: auto;
       }
 
       .folder-back {
@@ -197,7 +303,6 @@
         letter-spacing: 1px;
         transition: all 0.3s ease;
         cursor: pointer;
-        /* ป้องกันบักคลิกทะลุ */
         position: relative;
         z-index: 10;
       }
@@ -207,20 +312,8 @@
         transform: translateY(-2px);
       }
 
-      .status-bar {
-        position: absolute;
-        bottom: 30px;
-        font-family: var(--font-mono);
-        font-size: 10px;
-        opacity: 0.4;
-        letter-spacing: 2px;
-        text-align: center;
-        width: 100%;
-        z-index: 2;
-      }
-
       /* -------------------------------------------
-         UPDATED LIGHTBOX SECTION
+         LIGHTBOX SECTION
       ------------------------------------------- */
       .lightbox-overlay {
         position: fixed;
@@ -396,7 +489,6 @@
         background-color: #eef2ff;
         color: #3730a3;
         border: 1px solid #c7d2fe;
-        box-shadow: 0 4px 12px rgba(99, 102, 241, 0.08);
       }
       .tag-green {
         background-color: #e8f5e9;
@@ -449,7 +541,6 @@
         transition: all 0.4s ease;
         display: flex;
         flex-direction: column;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
       }
 
       .work-card:hover {
@@ -512,10 +603,9 @@
     </style>
   </head>
   <body>
-    <!-- Updated Lightbox Overlay -->
+    <!-- Lightbox Overlay -->
     <div id="lightboxOverlay" class="lightbox-overlay">
       <div class="lightbox-content">
-        <!-- Close Button Inside -->
         <button
           class="btn-close-inside"
           onclick="closeProject()"
@@ -534,16 +624,12 @@
             <line x1="6" y1="6" x2="18" y2="18"></line>
           </svg>
         </button>
-
-        <!-- Image -->
         <img
           id="lightboxImage"
           class="lightbox-image"
           src=""
           alt="Project Visual"
         />
-
-        <!-- Fade Bottom Area with Content -->
         <div class="lightbox-fade-bottom">
           <h3 id="lightboxTitle" class="lightbox-title-preview">
             Project Title
@@ -551,7 +637,6 @@
           <p id="lightboxDesc" class="lightbox-desc-preview">
             Project description preview goes here...
           </p>
-
           <a href="#" class="btn-see-details">
             See Details
             <svg
@@ -572,63 +657,132 @@
       </div>
     </div>
 
-    <!-- Sticky Scroll Section -->
-    <div class="hero-scroll-container">
+    <!-- 1. Intro Hero Section (NEW) -->
+    <section class="intro-hero px-6">
+      <div class="max-w-3xl w-full text-center">
+        <!-- Status Badge -->
+        <div id="heroBadgeWrap">
+          <div class="hero-element delay-1 mb-10">
+            <div class="float-1">
+              <div
+                class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white border border-gray-200 text-xs font-mono font-semibold uppercase tracking-widest text-gray-600 shadow-sm transition-transform hover:scale-105"
+              >
+                <span
+                  class="w-2 h-2 rounded-full bg-green-500 animate-pulse"
+                ></span>
+                Available for new opportunities
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Main Title -->
+        <div id="heroTitleWrap">
+          <div class="hero-element delay-2 mb-6">
+            <div class="float-2">
+              <h1
+                class="text-6xl md:text-8xl font-extrabold tracking-tighter text-[#18181b]"
+              >
+                Wachirawit.
+              </h1>
+            </div>
+          </div>
+        </div>
+
+        <!-- Subtitle / Role -->
+        <div id="heroSubtitleWrap">
+          <div class="hero-element delay-3 mb-12">
+            <div class="float-3">
+              <p
+                class="text-lg md:text-2xl text-gray-500 font-medium max-w-2xl mx-auto leading-relaxed"
+              >
+                Digital Product Designer crafting experiences that are
+                <span class="text-gray-900">structured</span>, yet
+                <span class="underline decoration-gray-300">effortless</span>.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Minimal Quote -->
+        <div id="heroQuoteWrap">
+          <div class="hero-element delay-4 flex justify-center">
+            <div class="float-4">
+              <blockquote class="quote-text text-center max-w-lg">
+                "Good design is obvious. Great design is transparent."
+              </blockquote>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Scroll Down Indicator -->
+      <div class="scroll-indicator hero-element delay-4">
+        <span class="font-mono text-[10px] tracking-widest uppercase mb-2"
+          >Scroll</span
+        >
+        <div class="scroll-line"></div>
+      </div>
+    </section>
+
+    <!-- 2. Sticky Scroll-Jacking Section -->
+    <div class="hero-scroll-container" id="scrollContainer">
       <div class="sticky-scene">
+        <!-- Changed Title here to avoid repeating the name -->
         <div class="absolute top-10 left-0 w-full text-center z-10">
           <p
             class="font-mono text-[10px] md:text-[11px] opacity-40 uppercase tracking-[0.2em] mb-2"
           >
             Project Stack
           </p>
-          <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight">
-            Wachirawit.
-          </h1>
+          <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight">
+            Featured Works.
+          </h2>
         </div>
 
         <div class="folder-stage" id="folderStage">
           <!-- JS injects folders -->
         </div>
 
-        <div class="status-bar" id="statusBar">
-          <div class="animate-bounce mb-2">↓</div>
-          SCROLL TO EXPLORE
+        <div
+          class="absolute bottom-10 font-mono text-[10px] opacity-40 tracking-widest text-center w-full z-2"
+        >
+          KEEP SCROLLING ↓
         </div>
       </div>
     </div>
 
-    <!-- Content Section -->
+    <!-- 3. Content Section (Static Grid & Skills) -->
     <section class="content-section">
       <div class="max-w-6xl mx-auto">
-        <div class="text-center mb-16 max-w-3xl mx-auto">
-          <h2
-            class="text-3xl md:text-4xl font-extrabold leading-tight tracking-tight mb-6"
+        <!-- Skills / Capabilities -->
+        <div class="mb-16 text-center">
+          <p
+            class="font-mono text-xs opacity-50 uppercase tracking-[0.1em] mb-6"
           >
-            Crafting digital experiences that are
-            <span class="italic font-light text-gray-500">structured</span>, yet
-            <span class="underline decoration-gray-300">effortless</span>.
-          </h2>
+            Core Capabilities
+          </p>
+          <div class="skills-container">
+            <div class="pill-tag tag-highlight">Innovative UX</div>
+            <div class="pill-tag tag-outline">Transformative</div>
+            <div class="pill-tag tag-green">Eco-friendly</div>
+            <div class="pill-tag tag-green">User Research</div>
+            <div class="pill-tag tag-purple">Sophisticated</div>
+            <div class="pill-tag tag-purple">Aesthetics</div>
+            <div class="pill-tag tag-orange">Design Systems</div>
+            <div class="pill-tag tag-orange">Architecture</div>
+            <div class="pill-tag tag-blue">Minimalist</div>
+            <div class="pill-tag tag-blue">Brand Identity</div>
+            <div class="pill-tag tag-pink">UX Strategy</div>
+            <div class="pill-tag tag-pink">Problem Solving</div>
+            <div class="pill-tag tag-cyan">Prototyping</div>
+            <div class="pill-tag tag-cyan">Comfortable UX</div>
+            <div class="pill-tag tag-gray">Wireframing</div>
+            <div class="pill-tag tag-highlight">Design Thinking</div>
+          </div>
         </div>
 
-        <div class="skills-container">
-          <div class="pill-tag tag-highlight">Innovative UX</div>
-          <div class="pill-tag tag-outline">Transformative</div>
-          <div class="pill-tag tag-green">Eco-friendly</div>
-          <div class="pill-tag tag-green">User Research</div>
-          <div class="pill-tag tag-purple">Sophisticated</div>
-          <div class="pill-tag tag-purple">Aesthetics</div>
-          <div class="pill-tag tag-orange">Design Systems</div>
-          <div class="pill-tag tag-orange">Architecture</div>
-          <div class="pill-tag tag-blue">Minimalist</div>
-          <div class="pill-tag tag-blue">Brand Identity</div>
-          <div class="pill-tag tag-pink">UX Strategy</div>
-          <div class="pill-tag tag-pink">Problem Solving</div>
-          <div class="pill-tag tag-cyan">Prototyping</div>
-          <div class="pill-tag tag-cyan">Comfortable UX</div>
-          <div class="pill-tag tag-gray">Wireframing</div>
-          <div class="pill-tag tag-highlight">Design Thinking</div>
-        </div>
-
+        <!-- Project Grid -->
         <div class="mb-12 text-center">
           <p
             class="font-mono text-xs opacity-50 uppercase tracking-[0.1em] mb-3"
@@ -636,7 +790,7 @@
             The Archive
           </p>
           <h3 class="text-3xl md:text-4xl font-extrabold tracking-tight">
-            Selected Works
+            All Projects
           </h3>
         </div>
 
@@ -657,7 +811,7 @@
               <h3 class="text-2xl font-extrabold mb-2">Eco Habit</h3>
               <p class="opacity-70 text-sm mb-6 leading-relaxed">
                 Gamified carbon footprint reduction for urban dwellers.
-                Combining user research with playful, eco-friendly visuals.
+                Combining user research with playful visuals.
               </p>
             </div>
           </div>
@@ -731,15 +885,16 @@
           <p
             class="font-mono text-sm opacity-50 uppercase tracking-[0.2em] mb-4"
           >
-            Get in touch
+            Let's build something great
           </p>
           <a
             href="#"
-            class="inline-block text-2xl font-bold hover:opacity-50 transition-opacity mb-8"
-            >hello@wachirawit.design</a
+            class="inline-block text-2xl md:text-3xl font-bold hover:text-gray-500 transition-colors mb-8"
           >
+            hello@wachirawit.design
+          </a>
           <p class="text-xs font-mono opacity-40 uppercase tracking-widest">
-            © 2024 Wachirawit.
+            © 2024 Wachirawit. All rights reserved.
           </p>
         </div>
       </div>
@@ -804,6 +959,7 @@
       ];
 
       const stage = document.getElementById("folderStage");
+      const scrollContainer = document.getElementById("scrollContainer");
       let activeIndex = 0;
       let isExpanded = false;
 
@@ -837,22 +993,56 @@
         if (isExpanded) return;
 
         const scrollY = window.scrollY;
-        const hero = document.querySelector(".hero-scroll-container");
 
-        // ป้องกัน maxScroll เป็น 0 หรือติดลบ ในกรณีที่หน้าจอผิดปกติ
-        const maxScroll = Math.max(1, hero.offsetHeight - window.innerHeight);
+        // --- Hero Parallax & Fade Effect ---
+        // เปลี่ยนมาจับ ID ตัวกรอบนอกสุด (Wrap) เพื่อไม่ให้ชนกับ CSS Animation
+        const badgeWrap = document.getElementById("heroBadgeWrap");
+        const titleWrap = document.getElementById("heroTitleWrap");
+        const subtitleWrap = document.getElementById("heroSubtitleWrap");
+        const quoteWrap = document.getElementById("heroQuoteWrap");
 
-        // หาสัดส่วนความคืบหน้า (0.0 ถึง 1.0)
-        let progress = scrollY / maxScroll;
+        if (scrollY < window.innerHeight) {
+          if (badgeWrap) {
+            badgeWrap.style.transform = `translate3d(0, ${scrollY * 0.4}px, 0)`;
+            badgeWrap.style.opacity = Math.max(0, 1 - scrollY / 250);
+          }
+          if (titleWrap) {
+            titleWrap.style.transform = `translate3d(0, ${scrollY * 0.1}px, 0)`;
+            titleWrap.style.opacity = Math.max(0, 1 - scrollY / 400);
+          }
+          if (subtitleWrap) {
+            subtitleWrap.style.transform = `translate3d(0, ${scrollY * 0.25}px, 0)`;
+            subtitleWrap.style.opacity = Math.max(0, 1 - scrollY / 500);
+          }
+          if (quoteWrap) {
+            quoteWrap.style.transform = `translate3d(0, ${scrollY * 0.35}px, 0)`;
+            quoteWrap.style.opacity = Math.max(0, 1 - scrollY / 600);
+          }
+        }
+
+        // คำนวณระยะห่างของ container โฟลเดอร์จากขอบจอบนสุด
+        const containerRect = scrollContainer.getBoundingClientRect();
+
+        // เราจะเริ่มเล่นแอนิเมชันก็ต่อเมื่อ scrollContainer ชนขอบจอบน (containerRect.top <= 0)
+        let scrolledPastStickyTop = -containerRect.top;
+
+        // ความสูงทั้งหมดที่ใช้เลื่อนได้ (หักความสูงจอออกเพื่อให้เลื่อนสุดที่ท้ายคอนเทนเนอร์พอดี)
+        const maxScroll = scrollContainer.offsetHeight - window.innerHeight;
+
+        // คำนวณ Progress (0.0 ถึง 1.0)
+        let progress = 0;
+        if (scrolledPastStickyTop > 0) {
+          progress = scrolledPastStickyTop / maxScroll;
+        }
+
         if (progress < 0) progress = 0;
         if (progress > 1) progress = 1;
 
-        // --- เพิ่มระบบ "ล็อกฟันเฟือง" (Magnetic Gear-lock Effect) ---
+        // ระบบ Magnetic Gear-lock (หนืดตอนเข้าใกล้โฟลเดอร์)
         const rawIndex = progress * (projects.length - 1);
         const baseIndex = Math.floor(rawIndex);
         const fraction = rawIndex - baseIndex;
 
-        // ใช้สมการคณิตศาสตร์ Smootherstep เพื่อสร้างความหนืดช่วยล็อกโฟลเดอร์
         const gearFraction =
           fraction *
           fraction *
@@ -864,6 +1054,7 @@
 
         const cards = document.querySelectorAll(".folder-card");
 
+        // อัปเดตสไตล์ของแต่ละโฟลเดอร์ตาม Index
         cards.forEach((card, i) => {
           const diff = i - virtualIndex;
 
@@ -874,7 +1065,6 @@
             rotateX = 0,
             blurAmount = 0;
 
-          // จัดการให้กดปุ่มได้เฉพาะการ์ดที่กำลังแอคทีฟอยู่ (diff ใกล้ 0)
           if (Math.abs(diff) < 0.4) {
             card.classList.add("is-active");
           } else {
@@ -919,7 +1109,6 @@
         { passive: true },
       );
 
-      // Lightbox Logic - Updated for new design
       function openProject(index) {
         if (activeIndex !== index) return;
         isExpanded = true;
@@ -929,13 +1118,10 @@
         const hexColor = proj.color.substring(1);
         const safeTitle = proj.title.replace(/\s+/g, "+");
 
-        // อัปเดตข้อมูลใน Lightbox
         document.getElementById("lightboxImage").src =
           `https://placehold.co/600x800/${hexColor}/18181B?text=${safeTitle}+3:4`;
-
         document.getElementById("lightboxTitle").textContent = proj.title;
         document.getElementById("lightboxDesc").textContent = proj.desc;
-
         document.getElementById("lightboxOverlay").classList.add("active");
       }
 
@@ -943,6 +1129,9 @@
         isExpanded = false;
         document.body.classList.remove("is-expanded");
         document.getElementById("lightboxOverlay").classList.remove("active");
+
+        // รีเฟรชตำแหน่งการ์ดอีกครั้งเผื่อเกิดบัคตอนปิด
+        requestAnimationFrame(updateScrollPositions);
       }
 
       window.onload = initFolders;
