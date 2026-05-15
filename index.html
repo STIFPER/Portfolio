@@ -22,47 +22,16 @@
     </script>
 
     <style>
-      /* เพิ่ม pointer และ transition ให้การ์ดที่โชว์อยู่ (is-active) */
-      .folder-card.is-active {
-        pointer-events: auto;
-        cursor: pointer;
-      }
-
-      /* ทำให้การ์ดดูสว่างขึ้นนิดนึงตอนเอาเมาส์ไปชี้ ให้รู้ว่ากดได้ */
-      .folder-card.is-active:hover .folder-front {
-        background: linear-gradient(
-          135deg,
-          rgba(255, 255, 255, 1) 0%,
-          rgba(255, 250, 240, 0.9) 50%,
-          rgba(255, 255, 255, 0.6) 100%
-        );
-      }
-
-      .dark .folder-card.is-active:hover .folder-front {
-        background: linear-gradient(
-          135deg,
-          rgba(45, 45, 48, 0.95) 0%,
-          rgba(30, 30, 35, 0.8) 50%,
-          rgba(15, 15, 20, 0.6) 100%
-        );
-      }
       :root {
         --bg: #f4f4f5;
         --text: #18181b;
         --font-main: "Manrope", sans-serif;
         --font-mono: "IBM Plex Mono", monospace;
         --font-serif: "Playfair Display", serif;
-        --folder-w: min(calc(100vw - 48px), 360px);
-        --folder-h: 260px;
-        --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
-        --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
-
-        /* Theme variables */
-        --sticky-scene-bg: radial-gradient(
-          circle at 50% 0%,
-          #ffffff 0%,
-          #e4e4e7 100%
-        );
+        --folder-w: min(
+          calc(100vw - 64px),
+          320px
+        ); /* ปรับความกว้างนิดหน่อยให้พอดีกับการหัน 45 องศา */
         --folder-front-bg: linear-gradient(
           135deg,
           rgba(255, 255, 255, 0.95) 0%,
@@ -70,24 +39,11 @@
           rgba(255, 255, 255, 0.4) 100%
         );
         --folder-front-border: rgba(255, 255, 255, 0.9);
-        --content-bg: #ffffff;
-        --card-bg: #ffffff;
-        --border-color: #e4e4e7;
-        --btn-bg: rgba(0, 0, 0, 0.05);
-        --btn-hover-bg: #18181b;
-        --btn-hover-text: #ffffff;
-        --lightbox-overlay: rgba(244, 244, 245, 0.9);
-        --lightbox-bg: #ffffff;
       }
 
       .dark {
         --bg: #09090b;
         --text: #fafafa;
-        --sticky-scene-bg: radial-gradient(
-          circle at 50% 0%,
-          #18181b 0%,
-          #09090b 100%
-        );
         --folder-front-bg: linear-gradient(
           135deg,
           rgba(39, 39, 42, 0.95) 0%,
@@ -95,14 +51,6 @@
           rgba(9, 9, 11, 0.6) 100%
         );
         --folder-front-border: rgba(255, 255, 255, 0.05);
-        --content-bg: #09090b;
-        --card-bg: #18181b;
-        --border-color: #27272a;
-        --btn-bg: rgba(255, 255, 255, 0.1);
-        --btn-hover-bg: #fafafa;
-        --btn-hover-text: #18181b;
-        --lightbox-overlay: rgba(9, 9, 11, 0.9);
-        --lightbox-bg: #18181b;
       }
 
       body {
@@ -111,180 +59,66 @@
         font-family: var(--font-main);
         margin: 0;
         overflow-x: hidden;
-        transition:
-          background-color 0.4s ease,
-          color 0.4s ease;
       }
 
-      /* -------------------------------------------
-         INTRO HERO SECTION (NEW)
-      ------------------------------------------- */
-      .intro-hero {
-        min-height: 100vh;
+      /* --- FULL SCREEN HERO SECTION --- */
+      .scroll-container {
+        position: relative;
+        width: 100vw;
+        height: 100vh; /* ให้ Hero เต็มหน้าจอพอดี */
         display: flex;
         flex-direction: column;
         justify-content: center;
-        align-items: center;
-        position: relative;
-        z-index: 20;
-        background-color: var(--bg);
-      }
-
-      .quote-text {
-        font-family: var(--font-serif);
-        color: #71717a; /* zinc-500 */
-        font-size: clamp(1.125rem, 2vw, 1.5rem);
-        line-height: 1.6;
-      }
-
-      .dark .quote-text {
-        color: #a1a1aa; /* zinc-400 */
-      }
-
-      .scroll-indicator-wrapper {
-        position: absolute;
-        bottom: 40px;
-        left: 0;
-        width: 100%;
-        display: flex;
-        justify-content: center;
-        z-index: 20;
-      }
-
-      .scroll-indicator {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 12px;
-        opacity: 0.5;
-        animation: fadeScroll 2s infinite ease-in-out;
-      }
-
-      .scroll-line {
-        width: 1px;
-        height: 40px;
-        background: linear-gradient(to bottom, currentColor, transparent);
-      }
-
-      @keyframes fadeScroll {
-        0%,
-        100% {
-          opacity: 0.3;
-          transform: translateY(0);
-        }
-        50% {
-          opacity: 0.8;
-          transform: translateY(5px);
-        }
-      }
-
-      /* -------------------------------------------
-         HERO ENTRY ANIMATIONS
-      ------------------------------------------- */
-      .hero-element {
-        opacity: 0;
-        transform: translateY(30px);
-        animation: fadeUp 1s var(--ease-out) forwards;
-        will-change: transform, opacity;
-      }
-      .delay-1 {
-        animation-delay: 0.1s;
-      }
-      .delay-2 {
-        animation-delay: 0.2s;
-      }
-      .delay-3 {
-        animation-delay: 0.3s;
-      }
-      .delay-4 {
-        animation-delay: 0.4s;
-      }
-
-      @keyframes fadeUp {
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-
-      /* -------------------------------------------
-         CONTINUOUS FLOAT ANIMATIONS (NEW)
-      ------------------------------------------- */
-      @keyframes floatMotion {
-        0%,
-        100% {
-          transform: translateY(0px);
-        }
-        50% {
-          transform: translateY(-8px);
-        }
-      }
-      .float-1 {
-        animation: floatMotion 5s ease-in-out infinite;
-      }
-      .float-2 {
-        animation: floatMotion 6s ease-in-out infinite 0.5s;
-      }
-      .float-3 {
-        animation: floatMotion 7s ease-in-out infinite 1s;
-      }
-      .float-4 {
-        animation: floatMotion 8s ease-in-out infinite 1.5s;
-      }
-
-      /* -------------------------------------------
-         STICKY SCROLL-JACKING SECTION
-      ------------------------------------------- */
-      .hero-scroll-container {
-        /* ความยาวจะถูกคำนวณอัตโนมัติใน JS เพื่อให้มีระยะหน่วงและลดความไวในการรูด */
-        position: relative;
-        z-index: 10;
+        overflow: hidden;
       }
 
       .sticky-scene {
-        position: sticky;
-        top: 0;
-        height: 100vh;
+        position: relative;
         width: 100%;
+        height: 100%;
         display: flex;
-        flex-direction: column;
-        justify-content: center;
         align-items: center;
-        background-image: var(--sticky-scene-bg);
-        perspective: 1200px;
-        overflow: hidden;
-        transition:
-          filter 0.8s cubic-bezier(0.4, 0, 0.2, 1),
-          background-image 0.4s ease;
       }
 
-      body.is-expanded .sticky-scene {
-        filter: blur(8px) brightness(0.9);
-        pointer-events: none;
+      /* --- Infinite Carousel Wrapper --- */
+      .carousel-wrapper {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        touch-action: pan-y; /* ยอมให้เลื่อนขึ้นลงเพื่ออ่าน Content ข้างล่างได้ แต่ดักจับการปัดซ้ายขวา */
+        cursor: grab;
+        z-index: 5;
+        overflow: hidden;
+      }
+      .carousel-wrapper:active {
+        cursor: grabbing;
       }
 
       .folder-stage {
-        position: relative;
-        width: var(--folder-w);
-        height: var(--folder-h);
-        transform-style: preserve-3d;
-        margin-top: 60px;
+        position: absolute;
+        top: 54%; /* ขยับลงมานิดนึงเพื่อหลบ Header */
+        left: 50%;
+        width: 0;
+        height: 0; /* เป็นจุดศูนย์กลางของจักรวาล 3D */
+        perspective: 800px; /* เพิ่มมิติ 3D ให้การหัน 45 องศาดูสมจริง */
       }
 
       .folder-card {
         position: absolute;
-        width: 100%;
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-end;
-        border-radius: 24px;
-        transition: box-shadow 0.3s;
-        pointer-events: none;
+        width: var(--folder-w);
+        height: 270px; /* ย่อความสูงลงเพราะเอาคำบรรยาย (Desc) ออกแล้ว */
+        left: 0;
+        top: 0;
+        margin-left: calc(var(--folder-w) / -2);
+        margin-top: -135px;
+        transform-origin: center center;
+        will-change: transform, filter, opacity;
       }
 
-      .folder-card.is-active {
-        pointer-events: auto;
+      .folder-card:not(.is-active) {
+        pointer-events: none; /* กันยูสเซอร์กดใบที่เบลออยู่ */
       }
 
       .folder-back {
@@ -294,131 +128,59 @@
         width: 100%;
         height: 100%;
         border-radius: 24px;
-        box-shadow:
-          inset 0 0 0 1px rgba(255, 255, 255, 0.8),
-          0 20px 40px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
       }
 
       .folder-tab {
         position: absolute;
-        top: -34px;
+        top: -30px; /* ติ่งด้านบน */
         left: 0;
-        height: 60px;
-        width: 140px;
+        height: 50px;
+        width: 120px;
         background-color: inherit;
         border-radius: 16px 16px 0 0;
-        clip-path: polygon(0 0, 85% 0, 100% 100%, 0 100%);
-        padding: 10px 0 0 20px;
+        clip-path: polygon(0 0, 80% 0, 100% 100%, 0 100%);
+        padding: 8px 0 0 16px;
         font-family: var(--font-mono);
-        font-size: 11px;
-        font-weight: 600;
-        letter-spacing: 1px;
+        font-size: 10px;
+        font-weight: 700;
         text-transform: uppercase;
-        box-shadow:
-          inset 0 1px 0 rgba(255, 255, 255, 0.6),
-          inset 1px 0 0 rgba(255, 255, 255, 0.6);
+        letter-spacing: 1px;
       }
 
       .folder-front {
         position: relative;
         width: 100%;
-        height: 90%;
+        height: 100%;
         background: var(--folder-front-bg);
-        backdrop-filter: blur(16px);
-        -webkit-backdrop-filter: blur(16px);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
         border-radius: 16px 16px 24px 24px;
         border: 1px solid var(--folder-front-border);
-        box-shadow: inset 0 2px 20px rgba(255, 230, 180, 0.05);
         padding: 24px;
         display: flex;
         flex-direction: column;
         z-index: 3;
-        color: var(--text);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
       }
 
-      .folder-front h2 {
-        font-size: 24px;
-        font-weight: 800;
-        margin-bottom: 6px;
-        line-height: 1.2;
-        letter-spacing: -0.5px;
-      }
-      .folder-details {
-        font-size: 13px;
-        line-height: 1.5;
-        opacity: 0.75;
-        margin-bottom: 12px;
-        display: -webkit-box;
-        -webkit-line-clamp: 3;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
-      }
-      .stats-grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 12px;
-        margin-top: auto;
-        padding-top: 12px;
-        border-top: 1px solid rgba(0, 0, 0, 0.06);
-      }
-      .stat-item span {
-        display: block;
-        font-size: 10px;
-        font-family: var(--font-mono);
-        text-transform: uppercase;
-        opacity: 0.5;
-        margin-bottom: 2px;
-      }
-      .stat-item p {
-        font-weight: 700;
-        font-size: 13px;
-      }
-
-      .action-btn {
-        margin-top: 16px;
-        padding: 14px 0;
-        width: 100%;
-        border-radius: 12px;
-        background: var(--btn-bg);
-        color: var(--text);
-        font-weight: 700;
-        font-size: 12px;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        transition: all 0.3s ease;
-        cursor: pointer;
-        position: relative;
-        z-index: 10;
-      }
-      .action-btn:hover {
-        background: var(--btn-hover-bg);
-        color: var(--btn-hover-text);
-        transform: translateY(-2px);
-      }
-
-      /* -------------------------------------------
-         LIGHTBOX SECTION
-      ------------------------------------------- */
+      /* --- Lightbox --- */
       .lightbox-overlay {
         position: fixed;
         top: 0;
         left: 0;
         width: 100vw;
         height: 100vh;
-        background: var(--lightbox-overlay);
-        backdrop-filter: blur(8px);
-        -webkit-backdrop-filter: blur(8px);
+        background: rgba(0, 0, 0, 0.85);
+        backdrop-filter: blur(10px);
         z-index: 9999;
         display: flex;
         justify-content: center;
         align-items: center;
         opacity: 0;
         pointer-events: none;
-        transition:
-          opacity 0.4s var(--ease-out),
-          background 0.4s ease;
+        transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1);
       }
-
       .lightbox-overlay.active {
         opacity: 1;
         pointer-events: auto;
@@ -426,624 +188,155 @@
 
       .lightbox-content {
         width: 90vw;
-        max-width: 450px;
-        aspect-ratio: 3 / 4;
-        background: var(--lightbox-bg);
-        border-radius: 24px;
-        box-shadow: 0 40px 80px -20px rgba(0, 0, 0, 0.2);
-        position: relative;
-        overflow: hidden;
-        transform: scale(0.95) translateY(20px);
-        opacity: 0;
-        transition:
-          transform 0.4s var(--ease-out),
-          opacity 0.3s ease-out,
-          background 0.4s ease;
-      }
-
-      .lightbox-overlay.active .lightbox-content {
-        transform: scale(1) translateY(0);
-        opacity: 1;
-        transition:
-          transform 0.6s var(--ease-bounce) 0.05s,
-          opacity 0.5s ease 0.05s,
-          background 0.4s ease;
-      }
-
-      .lightbox-image {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-      }
-
-      .lightbox-fade-bottom {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        height: 50%;
-        background: linear-gradient(
-          to top,
-          rgba(15, 15, 18, 0.85) 0%,
-          rgba(15, 15, 18, 0.4) 50%,
-          transparent 100%
-        );
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-end;
-        padding: 32px 24px;
-      }
-
-      .lightbox-title-preview {
-        color: white;
-        font-size: 24px;
-        font-weight: 800;
-        margin-bottom: 4px;
-      }
-      .lightbox-desc-preview {
-        color: rgba(255, 255, 255, 0.7);
-        font-size: 14px;
-        margin-bottom: 24px;
-        display: -webkit-box;
-        -webkit-line-clamp: 2;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
-      }
-
-      .btn-see-details {
-        width: 100%;
-        background: #ffffff;
-        color: #18181b;
-        padding: 16px 0;
-        border-radius: 100px;
-        font-weight: 800;
-        font-size: 14px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 8px;
-        text-decoration: none;
-        transition:
-          transform 0.3s,
-          box-shadow 0.3s;
-      }
-      .btn-see-details:hover {
-        transform: translateY(-2px) scale(1.02);
-        box-shadow: 0 10px 25px rgba(255, 255, 255, 0.2);
-      }
-
-      .btn-close-inside {
-        position: absolute;
-        top: 16px;
-        right: 16px;
-        width: 40px;
-        height: 40px;
-        background: rgba(255, 255, 255, 0.2);
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
-        color: white;
-        border-radius: 50%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        cursor: pointer;
-        transition: background 0.3s;
-        border: 1px solid rgba(255, 255, 255, 0.1);
-      }
-      .btn-close-inside:hover {
-        background: rgba(255, 255, 255, 0.3);
-      }
-
-      /* -------------------------------------------
-         STATIC CONTENT SECTION
-      ------------------------------------------- */
-      .content-section {
-        position: relative;
-        z-index: 20;
-        background: var(--content-bg);
-        border-top-left-radius: 40px;
-        border-top-right-radius: 40px;
-        box-shadow: 0 -20px 40px rgba(0, 0, 0, 0.02);
-        padding: 80px 20px 120px;
-        transition: background 0.4s ease;
-      }
-
-      .skills-container {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 10px;
-        justify-content: center;
-        margin-bottom: 80px;
-        max-width: 850px;
-        margin-left: auto;
-        margin-right: auto;
-      }
-
-      .pill-tag {
-        padding: 10px 22px;
-        border-radius: 100px;
-        font-size: 14px;
-        font-weight: 600;
-        letter-spacing: -0.3px;
-        transition: all 0.3s ease;
-        cursor: default;
-        display: inline-flex;
-        align-items: center;
-      }
-      .pill-tag:hover {
-        transform: translateY(-2px) scale(1.02);
-      }
-
-      .tag-highlight {
-        background-color: #eef2ff;
-        color: #3730a3;
-        border: 1px solid #c7d2fe;
-      }
-      .tag-green {
-        background-color: #e8f5e9;
-        color: #1b5e20;
-      }
-      .tag-purple {
-        background-color: #f3e5f5;
-        color: #4a148c;
-      }
-      .tag-orange {
-        background-color: #fff3e0;
-        color: #e65100;
-      }
-      .tag-blue {
-        background-color: #e1f5fe;
-        color: #01579b;
-      }
-      .tag-pink {
-        background-color: #fbe9e7;
-        color: #bf360c;
-      }
-      .tag-cyan {
-        background-color: #e0f7fa;
-        color: #006064;
-      }
-      .tag-gray {
-        background-color: var(--bg);
-        color: var(--text);
-        border: 1px solid var(--border-color);
-      }
-      .tag-outline {
-        background-color: transparent;
-        color: var(--text);
-        border: 1px solid var(--border-color);
-        opacity: 0.8;
-      }
-
-      .portfolio-grid {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 32px;
-        max-width: 1000px;
-        margin: 0 auto 80px auto;
-      }
-
-      .work-card {
-        background: var(--card-bg);
-        border: 1px solid var(--border-color);
+        max-width: 400px;
+        background: #fff;
         border-radius: 32px;
-        padding: 16px;
-        transition: all 0.4s ease;
-        display: flex;
-        flex-direction: column;
-      }
-
-      .work-card:hover {
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.06);
-        transform: translateY(-4px);
-        border-color: var(--text);
-      }
-
-      .dark .work-card:hover {
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
-        border-color: #52525b;
-      }
-
-      .work-image-wrap {
-        width: 100%;
-        border-radius: 20px;
         overflow: hidden;
-        background: var(--bg);
-        margin-bottom: 24px;
-        aspect-ratio: 4/3;
+        transform: scale(0.9);
+        transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+      }
+      .active .lightbox-content {
+        transform: scale(1);
       }
 
-      .work-image-wrap img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        transition: transform 0.6s ease;
+      .hero-element {
+        opacity: 0;
+        transform: translateY(20px);
+        animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
       }
-
-      .work-card:hover .work-image-wrap img {
-        transform: scale(1.05);
-      }
-
-      .work-content {
-        padding: 0 12px 12px;
-        display: flex;
-        flex-direction: column;
-      }
-      .work-meta {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        margin-bottom: 16px;
-      }
-      .work-tag {
-        padding: 6px 14px;
-        border-radius: 100px;
-        font-size: 11px;
-        font-family: var(--font-mono);
-        font-weight: 700;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-      }
-
-      @media (max-width: 768px) {
-        .portfolio-grid {
-          grid-template-columns: 1fr;
-          gap: 24px;
+      @keyframes fadeUp {
+        to {
+          opacity: 1;
+          transform: translateY(0);
         }
-        .work-card {
-          border-radius: 24px;
-          padding: 12px;
+      }
+
+      /* Animation for swipe hint */
+      @keyframes swipeHint {
+        0%,
+        100% {
+          transform: translateX(0);
         }
+        50% {
+          transform: translateX(5px);
+        }
+      }
+      .animate-swipe {
+        display: inline-block;
+        animation: swipeHint 1.5s infinite ease-in-out;
       }
     </style>
   </head>
   <body>
-    <!-- Theme Toggle Button -->
+    <!-- Theme Toggle -->
     <button
       id="themeToggle"
-      class="fixed top-6 right-6 z-50 w-12 h-12 rounded-full bg-white/70 dark:bg-black/50 backdrop-blur-md border border-gray-200 dark:border-zinc-800 flex items-center justify-center transition-transform hover:scale-105"
-      aria-label="Toggle Dark Mode"
+      class="fixed top-6 right-6 z-50 w-12 h-12 rounded-full bg-white/80 dark:bg-zinc-900/80 backdrop-blur-md border border-gray-200 dark:border-zinc-800 flex items-center justify-center shadow-lg"
     >
-      <!-- Sun Icon (shows in dark mode) -->
       <svg
-        class="hidden dark:block w-5 h-5 text-yellow-400"
-        fill="none"
-        stroke="currentColor"
-        viewBox="0 0 24 24"
+        class="dark:block hidden w-5 h-5 text-yellow-400"
+        fill="currentColor"
+        viewBox="0 0 20 20"
       >
         <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
-          d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"
+          d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"
         ></path>
       </svg>
-      <!-- Moon Icon (shows in light mode) -->
       <svg
-        class="block dark:hidden w-5 h-5 text-gray-700"
-        fill="none"
-        stroke="currentColor"
-        viewBox="0 0 24 24"
+        class="dark:hidden block w-5 h-5 text-zinc-800"
+        fill="currentColor"
+        viewBox="0 0 20 20"
       >
         <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
-          d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
+          d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"
         ></path>
       </svg>
     </button>
 
-    <!-- Lightbox Overlay -->
-    <div id="lightboxOverlay" class="lightbox-overlay">
-      <div class="lightbox-content">
-        <button
-          class="btn-close-inside"
-          onclick="closeProject()"
-          aria-label="Close"
-        >
-          <svg
-            width="20"
-            height="20"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-          >
-            <line x1="18" y1="6" x2="6" y2="18"></line>
-            <line x1="6" y1="6" x2="18" y2="18"></line>
-          </svg>
-        </button>
-        <img
-          id="lightboxImage"
-          class="lightbox-image"
-          src=""
-          alt="Project Visual"
-        />
-        <div class="lightbox-fade-bottom">
-          <h3 id="lightboxTitle" class="lightbox-title-preview">
-            Project Title
-          </h3>
-          <p id="lightboxDesc" class="lightbox-desc-preview">
-            Project description preview goes here...
-          </p>
-          <a href="#" class="btn-see-details">
-            See Details
-            <svg
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2.5"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
-              <line x1="5" y1="12" x2="19" y2="12"></line>
-              <polyline points="12 5 19 12 12 19"></polyline>
-            </svg>
-          </a>
-        </div>
-      </div>
-    </div>
-
-    <!-- 1. Intro Hero Section (NEW) -->
-    <section class="intro-hero px-6">
-      <div class="max-w-3xl w-full text-center">
-        <!-- Status Badge -->
-        <div id="heroBadgeWrap">
-          <div class="hero-element delay-1 mb-10">
-            <div class="float-1">
-              <div
-                class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-800 text-xs font-mono font-semibold uppercase tracking-widest text-gray-600 dark:text-zinc-300 shadow-sm transition-transform hover:scale-105"
-              >
-                <span
-                  class="w-2 h-2 rounded-full bg-green-500 animate-pulse"
-                ></span>
-                Available for new opportunities
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Main Title -->
-        <div id="heroTitleWrap">
-          <div class="hero-element delay-2 mb-6">
-            <div class="float-2">
-              <h1
-                class="text-6xl md:text-8xl font-extrabold tracking-tighter text-[#18181b] dark:text-zinc-50 transition-colors"
-              >
-                Wachirawit.
-              </h1>
-            </div>
-          </div>
-        </div>
-
-        <!-- Subtitle / Role -->
-        <div id="heroSubtitleWrap">
-          <div class="hero-element delay-3 mb-12">
-            <div class="float-3">
-              <p
-                class="text-lg md:text-2xl text-gray-500 dark:text-zinc-400 font-medium max-w-2xl mx-auto leading-relaxed transition-colors"
-              >
-                Digital Product Designer dedicated to the
-                <span class="text-gray-900 dark:text-zinc-100"
-                  >quiet art of craft</span
-                >. Distilling years of experience into spaces that are
-                <span
-                  class="underline decoration-gray-300 dark:decoration-zinc-700"
-                  >structured, yet effortless</span
-                >.
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <!-- Minimal Quote -->
-        <div id="heroQuoteWrap">
-          <div class="hero-element delay-4 flex justify-center">
-            <div class="float-4">
-              <blockquote
-                class="quote-text text-center max-w-lg transition-colors"
-              >
-                "True craftsmanship doesn't need to shout. It is felt in the
-                deliberate choices, refined over years of quiet dedication."
-              </blockquote>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Scroll Down Indicator -->
-      <div class="scroll-indicator-wrapper">
-        <div class="hero-element delay-4">
-          <div class="scroll-indicator">
-            <span class="font-mono text-[10px] tracking-widest uppercase mb-2"
-              >Scroll</span
-            >
-            <div class="scroll-line"></div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- 2. Sticky Scroll-Jacking Section -->
-    <div class="hero-scroll-container" id="scrollContainer">
+    <!-- 1. FULL SCREEN HERO SECTION (WITH INFINITE CAROUSEL) -->
+    <div class="scroll-container" id="scrollHero">
       <div class="sticky-scene">
-        <!-- Changed Title here to avoid repeating the name -->
-        <div class="absolute top-10 left-0 w-full text-center z-10">
+        <!-- Header Hero (Wachirawit) -->
+        <div
+          class="absolute top-12 w-full text-center z-10 pointer-events-none hero-element"
+        >
           <p
-            class="font-mono text-[10px] md:text-[11px] opacity-40 uppercase tracking-[0.2em] mb-2"
+            class="font-mono text-[11px] opacity-40 uppercase tracking-[0.2em] mb-2"
           >
             Project Stack
           </p>
-          <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight">
-            Featured Works.
-          </h2>
+          <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight">
+            Wachirawit.
+          </h1>
         </div>
 
-        <div class="folder-stage" id="folderStage">
-          <!-- JS injects folders -->
+        <!-- Carousel Area -->
+        <div class="carousel-wrapper" id="carouselWrapper">
+          <div class="folder-stage" id="folderStage">
+            <!-- JS injects cards here -->
+          </div>
         </div>
 
+        <!-- Hint ด้านล่าง -->
         <div
-          class="absolute bottom-10 font-mono text-[10px] opacity-40 tracking-widest text-center w-full z-2"
+          class="absolute bottom-10 font-mono text-[10px] opacity-40 tracking-[0.2em] text-center w-full z-10 pointer-events-none transition-opacity duration-300"
+          id="scrollHint"
         >
-          KEEP SCROLLING ↓
+          <div class="mb-2"><span class="animate-swipe text-lg">→</span></div>
+          SWIPE TO EXPLORE
         </div>
       </div>
     </div>
 
-    <!-- 3. Content Section (Static Grid & Skills) -->
-    <section class="content-section">
-      <div class="max-w-6xl mx-auto">
-        <!-- Skills / Capabilities -->
-        <div class="mb-16 text-center">
-          <p
-            class="font-mono text-xs opacity-50 uppercase tracking-[0.1em] mb-6"
+    <!-- Static Content -->
+    <section
+      class="bg-white dark:bg-zinc-900 py-24 px-6 border-t border-black/5 dark:border-white/5 relative z-20"
+    >
+      <div class="max-w-4xl mx-auto text-center">
+        <h3 class="text-3xl font-extrabold mb-12">The Archive</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 text-left">
+          <div
+            class="p-8 rounded-3xl border border-zinc-200 dark:border-zinc-800"
           >
-            Core Capabilities
-          </p>
-          <div class="skills-container">
-            <div class="pill-tag tag-highlight">Innovative UX</div>
-            <div class="pill-tag tag-outline">Transformative</div>
-            <div class="pill-tag tag-green">Eco-friendly</div>
-            <div class="pill-tag tag-green">User Research</div>
-            <div class="pill-tag tag-purple">Sophisticated</div>
-            <div class="pill-tag tag-purple">Aesthetics</div>
-            <div class="pill-tag tag-orange">Design Systems</div>
-            <div class="pill-tag tag-orange">Architecture</div>
-            <div class="pill-tag tag-blue">Minimalist</div>
-            <div class="pill-tag tag-blue">Brand Identity</div>
-            <div class="pill-tag tag-pink">UX Strategy</div>
-            <div class="pill-tag tag-pink">Problem Solving</div>
-            <div class="pill-tag tag-cyan">Prototyping</div>
-            <div class="pill-tag tag-cyan">Comfortable UX</div>
-            <div class="pill-tag tag-gray">Wireframing</div>
-            <div class="pill-tag tag-highlight">Design Thinking</div>
+            <h4 class="text-xl font-bold mb-2">Design Strategy</h4>
+            <p class="opacity-60 text-sm">
+              Approaching problems with a systematic mindset to create scalable
+              solutions.
+            </p>
           </div>
-        </div>
-
-        <!-- Project Grid -->
-        <div class="mb-12 text-center">
-          <p
-            class="font-mono text-xs opacity-50 uppercase tracking-[0.1em] mb-3"
+          <div
+            class="p-8 rounded-3xl border border-zinc-200 dark:border-zinc-800"
           >
-            The Archive
-          </p>
-          <h3 class="text-3xl md:text-4xl font-extrabold tracking-tight">
-            All Projects
-          </h3>
-        </div>
-
-        <div class="portfolio-grid">
-          <!-- Card 1 -->
-          <div class="work-card">
-            <div class="work-image-wrap">
-              <img
-                src="https://placehold.co/800x600/E8F5E9/1B5E20?text=Eco+Habit"
-                alt="Eco Habit"
-              />
-            </div>
-            <div class="work-content">
-              <div class="work-meta">
-                <span class="work-tag tag-green">Research</span>
-                <span class="opacity-40 font-mono text-xs font-bold">2024</span>
-              </div>
-              <h3 class="text-2xl font-extrabold mb-2">Eco Habit</h3>
-              <p class="opacity-70 text-sm mb-6 leading-relaxed">
-                Gamified carbon footprint reduction for urban dwellers.
-                Combining user research with playful visuals.
-              </p>
-            </div>
+            <h4 class="text-xl font-bold mb-2">Visual Craft</h4>
+            <p class="opacity-60 text-sm">
+              Obsessing over details, typography, and spacing to deliver premium
+              feel.
+            </p>
           </div>
-
-          <!-- Card 2 -->
-          <div class="work-card">
-            <div class="work-image-wrap">
-              <img
-                src="https://placehold.co/800x600/F3E5F5/4A148C?text=Neo-Bank"
-                alt="Neo-Bank"
-              />
-            </div>
-            <div class="work-content">
-              <div class="work-meta">
-                <span class="work-tag tag-purple">Visual</span>
-                <span class="opacity-40 font-mono text-xs font-bold">2023</span>
-              </div>
-              <h3 class="text-2xl font-extrabold mb-2">Neo-Bank UI</h3>
-              <p class="opacity-70 text-sm mb-6 leading-relaxed">
-                Redesigning the mobile banking experience for Gen-Z with
-                minimalist visuals and high-speed interaction UX.
-              </p>
-            </div>
-          </div>
-
-          <!-- Card 3 -->
-          <div class="work-card">
-            <div class="work-image-wrap">
-              <img
-                src="https://placehold.co/800x600/FFF3E0/E65100?text=Lumina+OS"
-                alt="Lumina OS"
-              />
-            </div>
-            <div class="work-content">
-              <div class="work-meta">
-                <span class="work-tag tag-orange">System</span>
-                <span class="opacity-40 font-mono text-xs font-bold">2023</span>
-              </div>
-              <h3 class="text-2xl font-extrabold mb-2">Lumina OS</h3>
-              <p class="opacity-70 text-sm mb-6 leading-relaxed">
-                A conceptual operating system focused on spatial computing and
-                light-based notifications for ambient info.
-              </p>
-            </div>
-          </div>
-
-          <!-- Card 4 -->
-          <div class="work-card">
-            <div class="work-image-wrap">
-              <img
-                src="https://placehold.co/800x600/E1F5FE/01579B?text=Origami"
-                alt="Origami Brand"
-              />
-            </div>
-            <div class="work-content">
-              <div class="work-meta">
-                <span class="work-tag tag-blue">Branding</span>
-                <span class="opacity-40 font-mono text-xs font-bold">2022</span>
-              </div>
-              <h3 class="text-2xl font-extrabold mb-2">Origami Studio</h3>
-              <p class="opacity-70 text-sm mb-6 leading-relaxed">
-                Crafting a flexible identity for a modern architectural firm
-                using folded-paper aesthetics and solid typography.
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <!-- Footer -->
-        <div
-          class="text-center mt-16 pt-12 border-t border-gray-100 dark:border-zinc-800 transition-colors"
-        >
-          <p
-            class="font-mono text-sm opacity-50 uppercase tracking-[0.2em] mb-4"
-          >
-            Let's build something great
-          </p>
-          <a
-            href="#"
-            class="inline-block text-2xl md:text-3xl font-bold hover:text-gray-500 dark:hover:text-zinc-400 transition-colors mb-8"
-          >
-            hello@wachirawit.design
-          </a>
-          <p class="text-xs font-mono opacity-40 uppercase tracking-widest">
-            © 2024 Wachirawit. All rights reserved.
-          </p>
         </div>
       </div>
     </section>
+
+    <!-- Lightbox -->
+    <div id="lightboxOverlay" class="lightbox-overlay" onclick="closeProject()">
+      <div class="lightbox-content" onclick="event.stopPropagation()">
+        <img
+          id="lightboxImage"
+          class="w-full aspect-[3/4] object-cover"
+          src=""
+          alt=""
+        />
+        <div class="p-8 dark:bg-zinc-900 bg-white text-center">
+          <h3 id="lightboxTitle" class="text-2xl font-bold mb-6"></h3>
+          <button
+            onclick="closeProject()"
+            class="w-full py-4 bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-900 rounded-2xl font-bold"
+          >
+            Close Preview
+          </button>
+        </div>
+      </div>
+    </div>
 
     <script>
       const projects = [
@@ -1052,7 +345,6 @@
           cat: "Research",
           title: "Eco Habit",
           color: "#E8F5E9",
-          desc: "A sustainable living app focusing on gamified carbon footprint reduction for urban dwellers.",
           role: "Lead UX",
           tech: "Figma",
         },
@@ -1061,7 +353,6 @@
           cat: "Visual",
           title: "Neo-Bank",
           color: "#F3E5F5",
-          desc: "Redesigning the mobile banking experience for Gen-Z with minimalist visuals and high-speed UX.",
           role: "UI Design",
           tech: "Principle",
         },
@@ -1070,7 +361,6 @@
           cat: "System",
           title: "Lumina OS",
           color: "#FFF3E0",
-          desc: "A conceptual operating system focused on spatial computing and light-based notifications.",
           role: "Product",
           tech: "SwiftUI",
         },
@@ -1079,16 +369,14 @@
           cat: "Branding",
           title: "Origami",
           color: "#E1F5FE",
-          desc: "Crafting a flexible identity for a modern architectural firm using folded-paper aesthetics.",
           role: "Brand Lead",
           tech: "Illustrator",
         },
         {
           id: 5,
-          cat: "Case",
+          cat: "Medical",
           title: "Sync 360",
           color: "#FBE9E7",
-          desc: "Integrating wearable data into a cohesive medical dashboard for professional healthcare providers.",
           role: "UX Strategy",
           tech: "React",
         },
@@ -1097,16 +385,22 @@
           cat: "Fintech",
           title: "CoinVault",
           color: "#E0F7FA",
-          desc: "Secure cryptocurrency wallet interface focusing on transparent transaction history.",
           role: "UI/UX",
           tech: "Framer",
         },
       ];
 
       const stage = document.getElementById("folderStage");
-      const scrollContainer = document.getElementById("scrollContainer");
-      let activeIndex = 0;
-      let isExpanded = false;
+      const wrapper = document.getElementById("carouselWrapper");
+      const N = projects.length;
+
+      // ตัวแปรสำหรับฟิสิกส์การสไลด์แบบไร้จุดจบ (Infinite Loop)
+      let targetProgress = 0;
+      let currentProgress = 0;
+      let isDragging = false;
+      let startX = 0;
+      let startProgress = 0;
+      let isLightboxOpen = false;
 
       function initFolders() {
         stage.innerHTML = "";
@@ -1114,208 +408,168 @@
           const card = document.createElement("div");
           card.className = "folder-card";
 
-          // กำหนดสีปุ่มมุมขวา (โปรเจกต์ 6 สีแดงตามเรฟเฟอเรนซ์ นอกนั้นสีเข้ม/สว่างตามธีม)
-          // ตรงนี้สามารถเปลี่ยนเป็นสีตาม proj.color หรือสีแบรนด์ของคุณเปอร์ได้เลยครับ
-          const btnBgColor = i === 5 ? "#FF0B0B" : "var(--text)";
-          const btnTextColor = i === 5 ? "#FFFFFF" : "var(--bg)";
+          const btnBg = "var(--text)";
+          const btnText = "var(--bg)";
 
+          // โครงสร้างใหม่ที่เอา Desc ออก และดันปุ่มลงไปติดขอบล่าง
           card.innerHTML = `
-      <div class="folder-back" style="background-color: ${proj.color}">
-        <div class="folder-tab">${proj.cat}</div>
-      </div>
-      <div class="folder-front">
-        
-        <div class="flex justify-between items-start">
-          <div>
-            <span class="font-mono text-[10px] mb-1 block opacity-40 font-bold uppercase tracking-wider">Project 0${i + 1}</span>
-            <h2 class="text-2xl md:text-3xl font-extrabold tracking-tight mt-1">${proj.title}</h2>
-          </div>
-          
-          <button onclick="openProject(${i})" class="flex-shrink-0 flex items-center justify-center px-5 h-10 md:h-12 rounded-xl font-bold text-[11px] uppercase tracking-widest transition-transform hover:scale-105 hover:shadow-lg" style="background-color: ${btnBgColor}; color: ${btnTextColor};">
-            Preview
-          </button>
-        </div>
+            <div class="folder-back" style="background-color: ${proj.color}">
+              <div class="folder-tab">${proj.cat}</div>
+            </div>
+            <div class="folder-front">
+              
+              <div class="mb-4">
+                <span class="font-mono text-[10px] opacity-40 font-bold uppercase tracking-widest">Project 0${i + 1}</span>
+                <h2 class="text-3xl font-extrabold tracking-tight mt-1 leading-none">${proj.title}</h2>
+              </div>
+              
+              <!-- ข้อมูล Role/Tools ตรงกลาง -->
+              <div class="grid grid-cols-2 gap-4 mb-4 mt-auto border-t border-black/5 dark:border-white/5 pt-4">
+                <div><span class="text-[10px] font-mono opacity-40 uppercase block mb-1">Role</span><p class="font-bold text-xs">${proj.role}</p></div>
+                <div><span class="text-[10px] font-mono opacity-40 uppercase block mb-1">Tools</span><p class="font-bold text-xs">${proj.tech}</p></div>
+              </div>
 
-        <div class="w-full h-[1px] bg-gray-200 dark:bg-zinc-800 my-5 md:my-6"></div>
-
-        <div class="grid grid-cols-2 gap-4">
-          <div>
-            <span class="text-[10px] font-mono uppercase opacity-40 font-semibold tracking-wider block mb-1">Role</span>
-            <p class="font-bold text-sm text-gray-900 dark:text-zinc-100">${proj.role}</p>
-          </div>
-          <div>
-            <span class="text-[10px] font-mono uppercase opacity-40 font-semibold tracking-wider block mb-1">Tools</span>
-            <p class="font-bold text-sm text-gray-900 dark:text-zinc-100">${proj.tech}</p>
-          </div>
-        </div>
-        
-        </div>
-    `;
+              <!-- ปุ่ม Preview ด้านล่างสุด -->
+              <button onclick="openProject(${i})" class="w-full h-12 rounded-xl font-bold text-[11px] uppercase tracking-widest transition-transform active:scale-95 shadow-md flex items-center justify-center gap-2" style="background-color: ${btnBg}; color: ${btnText}">
+                Preview
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+              </button>
+            </div>
+          `;
           stage.appendChild(card);
         });
 
-        // ส่วนของการคำนวณระยะ Scroll
-        const isMobile = window.innerWidth < 768;
-        const scrollMultiplier = isMobile ? 70 : 110;
-        const startBuffer = isMobile ? 120 : 180;
-
-        scrollContainer.style.height =
-          startBuffer + projects.length * scrollMultiplier + "vh";
-
-        updateScrollPositions();
+        requestAnimationFrame(renderLoop);
       }
 
-      function updateScrollPositions() {
-        if (isExpanded) return;
+      // ฟังก์ชันหัวใจสำคัญ: จัดการ 3D Cover Flow แบบ Infinite
+      function renderLoop() {
+        // ใช้ Lerp (Linear Interpolation) ให้การเลื่อนสมูท
+        currentProgress += (targetProgress - currentProgress) * 0.1;
 
-        const scrollY = window.scrollY;
-
-        // --- Hero Parallax & Fade Effect ---
-        // เปลี่ยนมาจับ ID ตัวกรอบนอกสุด (Wrap) เพื่อไม่ให้ชนกับ CSS Animation
-        const badgeWrap = document.getElementById("heroBadgeWrap");
-        const titleWrap = document.getElementById("heroTitleWrap");
-        const subtitleWrap = document.getElementById("heroSubtitleWrap");
-        const quoteWrap = document.getElementById("heroQuoteWrap");
-
-        if (scrollY < window.innerHeight) {
-          if (badgeWrap) {
-            badgeWrap.style.transform = `translate3d(0, ${scrollY * 0.4}px, 0)`;
-            badgeWrap.style.opacity = Math.max(0, 1 - scrollY / 250);
-          }
-          if (titleWrap) {
-            titleWrap.style.transform = `translate3d(0, ${scrollY * 0.1}px, 0)`;
-            titleWrap.style.opacity = Math.max(0, 1 - scrollY / 400);
-          }
-          if (subtitleWrap) {
-            subtitleWrap.style.transform = `translate3d(0, ${scrollY * 0.25}px, 0)`;
-            subtitleWrap.style.opacity = Math.max(0, 1 - scrollY / 500);
-          }
-          if (quoteWrap) {
-            quoteWrap.style.transform = `translate3d(0, ${scrollY * 0.35}px, 0)`;
-            quoteWrap.style.opacity = Math.max(0, 1 - scrollY / 600);
-          }
-        }
-
-        // คำนวณระยะห่างของ container โฟลเดอร์จากขอบจอบนสุด
-        const containerRect = scrollContainer.getBoundingClientRect();
-
-        // เราจะเริ่มคำนวณก็ต่อเมื่อ scrollContainer ชนขอบจอบน
-        let scrolledPastStickyTop = -containerRect.top;
-
-        const maxScroll = scrollContainer.offsetHeight - window.innerHeight;
-
-        // กำหนดระยะหน่วง (Pause) ก่อนที่โฟลเดอร์จะเริ่มเลื่อน
-        const startBuffer = window.innerHeight * 1.2; // หยุดพักให้เห็นหน้าแรกก่อน 1.2 หน้าจอ
-        const endBuffer = window.innerHeight * 0.5; // เผื่อระยะตอนท้ายนิดหน่อย
-
-        const activeScrollSpace = maxScroll - startBuffer - endBuffer;
-
-        // คำนวณ Progress (0.0 ถึง 1.0)
-        let progress = 0;
-        if (scrolledPastStickyTop > startBuffer) {
-          progress = (scrolledPastStickyTop - startBuffer) / activeScrollSpace;
-        }
-
-        if (progress < 0) progress = 0;
-        if (progress > 1) progress = 1;
-
-        // ระบบ Magnetic Gear-lock (หนืดตอนเข้าใกล้โฟลเดอร์)
-        const rawIndex = progress * (projects.length - 1);
-        const baseIndex = Math.floor(rawIndex);
-        const fraction = rawIndex - baseIndex;
-
-        const gearFraction =
-          fraction *
-          fraction *
-          fraction *
-          (fraction * (fraction * 6 - 15) + 10);
-        const virtualIndex = baseIndex + gearFraction;
-
-        activeIndex = Math.round(virtualIndex);
+        // ระยะห่างระหว่างไพ่ (Spacing)
+        const spacing = window.innerWidth < 768 ? 160 : 250;
 
         const cards = document.querySelectorAll(".folder-card");
-
-        // อัปเดตสไตล์ของแต่ละโฟลเดอร์ตาม Index
         cards.forEach((card, i) => {
-          const diff = i - virtualIndex;
+          // คำนวณความต่างแบบลูป (Modulo Math)
+          // เช่น ถ้าเราอยู่ที่ใบที่ 1 (index 0) ใบที่ 6 (index 5) จะถูกคำนวณให้ไปอยู่ด้านซ้ายสุดแบบติดลบ (-1)
+          let diff = (((i - currentProgress) % N) + N) % N;
+          if (diff > N / 2) diff -= N;
 
-          let yOffset = 0,
-            zOffset = 0,
-            scale = 1,
-            opacity = 1,
-            rotateX = 0,
-            blurAmount = 0;
+          const isActive = Math.abs(diff) < 0.5;
+          if (isActive) card.classList.add("is-active");
+          else card.classList.remove("is-active");
 
-          if (Math.abs(diff) < 0.4) {
-            card.classList.add("is-active");
-          } else {
-            card.classList.remove("is-active");
-          }
+          // Physics - การหัน 45 องศา (Cover Flow)
+          const x = diff * spacing;
+          const z = Math.abs(diff) * -120; // ดันใบที่ไม่ได้เลือกไปข้างหลัง
 
-          if (diff >= 0) {
-            yOffset = diff * -75;
-            zOffset = diff * -80;
-            scale = 1 - diff * 0.05;
-            opacity = 1 - diff * 0.15;
-            rotateX = diff * 4;
-            blurAmount = diff * 1.5;
+          // นี่คือจุดเด่นที่คุณเปอร์ชอบ: เอียงการ์ด 45 องศา (หันหน้าเข้าหาตรงกลาง)
+          const rotateY = diff * -45;
 
-            card.style.boxShadow =
-              diff < 0.5
-                ? "0 30px 60px rgba(0,0,0,0.15)"
-                : "0 10px 30px rgba(0,0,0,0.05)";
-          } else {
-            const absDiff = Math.abs(diff);
-            yOffset = absDiff * 200;
-            zOffset = absDiff * 50;
-            scale = 1 + absDiff * 0.05;
-            opacity = 1 - absDiff * 1.2;
-            rotateX = diff * 2;
-            blurAmount = absDiff * 4;
-          }
+          const scale = Math.max(0.7, 1 - Math.abs(diff) * 0.1);
+          const blur = Math.max(0, Math.abs(diff) * 3);
+          const opacity = Math.max(0, 1 - Math.abs(diff) * 0.4);
+          const zIndex = 100 - Math.round(Math.abs(diff) * 10);
 
-          card.style.zIndex = 100 - Math.round(Math.abs(diff));
-          card.style.opacity = Math.max(0, opacity);
-          card.style.filter =
-            blurAmount > 0.1 ? `blur(${blurAmount}px)` : "none";
-          card.style.transform = `translateY(${yOffset}px) translateZ(${zOffset}px) rotateX(${-rotateX}deg) scale(${scale})`;
+          card.style.transform = `translateX(${x}px) translateZ(${z}px) rotateY(${rotateY}deg) scale(${scale})`;
+          card.style.zIndex = zIndex;
+          card.style.filter = `blur(${blur}px)`;
+          card.style.opacity = opacity;
+
+          // บังคับให้การ์ดรอบข้างกดไม่ได้ ป้องกันการลั่น
+          card.style.pointerEvents = isActive ? "auto" : "none";
         });
+
+        // ซ่อน Hint เมื่อเริ่มปัด
+        const hint = document.getElementById("scrollHint");
+        if (hint && Math.abs(currentProgress) > 0.1) {
+          hint.style.opacity = "0";
+        }
+
+        requestAnimationFrame(renderLoop);
       }
 
-      window.addEventListener(
-        "scroll",
-        () => {
-          requestAnimationFrame(updateScrollPositions);
+      // --- ระบบจับการปัด (Drag & Swipe) ---
+      function handleDragStart(e) {
+        if (isLightboxOpen) return;
+        isDragging = true;
+        startX = e.type.includes("mouse") ? e.pageX : e.touches[0].pageX;
+        startProgress = targetProgress;
+      }
+
+      function handleDragMove(e) {
+        if (!isDragging) return;
+        const currentX = e.type.includes("mouse")
+          ? e.pageX
+          : e.touches[0].pageX;
+        const diffX = currentX - startX;
+        // ปรับตัวเลขหาร (250) เพื่อความหนืด/ไว ในการลากนิ้ว
+        targetProgress = startProgress - diffX / 250;
+      }
+
+      function handleDragEnd() {
+        if (!isDragging) return;
+        isDragging = false;
+        // ดีดตัวกลับ (Snap) ให้ลงล็อกตำแหน่งแบบเป๊ะๆ 1, 2, 3...
+        targetProgress = Math.round(targetProgress);
+      }
+
+      // รองรับเมาส์บน Desktop (คลิกแล้วลาก)
+      wrapper.addEventListener("mousedown", handleDragStart);
+      window.addEventListener("mousemove", handleDragMove);
+      window.addEventListener("mouseup", handleDragEnd);
+      window.addEventListener("mouseleave", handleDragEnd);
+
+      // รองรับการทัชบนมือถือ (ปัดหน้าจอ)
+      wrapper.addEventListener("touchstart", handleDragStart, {
+        passive: true,
+      });
+      window.addEventListener("touchmove", handleDragMove, { passive: true });
+      window.addEventListener("touchend", handleDragEnd);
+
+      // --- อัปเดตใหม่: รองรับ Apple Mouse / Trackpad (Wheel / Scroll แนวนอน) ---
+      let wheelTimeout;
+      wrapper.addEventListener(
+        "wheel",
+        (e) => {
+          if (isLightboxOpen) return;
+
+          // เช็คว่าผู้ใช้กำลังไถ "แนวนอน" (deltaX) มากกว่า "แนวตั้ง" (deltaY)
+          if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) {
+            e.preventDefault(); // ป้องกันเบราว์เซอร์เปลี่ยนหน้า (Back/Forward swipe)
+
+            // ปรับความไวของการไถ Trackpad (เพิ่ม/ลด 0.005 ได้ตามความชอบ)
+            targetProgress += e.deltaX * 0.005;
+
+            // เมื่อหยุดไถ Trackpad เป็นเวลา 150ms ให้ดีดตัว (Snap) เข้าล็อกการ์ดที่ใกล้ที่สุด
+            clearTimeout(wheelTimeout);
+            wheelTimeout = setTimeout(() => {
+              targetProgress = Math.round(targetProgress);
+            }, 150);
+          }
         },
-        { passive: true },
+        { passive: false },
       );
 
-      function openProject(index) {
-        if (activeIndex !== index) return;
-        isExpanded = true;
-        document.body.classList.add("is-expanded");
-
-        const proj = projects[index];
-        const hexColor = proj.color.substring(1);
+      // --- Lightbox Logic ---
+      function openProject(i) {
+        isLightboxOpen = true;
+        const proj = projects[i];
+        const hexColor = proj.color.replace("#", "");
         const safeTitle = proj.title.replace(/\s+/g, "+");
 
         document.getElementById("lightboxImage").src =
           `https://placehold.co/600x800/${hexColor}/18181B?text=${safeTitle}+3:4`;
         document.getElementById("lightboxTitle").textContent = proj.title;
-        document.getElementById("lightboxDesc").textContent = proj.desc;
         document.getElementById("lightboxOverlay").classList.add("active");
       }
 
       function closeProject() {
-        isExpanded = false;
-        document.body.classList.remove("is-expanded");
+        isLightboxOpen = false;
         document.getElementById("lightboxOverlay").classList.remove("active");
-
-        // รีเฟรชตำแหน่งการ์ดอีกครั้งเผื่อเกิดบัคตอนปิด
-        requestAnimationFrame(updateScrollPositions);
       }
-
-      window.onload = initFolders;
 
       // Theme Toggle Logic
       const themeToggleBtn = document.getElementById("themeToggle");
@@ -1333,12 +587,12 @@
 
       themeToggleBtn.addEventListener("click", () => {
         htmlElement.classList.toggle("dark");
-        if (htmlElement.classList.contains("dark")) {
-          localStorage.theme = "dark";
-        } else {
-          localStorage.theme = "light";
-        }
+        localStorage.theme = htmlElement.classList.contains("dark")
+          ? "dark"
+          : "light";
       });
+
+      window.onload = initFolders;
     </script>
   </body>
 </html>
