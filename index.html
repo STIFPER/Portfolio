@@ -22,208 +22,206 @@
     </script>
 
     <style>
-      :root {
-        --bg: #f4f4f5;
-        --text: #18181b;
-        --font-main: "Manrope", sans-serif;
-        --font-mono: "IBM Plex Mono", monospace;
-        --font-serif: "Playfair Display", serif;
-        --folder-w: min(
-          calc(100vw - 64px),
-          320px
-        ); /* ปรับความกว้างนิดหน่อยให้พอดีกับการหัน 45 องศา */
-        --folder-front-bg: linear-gradient(
-          135deg,
-          rgba(255, 255, 255, 0.95) 0%,
-          rgba(255, 250, 240, 0.8) 50%,
-          rgba(255, 255, 255, 0.4) 100%
-        );
-        --folder-front-border: rgba(255, 255, 255, 0.9);
+            :root {
+              --bg: #f4f4f5;
+              --text: #18181b;
+              --font-main: "Manrope", sans-serif;
+              --font-mono: "IBM Plex Mono", monospace;
+              --font-serif: "Playfair Display", serif;
+              --folder-w: min(
+                calc(100vw - 64px),
+                320px
+              ); /* ปรับความกว้างนิดหน่อยให้พอดีกับการหัน 45 องศา */
+              --folder-front-bg: linear-gradient(
+                135deg,
+                rgba(255, 255, 255, 0.95) 0%,
+                rgba(255, 250, 240, 0.8) 50%,
+                rgba(255, 255, 255, 0.4) 100%
+              );
+              --folder-front-border: rgba(255, 255, 255, 0.9);
+            }
+
+            .dark {
+              --bg: #09090b;
+              --text: #fafafa;
+              --folder-front-bg: linear-gradient(
+                135deg,
+                rgba(39, 39, 42, 0.95) 0%,
+                rgba(24, 24, 27, 0.8) 50%,
+                rgba(9, 9, 11, 0.6) 100%
+              );
+              --folder-front-border: rgba(255, 255, 255, 0.05);
+            }
+
+            body {
+              background-color: var(--bg);
+              color: var(--text);
+              font-family: var(--font-main);
+              margin: 0;
+              overflow-x: hidden;
+            }
+
+            /* --- FULL SCREEN HERO SECTION --- */
+            .scroll-container {
+              position: relative;
+              width: 100vw;
+              height: 100vh; /* ให้ Hero เต็มหน้าจอพอดี */
+              display: flex;
+              flex-direction: column;
+              justify-content: center;
+              overflow: hidden;
+            }
+
+            .sticky-scene {
+              position: relative;
+              width: 100%;
+              height: 100%;
+              display: flex;
+              align-items: center;
+            }
+
+            /* --- Infinite Carousel Wrapper --- */
+            .carousel-wrapper {
+              position: absolute;
+              top: 0;
+              left: 0;
+              width: 100%;
+              height: 100%;
+              touch-action: pan-y; /* ยอมให้เลื่อนขึ้นลงเพื่ออ่าน Content ข้างล่างได้ แต่ดักจับการปัดซ้ายขวา */
+              cursor: grab;
+              z-index: 5;
+              overflow: hidden;
+            }
+            .carousel-wrapper:active {
+              cursor: grabbing;
+            }
+
+            .folder-stage {
+              position: absolute;
+              top: 54%; /* ขยับลงมานิดนึงเพื่อหลบ Header */
+              left: 50%;
+              width: 0;
+              height: 0; /* เป็นจุดศูนย์กลางของจักรวาล 3D */
+              perspective: 800px; /* เพิ่มมิติ 3D ให้การหัน 45 องศาดูสมจริง */
+            }
+
+            .folder-card {
+              position: absolute;
+              width: var(--folder-w);
+              height: 270px; /* ย่อความสูงลงเพราะเอาคำบรรยาย (Desc) ออกแล้ว */
+              left: 0;
+              top: 0;
+              margin-left: calc(var(--folder-w) / -2);
+              margin-top: -135px;
+              transform-origin: center center;
+            will-change: transform, opacity;
       }
 
-      .dark {
-        --bg: #09090b;
-        --text: #fafafa;
-        --folder-front-bg: linear-gradient(
-          135deg,
-          rgba(39, 39, 42, 0.95) 0%,
-          rgba(24, 24, 27, 0.8) 50%,
-          rgba(9, 9, 11, 0.6) 100%
-        );
-        --folder-front-border: rgba(255, 255, 255, 0.05);
-      }
+            .folder-card:not(.is-active) {
+              pointer-events: none; /* กันยูสเซอร์กดใบที่เบลออยู่ */
+            }
 
-      body {
-        background-color: var(--bg);
-        color: var(--text);
-        font-family: var(--font-main);
-        margin: 0;
-        overflow-x: hidden;
-      }
+            .folder-back {
+              position: absolute;
+              top: 0;
+              left: 0;
+              width: 100%;
+              height: 100%;
+              border-radius: 24px;
+              box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            }
 
-      /* --- FULL SCREEN HERO SECTION --- */
-      .scroll-container {
-        position: relative;
-        width: 100vw;
-        height: 100vh; /* ให้ Hero เต็มหน้าจอพอดี */
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        overflow: hidden;
-      }
+            .folder-tab {
+              position: absolute;
+              top: -30px; /* ติ่งด้านบน */
+              left: 0;
+              height: 50px;
+              width: 120px;
+              background-color: inherit;
+              border-radius: 16px 16px 0 0;
+              clip-path: polygon(0 0, 80% 0, 100% 100%, 0 100%);
+              padding: 8px 0 0 16px;
+              font-family: var(--font-mono);
+              font-size: 10px;
+              font-weight: 700;
+              text-transform: uppercase;
+              letter-spacing: 1px;
+            }
 
-      .sticky-scene {
-        position: relative;
-        width: 100%;
-        height: 100%;
-        display: flex;
-        align-items: center;
-      }
+          .folder-front {
+          position: relative;
+           width: 100%;
+          height: 100%;
+           /* ปรับสีพื้นหลังให้ทึบขึ้นอีกนิด เพื่อให้อ่านง่ายโดยไม่ต้องใช้ Blur */
+          background: rgba(255, 255, 255, 0.95);
+          border-radius: 16px 16px 24px 24px;
+          border: 1px solid rgba(255, 255, 255, 0.3);
+          padding: 24px;
+          display: flex;
+          flex-direction: column;
+          z-index: 3;
+          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
 
-      /* --- Infinite Carousel Wrapper --- */
-      .carousel-wrapper {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        touch-action: pan-y; /* ยอมให้เลื่อนขึ้นลงเพื่ออ่าน Content ข้างล่างได้ แต่ดักจับการปัดซ้ายขวา */
-        cursor: grab;
-        z-index: 5;
-        overflow: hidden;
-      }
-      .carousel-wrapper:active {
-        cursor: grabbing;
-      }
+            /* --- Lightbox --- */
+            .lightbox-overlay {
+              position: fixed;
+              top: 0;
+              left: 0;
+              width: 100vw;
+              height: 100vh;
+              background: rgba(0, 0, 0, 0.85);
+              z-index: 9999;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              opacity: 0;
+              pointer-events: none;
+              transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            }
+            .lightbox-overlay.active {
+              opacity: 1;
+              pointer-events: auto;
+            }
 
-      .folder-stage {
-        position: absolute;
-        top: 54%; /* ขยับลงมานิดนึงเพื่อหลบ Header */
-        left: 50%;
-        width: 0;
-        height: 0; /* เป็นจุดศูนย์กลางของจักรวาล 3D */
-        perspective: 800px; /* เพิ่มมิติ 3D ให้การหัน 45 องศาดูสมจริง */
-      }
+            .lightbox-content {
+              width: 90vw;
+              max-width: 400px;
+              background: #fff;
+              border-radius: 32px;
+              overflow: hidden;
+              transform: scale(0.9);
+              transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+            }
+            .active .lightbox-content {
+              transform: scale(1);
+            }
 
-      .folder-card {
-        position: absolute;
-        width: var(--folder-w);
-        height: 270px; /* ย่อความสูงลงเพราะเอาคำบรรยาย (Desc) ออกแล้ว */
-        left: 0;
-        top: 0;
-        margin-left: calc(var(--folder-w) / -2);
-        margin-top: -135px;
-        transform-origin: center center;
-        will-change: transform, filter, opacity;
-      }
+            .hero-element {
+              opacity: 0;
+              transform: translateY(20px);
+              animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            }
+            @keyframes fadeUp {
+              to {
+                opacity: 1;
+                transform: translateY(0);
+              }
+            }
 
-      .folder-card:not(.is-active) {
-        pointer-events: none; /* กันยูสเซอร์กดใบที่เบลออยู่ */
-      }
-
-      .folder-back {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        border-radius: 24px;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-      }
-
-      .folder-tab {
-        position: absolute;
-        top: -30px; /* ติ่งด้านบน */
-        left: 0;
-        height: 50px;
-        width: 120px;
-        background-color: inherit;
-        border-radius: 16px 16px 0 0;
-        clip-path: polygon(0 0, 80% 0, 100% 100%, 0 100%);
-        padding: 8px 0 0 16px;
-        font-family: var(--font-mono);
-        font-size: 10px;
-        font-weight: 700;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-      }
-
-      .folder-front {
-        position: relative;
-        width: 100%;
-        height: 100%;
-        background: var(--folder-front-bg);
-        border-radius: 16px 16px 24px 24px;
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        border: 1px solid var(--folder-front-border);
-        padding: 24px;
-        display: flex;
-        flex-direction: column;
-        z-index: 3;
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
-      }
-
-      /* --- Lightbox --- */
-      .lightbox-overlay {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100vw;
-        height: 100vh;
-        background: rgba(0, 0, 0, 0.85);
-        backdrop-filter: blur(10px);
-        z-index: 9999;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        opacity: 0;
-        pointer-events: none;
-        transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-      }
-      .lightbox-overlay.active {
-        opacity: 1;
-        pointer-events: auto;
-      }
-
-      .lightbox-content {
-        width: 90vw;
-        max-width: 400px;
-        background: #fff;
-        border-radius: 32px;
-        overflow: hidden;
-        transform: scale(0.9);
-        transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-      }
-      .active .lightbox-content {
-        transform: scale(1);
-      }
-
-      .hero-element {
-        opacity: 0;
-        transform: translateY(20px);
-        animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-      }
-      @keyframes fadeUp {
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-
-      /* Animation for swipe hint */
-      @keyframes swipeHint {
-        0%,
-        100% {
-          transform: translateX(0);
-        }
-        50% {
-          transform: translateX(5px);
-        }
-      }
-      .animate-swipe {
-        display: inline-block;
-        animation: swipeHint 1.5s infinite ease-in-out;
-      }
+            /* Animation for swipe hint */
+            @keyframes swipeHint {
+              0%,
+              100% {
+                transform: translateX(0);
+              }
+              50% {
+                transform: translateX(5px);
+              }
+            }
+            .animate-swipe {
+              display: inline-block;
+              animation: swipeHint 1.5s infinite ease-in-out;
+            }
     </style>
   </head>
   <body>
@@ -440,14 +438,13 @@
 
         requestAnimationFrame(renderLoop);
       }
+      // ระยะห่างระหว่างไพ่ (Spacing)
+      const spacing = window.innerWidth < 768 ? 160 : 250;
 
       // ฟังก์ชันหัวใจสำคัญ: จัดการ 3D Cover Flow แบบ Infinite
       function renderLoop() {
         // ใช้ Lerp (Linear Interpolation) ให้การเลื่อนสมูท
         currentProgress += (targetProgress - currentProgress) * 0.1;
-
-        // ระยะห่างระหว่างไพ่ (Spacing)
-        const spacing = window.innerWidth < 768 ? 160 : 250;
 
         const cards = document.querySelectorAll(".folder-card");
         cards.forEach((card, i) => {
@@ -468,7 +465,6 @@
           const rotateY = diff * -45;
 
           const scale = Math.max(0.7, 1 - Math.abs(diff) * 0.1);
-          const blur = Math.max(0, Math.abs(diff) * 3);
           const opacity = Math.max(0, 1 - Math.abs(diff) * 0.4);
           const zIndex = 100 - Math.round(Math.abs(diff) * 10);
 
