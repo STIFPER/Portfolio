@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>ผลงานทั้งหมด — MeStyle Studio</title>
+<meta name="description" content="ผลงานทั้งหมดของ MeStyle Studio แยกตามหมวดหมู่ Brand Design, Packaging, Illustration และ Social Media" />
+
+<link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon-32.png" />
+<link rel="apple-touch-icon" sizes="180x180" href="assets/img/favicon-180.png" />
+<link rel="manifest" href="manifest.json" />
+<meta name="theme-color" content="#34492f" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Unbounded:wght@400;500;600;700;800;900&family=Fraunces:ital,opsz,wght@1,9..144,400;1,9..144,500&family=Noto+Sans+Thai:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<div class="grain"></div>
+<div class="cursor-dot" id="cursorDot"></div>
+<div class="cursor-label" id="cursorLabel"><span>View</span></div>
+
+<div class="scroll-progress"><div class="scroll-progress__bar" id="progressBar"></div></div>
+
+<header class="nav" data-reveal>
+  <a href="index.html" class="nav__logo">
+    <img class="nav__mark" src="assets/img/logo.png" alt="" width="24" height="24" /> MeStyle<span class="nav__tm">™</span>
+  </a>
+  <nav class="nav__links">
+    <a href="index.html#work">งาน</a>
+    <a href="index.html#services">บริการ</a>
+    <a href="index.html#pricing">แพ็กเกจ</a>
+    <a href="index.html#faq">FAQ</a>
+  </nav>
+  <a href="index.html#contact" class="btn btn--ghost nav__cta magnetic">คุยงานกัน</a>
+</header>
+
+<main>
+
+  <section class="hero hero--page">
+    <p class="hero__eyebrow" data-reveal>Selected Work</p>
+    <h1 class="hero__title hero__title--page" data-reveal>ผลงานทั้งหมด</h1>
+    <p class="hero__tagline" data-reveal>Creative visions, Crafted identities.</p>
+  </section>
+
+  <section class="work work--full" id="work-full">
+
+    <div class="work-filter" data-reveal>
+      <button data-filter="Brand-Design">Brand-Design</button>
+      <button data-filter="Packaging">Packaging</button>
+      <button data-filter="Illustration">Illustration</button>
+      <button data-filter="Social Media">Social Media</button>
+      <button class="is-active" data-filter="all">ทั้งหมด</button>
+    </div>
+
+    <div class="work__masonry">
+
+      <div class="masonry__col" data-drift="1">
+        <button type="button" class="masonry__tile masonry__tile--tall" data-project="wangwela" data-category="Brand-Design" data-reveal>
+          <img src="assets/work/thumb/wangwela-01.webp" alt="Wangwela — Brand Identity" loading="lazy" />
+          <span class="masonry__overlay"><span class="pill pill--outline-light">Brand-Design</span><span class="masonry__overlay-title">Wangwela</span></span>
+        </button>
+        <button type="button" class="masonry__tile masonry__tile--short" data-project="dhw" data-category="Brand-Design" data-reveal>
+          <img src="assets/work/thumb/dhw-01.webp" alt="DID Hardware House — Rebrand" loading="lazy" />
+          <span class="masonry__overlay"><span class="pill pill--outline-light">Brand-Design</span><span class="masonry__overlay-title">DID Hardware House</span></span>
+        </button>
+        <button type="button" class="masonry__tile masonry__tile--med" data-project="leymo" data-category="Illustration" data-reveal>
+          <img src="assets/work/thumb/leymo-01.webp" alt="Leymo — Mascot Illustration" loading="lazy" />
+          <span class="masonry__overlay"><span class="pill pill--outline-light">Illustration</span><span class="masonry__overlay-title">Leymo</span></span>
+        </button>
+        <button type="button" class="masonry__tile masonry__tile--tall" data-project="bionest" data-category="Packaging" data-reveal>
+          <img src="assets/work/thumb/bionest-01.webp" alt="Bionest — Packaging" loading="lazy" />
+          <span class="masonry__overlay"><span class="pill pill--outline-light">Packaging</span><span class="masonry__overlay-title">Bionest</span></span>
+        </button>
+      </div>
+
+      <div class="masonry__col" data-drift="-1">
+        <button type="button" class="masonry__tile masonry__tile--med" data-project="dhw" data-category="Brand-Design" data-reveal>
+          <img src="assets/work/thumb/dhw-02.webp" alt="DID Hardware House — Apparel & Cards" loading="lazy" />
+          <span class="masonry__overlay"><span class="pill pill--outline-light">Brand-Design</span><span class="masonry__overlay-title">DID Hardware House</span></span>
+        </button>
+        <button type="button" class="masonry__tile masonry__tile--tall" data-project="worthy" data-category="Social Media" data-reveal>
+          <img src="assets/work/thumb/worthy-01.webp" alt="Worthy Design — Social Content" loading="lazy" />
+          <span class="masonry__overlay"><span class="pill pill--outline-light">Social Media</span><span class="masonry__overlay-title">Worthy Design</span></span>
+        </button>
+        <button type="button" class="masonry__tile masonry__tile--short" data-project="pulse" data-category="Brand-Design" data-reveal>
+          <img src="assets/work/thumb/pulse-01.webp" alt="Pulse Fitness — Brand Identity" loading="lazy" />
+          <span class="masonry__overlay"><span class="pill pill--outline-light">Brand-Design</span><span class="masonry__overlay-title">Pulse Fitness</span></span>
+        </button>
+        <button type="button" class="masonry__tile masonry__tile--med" data-project="hth" data-category="Brand-Design" data-reveal>
+          <img src="assets/work/thumb/hth-01.webp" alt="HTH — Apparel Brand" loading="lazy" />
+          <span class="masonry__overlay"><span class="pill pill--outline-light">Brand-Design</span><span class="masonry__overlay-title">HTH</span></span>
+        </button>
+      </div>
+
+      <div class="masonry__col" data-drift="1">
+        <button type="button" class="masonry__tile masonry__tile--short" data-project="wangwela" data-category="Brand-Design" data-reveal>
+          <img src="assets/work/thumb/wangwela-02.webp" alt="Wangwela — Storefront" loading="lazy" />
+          <span class="masonry__overlay"><span class="pill pill--outline-light">Brand-Design</span><span class="masonry__overlay-title">Wangwela</span></span>
+        </button>
+        <button type="button" class="masonry__tile masonry__tile--tall" data-project="wangwela" data-category="Brand-Design" data-reveal>
+          <img src="assets/work/thumb/wangwela-03.webp" alt="Wangwela — Business Cards" loading="lazy" />
+          <span class="masonry__overlay"><span class="pill pill--outline-light">Brand-Design</span><span class="masonry__overlay-title">Wangwela</span></span>
+        </button>
+        <button type="button" class="masonry__tile masonry__tile--med" data-project="dhw" data-category="Brand-Design" data-reveal>
+          <img src="assets/work/thumb/dhw-03.webp" alt="DID Hardware House — Corridor" loading="lazy" />
+          <span class="masonry__overlay"><span class="pill pill--outline-light">Brand-Design</span><span class="masonry__overlay-title">DID Hardware House</span></span>
+        </button>
+      </div>
+
+    </div>
+  </section>
+
+</main>
+
+<!-- ============ LIGHTBOX ============ -->
+<div class="lightbox" id="lightbox" aria-hidden="true">
+  <div class="lightbox__backdrop" data-lightbox-close></div>
+  <div class="lightbox__panel" role="dialog" aria-modal="true" aria-labelledby="lightboxTitle">
+    <button type="button" class="lightbox__close" data-lightbox-close aria-label="ปิด">✕</button>
+
+    <div class="lightbox__media" id="lightboxMedia">
+      <button type="button" class="lightbox__nav lightbox__nav--prev" data-lightbox-prev aria-label="ก่อนหน้า">←</button>
+      <div class="lightbox__stage" id="lightboxStage"></div>
+      <button type="button" class="lightbox__nav lightbox__nav--next" data-lightbox-next aria-label="ถัดไป">→</button>
+      <div class="lightbox__dots" id="lightboxDots"></div>
+      <span class="sr-only" id="lightboxCount" aria-live="polite"></span>
+    </div>
+
+    <div class="lightbox__info">
+      <span class="pill pill--outline-dark" id="lightboxCategory"></span>
+      <h3 id="lightboxTitle"></h3>
+      <p id="lightboxDesc"></p>
+    </div>
+  </div>
+</div>
+
+<footer class="footer">
+  <span>© 2016–2026 MeStyle Studio. Creative visions, Crafted identities.</span>
+  <a href="index.html#top" class="footer__top magnetic">Back to home ↑</a>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+<script src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js" defer></script>
+<script src="script.js" defer></script>
+</body>
+</html>
