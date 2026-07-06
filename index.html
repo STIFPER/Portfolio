@@ -1,0 +1,411 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>MeStyle Studio — Brand &amp; Graphic Designer</title>
+<meta name="description" content="MeStyle Studio — Brand designer &amp; graphic designer. Creative visions, crafted identities. Est. 2016." />
+
+<link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon-32.png" />
+<link rel="apple-touch-icon" sizes="180x180" href="assets/img/favicon-180.png" />
+<link rel="manifest" href="manifest.json" />
+<meta name="theme-color" content="#34492f" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Unbounded:wght@400;500;600;700;800;900&family=Fraunces:ital,opsz,wght@1,9..144,400;1,9..144,500&family=Noto+Sans+Thai:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- grain overlay -->
+<div class="grain"></div>
+<div class="cursor-dot" id="cursorDot"></div>
+<div class="cursor-label" id="cursorLabel"><span>View</span></div>
+
+<!-- progress bar -->
+<div class="scroll-progress"><div class="scroll-progress__bar" id="progressBar"></div></div>
+
+<!-- ============ NAV ============ -->
+<header class="nav" data-reveal>
+  <a href="#top" class="nav__logo">
+    <img class="nav__mark" src="assets/img/logo.png" alt="" width="24" height="24" /> MeStyle<span class="nav__tm">™</span>
+  </a>
+  <nav class="nav__links">
+    <a href="#work">งาน</a>
+    <a href="#services">บริการ</a>
+    <a href="#pricing">แพ็กเกจ</a>
+    <a href="#faq">FAQ</a>
+  </nav>
+  <a href="#contact" class="btn btn--ghost nav__cta magnetic">คุยงานกัน</a>
+</header>
+
+<main id="top">
+
+  <!-- ============ HERO ============ -->
+  <section class="hero" id="hero">
+    <div class="hero__badge-row" data-reveal>
+      <span class="pill pill--outline">estd.</span>
+      <img class="mark-circle" src="assets/img/logo.png" alt="MeStyle Studio" width="44" height="44" />
+      <span class="pill pill--outline">2016</span>
+    </div>
+
+    <p class="hero__eyebrow" data-reveal>Brand &amp; Graphic Designer</p>
+
+    <h1 class="hero__title">
+      <span class="line" data-split>MeStyle</span>
+      <span class="line" data-split>Studio<sup class="hero__tm">™</sup></span>
+    </h1>
+
+    <p class="hero__tagline" data-reveal>Creative visions, Crafted identities.</p>
+
+    <div class="hero__tags" data-reveal>
+      <span class="pill pill--maroon">Brand&nbsp;Design</span>
+      <span class="pill pill--navy">Packaging</span>
+      <span class="pill pill--mustard">Brand Clarity</span>
+      <span class="pill pill--coral">Illustration</span>
+      <span class="pill pill--lime">Not just pretty logos</span>
+      <span class="pill pill--teal">Elevate your brand calls</span>
+      <span class="pill pill--wine">Graphic Design</span>
+    </div>
+
+    <a href="#work" class="scroll-cue" data-reveal>
+      <span>เลื่อนลงเพื่อดูงาน</span>
+      <span class="scroll-cue__line"></span>
+    </a>
+  </section>
+
+  <!-- ============ MARQUEE : client logos ============ -->
+  <section class="marquee-section">
+    <div class="marquee marquee--clients" id="marqueeTrack">
+      <div class="marquee__track">
+        <span>KHALIFA KUSH</span><span>•</span><span>BIONEST</span><span>•</span>
+        <span>WORTHY DESIGN</span><span>•</span><span>THE DISPENSARY</span><span>•</span>
+        <span>LEYMO</span><span>•</span><span>DHW</span><span>•</span>
+        <span>PULSE FITNESS</span><span>•</span><span>WANGWELA</span><span>•</span>
+        <span>ACTERA</span><span>•</span><span>GREEN APE</span><span>•</span>
+        <span>HTH</span><span>•</span><span>COMPOUND GENETICS</span><span>•</span>
+      </div>
+      <div class="marquee__track" aria-hidden="true">
+        <span>KHALIFA KUSH</span><span>•</span><span>BIONEST</span><span>•</span>
+        <span>WORTHY DESIGN</span><span>•</span><span>THE DISPENSARY</span><span>•</span>
+        <span>LEYMO</span><span>•</span><span>DHW</span><span>•</span>
+        <span>PULSE FITNESS</span><span>•</span><span>WANGWELA</span><span>•</span>
+        <span>ACTERA</span><span>•</span><span>GREEN APE</span><span>•</span>
+        <span>HTH</span><span>•</span><span>COMPOUND GENETICS</span><span>•</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ ABOUT / FEATURES ============ -->
+  <section class="about" id="about">
+    <div class="about__grid">
+      <div class="about__intro" data-reveal>
+        <p class="eyebrow">เกี่ยวกับสตูดิโอ</p>
+        <h2 class="h2">
+          ไม่ใช่แค่โลโก้สวย<br />แต่คือกลยุทธ์แบรนด์<br />ที่จำได้และจดจำ
+        </h2>
+      </div>
+      <div class="about__copy" data-reveal>
+        <p>
+          MeStyle Studio เริ่มต้นจากการออกแบบโลโก้ในปี 2016 และได้ขยายการบริการไปสู่การออกแบบ
+          อัตลักษณ์แบรนด์ (CI) รวมถึงโปสเตอร์ สื่อสิ่งพิมพ์ และสื่อออนไลน์ ที่ช่วยเสริมสร้างภาพลักษณ์ให้กับธุรกิจของคุณ
+        </p>
+        <p>
+          มีประสบการณ์มากกว่า 8 ปีกับแบรนด์หลากหลายประเภท ทั้งธุรกิจใหม่และธุรกิจที่เติบโตแล้ว
+          เราเข้าใจความท้าทายและความต้องการเฉพาะของแต่ละแบรนด์ — งานทุกโครงการเชื่อมโยงกับกลยุทธ์ธุรกิจและค่านิยมของแบรนด์จริง ๆ
+        </p>
+      </div>
+    </div>
+
+    <div class="stats" data-reveal>
+      <div class="stats__item">
+        <span class="stats__num" data-count="8">0</span><span class="stats__plus">+</span>
+        <p>ปีที่คลุกคลีกับงานแบรนด์</p>
+      </div>
+      <div class="stats__item">
+        <span class="stats__num" data-count="200">0</span><span class="stats__plus">+</span>
+        <p>แบรนด์ที่ไว้วางใจ</p>
+      </div>
+      <div class="stats__item">
+        <span class="stats__num" data-count="30">0</span><span class="stats__plus">+</span>
+        <p>โปรเจกต์ Brand Identity</p>
+      </div>
+      <div class="stats__item">
+        <span class="stats__num" data-count="2016">0</span>
+        <p>ปีที่ก่อตั้ง — estd. 2016</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SERVICES ============ -->
+  <section class="services" id="services">
+    <p class="eyebrow" data-reveal>บริการ</p>
+    <h2 class="h2 h2--big" data-reveal>How can<br />you work with me?</h2>
+
+    <div class="services__list">
+
+      <article class="service-row" data-reveal>
+        <span class="service-row__num">01</span>
+        <h3 class="service-row__title">Brand Design &amp; CI</h3>
+        <p class="service-row__desc">โลโก้ อัตลักษณ์แบรนด์ คู่มือการใช้งาน (Brand Guideline) ที่นำไปใช้ได้จริงทุกช่องทาง</p>
+        <span class="pill pill--maroon service-row__tag">Brand-Design</span>
+      </article>
+
+      <article class="service-row" data-reveal>
+        <span class="service-row__num">02</span>
+        <h3 class="service-row__title">Packaging Design</h3>
+        <p class="service-row__desc">งานบรรจุภัณฑ์ที่ทั้งสวยและขายได้ ตั้งแต่คอนเซปต์ไปจนถึงไฟล์พร้อมพิมพ์</p>
+        <span class="pill pill--navy service-row__tag">Packaging</span>
+      </article>
+
+      <article class="service-row" data-reveal>
+        <span class="service-row__num">03</span>
+        <h3 class="service-row__title">Brand Clarity</h3>
+        <p class="service-row__desc">จัดระเบียบความคิดแบรนด์ให้ชัด ก่อนลงมือออกแบบ — เพื่อภาพลักษณ์ที่สื่อสารตรงเป้าหมาย</p>
+        <span class="pill pill--mustard service-row__tag">Clarity</span>
+      </article>
+
+      <article class="service-row" data-reveal>
+        <span class="service-row__num">04</span>
+        <h3 class="service-row__title">Illustration &amp; Mascot</h3>
+        <p class="service-row__desc">คาแรกเตอร์และภาพประกอบที่มีเสน่ห์ ช่วยให้แบรนด์จำง่ายและมีชีวิตชีวา</p>
+        <span class="pill pill--coral service-row__tag">Illustration</span>
+      </article>
+
+      <article class="service-row" data-reveal>
+        <span class="service-row__num">05</span>
+        <h3 class="service-row__title">Print &amp; Social Media</h3>
+        <p class="service-row__desc">โปสเตอร์ สื่อสิ่งพิมพ์ และคอนเทนต์ออนไลน์ที่ตรงคาแรกเตอร์แบรนด์ในทุกแพลตฟอร์ม</p>
+        <span class="pill pill--teal service-row__tag">Graphic Design</span>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ============ WORK / FEATURED ============ -->
+  <section class="work-divider">
+    <p class="work-divider__script" data-reveal>Featured&nbsp;Work</p>
+    <p class="work-divider__sub" data-reveal>Creative visions, Crafted identities. — Our Journey</p>
+  </section>
+
+  <section class="work" id="work">
+
+    <div class="work__masonry">
+      <div class="masonry__col" data-drift="1">
+        <a class="masonry__tile masonry__tile--tall" href="work.html#wangwela" data-reveal>
+          <img src="assets/work/thumb/wangwela-01.webp" alt="Wangwela — Brand Identity" loading="lazy" />
+          <div class="masonry__overlay">
+            <span class="pill pill--outline-light">Brand-Design</span>
+            <h3>Wangwela</h3>
+          </div>
+        </a>
+        <a class="masonry__tile masonry__tile--short" href="work.html#pulse" data-reveal>
+          <img src="assets/work/thumb/pulse-01.webp" alt="Pulse Fitness — Brand Identity" loading="lazy" />
+          <div class="masonry__overlay">
+            <span class="pill pill--outline-light">Brand-Design</span>
+            <h3>Pulse Fitness</h3>
+          </div>
+        </a>
+      </div>
+
+      <div class="masonry__col" data-drift="-1">
+        <a class="masonry__tile masonry__tile--med" href="work.html#dhw" data-reveal>
+          <img src="assets/work/thumb/dhw-03.webp" alt="DID Hardware House — Rebrand" loading="lazy" />
+          <div class="masonry__overlay">
+            <span class="pill pill--outline-light">Brand-Design</span>
+            <h3>DID Hardware House</h3>
+          </div>
+        </a>
+        <a class="masonry__tile masonry__tile--tall" href="work.html#worthy" data-reveal>
+          <img src="assets/work/thumb/worthy-01.webp" alt="Worthy Design — Social Content" loading="lazy" />
+          <div class="masonry__overlay">
+            <span class="pill pill--outline-light">Social Media</span>
+            <h3>Worthy Design</h3>
+          </div>
+        </a>
+        <a class="masonry__tile masonry__tile--short" href="work.html#hth" data-reveal>
+          <img src="assets/work/thumb/hth-01.webp" alt="HTH — Apparel Brand" loading="lazy" />
+          <div class="masonry__overlay">
+            <span class="pill pill--outline-light">Brand-Design</span>
+            <h3>HTH</h3>
+          </div>
+        </a>
+      </div>
+
+      <div class="masonry__col" data-drift="1">
+        <a class="masonry__tile masonry__tile--med" href="work.html#leymo" data-reveal>
+          <img src="assets/work/thumb/leymo-01.webp" alt="Leymo — Mascot Illustration" loading="lazy" />
+          <div class="masonry__overlay">
+            <span class="pill pill--outline-light">Illustration</span>
+            <h3>Leymo</h3>
+          </div>
+        </a>
+        <a class="masonry__tile masonry__tile--tall" href="work.html#bionest" data-reveal>
+          <img src="assets/work/thumb/bionest-01.webp" alt="Bionest — Packaging" loading="lazy" />
+          <div class="masonry__overlay">
+            <span class="pill pill--outline-light">Packaging</span>
+            <h3>Bionest</h3>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <div class="work__more" data-reveal>
+      <a href="work.html" class="btn btn--solid magnetic">ดูผลงานทั้งหมด →</a>
+      <p>สำรวจผลงานทุกโปรเจกต์ แยกตามหมวดหมู่ Brand Design, Packaging, Illustration และ Social Media</p>
+    </div>
+
+  </section>
+
+  <!-- ============ PRICING ============ -->
+  <section class="pricing" id="pricing">
+    <p class="eyebrow" data-reveal>แพ็กเกจ</p>
+    <h2 class="h2" data-reveal>เลือกแพ็กเกจที่ใช่<br />สำหรับแบรนด์ของคุณ</h2>
+
+    <div class="pricing__grid">
+
+      <div class="price-card" data-reveal>
+        <div class="price-card__tag pill pill--lime">Starter</div>
+        <h3 class="price-card__name">Logo Design</h3>
+        <p class="price-card__price">฿6,900<span>เริ่มต้น</span></p>
+        <ul class="price-card__list">
+          <li>ออกแบบโลโก้ 3 แนวคอนเซปต์</li>
+          <li>แก้ไขได้ 3 รอบ</li>
+          <li>ไฟล์ส่งงานครบ (AI, PNG, PDF)</li>
+          <li>ระยะเวลา 5–7 วันทำการ</li>
+        </ul>
+        <a href="#contact" class="btn btn--outline magnetic">เริ่มโปรเจกต์</a>
+      </div>
+
+      <div class="price-card price-card--highlight" data-reveal>
+        <div class="price-card__tag pill pill--mustard">Popular</div>
+        <h3 class="price-card__name">Brand Identity</h3>
+        <p class="price-card__price">฿18,900<span>เริ่มต้น</span></p>
+        <ul class="price-card__list">
+          <li>โลโก้ + ระบบสี / ฟอนต์ / Guideline</li>
+          <li>นามบัตร, หัวจดหมาย, สื่อพื้นฐาน</li>
+          <li>แก้ไขได้ 5 รอบ</li>
+          <li>ระยะเวลา 10–14 วันทำการ</li>
+        </ul>
+        <a href="#contact" class="btn btn--solid magnetic">เริ่มโปรเจกต์</a>
+      </div>
+
+      <div class="price-card" data-reveal>
+        <div class="price-card__tag pill pill--teal">Full CI</div>
+        <h3 class="price-card__name">Complete Branding</h3>
+        <p class="price-card__price">฿39,900<span>เริ่มต้น</span></p>
+        <ul class="price-card__list">
+          <li>Brand Identity ฉบับสมบูรณ์ทุกองค์ประกอบ</li>
+          <li>Packaging / Social Media Kit</li>
+          <li>ที่ปรึกษากลยุทธ์แบรนด์ 1:1</li>
+          <li>ระยะเวลา 3–4 สัปดาห์</li>
+        </ul>
+        <a href="#contact" class="btn btn--outline magnetic">เริ่มโปรเจกต์</a>
+      </div>
+
+    </div>
+    <p class="pricing__note" data-reveal>* ราคาอาจปรับตามความซับซ้อนของงานและจำนวนสื่อที่ต้องออกแบบ ทักมาคุยรายละเอียดกันได้เลย</p>
+  </section>
+
+  <!-- ============ TESTIMONIALS ============ -->
+  <section class="testimonials" id="testimonials">
+    <p class="eyebrow" data-reveal>ได้รับความไว้วางใจ</p>
+    <h2 class="h2" data-reveal>จากเจ้าของธุรกิจกว่า 200 ราย</h2>
+
+    <div class="marquee-section marquee-section--testi">
+      <div class="marquee marquee--testi" id="testiTrack">
+        <div class="marquee__track">
+          <blockquote class="quote-card">“ทำงานรวดเร็ว ตามความต้องการสุด ๆ จ้างหลายรอบแล้ว ถ้ามีงานครั้งหน้าก็จะจ้างอีกครับ” <cite>★★★★★</cite></blockquote>
+          <blockquote class="quote-card">“น้องทำงานดีมากๆ งานสวยถูกใจ มีความเอาใจใส่ พูดจาสุภาพ แก้ไขได้ตรงตามความต้องการของลูกค้า” <cite>★★★★★</cite></blockquote>
+          <blockquote class="quote-card">“เอาใจใส่งานดีค่ะ ทำงานรวดเร็ว ตรงตามความต้องการ ไว้มาอุดหนุนใหม่แน่นอนค่ะ” <cite>★★★★★</cite></blockquote>
+          <blockquote class="quote-card">“ฝีมือดี รับฟังและแนะนำลูกค้า มีส่วนร่วมในการออกแบบตามแนวที่ลูกค้าต้องการ” <cite>★★★★★</cite></blockquote>
+          <blockquote class="quote-card">“ทำงานดี สวยส่งงานเร็วแก้ไขให้ไม่มีบ่น ดีค่ะ” <cite>★★★★★</cite></blockquote>
+          <blockquote class="quote-card">“งานสวย ถูกใจ คุยง่าย แก้ไขได้ตรงความต้องการดีครับ” <cite>★★★★★</cite></blockquote>
+        </div>
+        <div class="marquee__track" aria-hidden="true">
+          <blockquote class="quote-card">“ทำงานรวดเร็ว ตามความต้องการสุด ๆ จ้างหลายรอบแล้ว ถ้ามีงานครั้งหน้าก็จะจ้างอีกครับ” <cite>★★★★★</cite></blockquote>
+          <blockquote class="quote-card">“น้องทำงานดีมากๆ งานสวยถูกใจ มีความเอาใจใส่ พูดจาสุภาพ แก้ไขได้ตรงตามความต้องการของลูกค้า” <cite>★★★★★</cite></blockquote>
+          <blockquote class="quote-card">“เอาใจใส่งานดีค่ะ ทำงานรวดเร็ว ตรงตามความต้องการ ไว้มาอุดหนุนใหม่แน่นอนค่ะ” <cite>★★★★★</cite></blockquote>
+          <blockquote class="quote-card">“ฝีมือดี รับฟังและแนะนำลูกค้า มีส่วนร่วมในการออกแบบตามแนวที่ลูกค้าต้องการ” <cite>★★★★★</cite></blockquote>
+          <blockquote class="quote-card">“ทำงานดี สวยส่งงานเร็วแก้ไขให้ไม่มีบ่น ดีค่ะ” <cite>★★★★★</cite></blockquote>
+          <blockquote class="quote-card">“งานสวย ถูกใจ คุยง่าย แก้ไขได้ตรงความต้องการดีครับ” <cite>★★★★★</cite></blockquote>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FAQ ============ -->
+  <section class="faq" id="faq">
+    <p class="eyebrow" data-reveal>คำถามที่พบบ่อย</p>
+    <h2 class="h2" data-reveal>FAQ</h2>
+
+    <div class="faq__list">
+      <div class="faq-item" data-reveal>
+        <button class="faq-item__q">
+          <span>ใช้เวลานานแค่ไหนในการออกแบบโลโก้ 1 ชิ้น?</span>
+          <span class="faq-item__icon">＋</span>
+        </button>
+        <div class="faq-item__a"><p>โดยเฉลี่ยใช้เวลา 5–7 วันทำการสำหรับโลโก้ และ 10–14 วันสำหรับแบรนด์ไอเดนทิตี้แบบครบชุด ขึ้นอยู่กับความซับซ้อนและจำนวนรอบแก้ไข</p></div>
+      </div>
+      <div class="faq-item" data-reveal>
+        <button class="faq-item__q">
+          <span>แก้ไขงานได้กี่รอบ?</span>
+          <span class="faq-item__icon">＋</span>
+        </button>
+        <div class="faq-item__a"><p>แต่ละแพ็กเกจกำหนดจำนวนรอบแก้ไขไว้ชัดเจน (3–5 รอบ) หากต้องการแก้ไขเพิ่มเติมนอกเหนือจากที่กำหนด จะมีค่าใช้จ่ายเพิ่มตามความเหมาะสม</p></div>
+      </div>
+      <div class="faq-item" data-reveal>
+        <button class="faq-item__q">
+          <span>ได้ไฟล์อะไรบ้างหลังงานเสร็จ?</span>
+          <span class="faq-item__icon">＋</span>
+        </button>
+        <div class="faq-item__a"><p>ได้ไฟล์ต้นฉบับ (AI/EPS) ไฟล์สำหรับพิมพ์ (PDF) และไฟล์สำหรับใช้งานออนไลน์ (PNG/JPG) ครบทุกขนาดที่จำเป็น</p></div>
+      </div>
+      <div class="faq-item" data-reveal>
+        <button class="faq-item__q">
+          <span>รับงานเร่งไหม?</span>
+          <span class="faq-item__icon">＋</span>
+        </button>
+        <div class="faq-item__a"><p>รับพิจารณาเป็นกรณีไป ขึ้นอยู่กับตารางงานในช่วงนั้น ๆ งานเร่งจะมีค่าบริการเพิ่มเติมจากราคาปกติ</p></div>
+      </div>
+      <div class="faq-item" data-reveal>
+        <button class="faq-item__q">
+          <span>ชำระเงินอย่างไร?</span>
+          <span class="faq-item__icon">＋</span>
+        </button>
+        <div class="faq-item__a"><p>มัดจำ 50% ก่อนเริ่มงาน และชำระส่วนที่เหลือก่อนส่งไฟล์ต้นฉบับครบชุด รับโอนผ่านธนาคารและพร้อมเพย์</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CONTACT / CTA ============ -->
+  <section class="contact" id="contact">
+    <p class="contact__eyebrow" data-reveal>Let's create something together</p>
+    <h2 class="contact__title" data-reveal>
+      <a href="mailto:hello@mestylestudio.com" class="contact__link magnetic">
+        เริ่มโปรเจกต์<br />ของคุณเลย
+      </a>
+    </h2>
+    <div class="contact__row" data-reveal>
+      <a href="mailto:hello@mestylestudio.com" class="pill pill--outline-light">hello@mestylestudio.com</a>
+      <a href="#" class="pill pill--outline-light">Instagram</a>
+      <a href="#" class="pill pill--outline-light">Facebook</a>
+      <a href="#" class="pill pill--outline-light">Line</a>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <span>© 2016–2026 MeStyle Studio. Creative visions, Crafted identities.</span>
+  <a href="#top" class="footer__top magnetic">Back to top ↑</a>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+<script src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js" defer></script>
+<script src="script.js" defer></script>
+</body>
+</html>
