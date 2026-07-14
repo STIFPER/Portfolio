@@ -173,25 +173,56 @@ document.addEventListener("DOMContentLoaded", () => {
     /* media: mix of images and videos, IG-post style. video slides only fetch
        their file once they become the active slide (preload="none" + src set
        on demand) so a project with a clip doesn't cost anything until opened. */
-    const img = (name) => ({ type: "image", src: `assets/work/${name}.webp` });
+    /* assets/work/ is organized by category/brand folder (not a flat dump) so
+       the backend is easy to navigate — e.g. assets/work/Brand-Design/Clevia/.
+       This lookup lets every img("wangwela-01") call site below stay exactly
+       as-is; only this map needs updating if a project's folder ever moves. */
+    const PROJECT_DIRS = {
+      wangwela: "Brand-Design/Wangwela",
+      dhw: "Brand-Design/DHW",
+      pulse: "Brand-Design/Pulse",
+      hth: "Brand-Design/HTH",
+      okgo: "Brand-Design/OK-GO",
+      clevia: "Brand-Design/Clevia",
+      vellette: "Brand-Design/Vellette",
+      leymo: "Illustration/Leymo",
+      worthy: "Social-Media/Worthy",
+      bionest: "Packaging/Bionest",
+      radsaebnua: "Brand-Design/RadSaebNua",
+    };
+    const img = (name) => {
+      const slug = name.replace(/-\d+$/, "");
+      const dir = PROJECT_DIRS[slug];
+      return { type: "image", src: `assets/work/${dir}/${name}.webp` };
+    };
     const PROJECTS = {
       wangwela: {
         title: "Wangwela",
         category: "Brand-Design",
-        desc: "อัตลักษณ์แบรนด์ให้ร้านนวด \"วางเวลา\" ด้วยโลโก้รูปมือที่สื่อถึงความใส่ใจและการดูแลอย่างอ่อนโยน พร้อมชุดโทนสีเขียวธรรมชาติ",
-        media: [img("wangwela-01"), img("wangwela-02"), img("wangwela-03")],
+        desc: "อัตลักษณ์แบรนด์ให้ร้านนวด \"วางเวลา\" ด้วยโลโก้รูปมือที่สื่อถึงความใส่ใจและการดูแลอย่างอ่อนโยน พร้อมโทนสีเขียว-น้ำตาลอบอุ่นแบบธรรมชาติ ให้ความรู้สึกผ่อนคลายทุกจุดสัมผัสแบรนด์",
+        media: [
+          img("wangwela-01"), img("wangwela-02"), img("wangwela-03"), img("wangwela-04"),
+          img("wangwela-05"), img("wangwela-06"), img("wangwela-07"), img("wangwela-08"),
+          img("wangwela-09"), img("wangwela-10"),
+        ],
       },
       dhw: {
         title: "DID Hardware House",
         category: "Brand-Design",
-        desc: "รีแบรนด์ร้านฮาร์ดแวร์จากรุ่นพ่อสู่รุ่นลูก ด้วยโลโก้ทันสมัย เส้นสายชัดเจน และสีแดงที่สื่อถึงพลังและความเชื่อมั่น",
-        media: [img("dhw-01"), img("dhw-02"), img("dhw-03")],
+        desc: "รีแบรนด์ร้านฮาร์ดแวร์จากรุ่นพ่อสู่รุ่นลูก ด้วยโลโก้ทันสมัย เส้นสายชัดเจน และสีแดงที่สื่อถึงพลังและความเชื่อมั่น ประยุกต์ใช้ตั้งแต่ยูนิฟอร์มพนักงาน บัตรพนักงาน ไปจนถึงป้ายโฆษณากลางแจ้ง",
+        media: [
+          img("dhw-01"), img("dhw-02"), img("dhw-03"),
+          img("dhw-04"), img("dhw-05"), img("dhw-06"),
+        ],
       },
       leymo: {
         title: "Leymo",
         category: "Illustration",
-        desc: "ออกแบบคาแรกเตอร์แมวมงสีเหลืองสดใส ให้เป็นตัวแทนแบรนด์ที่จดจำง่าย ใช้ได้ตั้งแต่นามบัตรไปจนถึงเว็บไซต์และของพรีเมียม",
-        media: [img("leymo-01")],
+        desc: "ออกแบบคาแรกเตอร์แมวมงสีเหลืองสดใส \"เลย์โม\" ให้เป็นตัวแทนแบรนด์ที่จดจำง่าย ใช้ได้ตั้งแต่หน้าร้าน กระเป๋าผ้า สติกเกอร์ ไปจนถึงไอคอนแอปพลิเคชัน",
+        media: [
+          img("leymo-01"), img("leymo-02"), img("leymo-03"),
+          img("leymo-04"), img("leymo-05"), img("leymo-06"),
+        ],
       },
       worthy: {
         title: "Worthy Design",
@@ -202,20 +233,78 @@ document.addEventListener("DOMContentLoaded", () => {
       pulse: {
         title: "Pulse Fitness",
         category: "Brand-Design",
-        desc: "โลโก้และอัตลักษณ์สำหรับฟิตเนสที่ต้องการความคม กระฉับกระเฉง ใช้กราฟิกคลื่นหัวใจสื่อถึงพลังและความมีชีวิตชีวา",
-        media: [img("pulse-01")],
+        desc: "โลโก้และอัตลักษณ์สำหรับฟิตเนสที่ต้องการความคม กระฉับกระเฉง ใช้กราฟิกคลื่นหัวใจสื่อถึงพลังและความมีชีวิตชีวา โทนสีดำ-เขียวมิ้นต์ทันสมัย ประยุกต์ใช้ตั้งแต่ขวดน้ำ ป้ายหน้าร้าน ไปจนถึงคอนเทนต์โซเชียลมีเดีย",
+        media: [
+          img("pulse-01"), img("pulse-02"), img("pulse-03"),
+          img("pulse-04"), img("pulse-05"), img("pulse-06"),
+        ],
       },
       bionest: {
         title: "Bionest",
         category: "Packaging",
-        desc: "แพ็กเกจจิ้งเครื่องดื่มเพื่อสุขภาพ พร้อมโปสเตอร์เกรเดียนต์สีสันสดใส ภายใต้แนวคิด \"Crafted by nature, designed for you\"",
-        media: [img("bionest-01")],
+        desc: "แพ็กเกจจิ้งและอัตลักษณ์เครื่องดื่มคอมบูชะ \"Bionest\" โทนสีส้ม-เหลืองอบอุ่นที่สื่อถึงความสดชื่นจากธรรมชาติ ภายใต้แนวคิด \"Crafted by nature, designed for you\"",
+        media: [
+          img("bionest-01"), img("bionest-02"), img("bionest-03"),
+          img("bionest-04"), img("bionest-05"), img("bionest-06"),
+        ],
       },
       hth: {
         title: "HTH",
         category: "Brand-Design",
-        desc: "อัตลักษณ์แบรนด์เสื้อผ้าสำหรับคนที่รักการวิ่ง ดีไซน์โลโก้ที่เรียบ ทันสมัย ใช้งานได้จริงทั้งบนสินค้าและสื่อโฆษณา",
-        media: [img("hth-01")],
+        desc: "อัตลักษณ์แบรนด์เสื้อผ้ากีฬาวิ่ง \"HTH\" ภายใต้แนวคิด \"For your stronger tomorrow\" สื่อสารผ่านภาพถ่ายพลังการเคลื่อนไหวและโทนสีดำ-แดงดิบเท่ ใช้งานได้จริงทั้งบนสินค้าและสื่อโฆษณา",
+        media: [
+          img("hth-01"), img("hth-02"), img("hth-03"),
+          img("hth-04"), img("hth-05"), img("hth-06"),
+        ],
+      },
+      okgo: {
+        title: "OK! GO",
+        category: "Brand-Design",
+        desc: "อัตลักษณ์แบรนด์เครื่องดื่มสมูทตี้เพื่อสุขภาพ \"OK!GO\" ตั้งแต่บรรจุภัณฑ์ ไปจนถึงการนำไปใช้บนโซเชียลมีเดีย ภายใต้แนวคิด \"Let's go feel good.\"",
+        // videos left out for now — source clips are 13MB/35MB, too heavy to ship;
+        // files still live in assets/work/Brand-Design/OK-GO/; re-add once
+        // compressed (~3-8MB target) as:
+        // { type: "video", src: "assets/work/Brand-Design/OK-GO/okgo-video-0X.mp4", poster: "assets/work/Brand-Design/OK-GO/thumb/okgo-video-0X.webp" }
+        // okgo-01/07/08/09 (cover, 2 palettes, packaging labels) removed —
+        // their full-size files were taken out of assets/work/Brand-Design/OK-GO/
+        media: [
+          img("okgo-02"),
+          img("okgo-03"),
+          img("okgo-04"),
+          img("okgo-05"),
+          img("okgo-06"),
+          img("okgo-10"),
+          img("okgo-11"),
+          img("okgo-12"),
+        ],
+      },
+      clevia: {
+        title: "Clévia",
+        category: "Brand-Design",
+        desc: "อัตลักษณ์แบรนด์สกินแคร์ \"Clévia\" เน้นความหรูหราเรียบง่ายผ่านฟอนต์เซอริฟคลาสสิกและภาพถ่ายผิวสไตล์นิตยสารความงาม พร้อมบรรจุภัณฑ์โทนครีม-ดำที่ดูสะอาดน่าเชื่อถือ ภายใต้แนวคิด \"Unlock the future of skincare.\"",
+        media: [
+          img("clevia-01"), img("clevia-02"), img("clevia-03"),
+          img("clevia-04"), img("clevia-05"), img("clevia-06"),
+        ],
+      },
+      vellette: {
+        title: "Vellette",
+        category: "Brand-Design",
+        desc: "อัตลักษณ์แบรนด์เครื่องประดับ/แฟชั่น \"Vellette\" ดีไซน์โมโนโครมขาว-ดำ สื่อถึงความมั่นใจแบบเงียบสงบ (a quiet vision for bold women) ผ่านฟอนต์สคริปต์หรูหราและภาพพอร์ตเทรตที่ดูมีระดับ",
+        media: [
+          img("vellette-01"), img("vellette-02"), img("vellette-03"),
+          img("vellette-04"), img("vellette-05"), img("vellette-06"),
+        ],
+      },
+      radsaebnua: {
+        title: "แรดแซ่บนัว บันเทิงศิลป์",
+        category: "Brand-Design",
+        desc: "อัตลักษณ์แบรนด์ร้านส้มตำ \"แรดแซ่บนัว บันเทิงศิลป์\" ผ่านมาสคอตสาวเผ็ดร้อนและโทนสีแดงจัดจ้าน สื่อถึงรสชาติจัดจ้านแบบอีสานแท้ ประยุกต์ใช้ตั้งแต่เมนู เสื้อยืด ไปจนถึงป้ายหน้าร้าน",
+        media: [
+          img("radsaebnua-01"), img("radsaebnua-02"), img("radsaebnua-03"),
+          img("radsaebnua-04"), img("radsaebnua-05"), img("radsaebnua-06"),
+          img("radsaebnua-07"), img("radsaebnua-08"), img("radsaebnua-09"),
+        ],
       },
       // to add a video slide to a project later: { type: "video", src: "assets/work/xxx.mp4", poster: "assets/work/thumb/xxx.webp" }
     };
@@ -227,33 +316,76 @@ document.addEventListener("DOMContentLoaded", () => {
     const lbCategory = document.getElementById("lightboxCategory");
     const lbCount = document.getElementById("lightboxCount");
     const lbMedia = document.getElementById("lightboxMedia");
+    const lbDescToggle = document.getElementById("lightboxDescToggle");
+    const lbScrollHint = document.getElementById("lightboxScrollHint");
+    const lbPanel = lightbox.querySelector(".lightbox__panel");
     const lbPrev = lightbox.querySelector("[data-lightbox-prev]");
     const lbNext = lightbox.querySelector("[data-lightbox-next]");
     let activeSlug = null;
     let activeIndex = 0;
     let lastFocused = null;
 
-    function renderSlide() {
+    /* show the bounce-arrow only while there's actually more to scroll, and
+       hide it once scrolled to the true bottom */
+    function updateScrollHint() {
+      const hasMore = lbPanel.scrollHeight - lbPanel.scrollTop - lbPanel.clientHeight > 4;
+      lbScrollHint.classList.toggle("is-visible", hasMore);
+    }
+    lbPanel.addEventListener("scroll", updateScrollHint, { passive: true });
+    /* the arrow is also a button: click/tap it to glide down one screenful,
+       so scrolling doesn't depend on finding the trackpad gesture at all */
+    lbScrollHint.addEventListener("click", () => {
+      lbPanel.scrollBy({ top: lbPanel.clientHeight * 0.75, behavior: "smooth" });
+    });
+
+    function renderSlide(direction = 0) {
       const project = PROJECTS[activeSlug];
       const slide = project.media[activeIndex];
+      const prevEl = lbStage.firstElementChild; // still-visible outgoing slide, if any
 
-      lbStage.innerHTML = "";
+      let el;
       if (slide.type === "video") {
-        const video = document.createElement("video");
-        video.src = slide.src;
-        if (slide.poster) video.poster = slide.poster;
-        video.muted = true;
-        video.loop = true;
-        video.playsInline = true;
-        video.autoplay = true;
-        video.controls = false;
-        video.preload = "none";
-        lbStage.appendChild(video);
+        el = document.createElement("video");
+        el.src = slide.src;
+        if (slide.poster) el.poster = slide.poster;
+        el.muted = true;
+        el.loop = true;
+        el.playsInline = true;
+        el.autoplay = true;
+        el.controls = false;
+        el.preload = "none";
       } else {
-        const image = document.createElement("img");
-        image.src = slide.src;
-        image.alt = `${project.title} — ${activeIndex + 1}`;
-        lbStage.appendChild(image);
+        el = document.createElement("img");
+        el.src = slide.src;
+        el.alt = `${project.title} — ${activeIndex + 1}`;
+      }
+      el.style.position = "absolute";
+      el.style.inset = "0";
+
+      /* crossfade instead of clear-then-insert: the old slide stays on screen
+         underneath until the new one has actually decoded, so there's never a
+         blank/background frame between them — that gap was the "flicker".
+         Slide-in motion + slower ease keeps the same deliberate IG-carousel feel. */
+      const mount = () => {
+        lbStage.appendChild(el);
+        if (!reduceMotion) {
+          const fromX = direction === 1 ? 46 : direction === -1 ? -46 : 0;
+          gsap.fromTo(el, { opacity: 0, x: fromX }, {
+            opacity: 1, x: 0, duration: 0.55, ease: "power3.out",
+            onComplete() { if (prevEl && prevEl.parentNode) prevEl.remove(); },
+          });
+          if (prevEl) gsap.to(prevEl, { opacity: 0, duration: 0.4, ease: "power2.out" });
+        } else {
+          if (prevEl && prevEl.parentNode) prevEl.remove();
+        }
+      };
+
+      if (slide.type === "image" && el.decode) {
+        el.decode().then(mount).catch(mount);
+      } else if (slide.type === "image") {
+        el.addEventListener("load", mount, { once: true });
+      } else {
+        mount();
       }
 
       const multi = project.media.length > 1;
@@ -287,7 +419,20 @@ document.addEventListener("DOMContentLoaded", () => {
       lastFocused = triggerEl || document.activeElement;
       lbTitle.textContent = project.title;
       lbDesc.textContent = project.desc;
+      lbDesc.classList.add("is-clamped"); // reset in case the last project was left expanded
       lbCategory.textContent = project.category;
+      lbPanel.scrollTop = 0;
+      /* only show the "เพิ่มเติม" toggle if the description is long enough to
+         overflow 2 lines. This used to be measured from the rendered DOM
+         (scrollHeight vs clampedHeight), but the lightbox panel's width isn't
+         fixed — it's min(400px, 92vw), so it's narrower on a phone than in a
+         wide desktop window. The same description could genuinely wrap to 3
+         lines on mobile but fit in 2 on desktop, so a DOM measurement gave a
+         different answer per device — not a bug, just width-dependent, but
+         it read as "inconsistent". Using a fixed character-count threshold
+         instead makes the decision the same on every screen size. */
+      lbDescToggle.classList.toggle("is-visible", project.desc.length > 70);
+      lbDescToggle.textContent = "เพิ่มเติม";
       buildDots(project);
       renderSlide();
       lightbox.classList.add("is-open");
@@ -298,6 +443,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (!reduceMotion) {
         gsap.fromTo(".lightbox__panel", { y: 24, opacity: 0 }, { y: 0, opacity: 1, duration: 0.4, ease: "power3.out" });
       }
+      requestAnimationFrame(updateScrollHint);
     }
 
     function closeLightbox() {
@@ -312,7 +458,7 @@ document.addEventListener("DOMContentLoaded", () => {
     function step(delta) {
       const project = PROJECTS[activeSlug];
       activeIndex = (activeIndex + delta + project.media.length) % project.media.length;
-      renderSlide();
+      renderSlide(delta > 0 ? 1 : -1);
     }
 
     document.querySelectorAll(".masonry__tile[data-project]").forEach((tile) => {
@@ -321,6 +467,11 @@ document.addEventListener("DOMContentLoaded", () => {
     lightbox.querySelectorAll("[data-lightbox-close]").forEach((el) => el.addEventListener("click", closeLightbox));
     lbPrev.addEventListener("click", () => step(-1));
     lbNext.addEventListener("click", () => step(1));
+    lbDescToggle.addEventListener("click", () => {
+      const isClamped = lbDesc.classList.toggle("is-clamped");
+      lbDescToggle.textContent = isClamped ? "เพิ่มเติม" : "ย่อ";
+      requestAnimationFrame(updateScrollHint);
+    });
     document.addEventListener("keydown", (e) => {
       if (!lightbox.classList.contains("is-open")) return;
       if (e.key === "Escape") closeLightbox();
@@ -328,15 +479,93 @@ document.addEventListener("DOMContentLoaded", () => {
       if (e.key === "ArrowRight") step(1);
     });
 
-    /* swipe left/right, IG-style */
-    let touchStartX = null;
-    lbMedia.addEventListener("touchstart", (e) => { touchStartX = e.touches[0].clientX; }, { passive: true });
-    lbMedia.addEventListener("touchend", (e) => {
-      if (touchStartX === null) return;
-      const dx = e.changedTouches[0].clientX - touchStartX;
-      if (Math.abs(dx) > 50) step(dx > 0 ? -1 : 1);
-      touchStartX = null;
+    /* touch swipe (mobile), IG-style — lock to one axis per gesture so a
+       mostly-vertical scroll never flips a slide, and a mostly-horizontal
+       swipe never nudges the scroll. Vertical touch scrolling is left to the
+       browser (touch-action:pan-y on .lightbox__media); we only act on a clear
+       horizontal swipe. */
+    let touchX = null, touchY = null, touchAxis = null;
+    lbMedia.addEventListener("touchstart", (e) => {
+      touchX = e.touches[0].clientX; touchY = e.touches[0].clientY; touchAxis = null;
     }, { passive: true });
+    lbMedia.addEventListener("touchmove", (e) => {
+      if (touchX === null || touchAxis) return;
+      const dx = e.touches[0].clientX - touchX;
+      const dy = e.touches[0].clientY - touchY;
+      if (Math.abs(dx) > 10 || Math.abs(dy) > 10) touchAxis = Math.abs(dx) > Math.abs(dy) ? "x" : "y";
+    }, { passive: true });
+    lbMedia.addEventListener("touchend", (e) => {
+      if (touchX !== null && touchAxis === "x") {
+        const dx = e.changedTouches[0].clientX - touchX;
+        if (Math.abs(dx) > 45) step(dx > 0 ? -1 : 1);
+      }
+      touchX = null; touchAxis = null;
+    }, { passive: true });
+
+    /* trackpad / Magic Mouse — deciding "is this tick a horizontal swipe or a
+       vertical scroll" from delta values alone was unreliable, especially on
+       Magic Mouse (a single curved touch surface, not a full 2D trackpad —
+       its axis separation is noisier). Instead of guessing per-gesture, the
+       two interactions now live in two different physical zones, matching
+       what's visually there: horizontal swipe-to-change-photo only listens
+       on the photo itself (.lightbox__media); vertical scroll-to-read-more is
+       handled by the browser's own native scroll on the card, with no JS
+       touching it at all — no shared detection, so nothing to conflict. */
+    let wheelAccumX = 0;
+    let wheelLocked = false;
+    let wheelIdleTimer = null;
+    lbMedia.addEventListener("wheel", (e) => {
+      if (Math.abs(e.deltaX) <= Math.abs(e.deltaY)) return; // vertical — let it bubble up and scroll the card natively
+      e.preventDefault();
+      if (wheelLocked) return;
+      wheelAccumX += e.deltaX;
+      clearTimeout(wheelIdleTimer);
+      wheelIdleTimer = setTimeout(() => { wheelAccumX = 0; }, 300);
+      if (Math.abs(wheelAccumX) > 130) {
+        step(wheelAccumX > 0 ? 1 : -1);
+        wheelAccumX = 0;
+        wheelLocked = true;
+        setTimeout(() => { wheelLocked = false; }, 550);
+      }
+    }, { passive: false });
+
+    /* category "escape hatch" — jump to any category (or home) straight from
+       inside a single project, no need to close first and hunt for the filter
+       bar underneath. Reuses the existing filter buttons: picking a category
+       here just closes the lightbox and clicks the matching one. */
+    const lbCatToggle = document.getElementById("lightboxCatToggle");
+    const lbCatMenu = document.getElementById("lightboxCatMenu");
+    if (lbCatToggle && lbCatMenu) {
+      lbCatToggle.addEventListener("click", (e) => {
+        e.stopPropagation();
+        const open = lbCatMenu.classList.toggle("is-open");
+        lbCatToggle.setAttribute("aria-expanded", String(open));
+      });
+      lbCatMenu.querySelectorAll("[data-goto-filter]").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const cat = btn.dataset.gotoFilter;
+          const filterBtn = document.querySelector(`.work-filter [data-filter="${cat}"]`);
+          lbCatMenu.classList.remove("is-open");
+          closeLightbox();
+          if (filterBtn) filterBtn.click();
+        });
+      });
+      document.addEventListener("click", (e) => {
+        if (lbCatMenu.classList.contains("is-open") && !lbCatMenu.contains(e.target) && e.target !== lbCatToggle) {
+          lbCatMenu.classList.remove("is-open");
+        }
+      });
+    }
+
+    /* deep link from the homepage: work.html#<project-slug> opens straight
+       into that project's slideshow with the full grid still underneath, so
+       closing it lands on "ผลงานทั้งหมด" instead of always showing the grid
+       first regardless of which project the visitor actually clicked. */
+    const initialSlug = location.hash.slice(1);
+    if (initialSlug && PROJECTS[initialSlug]) {
+      const tile = document.querySelector(`.masonry__tile[data-project="${initialSlug}"]`);
+      openLightbox(initialSlug, tile);
+    }
   }
 
   /* ---------- work divider script text scale-in ---------- */
