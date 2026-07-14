@@ -186,9 +186,12 @@ document.addEventListener("DOMContentLoaded", () => {
       clevia: "Brand-Design/Clevia",
       vellette: "Brand-Design/Vellette",
       leymo: "Illustration/Leymo",
-      worthy: "Social-Media/Worthy",
+      worthy: "Brand-Design/Worthy",
       bionest: "Packaging/Bionest",
       radsaebnua: "Brand-Design/RadSaebNua",
+      flvor: "Brand-Design/Flvor",
+      wysh: "Brand-Design/Wysh",
+      kero: "Brand-Design/Kero",
     };
     const img = (name) => {
       const slug = name.replace(/-\d+$/, "");
@@ -226,9 +229,12 @@ document.addEventListener("DOMContentLoaded", () => {
       },
       worthy: {
         title: "Worthy Design",
-        category: "Social Media",
-        desc: "คอนเทนต์ Before & After สำหรับสตูดิโอตกแต่งภายใน จัดวางเลย์เอาต์ให้ดูพรีเมียมและน่าเชื่อถือทุกโพสต์",
-        media: [img("worthy-01")],
+        category: "Brand-Design",
+        desc: "อัตลักษณ์แบรนด์สตูดิโอตกแต่งภายใน \"Worthy Decorate Co., Ltd\" ภายใต้แนวคิด \"Design your living, Design your life\" ตั้งแต่ป้ายหน้าร้าน บรรจุภัณฑ์ Brand Concept ไปจนถึงคอนเทนต์ Before & After บนโซเชียลมีเดีย",
+        media: [
+          img("worthy-01"), img("worthy-02"), img("worthy-03"),
+          img("worthy-04"), img("worthy-05"),
+        ],
       },
       pulse: {
         title: "Pulse Fitness",
@@ -304,6 +310,33 @@ document.addEventListener("DOMContentLoaded", () => {
           img("radsaebnua-01"), img("radsaebnua-02"), img("radsaebnua-03"),
           img("radsaebnua-04"), img("radsaebnua-05"), img("radsaebnua-06"),
           img("radsaebnua-07"), img("radsaebnua-08"), img("radsaebnua-09"),
+        ],
+      },
+      flvor: {
+        title: "flvor",
+        category: "Brand-Design",
+        desc: "อัตลักษณ์แบรนด์กาแฟ \"flvor\" ภายใต้แนวคิด \"Taste your way, live the flavor you love.\" สื่อสารผ่านโลโก้วงกลมคู่มินิมอลและภาพถ่ายเมล็ดกาแฟ/เครื่องดื่มโทนน้ำตาลอบอุ่น พร้อมการ์ดแนะนำรสชาติกาแฟจากแหล่งปลูกต่างๆ",
+        media: [
+          img("flvor-01"), img("flvor-02"), img("flvor-03"),
+          img("flvor-04"), img("flvor-05"),
+        ],
+      },
+      wysh: {
+        title: "WYSH Coffee Space",
+        category: "Brand-Design",
+        desc: "อัตลักษณ์แบรนด์ร้านกาแฟ \"WYSH Coffee Space\" ภายใต้แนวคิด \"A cup of Wysh.\" ตั้งแต่ป้ายห้อย แก้วบรรจุภัณฑ์ ไปจนถึงชุดสี Color Palette ที่กำหนดโทนเขียว-ส้มอบอุ่นให้แบรนด์",
+        media: [
+          img("wysh-01"), img("wysh-02"), img("wysh-03"),
+          img("wysh-04"), img("wysh-05"),
+        ],
+      },
+      kero: {
+        title: "kerö",
+        category: "Brand-Design",
+        desc: "อัตลักษณ์แบรนด์ Wellness Massage & Spa \"kerö\" สื่อถึงความสงบและการฟื้นฟูผ่านโทนภาพถ่ายสีน้ำตาลอบอุ่นและฟอนต์เซอริฟหรูหรา ภายใต้แนวคิด \"Restore balance within yourself\"",
+        media: [
+          img("kero-01"), img("kero-02"), img("kero-03"),
+          img("kero-04"), img("kero-05"),
         ],
       },
       // to add a video slide to a project later: { type: "video", src: "assets/work/xxx.mp4", poster: "assets/work/thumb/xxx.webp" }
