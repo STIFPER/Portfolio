@@ -904,11 +904,16 @@ form.brief{ padding:0; max-width:100%; text-align:left; position:relative; }
 .cv-hero__name{ line-height:1.1; }
 .service-row__title, .brief__q{ line-height:1.4; }
 
-/* headings that are Latin-only keep the tighter display tracking */
+/* headings that are Latin-only keep the tighter display tracking.
+   line-height here has to clear the font's descender (g/y/j/p/q), not just its
+   cap height — these headings sit inside a per-line overflow:hidden box (used
+   for the GSAP line-reveal), and anything tighter than ~1.15 clips descenders
+   against that box. A clipped "g" reads as a different letter (e.g.
+   "Pansungnoen" → "Pansunanoen"), which is worse than losing some tightness. */
 [data-latin]{ letter-spacing:-.02em !important; }
-.h2[data-latin]{ line-height:1.08; letter-spacing:-.01em !important; }
-.cv-hero__name[data-latin]{ line-height:1.02; }
-.hero__title[data-latin]{ line-height:.92; }
+.h2[data-latin]{ line-height:1.18; letter-spacing:-.01em !important; }
+.cv-hero__name[data-latin]{ line-height:1.18; }
+.hero__title[data-latin]{ line-height:1.12; }
 
 /* Thai body copy: a little more leading so upper marks never touch the line
    above, and no forced tracking on mono/eyebrow labels */
