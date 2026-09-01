@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>ผลงานทั้งหมด — MeStyle Studio</title>
+<title data-i18n="k38ca2fd7">ผลงานทั้งหมด — MeStyle Studio</title>
 <meta name="description" content="ผลงานทั้งหมดของ MeStyle Studio แยกตามหมวดหมู่ Brand Design, Packaging, Illustration และ Social Media" />
 
 <link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon-32.png" />
@@ -15,7 +15,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Unbounded:wght@400;500;600;700;800;900&family=Fraunces:ital,opsz,wght@1,9..144,400;1,9..144,500&family=Noto+Sans+Thai:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 
-<link rel="stylesheet" href="style.css" />
+<link rel="stylesheet" href="style.css?v=20260901y" />
 </head>
 <body>
 
@@ -25,24 +25,34 @@
 
 <div class="scroll-progress"><div class="scroll-progress__bar" id="progressBar"></div></div>
 
+<div class="nav__scrim" id="navScrim" hidden></div>
 <header class="nav" data-reveal>
   <a href="index.html" class="nav__logo">
     <img class="nav__mark" src="assets/img/logo.png" alt="" width="24" height="24" /> MeStyle<span class="nav__tm">™</span>
   </a>
-  <nav class="nav__links">
-    <a href="index.html#work">งาน</a>
-    <a href="index.html#services">บริการ</a>
-    <a href="index.html#pricing">แพ็กเกจ</a>
+  <nav class="nav__links" id="navLinks">
+    <a href="index.html" data-i18n="k03bff629">หน้าแรก</a>
+    <a href="about.html" data-i18n="k1a73bbcc">เกี่ยวกับ</a>
+    <a href="work.html" class="is-current" data-i18n="k719e9206">งาน</a>
+    <a href="index.html#services" data-i18n="k63939aa6">บริการ</a>
+    <a href="index.html#start" data-i18n="k61e07709">เริ่มโปรเจกต์</a>
     <a href="index.html#faq">FAQ</a>
   </nav>
-  <a href="index.html#contact" class="btn btn--ghost nav__cta magnetic">คุยงานกัน</a>
+  <div class="nav__lang" role="group" aria-label="Language">
+    <button type="button" class="nav__lang-btn is-active" data-lang="th">TH</button>
+    <span class="nav__lang-sep" aria-hidden="true">/</span>
+    <button type="button" class="nav__lang-btn" data-lang="en">EN</button>
+  </div>
+  <button type="button" class="nav__burger" id="navBurger" aria-label="เมนู" aria-expanded="false" aria-controls="navLinks">
+    <span></span><span></span><span></span>
+  </button>
 </header>
 
 <main>
 
   <section class="hero hero--page">
     <p class="hero__eyebrow" data-reveal>Selected Work</p>
-    <h1 class="hero__title hero__title--page" data-reveal>ผลงานทั้งหมด</h1>
+    <h1 class="hero__title hero__title--page" data-reveal data-i18n="k2aa51bf8">ผลงานทั้งหมด</h1>
     <p class="hero__tagline" data-reveal>We help good ideas become brands people remember.</p>
   </section>
 
@@ -53,12 +63,16 @@
       <button data-filter="Packaging">Packaging</button>
       <button data-filter="Illustration">Illustration</button>
       <button data-filter="Social Media">Social Media</button>
-      <button class="is-active" data-filter="all">ทั้งหมด</button>
+      <button class="is-active" data-filter="all" data-i18n="kbd5d572d">ทั้งหมด</button>
     </div>
 
     <div class="work__masonry">
 
       <div class="masonry__col" data-drift="1">
+        <button type="button" class="masonry__tile masonry__tile--tall" data-project="scope" data-category="Social Media" data-reveal>
+          <img src="assets/work/Social-Media/ScopeCollection/thumb/scope-01.webp" alt="Scope Collection — Social Content" loading="lazy" />
+          <span class="masonry__overlay"><span class="pill pill--outline-light">Social Media</span><span class="masonry__overlay-title">Scope Collection</span></span>
+        </button>
         <button type="button" class="masonry__tile masonry__tile--tall" data-project="wangwela" data-category="Brand-Design" data-reveal>
           <img src="assets/work/Brand-Design/Wangwela/thumb/wangwela-01.webp" alt="Wangwela — Brand Identity" loading="lazy" />
           <span class="masonry__overlay"><span class="pill pill--outline-light">Brand-Design</span><span class="masonry__overlay-title">Wangwela</span></span>
@@ -74,6 +88,10 @@
         <button type="button" class="masonry__tile masonry__tile--med" data-project="vellette" data-category="Brand-Design" data-reveal>
           <img src="assets/work/Brand-Design/Vellette/thumb/vellette-01.webp" alt="Vellette — Signage" loading="lazy" />
           <span class="masonry__overlay"><span class="pill pill--outline-light">Brand-Design</span><span class="masonry__overlay-title">Vellette</span></span>
+        </button>
+        <button type="button" class="masonry__tile masonry__tile--med" data-project="jokerz31" data-category="Illustration" data-reveal>
+          <img src="assets/work/Illustration/JOKERZ31/JOKERZ31.jpg" alt="JOKERZ31 — Illustration" loading="lazy" />
+          <span class="masonry__overlay"><span class="pill pill--outline-light">Illustration</span><span class="masonry__overlay-title">JOKERZ31</span></span>
         </button>
       </div>
 
@@ -94,6 +112,10 @@
           <img src="assets/work/Brand-Design/HTH/thumb/hth-01.webp" alt="HTH — Running Collection" loading="lazy" />
           <span class="masonry__overlay"><span class="pill pill--outline-light">Brand-Design</span><span class="masonry__overlay-title">HTH</span></span>
         </button>
+        <button type="button" class="masonry__tile masonry__tile--tall" data-project="kk-event" data-category="Packaging" data-reveal>
+          <img src="assets/work/Packaging/Packaging_KK%20Event/A4-KK-invited.jpg" alt="KK Event — Packaging" loading="lazy" />
+          <span class="masonry__overlay"><span class="pill pill--outline-light">Packaging</span><span class="masonry__overlay-title">KK Event</span></span>
+        </button>
       </div>
 
       <div class="masonry__col" data-drift="1">
@@ -107,7 +129,19 @@
         </button>
         <button type="button" class="masonry__tile masonry__tile--short" data-project="radsaebnua" data-category="Brand-Design" data-reveal>
           <img src="assets/work/Brand-Design/RadSaebNua/thumb/radsaebnua-01.webp" alt="แรดแซ่บนัว บันเทิงศิลป์ — Brand Mood" loading="lazy" />
-          <span class="masonry__overlay"><span class="pill pill--outline-light">Brand-Design</span><span class="masonry__overlay-title">แรดแซ่บนัว บันเทิงศิลป์</span></span>
+          <span class="masonry__overlay"><span class="pill pill--outline-light">Brand-Design</span><span class="masonry__overlay-title" data-i18n="ke8054c2b">แรดแซ่บนัว บันเทิงศิลป์</span></span>
+        </button>
+        <button type="button" class="masonry__tile masonry__tile--tall" data-project="thedispensary" data-category="Social Media" data-reveal>
+          <img src="assets/work/Social-Media/TheDispensary/thumb/thedispensary-01.webp" alt="The Dispensary — Social Content" loading="lazy" />
+          <span class="masonry__overlay"><span class="pill pill--outline-light">Social Media</span><span class="masonry__overlay-title">The Dispensary</span></span>
+        </button>
+        <button type="button" class="masonry__tile masonry__tile--tall" data-project="compoundgenetics" data-category="Social Media" data-reveal>
+          <img src="assets/work/Social-Media/compoundgenetics.th/thumb/compoundgenetics-01.webp" alt="Compound Genetics.th — Social Content" loading="lazy" />
+          <span class="masonry__overlay"><span class="pill pill--outline-light">Social Media</span><span class="masonry__overlay-title">Compound Genetics.th</span></span>
+        </button>
+        <button type="button" class="masonry__tile masonry__tile--med" data-project="mamaoden" data-category="Illustration" data-reveal>
+          <img src="assets/work/Illustration/Mama%20oden/thumb/mamaoden-01.webp" alt="Mama Oden — Brand Illustration" loading="lazy" />
+          <span class="masonry__overlay"><span class="pill pill--outline-light">Illustration</span><span class="masonry__overlay-title">Mama Oden</span></span>
         </button>
       </div>
 
@@ -123,6 +157,14 @@
         <button type="button" class="masonry__tile masonry__tile--med" data-project="flvor" data-category="Brand-Design" data-reveal>
           <img src="assets/work/Brand-Design/Flvor/thumb/flvor-01.webp" alt="flvor — Brand Identity" loading="lazy" />
           <span class="masonry__overlay"><span class="pill pill--outline-light">Brand-Design</span><span class="masonry__overlay-title">flvor</span></span>
+        </button>
+        <button type="button" class="masonry__tile masonry__tile--tall" data-project="compoundgenetics-packaging" data-category="Packaging" data-reveal>
+          <img src="assets/work/Packaging/compoundgenetics.th/thumb/compoundgenetics-preroll-product.webp" alt="Compound Genetics.th — Packaging" loading="lazy" />
+          <span class="masonry__overlay"><span class="pill pill--outline-light">Packaging</span><span class="masonry__overlay-title">Compound Genetics.th</span></span>
+        </button>
+        <button type="button" class="masonry__tile masonry__tile--tall" data-project="mayuree" data-category="Social Media" data-reveal>
+          <img src="assets/work/Social-Media/มยุรี/thumb/mayuree-01.webp" alt="มยุรี ข้าวตังทรงเครื่อง — Social Content" loading="lazy" />
+          <span class="masonry__overlay"><span class="pill pill--outline-light">Social Media</span><span class="masonry__overlay-title" data-i18n="k0d9b7b1b">มยุรี ข้าวตังทรงเครื่อง</span></span>
         </button>
       </div>
 
@@ -144,8 +186,8 @@
         <button type="button" role="menuitem" data-goto-filter="Packaging">Packaging</button>
         <button type="button" role="menuitem" data-goto-filter="Illustration">Illustration</button>
         <button type="button" role="menuitem" data-goto-filter="Social Media">Social Media</button>
-        <button type="button" role="menuitem" data-goto-filter="all">ทั้งหมด</button>
-        <a role="menuitem" href="index.html" class="lightbox__categories-home">หน้าแรก</a>
+        <button type="button" role="menuitem" data-goto-filter="all" data-i18n="kbd5d572d">ทั้งหมด</button>
+        <a role="menuitem" href="index.html" class="lightbox__categories-home" data-i18n="k03bff629">หน้าแรก</a>
       </div>
     </div>
 
@@ -162,7 +204,7 @@
       <h3 id="lightboxTitle"></h3>
       <div class="lightbox__desc-wrap">
         <p id="lightboxDesc" class="is-clamped"></p>
-        <button type="button" class="lightbox__desc-toggle" id="lightboxDescToggle">เพิ่มเติม</button>
+        <button type="button" class="lightbox__desc-toggle" id="lightboxDescToggle" data-i18n="k76a0b4ba">เพิ่มเติม</button>
       </div>
     </div>
 
@@ -178,6 +220,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
 <script src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js" defer></script>
-<script src="script.js" defer></script>
+<script src="i18n.js?v=20260901y" defer></script>
+<script src="script.js?v=20260901y" defer></script>
 </body>
 </html>

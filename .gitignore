@@ -1,1 +1,15 @@
+# macOS
 .DS_Store
+
+# tooling / scratch
+.agents/
+
+# Design source files — kept locally, never served by the site
+*.ai
+*.psd
+*.indd
+**/_originals/
+
+# Legacy asset folders, superseded by assets/work/ and no longer referenced
+assets/OkGo/
+assets/work-Brand Design & Cl/

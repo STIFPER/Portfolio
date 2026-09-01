@@ -15,7 +15,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Unbounded:wght@400;500;600;700;800;900&family=Fraunces:ital,opsz,wght@1,9..144,400;1,9..144,500&family=Noto+Sans+Thai:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 
-<link rel="stylesheet" href="style.css" />
+<link rel="stylesheet" href="style.css?v=20260901y" />
 </head>
 <body>
 
@@ -28,17 +28,27 @@
 <div class="scroll-progress"><div class="scroll-progress__bar" id="progressBar"></div></div>
 
 <!-- ============ NAV ============ -->
+<div class="nav__scrim" id="navScrim" hidden></div>
 <header class="nav" data-reveal>
   <a href="#top" class="nav__logo">
     <img class="nav__mark" src="assets/img/logo.png" alt="" width="24" height="24" /> MeStyle<span class="nav__tm">™</span>
   </a>
-  <nav class="nav__links">
-    <a href="#work">งาน</a>
-    <a href="#services">บริการ</a>
-    <a href="#pricing">แพ็กเกจ</a>
+  <nav class="nav__links" id="navLinks">
+    <a href="#top" class="is-current" data-i18n="k03bff629">หน้าแรก</a>
+    <a href="about.html" data-i18n="k1a73bbcc">เกี่ยวกับ</a>
+    <a href="#work" data-i18n="k719e9206">งาน</a>
+    <a href="#services" data-i18n="k63939aa6">บริการ</a>
+    <a href="#start" data-i18n="k61e07709">เริ่มโปรเจกต์</a>
     <a href="#faq">FAQ</a>
   </nav>
-  <a href="#contact" class="btn btn--ghost nav__cta magnetic">คุยงานกัน</a>
+  <div class="nav__lang" role="group" aria-label="Language">
+    <button type="button" class="nav__lang-btn is-active" data-lang="th">TH</button>
+    <span class="nav__lang-sep" aria-hidden="true">/</span>
+    <button type="button" class="nav__lang-btn" data-lang="en">EN</button>
+  </div>
+  <button type="button" class="nav__burger" id="navBurger" aria-label="เมนู" aria-expanded="false" aria-controls="navLinks">
+    <span></span><span></span><span></span>
+  </button>
 </header>
 
 <main id="top">
@@ -53,7 +63,7 @@
 
     <p class="hero__eyebrow" data-reveal>Brand &amp; Graphic Designer</p>
 
-    <h1 class="hero__title">
+    <h1 class="hero__title" data-latin>
       <span class="line" data-split>MeStyle</span>
       <span class="line" data-split>Studio<sup class="hero__tm">™</sup></span>
     </h1>
@@ -61,7 +71,7 @@
     <p class="hero__tagline" data-reveal>We help good ideas become brands people remember.</p>
 
     <div class="hero__tags" data-reveal>
-      <span class="pill pill--maroon">Brand&nbsp;Design</span>
+      <span class="pill pill--maroon">Brand Design</span>
       <span class="pill pill--navy">Packaging</span>
       <span class="pill pill--mustard">Brand Clarity</span>
       <span class="pill pill--coral">Illustration</span>
@@ -71,7 +81,7 @@
     </div>
 
     <a href="#work" class="scroll-cue" data-reveal>
-      <span>เลื่อนลงเพื่อดูงาน</span>
+      <span data-i18n="k49a48cb6">เลื่อนลงเพื่อดูงาน</span>
       <span class="scroll-cue__line"></span>
     </a>
   </section>
@@ -86,6 +96,7 @@
         <span>PULSE FITNESS</span><span>•</span><span>WANGWELA</span><span>•</span>
         <span>ACTERA</span><span>•</span><span>GREEN APE</span><span>•</span>
         <span>HTH</span><span>•</span><span>COMPOUND GENETICS</span><span>•</span>
+        <span>MAMA ODEN</span><span>•</span><span>SCOPE COLLECTION</span><span>•</span>
       </div>
       <div class="marquee__track" aria-hidden="true">
         <span>KHALIFA KUSH</span><span>•</span><span>BIONEST</span><span>•</span>
@@ -94,6 +105,7 @@
         <span>PULSE FITNESS</span><span>•</span><span>WANGWELA</span><span>•</span>
         <span>ACTERA</span><span>•</span><span>GREEN APE</span><span>•</span>
         <span>HTH</span><span>•</span><span>COMPOUND GENETICS</span><span>•</span>
+        <span>MAMA ODEN</span><span>•</span><span>SCOPE COLLECTION</span><span>•</span>
       </div>
     </div>
   </section>
@@ -102,87 +114,54 @@
   <section class="about" id="about">
     <div class="about__grid">
       <div class="about__intro" data-reveal>
-        <p class="eyebrow">About Studio</p>
-        <h2 class="h2">
-          Built Through <br />Experience<br />
+        <p class="eyebrow">About Me</p>
+        <h2 class="h2" data-latin>
+          Built Through<br />Experience
         </h2>
+        <p class="about__role">Wachirawit Pansungnoen (Stifper)<br />Brand &amp; Graphic Designer — est. 2016</p>
       </div>
+      <!-- deliberately short: the full story, CV and timeline live on about.html.
+           the homepage only needs enough to say who made this work, then get
+           out of the way so the grid below can do the talking. -->
       <div class="about__copy" data-reveal>
-        <p>
-          MeStyle Studio 
-        <p>
-          Founded in 2016, MeStyle Studio has grown from logo design into a multidisciplinary creative studio. We’ve contributed to projects for SMEs, growing businesses, and leading organizations across Thailand through branding, digital content, websites, and visual communication—helping brands communicate with clarity and confidence.
+        <p data-i18n="k63eae757">
+          สวัสดีครับ ผม Stifper — นักออกแบบกราฟิกและแบรนด์ดีไซเนอร์ ประสบการณ์กว่า 10 ปี
+          จบนิเทศศิลป์จากมหาวิทยาลัยบูรพา ทำงานประจำในองค์กร
+          ควบคู่กับงานภายใต้ชื่อ <strong>MeStyle Studio</strong> มาตั้งแต่ปี 2016
+        </p>
+        <p data-i18n="ke4c3f4d8">
+          ตลอดสิบปีได้ทำงานให้แบรนด์มากกว่า 300 แบรนด์ ตั้งแต่วางอัตลักษณ์ โลโก้
+          บรรจุภัณฑ์ ไปจนถึงคอนเทนต์โซเชียลมีเดีย
+          — โดยเชื่อว่างานออกแบบที่ดีไม่ได้วัดกันที่ความสวยเพียงอย่างเดียว
+          แต่วัดที่ว่ามันทำให้แบรนด์ถูกจดจำและเติบโตได้หรือเปล่า
+        </p>
+        <p><a href="about.html" class="about__more" data-i18n="ke1b8715c">อ่านประวัติและประสบการณ์ฉบับเต็ม →</a></p>
       </div>
     </div>
 
     <div class="stats" data-reveal>
       <div class="stats__item">
-        <span class="stats__num" data-count="9">0</span><span class="stats__plus">+</span>
-        <p>ปีที่คลุกคลีกับงานแบรนด์</p>
+        <span class="stats__num" data-count="10">0</span><span class="stats__plus">+</span>
+        <p data-i18n="k5e272a1f">ปีที่คลุกคลีกับงานแบรนด์</p>
       </div>
       <div class="stats__item">
         <span class="stats__num" data-count="300">0</span><span class="stats__plus">+</span>
-        <p>แบรนด์ที่ไว้วางใจ</p>
+        <p data-i18n="k446b171d">แบรนด์ที่ไว้วางใจ</p>
       </div>
       <div class="stats__item">
         <span class="stats__num" data-count="30">0</span><span class="stats__plus">+</span>
-        <p>โปรเจกต์ Brand Identity</p>
+        <p data-i18n="k864417bf">โปรเจกต์ Brand Identity</p>
       </div>
       <div class="stats__item">
         <span class="stats__num" data-count="2016">0</span>
-        <p>ปีที่ก่อตั้ง — estd. 2016</p>
+        <p data-i18n="kad081c6e">ปีที่ก่อตั้ง — estd. 2016</p>
       </div>
-    </div>
-  </section>
-
-  <!-- ============ SERVICES ============ -->
-  <section class="services" id="services">
-    <p class="eyebrow" data-reveal>บริการ</p>
-    <h2 class="h2 h2--big" data-reveal>How can<br />you work with me?</h2>
-
-    <div class="services__list">
-
-      <article class="service-row" data-reveal>
-        <span class="service-row__num">01</span>
-        <h3 class="service-row__title">Brand Design &amp; CI</h3>
-        <p class="service-row__desc">โลโก้ อัตลักษณ์แบรนด์ คู่มือการใช้งาน (Brand Guideline) ที่นำไปใช้ได้จริงทุกช่องทาง</p>
-        <span class="pill pill--maroon service-row__tag">Brand-Design</span>
-      </article>
-
-      <article class="service-row" data-reveal>
-        <span class="service-row__num">02</span>
-        <h3 class="service-row__title">Packaging Design</h3>
-        <p class="service-row__desc">งานบรรจุภัณฑ์ที่ทั้งสวยและขายได้ ตั้งแต่คอนเซปต์ไปจนถึงไฟล์พร้อมพิมพ์</p>
-        <span class="pill pill--navy service-row__tag">Packaging</span>
-      </article>
-
-      <article class="service-row" data-reveal>
-        <span class="service-row__num">03</span>
-        <h3 class="service-row__title">Brand Clarity</h3>
-        <p class="service-row__desc">จัดระเบียบความคิดแบรนด์ให้ชัด ก่อนลงมือออกแบบ — เพื่อภาพลักษณ์ที่สื่อสารตรงเป้าหมาย</p>
-        <span class="pill pill--mustard service-row__tag">Clarity</span>
-      </article>
-
-      <article class="service-row" data-reveal>
-        <span class="service-row__num">04</span>
-        <h3 class="service-row__title">Illustration &amp; Mascot</h3>
-        <p class="service-row__desc">คาแรกเตอร์และภาพประกอบที่มีเสน่ห์ ช่วยให้แบรนด์จำง่ายและมีชีวิตชีวา</p>
-        <span class="pill pill--coral service-row__tag">Illustration</span>
-      </article>
-
-      <article class="service-row" data-reveal>
-        <span class="service-row__num">05</span>
-        <h3 class="service-row__title">Print &amp; Social Media</h3>
-        <p class="service-row__desc">โปสเตอร์ สื่อสิ่งพิมพ์ และคอนเทนต์ออนไลน์ที่ตรงคาแรกเตอร์แบรนด์ในทุกแพลตฟอร์ม</p>
-        <span class="pill pill--teal service-row__tag">Graphic Design</span>
-      </article>
-
     </div>
   </section>
 
   <!-- ============ WORK / FEATURED ============ -->
   <section class="work-divider">
-    <p class="work-divider__script" data-reveal>Featured&nbsp;Work</p>
+    <p class="work-divider__script" data-reveal data-latin>Featured&nbsp;Work</p>
     <p class="work-divider__sub" data-reveal>We help good ideas become brands people remember. — Our Journey</p>
   </section>
 
@@ -190,6 +169,13 @@
 
     <div class="work__masonry">
       <div class="masonry__col" data-drift="1">
+        <a class="masonry__tile masonry__tile--tall" href="work.html#scope" data-reveal>
+          <img src="assets/work/Social-Media/ScopeCollection/thumb/scope-01.webp" alt="Scope Collection — Social Content" loading="lazy" />
+          <div class="masonry__overlay">
+            <span class="pill pill--outline-light">Social Media</span>
+            <h3>Scope Collection</h3>
+          </div>
+        </a>
         <a class="masonry__tile masonry__tile--tall" href="work.html#wangwela" data-reveal>
           <img src="assets/work/Brand-Design/Wangwela/thumb/wangwela-01.webp" alt="Wangwela — Brand Identity" loading="lazy" />
           <div class="masonry__overlay">
@@ -197,13 +183,47 @@
             <h3>Wangwela</h3>
           </div>
         </a>
-        <a class="masonry__tile masonry__tile--short" href="work.html#dhw" data-reveal>
-          <img src="assets/work/Brand-Design/DHW/thumb/dhw-01.webp" alt="DID Hardware House — Outdoor Ad" loading="lazy" />
+        <a class="masonry__tile masonry__tile--med" href="work.html#mamaoden" data-reveal>
+          <img src="assets/work/Illustration/Mama%20oden/thumb/mamaoden-01.webp" alt="Mama Oden — Brand Illustration" loading="lazy" />
           <div class="masonry__overlay">
-            <span class="pill pill--outline-light">Brand-Design</span>
-            <h3>DID Hardware House</h3>
+            <span class="pill pill--outline-light">Illustration</span>
+            <h3>Mama Oden</h3>
           </div>
         </a>
+        <a class="masonry__tile masonry__tile--tall" href="work.html#thedispensary" data-reveal>
+          <img src="assets/work/Social-Media/TheDispensary/thumb/thedispensary-01.webp" alt="The Dispensary — Social Content" loading="lazy" />
+          <div class="masonry__overlay">
+            <span class="pill pill--outline-light">Social Media</span>
+            <h3>The Dispensary</h3>
+          </div>
+        </a>
+      </div>
+
+      <div class="masonry__col" data-drift="-1">
+        <a class="masonry__tile masonry__tile--tall" href="work.html#bionest" data-reveal>
+          <img src="assets/work/Packaging/Bionest/thumb/bionest-01.webp" alt="Bionest — Packaging" loading="lazy" />
+          <div class="masonry__overlay">
+            <span class="pill pill--outline-light">Packaging</span>
+            <h3>Bionest</h3>
+          </div>
+        </a>
+        <a class="masonry__tile masonry__tile--short" href="work.html#okgo" data-reveal>
+          <img src="assets/work/Brand-Design/OK-GO/thumb/okgo-02.webp" alt="OK! GO — Brand Identity" loading="lazy" />
+          <div class="masonry__overlay">
+            <span class="pill pill--outline-light">Brand-Design</span>
+            <h3>OK! GO</h3>
+          </div>
+        </a>
+        <a class="masonry__tile masonry__tile--tall" href="work.html#compoundgenetics-packaging" data-reveal>
+          <img src="assets/work/Packaging/compoundgenetics.th/thumb/compoundgenetics-preroll-product.webp" alt="Compound Genetics.th — Packaging" loading="lazy" />
+          <div class="masonry__overlay">
+            <span class="pill pill--outline-light">Packaging</span>
+            <h3>Compound Genetics.th</h3>
+          </div>
+        </a>
+      </div>
+
+      <div class="masonry__col" data-drift="1">
         <a class="masonry__tile masonry__tile--med" href="work.html#leymo" data-reveal>
           <img src="assets/work/Illustration/Leymo/thumb/leymo-01.webp" alt="Leymo — Mascot Illustration" loading="lazy" />
           <div class="masonry__overlay">
@@ -211,38 +231,11 @@
             <h3>Leymo</h3>
           </div>
         </a>
-      </div>
-
-      <div class="masonry__col" data-drift="-1">
-        <a class="masonry__tile masonry__tile--tall" href="work.html#okgo" data-reveal>
-          <img src="assets/work/Brand-Design/OK-GO/thumb/okgo-02.webp" alt="OK! GO — Brand Identity" loading="lazy" />
+        <a class="masonry__tile masonry__tile--tall" href="work.html#wysh" data-reveal>
+          <img src="assets/work/Brand-Design/Wysh/thumb/wysh-01.webp" alt="WYSH Coffee Space — Brand Identity" loading="lazy" />
           <div class="masonry__overlay">
             <span class="pill pill--outline-light">Brand-Design</span>
-            <h3>OK! GO</h3>
-          </div>
-        </a>
-        <a class="masonry__tile masonry__tile--med" href="work.html#clevia" data-reveal>
-          <img src="assets/work/Brand-Design/Clevia/thumb/clevia-01.webp" alt="Clévia — Skincare Packaging" loading="lazy" />
-          <div class="masonry__overlay">
-            <span class="pill pill--outline-light">Brand-Design</span>
-            <h3>Clévia</h3>
-          </div>
-        </a>
-        <a class="masonry__tile masonry__tile--short" href="work.html#pulse" data-reveal>
-          <img src="assets/work/Brand-Design/Pulse/thumb/pulse-01.webp" alt="Pulse Fitness — Campaign Poster" loading="lazy" />
-          <div class="masonry__overlay">
-            <span class="pill pill--outline-light">Brand-Design</span>
-            <h3>Pulse Fitness</h3>
-          </div>
-        </a>
-      </div>
-
-      <div class="masonry__col" data-drift="1">
-        <a class="masonry__tile masonry__tile--tall" href="work.html#vellette" data-reveal>
-          <img src="assets/work/Brand-Design/Vellette/thumb/vellette-01.webp" alt="Vellette — Signage" loading="lazy" />
-          <div class="masonry__overlay">
-            <span class="pill pill--outline-light">Brand-Design</span>
-            <h3>Vellette</h3>
+            <h3>WYSH Coffee Space</h3>
           </div>
         </a>
         <a class="masonry__tile masonry__tile--med" href="work.html#hth" data-reveal>
@@ -252,77 +245,206 @@
             <h3>HTH</h3>
           </div>
         </a>
-        <a class="masonry__tile masonry__tile--tall" href="work.html#bionest" data-reveal>
-          <img src="assets/work/Packaging/Bionest/thumb/bionest-01.webp" alt="Bionest — Packaging" loading="lazy" />
+      </div>
+
+      <div class="masonry__col" data-drift="-1">
+        <a class="masonry__tile masonry__tile--tall" href="work.html#kk-event" data-reveal>
+          <img src="assets/work/Packaging/Packaging_KK%20Event/A4-KK-invited.jpg" alt="KK Event — Packaging" loading="lazy" />
           <div class="masonry__overlay">
             <span class="pill pill--outline-light">Packaging</span>
-            <h3>Bionest</h3>
+            <h3>KK Event</h3>
+          </div>
+        </a>
+        <a class="masonry__tile masonry__tile--med" href="work.html#vellette" data-reveal>
+          <img src="assets/work/Brand-Design/Vellette/thumb/vellette-01.webp" alt="Vellette — Signage" loading="lazy" />
+          <div class="masonry__overlay">
+            <span class="pill pill--outline-light">Brand-Design</span>
+            <h3>Vellette</h3>
+          </div>
+        </a>
+        <a class="masonry__tile masonry__tile--tall" href="work.html#mayuree" data-reveal>
+          <img src="assets/work/Social-Media/มยุรี/thumb/mayuree-01.webp" alt="มยุรี ข้าวตังทรงเครื่อง — Social Content" loading="lazy" />
+          <div class="masonry__overlay">
+            <span class="pill pill--outline-light">Social Media</span>
+            <h3 data-i18n="k0d9b7b1b">มยุรี ข้าวตังทรงเครื่อง</h3>
           </div>
         </a>
       </div>
     </div>
 
     <div class="work__more" data-reveal>
-      <a href="work.html" class="btn btn--solid magnetic">ดูผลงานทั้งหมด →</a>
-      <p>สำรวจผลงานทุกโปรเจกต์ แยกตามหมวดหมู่ Brand Design, Packaging, Illustration และ Social Media</p>
+      <a href="work.html" class="btn btn--solid magnetic" data-i18n="kbb4a9830">ดูผลงานทั้งหมด →</a>
+      <p data-i18n="k5834bd70">สำรวจผลงานทุกโปรเจกต์ แยกตามหมวดหมู่ Brand Design, Packaging, Illustration และ Social Media</p>
     </div>
 
   </section>
 
-  <!-- ============ PRICING ============ -->
-  <section class="pricing" id="pricing">
-    <p class="eyebrow" data-reveal>แพ็กเกจ</p>
-    <h2 class="h2" data-reveal>เลือกแพ็กเกจที่ใช่<br />สำหรับแบรนด์ของคุณ</h2>
+  <!-- ============ SERVICES ============ -->
+  <section class="services" id="services">
+    <p class="eyebrow" data-reveal data-i18n="k63939aa6">บริการ</p>
+    <h2 class="h2 h2--big" data-reveal data-latin>How can<br />you work with me?</h2>
 
-    <div class="pricing__grid">
+    <div class="services__list">
 
-      <div class="price-card" data-reveal>
-        <div class="price-card__tag pill pill--lime">Starter</div>
-        <h3 class="price-card__name">Logo Design</h3>
-        <p class="price-card__price">฿8,900<span>เริ่มต้น</span></p>
-        <ul class="price-card__list">
-          <li>ออกแบบโลโก้ 3 แนวคอนเซปต์</li>
-          <li>แก้ไขได้ 3 รอบ</li>
-          <li>ไฟล์ส่งงานครบ (AI, PNG, PDF)</li>
-          <li>ระยะเวลา 5–7 วันทำการ</li>
-        </ul>
-        <a href="#contact" class="btn btn--outline magnetic">เริ่มโปรเจกต์</a>
-      </div>
+      <a class="service-row" href="work.html?filter=Brand-Design" data-reveal>
+        <span class="service-row__num">01</span>
+        <h3 class="service-row__title">Brand Design &amp; CI</h3>
+        <p class="service-row__desc" data-i18n="k3a96b24c">โลโก้ อัตลักษณ์แบรนด์ คู่มือการใช้งาน (Brand Guideline) ที่นำไปใช้ได้จริงทุกช่องทาง</p>
+        <span class="pill pill--maroon service-row__tag">Brand-Design</span>
+        <span class="service-row__go" aria-hidden="true" data-i18n="kdd09a4a7">ดูผลงาน →</span>
+      </a>
 
-      <div class="price-card price-card--highlight" data-reveal>
-        <div class="price-card__tag pill pill--mustard">Popular</div>
-        <h3 class="price-card__name">Brand Identity</h3>
-        <p class="price-card__price">฿18,900<span>เริ่มต้น</span></p>
-        <ul class="price-card__list">
-          <li>โลโก้ + ระบบสี / ฟอนต์ / Guideline</li>
-          <li>นามบัตร, หัวจดหมาย, สื่อพื้นฐาน</li>
-          <li>แก้ไขได้ 5 รอบ</li>
-          <li>ระยะเวลา 10–14 วันทำการ</li>
-        </ul>
-        <a href="#contact" class="btn btn--solid magnetic">เริ่มโปรเจกต์</a>
-      </div>
+      <a class="service-row" href="work.html?filter=Packaging" data-reveal>
+        <span class="service-row__num">02</span>
+        <h3 class="service-row__title">Packaging Design</h3>
+        <p class="service-row__desc" data-i18n="k0f2adccf">งานบรรจุภัณฑ์ที่ทั้งสวยและขายได้ ตั้งแต่คอนเซปต์ไปจนถึงไฟล์พร้อมพิมพ์</p>
+        <span class="pill pill--navy service-row__tag">Packaging</span>
+        <span class="service-row__go" aria-hidden="true" data-i18n="kdd09a4a7">ดูผลงาน →</span>
+      </a>
 
-      <div class="price-card" data-reveal>
-        <div class="price-card__tag pill pill--teal">Full CI</div>
-        <h3 class="price-card__name">Complete Branding</h3>
-        <p class="price-card__price">฿39,900<span>เริ่มต้น</span></p>
-        <ul class="price-card__list">
-          <li>Brand Identity ฉบับสมบูรณ์ทุกองค์ประกอบ</li>
-          <li>Packaging / Social Media Kit</li>
-          <li>ที่ปรึกษากลยุทธ์แบรนด์ 1:1</li>
-          <li>ระยะเวลา 3–4 สัปดาห์</li>
-        </ul>
-        <a href="#contact" class="btn btn--outline magnetic">เริ่มโปรเจกต์</a>
-      </div>
+      <a class="service-row" href="work.html?filter=Brand-Design" data-reveal>
+        <span class="service-row__num">03</span>
+        <h3 class="service-row__title">Brand Clarity</h3>
+        <p class="service-row__desc" data-i18n="k015bd499">จัดระเบียบความคิดแบรนด์ให้ชัด ก่อนลงมือออกแบบ — เพื่อภาพลักษณ์ที่สื่อสารตรงเป้าหมาย</p>
+        <span class="pill pill--mustard service-row__tag">Clarity</span>
+        <span class="service-row__go" aria-hidden="true" data-i18n="kdd09a4a7">ดูผลงาน →</span>
+      </a>
+
+      <a class="service-row" href="work.html?filter=Illustration" data-reveal>
+        <span class="service-row__num">04</span>
+        <h3 class="service-row__title">Illustration &amp; Mascot</h3>
+        <p class="service-row__desc" data-i18n="kd5e165aa">คาแรกเตอร์และภาพประกอบที่มีเสน่ห์ ช่วยให้แบรนด์จำง่ายและมีชีวิตชีวา</p>
+        <span class="pill pill--coral service-row__tag">Illustration</span>
+        <span class="service-row__go" aria-hidden="true" data-i18n="kdd09a4a7">ดูผลงาน →</span>
+      </a>
+
+      <a class="service-row" href="work.html?filter=Social%20Media" data-reveal>
+        <span class="service-row__num">05</span>
+        <h3 class="service-row__title">Print &amp; Social Media</h3>
+        <p class="service-row__desc" data-i18n="kf6e65ae0">โปสเตอร์ สื่อสิ่งพิมพ์ และคอนเทนต์ออนไลน์ที่ตรงคาแรกเตอร์แบรนด์ในทุกแพลตฟอร์ม</p>
+        <span class="pill pill--teal service-row__tag">Graphic Design</span>
+        <span class="service-row__go" aria-hidden="true" data-i18n="kdd09a4a7">ดูผลงาน →</span>
+      </a>
 
     </div>
-    <p class="pricing__note" data-reveal>* ราคาอาจปรับตามความซับซ้อนของงานและจำนวนสื่อที่ต้องออกแบบ ทักมาคุยรายละเอียดกันได้เลย</p>
+  </section>
+
+  <!-- ============ START A PROJECT / BRIEF ============ -->
+  <section class="brief" id="start">
+    <p class="eyebrow" data-reveal data-i18n="kd2524c6f">สนใจร่วมงานกับเรา</p>
+    <h2 class="h2" data-reveal data-i18n="ke0760c64">เล่าโปรเจกต์<br />ให้เราฟังหน่อย</h2>
+    <p class="brief__lead" data-reveal data-i18n="ke633e4ce">
+      ตอบไม่กี่ข้อ แล้วเราจะสรุปขอบเขตงานและใบเสนอราคากลับไปให้
+    </p>
+
+    <!-- the form stays folded away behind one button: the section reads as an
+         invitation first, and only becomes a form once someone opts in. -->
+    <div class="brief__gate" id="briefGate" data-reveal>
+      <button type="button" class="btn btn--solid magnetic" id="briefOpen" data-i18n="k50008acd">เริ่มเล่าโปรเจกต์ →</button>
+      <p class="brief__gate-note" data-i18n="k81a6b5b6">ใช้เวลาประมาณ 1 นาที</p>
+    </div>
+
+    <form class="brief" id="briefForm" hidden novalidate>
+      <div class="brief__bar"><span class="brief__bar-fill" id="briefBarFill"></span></div>
+      <p class="brief__count"><span id="briefStepNow">1</span> / 4</p>
+
+      <!-- STEP 1 -->
+      <fieldset class="brief__step is-active" data-step="1">
+        <legend class="brief__q" data-i18n="kb75af21c">อยากให้ช่วยเรื่องอะไรบ้าง?</legend>
+        <p class="brief__hint" data-i18n="ke0bfd5e5">เลือกได้มากกว่า 1 ข้อ</p>
+        <div class="brief__opts">
+          <label class="brief__opt"><input type="checkbox" name="service" value="Brand Design &amp; CI" /><span>Brand Design &amp; CI</span></label>
+          <label class="brief__opt"><input type="checkbox" name="service" value="Packaging Design" /><span>Packaging Design</span></label>
+          <label class="brief__opt"><input type="checkbox" name="service" value="Illustration / Mascot" /><span>Illustration / Mascot</span></label>
+          <label class="brief__opt"><input type="checkbox" name="service" value="Social Media / Content" /><span>Social Media / Content</span></label>
+          <label class="brief__opt"><input type="checkbox" name="service" value="Print / สื่อสิ่งพิมพ์" /><span data-i18n="k579806ef">Print / สื่อสิ่งพิมพ์</span></label>
+          <label class="brief__opt"><input type="checkbox" name="service" value="ยังไม่แน่ใจ อยากให้ช่วยแนะนำ" /><span data-i18n="k76c3f03a">ยังไม่แน่ใจ อยากให้ช่วยแนะนำ</span></label>
+        </div>
+      </fieldset>
+
+      <!-- STEP 2 -->
+      <fieldset class="brief__step" data-step="2">
+        <legend class="brief__q" data-i18n="ka57f4d7d">เล่าเรื่องแบรนด์ของคุณ</legend>
+        <div class="brief__fields">
+          <label class="brief__field">
+            <span data-i18n="k4217c897">ชื่อแบรนด์ / ธุรกิจ</span>
+            <input type="text" name="brand" placeholder="เช่น Mama Oden" />
+          </label>
+          <label class="brief__field">
+            <span data-i18n="kf73b389f">ทำธุรกิจเกี่ยวกับอะไร</span>
+            <input type="text" name="industry" placeholder="เช่น ร้านอาหารญี่ปุ่น, คาเฟ่, สกินแคร์" />
+          </label>
+        </div>
+        <p class="brief__hint brief__hint--mt" data-i18n="kbf2a4720">ตอนนี้แบรนด์อยู่ในขั้นไหน?</p>
+        <div class="brief__opts">
+          <label class="brief__opt"><input type="radio" name="stage" value="เริ่มใหม่ ยังไม่มีอะไรเลย" /><span data-i18n="kd301fce7">เริ่มใหม่ ยังไม่มีอะไรเลย</span></label>
+          <label class="brief__opt"><input type="radio" name="stage" value="มีโลโก้แล้ว อยากทำต่อ" /><span data-i18n="k195ddfc7">มีโลโก้แล้ว อยากทำต่อ</span></label>
+          <label class="brief__opt"><input type="radio" name="stage" value="มีแบรนด์อยู่แล้ว อยากรีแบรนด์" /><span data-i18n="k0a4559da">มีแบรนด์อยู่แล้ว อยากรีแบรนด์</span></label>
+        </div>
+      </fieldset>
+
+      <!-- STEP 3 -->
+      <fieldset class="brief__step" data-step="3">
+        <legend class="brief__q" data-i18n="k792f01c7">ขอบเขตและระยะเวลา</legend>
+        <p class="brief__hint" data-i18n="kc975bdea">อยากได้งานใช้เมื่อไหร่?</p>
+        <div class="brief__opts">
+          <label class="brief__opt"><input type="radio" name="timing" value="ด่วน ภายใน 2 สัปดาห์" /><span data-i18n="kdc747c54">ด่วน — ภายใน 2 สัปดาห์</span></label>
+          <label class="brief__opt"><input type="radio" name="timing" value="ภายใน 1 เดือน" /><span data-i18n="k51056436">ภายใน 1 เดือน</span></label>
+          <label class="brief__opt"><input type="radio" name="timing" value="2-3 เดือน" /><span data-i18n="ka39007ce">2–3 เดือน</span></label>
+          <label class="brief__opt"><input type="radio" name="timing" value="ยังไม่กำหนด" /><span data-i18n="k5b93f4ca">ยังไม่กำหนด</span></label>
+        </div>
+        <p class="brief__hint brief__hint--mt" data-i18n="ka7e101d6">งบประมาณที่วางไว้ (ถ้ามี) — ช่วยให้เราเสนอขอบเขตงานได้ตรงกว่า</p>
+        <div class="brief__opts">
+          <label class="brief__opt"><input type="radio" name="budget" value="อยากให้ช่วยแนะนำ" /><span data-i18n="kb35fb97a">อยากให้ช่วยแนะนำ</span></label>
+          <label class="brief__opt"><input type="radio" name="budget" value="ระดับเริ่มต้น" /><span data-i18n="k6470093b">ระดับเริ่มต้น</span></label>
+          <label class="brief__opt"><input type="radio" name="budget" value="ระดับกลาง" /><span data-i18n="kcde70e8e">ระดับกลาง</span></label>
+          <label class="brief__opt"><input type="radio" name="budget" value="เต็มรูปแบบ ไม่จำกัด" /><span data-i18n="k58e6a52f">เต็มรูปแบบ</span></label>
+        </div>
+      </fieldset>
+
+      <!-- STEP 4 -->
+      <fieldset class="brief__step" data-step="4">
+        <legend class="brief__q" data-i18n="k581dc51b">ติดต่อกลับได้ที่ไหน?</legend>
+        <div class="brief__fields">
+          <label class="brief__field">
+            <span data-i18n="k5918858c">ชื่อผู้ติดต่อ <em>*</em></span>
+            <input type="text" name="name" required placeholder="ชื่อ–นามสกุล หรือชื่อเล่น" />
+          </label>
+          <label class="brief__field">
+            <span data-i18n="k0aced937">อีเมล / เบอร์ / Line ID <em>*</em></span>
+            <input type="text" name="contact" required placeholder="ช่องทางที่สะดวกให้ติดต่อกลับ" />
+          </label>
+        </div>
+        <label class="brief__field brief__field--full">
+          <span data-i18n="kdcdbe485">รายละเอียดเพิ่มเติม</span>
+          <textarea name="detail" rows="4" placeholder="เล่าเพิ่มได้เลย เช่น สไตล์ที่ชอบ คู่แข่ง กลุ่มลูกค้า หรือมีอะไรในใจอยู่แล้ว"></textarea>
+        </label>
+        <p class="brief__error" id="briefError" role="alert"></p>
+      </fieldset>
+
+      <!-- SUMMARY -->
+      <div class="brief__done" id="briefDone" hidden>
+        <p class="brief__done-title" data-i18n="k2d7d26e7">สรุปบรีฟของคุณ</p>
+        <pre class="brief__summary" id="briefSummary"></pre>
+        <div class="brief__done-actions">
+          <a class="btn btn--solid magnetic" id="briefMail" href="#" data-i18n="kaaba6556">ส่งบรีฟทางอีเมล</a>
+          <button type="button" class="btn btn--outline" id="briefCopy" data-i18n="kba992c75">คัดลอกไปวางใน Line</button>
+        </div>
+        <p class="brief__hint brief__hint--mt" data-i18n="k8f5aff95">คัดลอกแล้วส่งทาง Line / Instagram / Facebook ก็ได้เหมือนกันครับ</p>
+        <button type="button" class="brief__restart" id="briefRestart" data-i18n="kd08bcf5a">← เริ่มกรอกใหม่</button>
+      </div>
+
+      <div class="brief__nav" id="briefNav">
+        <button type="button" class="btn btn--outline" id="briefPrev" disabled data-i18n="k3fb0e684">ย้อนกลับ</button>
+        <button type="button" class="btn btn--solid magnetic" id="briefNext" data-i18n="kd585a6a9">ถัดไป</button>
+      </div>
+    </form>
   </section>
 
   <!-- ============ TESTIMONIALS ============ -->
   <section class="testimonials" id="testimonials">
-    <p class="eyebrow" data-reveal>ได้รับความไว้วางใจ</p>
-    <h2 class="h2" data-reveal>จากเจ้าของธุรกิจกว่า 200 ราย</h2>
+    <p class="eyebrow" data-reveal data-i18n="k311cf4d7">ได้รับความไว้วางใจ</p>
+    <h2 class="h2" data-reveal data-i18n="k7220ec15">จากเจ้าของธุรกิจกว่า 200 ราย</h2>
 
     <div class="marquee-section marquee-section--testi">
       <div class="marquee marquee--testi" id="testiTrack">
@@ -348,44 +470,44 @@
 
   <!-- ============ FAQ ============ -->
   <section class="faq" id="faq">
-    <p class="eyebrow" data-reveal>คำถามที่พบบ่อย</p>
-    <h2 class="h2" data-reveal>FAQ</h2>
+    <p class="eyebrow" data-reveal data-i18n="k74c0d1db">คำถามที่พบบ่อย</p>
+    <h2 class="h2" data-reveal data-latin>FAQ</h2>
 
     <div class="faq__list">
       <div class="faq-item" data-reveal>
         <button class="faq-item__q">
-          <span>ใช้เวลานานแค่ไหนในการออกแบบโลโก้ 1 ชิ้น?</span>
+          <span data-i18n="k93e4893e">ใช้เวลานานแค่ไหนในการออกแบบโลโก้ 1 ชิ้น?</span>
           <span class="faq-item__icon">＋</span>
         </button>
-        <div class="faq-item__a"><p>โดยเฉลี่ยใช้เวลา 5–7 วันทำการสำหรับโลโก้ และ 10–14 วันสำหรับแบรนด์ไอเดนทิตี้แบบครบชุด ขึ้นอยู่กับความซับซ้อนและจำนวนรอบแก้ไข</p></div>
+        <div class="faq-item__a"><p data-i18n="kae8779ed">โดยเฉลี่ยใช้เวลา 5–7 วันทำการสำหรับโลโก้ และ 10–14 วันสำหรับแบรนด์ไอเดนทิตี้แบบครบชุด ขึ้นอยู่กับความซับซ้อนและจำนวนรอบแก้ไข</p></div>
       </div>
       <div class="faq-item" data-reveal>
         <button class="faq-item__q">
-          <span>แก้ไขงานได้กี่รอบ?</span>
+          <span data-i18n="k6eb6f64e">แก้ไขงานได้กี่รอบ?</span>
           <span class="faq-item__icon">＋</span>
         </button>
-        <div class="faq-item__a"><p>แต่ละแพ็กเกจกำหนดจำนวนรอบแก้ไขไว้ชัดเจน (3–5 รอบ) หากต้องการแก้ไขเพิ่มเติมนอกเหนือจากที่กำหนด จะมีค่าใช้จ่ายเพิ่มตามความเหมาะสม</p></div>
+        <div class="faq-item__a"><p data-i18n="k318760a7">แต่ละแพ็กเกจกำหนดจำนวนรอบแก้ไขไว้ชัดเจน (3–5 รอบ) หากต้องการแก้ไขเพิ่มเติมนอกเหนือจากที่กำหนด จะมีค่าใช้จ่ายเพิ่มตามความเหมาะสม</p></div>
       </div>
       <div class="faq-item" data-reveal>
         <button class="faq-item__q">
-          <span>ได้ไฟล์อะไรบ้างหลังงานเสร็จ?</span>
+          <span data-i18n="kfbfbb617">ได้ไฟล์อะไรบ้างหลังงานเสร็จ?</span>
           <span class="faq-item__icon">＋</span>
         </button>
-        <div class="faq-item__a"><p>ได้ไฟล์ต้นฉบับ (AI/EPS) ไฟล์สำหรับพิมพ์ (PDF) และไฟล์สำหรับใช้งานออนไลน์ (PNG/JPG) ครบทุกขนาดที่จำเป็น</p></div>
+        <div class="faq-item__a"><p data-i18n="k3c4283d3">ได้ไฟล์ต้นฉบับ (AI/EPS) ไฟล์สำหรับพิมพ์ (PDF) และไฟล์สำหรับใช้งานออนไลน์ (PNG/JPG) ครบทุกขนาดที่จำเป็น</p></div>
       </div>
       <div class="faq-item" data-reveal>
         <button class="faq-item__q">
-          <span>รับงานเร่งไหม?</span>
+          <span data-i18n="k0f7df439">รับงานเร่งไหม?</span>
           <span class="faq-item__icon">＋</span>
         </button>
-        <div class="faq-item__a"><p>รับพิจารณาเป็นกรณีไป ขึ้นอยู่กับตารางงานในช่วงนั้น ๆ งานเร่งจะมีค่าบริการเพิ่มเติมจากราคาปกติ</p></div>
+        <div class="faq-item__a"><p data-i18n="k08c7d089">รับพิจารณาเป็นกรณีไป ขึ้นอยู่กับตารางงานในช่วงนั้น ๆ งานเร่งจะมีค่าบริการเพิ่มเติมจากราคาปกติ</p></div>
       </div>
       <div class="faq-item" data-reveal>
         <button class="faq-item__q">
-          <span>ชำระเงินอย่างไร?</span>
+          <span data-i18n="kbb0e09af">ชำระเงินอย่างไร?</span>
           <span class="faq-item__icon">＋</span>
         </button>
-        <div class="faq-item__a"><p>มัดจำ 50% ก่อนเริ่มงาน และชำระส่วนที่เหลือก่อนส่งไฟล์ต้นฉบับครบชุด รับโอนผ่านธนาคารและพร้อมเพย์</p></div>
+        <div class="faq-item__a"><p data-i18n="ke394b34f">มัดจำ 50% ก่อนเริ่มงาน และชำระส่วนที่เหลือก่อนส่งไฟล์ต้นฉบับครบชุด รับโอนผ่านธนาคารและพร้อมเพย์</p></div>
       </div>
     </div>
   </section>
@@ -394,12 +516,12 @@
   <section class="contact" id="contact">
     <p class="contact__eyebrow" data-reveal>Let's create something together</p>
     <h2 class="contact__title" data-reveal>
-      <a href="mailto:hello@mestylestudio.com" class="contact__link magnetic">
+      <a href="mailto:stifper@gmail.com" class="contact__link magnetic" data-i18n="kcc6052b2">
         เริ่มโปรเจกต์<br />ของคุณเลย
       </a>
     </h2>
     <div class="contact__row" data-reveal>
-      <a href="mailto:hello@mestylestudio.com" class="pill pill--outline-light">hello@mestylestudio.com</a>
+      <a href="mailto:stifper@gmail.com" class="pill pill--outline-light">stifper@gmail.com</a>
       <a href="#" class="pill pill--outline-light">Instagram</a>
       <a href="#" class="pill pill--outline-light">Facebook</a>
       <a href="#" class="pill pill--outline-light">Line</a>
@@ -416,6 +538,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
 <script src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js" defer></script>
-<script src="script.js" defer></script>
+<script src="i18n.js?v=20260901y" defer></script>
+<script src="script.js?v=20260901y" defer></script>
 </body>
 </html>

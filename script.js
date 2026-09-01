@@ -27,6 +27,79 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
+  /* ---------- language switch ----------
+     Thai is the source language and stays in the HTML, so the English pass only
+     needs a lookup table (i18n.js). The original Thai is captured once at load
+     and restored on the way back, which keeps the two directions symmetrical
+     and means a missing translation degrades to Thai rather than to nothing. */
+  const langButtons = document.querySelectorAll(".nav__lang-btn");
+  if (langButtons.length) {
+    const nodes = document.querySelectorAll("[data-i18n]");
+    const original = new Map();
+    nodes.forEach((el) => original.set(el, el.innerHTML));
+    const docTitle = document.title;
+
+    const applyLang = (lang) => {
+      const en = window.I18N_EN || {};
+      nodes.forEach((el) => {
+        const key = el.dataset.i18n;
+        if (lang === "en" && en[key]) el.innerHTML = en[key];
+        else el.innerHTML = original.get(el);
+      });
+      // <title> lives outside the body, so it is swapped by hand
+      const titleEl = document.querySelector("title[data-i18n]");
+      if (titleEl) document.title = titleEl.textContent;
+      else document.title = docTitle;
+
+      document.documentElement.lang = lang;
+      langButtons.forEach((b) => b.classList.toggle("is-active", b.dataset.lang === lang));
+      try { localStorage.setItem("mestyle-lang", lang); } catch {}
+      ScrollTrigger.refresh();
+    };
+
+    langButtons.forEach((b) => b.addEventListener("click", () => applyLang(b.dataset.lang)));
+
+    let saved = "th";
+    try { saved = localStorage.getItem("mestyle-lang") || "th"; } catch {}
+    if (saved === "en") applyLang("en");
+  }
+
+  /* ---------- mobile nav ----------
+     The bar collapses to a hamburger under 820px; the links drop in as a sheet
+     with the rows trailing in after it (CSS handles the stagger). Scroll is
+     locked while open so the page behind doesn't move under the sheet. */
+  const burger = document.getElementById("navBurger");
+  const navLinks = document.getElementById("navLinks");
+  const navScrim = document.getElementById("navScrim");
+  if (burger && navLinks) {
+    const setNav = (open) => {
+      burger.classList.toggle("is-open", open);
+      navLinks.classList.toggle("is-open", open);
+      burger.setAttribute("aria-expanded", String(open));
+      document.body.classList.toggle("nav-open", open);
+      if (navScrim) {
+        if (open) {
+          navScrim.hidden = false;
+          requestAnimationFrame(() => navScrim.classList.add("is-open"));
+        } else {
+          navScrim.classList.remove("is-open");
+          setTimeout(() => { navScrim.hidden = true; }, 350);
+        }
+      }
+      if (open) lenis.stop(); else lenis.start();
+    };
+    burger.addEventListener("click", () => setNav(!burger.classList.contains("is-open")));
+    navScrim?.addEventListener("click", () => setNav(false));
+    navLinks.querySelectorAll("a").forEach((a) => a.addEventListener("click", () => setNav(false)));
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && burger.classList.contains("is-open")) setNav(false);
+    });
+    // leaving the mobile breakpoint should never strand the sheet open
+    window.addEventListener("resize", () => {
+      if (window.innerWidth > 820 && burger.classList.contains("is-open")) setNav(false);
+    });
+  }
+
   /* ---------- scroll progress bar ---------- */
   const bar = document.getElementById("progressBar");
   ScrollTrigger.create({
@@ -128,43 +201,126 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  /* ---------- work masonry: tile reveal + gentle ambient column drift ---------- */
-  if (!reduceMotion) {
-    gsap.utils.toArray(".masonry__col").forEach((col, i) => {
-      const dir = col.dataset.drift === "-1" ? -1 : 1;
-      gsap.to(col, {
-        y: dir * 26,
-        duration: 6 + i * 1.3,
-        ease: "sine.inOut",
-        repeat: -1,
-        yoyo: true,
-      });
-    });
-  }
+  /* ---------- work masonry: balanced column packing ----------
+     Tiles used to be hard-assigned to a fixed column in the HTML. That looked
+     fine for "ทั้งหมด" but broke on every filter: picking "Packaging" left two
+     of the four columns completely empty, so the grid showed a tall hole
+     instead of a row. Columns are now filled at runtime by shortest-column-
+     first packing over whichever tiles are currently visible, so the grid stays
+     balanced for every filter and at every breakpoint. */
+  const masonry = document.querySelector(".work__masonry");
+  if (masonry) {
+    const RATIO = { "masonry__tile--tall": 4 / 3, "masonry__tile--med": 5 / 4, "masonry__tile--short": 1 };
+    const tileHeight = (tile) => {
+      for (const cls in RATIO) if (tile.classList.contains(cls)) return RATIO[cls];
+      return 5 / 4;
+    };
+    // canonical order, captured once before any re-parenting shuffles the DOM
+    const allTiles = Array.from(masonry.querySelectorAll(".masonry__tile"));
+    let driftTweens = [];
 
-  /* ---------- work filter tabs (work.html only) ---------- */
-  const filterBar = document.querySelector(".work-filter");
-  if (filterBar) {
-    const buttons = filterBar.querySelectorAll("button");
-    const tiles = document.querySelectorAll(".masonry__tile[data-category]");
-    buttons.forEach((btn) => {
-      btn.addEventListener("click", () => {
-        buttons.forEach((b) => b.classList.remove("is-active"));
-        btn.classList.add("is-active");
-        const cat = btn.dataset.filter;
-        tiles.forEach((tile) => {
-          const show = cat === "all" || tile.dataset.category === cat;
-          gsap.to(tile, {
-            opacity: show ? 1 : 0,
-            scale: show ? 1 : 0.92,
-            duration: 0.3,
-            ease: "power2.out",
-            onStart() { if (show) tile.style.display = ""; },
-            onComplete() { if (!show) tile.style.display = "none"; },
+    const columnCount = () => {
+      const w = window.innerWidth;
+      if (w <= 560) return 1;
+      if (w <= 820) return 2;
+      if (w <= 1100) return 3;
+      return 4;
+    };
+
+    function layoutMasonry() {
+      const visible = allTiles.filter((t) => t.dataset.hidden !== "true");
+      // never open more columns than there are tiles to fill them, otherwise a
+      // filter with 3 results renders 3 narrow tiles beside one empty column
+      const n = Math.max(1, Math.min(columnCount(), visible.length));
+      driftTweens.forEach((t) => t.kill());
+      driftTweens = [];
+
+      masonry.innerHTML = "";
+      const cols = [];
+      for (let i = 0; i < n; i++) {
+        const col = document.createElement("div");
+        col.className = "masonry__col";
+        col.dataset.drift = i % 2 === 0 ? "1" : "-1";
+        masonry.appendChild(col);
+        cols.push({ el: col, h: 0 });
+      }
+
+      visible.forEach((tile) => {
+        const target = cols.reduce((a, b) => (b.h < a.h ? b : a));
+        target.el.appendChild(tile);
+        target.h += tileHeight(tile);
+      });
+
+      if (!reduceMotion) {
+        cols.forEach((c, i) => {
+          if (!c.el.children.length) return;
+          driftTweens.push(
+            gsap.to(c.el, {
+              y: (c.el.dataset.drift === "-1" ? -1 : 1) * 26,
+              duration: 6 + i * 1.3,
+              ease: "sine.inOut",
+              repeat: -1,
+              yoyo: true,
+            })
+          );
+        });
+      }
+      ScrollTrigger.refresh();
+    }
+
+    layoutMasonry();
+
+    let resizeTimer = null;
+    let lastCols = columnCount();
+    window.addEventListener("resize", () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => {
+        if (columnCount() !== lastCols) {
+          lastCols = columnCount();
+          layoutMasonry();
+        }
+      }, 180);
+    });
+
+    /* ---------- work filter tabs (work.html only) ---------- */
+    const filterBar = document.querySelector(".work-filter");
+    if (filterBar) {
+      const buttons = filterBar.querySelectorAll("button");
+
+      /* the services list on the homepage links here as
+         work.html?filter=Packaging, so arriving from a service row lands on
+         that category already applied instead of the full grid. */
+      const wanted = new URLSearchParams(location.search).get("filter");
+      if (wanted) {
+        const match = filterBar.querySelector(`[data-filter="${CSS.escape(wanted)}"]`);
+        if (match) {
+          buttons.forEach((b) => b.classList.remove("is-active"));
+          match.classList.add("is-active");
+          allTiles.forEach((tile) => {
+            tile.dataset.hidden = tile.dataset.category === wanted ? "false" : "true";
           });
+          layoutMasonry();
+        }
+      }
+
+      buttons.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          buttons.forEach((b) => b.classList.remove("is-active"));
+          btn.classList.add("is-active");
+          const cat = btn.dataset.filter;
+          allTiles.forEach((tile) => {
+            const show = cat === "all" || tile.dataset.category === cat;
+            tile.dataset.hidden = show ? "false" : "true";
+          });
+          layoutMasonry();
+          gsap.fromTo(
+            masonry.querySelectorAll(".masonry__tile"),
+            { opacity: 0, y: 14 },
+            { opacity: 1, y: 0, duration: 0.45, stagger: 0.035, ease: "power2.out", overwrite: true }
+          );
         });
       });
-    });
+    }
   }
 
   /* ---------- project lightbox (work.html only) ---------- */
@@ -192,7 +348,18 @@ document.addEventListener("DOMContentLoaded", () => {
       flvor: "Brand-Design/Flvor",
       wysh: "Brand-Design/Wysh",
       kero: "Brand-Design/Kero",
+      thedispensary: "Social-Media/TheDispensary",
+      scope: "Social-Media/ScopeCollection",
+      compoundgenetics: "Social-Media/compoundgenetics.th",
+      mayuree: "Social-Media/มยุรี",
+      mamaoden: "Illustration/Mama oden",
     };
+    const asset = (path) => ({ type: "image", src: encodeURI(`assets/work/${path}`) });
+    const video = (path, poster) => ({
+      type: "video",
+      src: encodeURI(`assets/work/${path}`),
+      poster: poster ? encodeURI(`assets/work/${poster}`) : undefined,
+    });
     const img = (name) => {
       const slug = name.replace(/-\d+$/, "");
       const dir = PROJECT_DIRS[slug];
@@ -248,7 +415,7 @@ document.addEventListener("DOMContentLoaded", () => {
       bionest: {
         title: "Bionest",
         category: "Packaging",
-        desc: "แพ็กเกจจิ้งและอัตลักษณ์เครื่องดื่มคอมบูชะ \"Bionest\" โทนสีส้ม-เหลืองอบอุ่นที่สื่อถึงความสดชื่นจากธรรมชาติ ภายใต้แนวคิด \"Crafted by nature, designed for you\"",
+        desc: "บรรจุภัณฑ์และอัตลักษณ์เครื่องดื่มคอมบูชะ \"Bionest\" โทนสีส้ม-เหลืองอบอุ่นที่สื่อถึงความสดชื่นจากธรรมชาติ ภายใต้แนวคิด \"Crafted by nature, designed for you\"",
         media: [
           img("bionest-01"), img("bionest-02"), img("bionest-03"),
           img("bionest-04"), img("bionest-05"), img("bionest-06"),
@@ -339,6 +506,89 @@ document.addEventListener("DOMContentLoaded", () => {
           img("kero-04"), img("kero-05"),
         ],
       },
+      thedispensary: {
+        title: "The Dispensary",
+        category: "Social Media",
+        desc: "คอนเทนต์โซเชียลมีเดียแคมเปญ \"Fresh from the Farm\" ให้ร้าน The Dispensary เล่าเรื่องตั้งแต่แปลงปลูกกัญชาไปจนถึงเคาน์เตอร์บริการลูกค้า จัดวางเป็นมอคอัพหน้าโปรไฟล์ Instagram พร้อมภาพถ่ายจริงแต่ละโพสต์",
+        media: [
+          img("thedispensary-01"), img("thedispensary-02"), img("thedispensary-03"),
+          img("thedispensary-04"), img("thedispensary-05"), img("thedispensary-06"),
+          img("thedispensary-07"), img("thedispensary-08"), img("thedispensary-09"),
+          img("thedispensary-10"),
+        ],
+      },
+      scope: {
+        title: "Scope Collection",
+        category: "Social Media",
+        desc: "คอนเทนต์โซเชียลมีเดียไลฟ์สไตล์ให้ \"Scope Collection\" ดีเวลลอปเปอร์คอนโดมิเนียมระดับพรีเมียม จัดวางเป็นมอคอัพหน้าโปรไฟล์ Instagram พร้อมภาพถ่ายไลฟ์สไตล์แต่ละโพสต์",
+        media: [
+          img("scope-01"), img("scope-02"), img("scope-03"),
+          img("scope-04"), img("scope-05"), img("scope-06"),
+          img("scope-07"), img("scope-08"), img("scope-09"),
+          img("scope-10"),
+        ],
+      },
+      jokerz31: {
+        title: "JOKERZ31",
+        category: "Illustration",
+        desc: "งานภาพประกอบคาแรกเตอร์ JOKERZ31 ที่ใช้เส้นและสีสร้างบุคลิกเฉพาะตัว ให้ภาพมีพลัง สนุก และต่อยอดเป็นงานสื่อสารของแบรนด์ได้หลากหลายรูปแบบ",
+        media: [
+          asset("Illustration/JOKERZ31/JOKERZ31.jpg"),
+        ],
+      },
+      "kk-event": {
+        title: "KK Event",
+        category: "Packaging",
+        desc: "ชุดงานออกแบบสำหรับอีเวนต์ KK ตั้งแต่การ์ดเชิญไปจนถึงชิ้นงานประกอบบรรยากาศงาน จัดวางให้ภาพรวมดูโดดเด่นและสื่อสารคอนเซปต์เดียวกัน",
+        media: [
+          asset("Packaging/Packaging_KK Event/A4-KK-invited.jpg"),
+          asset("Packaging/Packaging_KK Event/X I P - 0098.jpg"),
+          asset("Packaging/Packaging_KK Event/X I P - 0004.jpg"),
+          asset("Packaging/Packaging_KK Event/SCR-20260828-kmpf.jpeg"),
+          asset("Packaging/Packaging_KK Event/X I P - 0019.jpg"),
+        ],
+      },
+      "compoundgenetics-packaging": {
+        title: "Compound Genetics.th",
+        category: "Packaging",
+        desc: "งานบรรจุภัณฑ์และสื่อเปิดตัวผลิตภัณฑ์ Pre-Roll ของ Compound Genetics.th ถ่ายทอดคาแรกเตอร์แบรนด์ผ่านภาพสินค้าและงานโปรโมตที่มีความชัดเจนและโดดเด่น",
+        media: [
+          asset("Packaging/compoundgenetics.th/compoundgenetics-preroll-product.webp"),
+          video("Packaging/compoundgenetics.th/PRE-ROLL-COMPOUND-รวม1.mp4", "Packaging/compoundgenetics.th/compoundgenetics-preroll-video.webp"),
+        ],
+      },
+      compoundgenetics: {
+        title: "Compound Genetics.th",
+        category: "Social Media",
+        desc: "คอนเทนต์โซเชียลมีเดียสำหรับ Compound Genetics.th ครอบคลุมทั้งคีย์อาร์ตแคมเปญ \"Apples & Bananas Collection Drop\" และคอนเทนต์บรรจุภัณฑ์เมล็ดพันธุ์ จัดวางเป็นมอคอัพหน้าโปรไฟล์ Instagram บนพื้นหลังโทนม่วง-ทองตามอัตลักษณ์แบรนด์",
+        media: [
+          img("compoundgenetics-01"), img("compoundgenetics-02"), img("compoundgenetics-03"),
+          img("compoundgenetics-04"), img("compoundgenetics-05"), img("compoundgenetics-06"),
+          img("compoundgenetics-07"), img("compoundgenetics-08"), img("compoundgenetics-09"),
+          img("compoundgenetics-10"),
+        ],
+      },
+      mayuree: {
+        title: "มยุรี ข้าวตังทรงเครื่อง",
+        category: "Social Media",
+        desc: "คอนเทนต์โซเชียลมีเดียสำหรับมยุรี ข้าวตังทรงเครื่อง ครอบคลุมทั้งภาพสินค้า คอนเทนต์ไลฟ์สไตล์ และกราฟิกแคมเปญ จัดวางเป็นมอคอัพหน้าโปรไฟล์ Instagram",
+        media: [
+          img("mayuree-01"), img("mayuree-02"), img("mayuree-03"),
+          img("mayuree-04"), img("mayuree-05"), img("mayuree-06"),
+          img("mayuree-07"), img("mayuree-08"), img("mayuree-09"),
+          img("mayuree-10"),
+        ],
+      },
+      mamaoden: {
+        title: "Mama Oden",
+        category: "Illustration",
+        desc: "ออกแบบคาแรกเตอร์และอัตลักษณ์แบรนด์ให้ Mama Oden ร้านโอเด้งสไตล์ญี่ปุ่น ตั้งแต่คาแรกเตอร์มาสคอต โลโก้ ไปจนถึงงานบรรจุภัณฑ์ ถุงกระดาษ ป้ายร้าน และสติกเกอร์ ให้ครบทุกจุดสัมผัสของแบรนด์",
+        media: [
+          img("mamaoden-01"), img("mamaoden-02"), img("mamaoden-03"),
+          img("mamaoden-04"), img("mamaoden-05"), img("mamaoden-06"),
+          img("mamaoden-07"), img("mamaoden-08"),
+        ],
+      },
       // to add a video slide to a project later: { type: "video", src: "assets/work/xxx.mp4", poster: "assets/work/thumb/xxx.webp" }
     };
 
@@ -375,6 +625,8 @@ document.addEventListener("DOMContentLoaded", () => {
       const project = PROJECTS[activeSlug];
       const slide = project.media[activeIndex];
       const prevEl = lbStage.firstElementChild; // still-visible outgoing slide, if any
+      lbStage.classList.toggle("is-video", slide.type === "video");
+      lbStage.style.setProperty("--media-bg", slide.poster ? `url("${slide.poster}")` : "none");
 
       let el;
       if (slide.type === "video") {
@@ -444,9 +696,14 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     }
 
-    function openLightbox(slug, triggerEl) {
+    function openLightbox(slug, triggerEl, fromHistory) {
       const project = PROJECTS[slug];
       if (!project) return;
+      /* keep the URL in step with what's on screen so the browser Back button
+         closes the project instead of leaving the site, and so a project can be
+         linked/shared directly. fromHistory guards against re-pushing when the
+         open was itself triggered by a popstate. */
+      if (!fromHistory) history.pushState({ lb: slug }, "", "#" + slug);
       activeSlug = slug;
       activeIndex = 0;
       lastFocused = triggerEl || document.activeElement;
@@ -479,14 +736,26 @@ document.addEventListener("DOMContentLoaded", () => {
       requestAnimationFrame(updateScrollHint);
     }
 
-    function closeLightbox() {
+    function closeLightbox(fromHistory) {
+      if (!lightbox.classList.contains("is-open")) return;
       lightbox.classList.remove("is-open");
       lightbox.setAttribute("aria-hidden", "true");
       lbStage.innerHTML = ""; // stop any playing video
       lenis.start();
       document.body.style.overflow = "";
       if (lastFocused) lastFocused.focus();
+      // drop the #slug so a refresh lands on the grid, not back inside the project
+      if (!fromHistory && history.state && history.state.lb) history.back();
     }
+
+    window.addEventListener("popstate", (e) => {
+      const slug = e.state && e.state.lb;
+      if (slug && PROJECTS[slug]) {
+        openLightbox(slug, document.querySelector(`.masonry__tile[data-project="${slug}"]`), true);
+      } else {
+        closeLightbox(true);
+      }
+    });
 
     function step(delta) {
       const project = PROJECTS[activeSlug];
@@ -497,7 +766,10 @@ document.addEventListener("DOMContentLoaded", () => {
     document.querySelectorAll(".masonry__tile[data-project]").forEach((tile) => {
       tile.addEventListener("click", () => openLightbox(tile.dataset.project, tile));
     });
-    lightbox.querySelectorAll("[data-lightbox-close]").forEach((el) => el.addEventListener("click", closeLightbox));
+    // wrapped, not passed by reference: a bare handler receives the click Event
+    // as closeLightbox's first argument, which reads as fromHistory=true and
+    // silently skips the history cleanup that drops the #slug.
+    lightbox.querySelectorAll("[data-lightbox-close]").forEach((el) => el.addEventListener("click", () => closeLightbox()));
     lbPrev.addEventListener("click", () => step(-1));
     lbNext.addEventListener("click", () => step(1));
     lbDescToggle.addEventListener("click", () => {
@@ -596,6 +868,10 @@ document.addEventListener("DOMContentLoaded", () => {
        first regardless of which project the visitor actually clicked. */
     const initialSlug = location.hash.slice(1);
     if (initialSlug && PROJECTS[initialSlug]) {
+      /* rewrite the landing entry to the bare grid first, then push the project
+         on top of it. Closing then steps back onto "ผลงานทั้งหมด" (still on this
+         page) and only a second Back returns to wherever the visitor came from. */
+      history.replaceState({}, "", location.pathname);
       const tile = document.querySelector(`.masonry__tile[data-project="${initialSlug}"]`);
       openLightbox(initialSlug, tile);
     }
@@ -611,12 +887,246 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   );
 
-  /* ---------- pricing card stagger ---------- */
-  ScrollTrigger.batch(".price-card", {
-    start: "top 88%",
-    onEnter: (batch) => gsap.to(batch, { opacity: 1, y: 0, duration: 0.7, stagger: 0.12, ease: "power3.out" }),
-  });
-  gsap.set(".price-card", { opacity: 0, y: 40 });
+  /* ---------- CV page motion ----------
+     This page is the one that gets sent out as a portfolio, so the motion has a
+     job: pull the eye down the page in the intended reading order. Each device
+     is scroll-triggered and plays once — nothing loops, nothing distracts from
+     the content itself. */
+  if (document.querySelector(".cv-hero")) {
+    // 1. headline rides up line by line, out of its own clipped box
+    if (reduceMotion) {
+      gsap.set(".cv-line > span", { yPercent: 0 });
+    } else {
+      gsap.fromTo(
+        ".cv-line > span",
+        { yPercent: 110 },
+        { yPercent: 0, duration: 1.05, ease: "power4.out", stagger: 0.09, delay: 0.15 }
+      );
+    }
+
+    // 2. selected-work tiles wipe in together, then lift one after another
+    gsap.utils.toArray("[data-cv-tile]").forEach((tile, i) => {
+      gsap.fromTo(
+        tile,
+        { opacity: 0, y: 44, clipPath: "inset(12% 0% 12% 0% round 16px)" },
+        {
+          opacity: 1, y: 0, clipPath: "inset(0% 0% 0% 0% round 16px)",
+          duration: 0.85, ease: "power3.out", delay: i * 0.08,
+          scrollTrigger: { trigger: tile.parentElement, start: "top 85%", once: true },
+        }
+      );
+    });
+
+    // 3. timeline entries walk in from the left, dot first
+    gsap.utils.toArray("[data-cv-step]").forEach((item) => {
+      gsap.fromTo(
+        item,
+        { opacity: 0, x: -26 },
+        {
+          opacity: 1, x: 0, duration: 0.7, ease: "power3.out",
+          scrollTrigger: { trigger: item, start: "top 88%", once: true },
+        }
+      );
+    });
+
+    // 4. skill / client lists pop their items in sequence
+    gsap.utils.toArray("[data-cv-stagger]").forEach((group) => {
+      gsap.fromTo(
+        group.querySelectorAll("li"),
+        { opacity: 0, y: 14 },
+        {
+          opacity: 1, y: 0, duration: 0.5, ease: "power2.out", stagger: 0.045,
+          scrollTrigger: { trigger: group, start: "top 88%", once: true },
+        }
+      );
+      const h = group.querySelector("h3");
+      if (h) {
+        gsap.fromTo(
+          h,
+          { opacity: 0, y: 12 },
+          { opacity: 1, y: 0, duration: 0.5, ease: "power2.out",
+            scrollTrigger: { trigger: group, start: "top 88%", once: true } }
+        );
+      }
+    });
+  }
+
+  /* ---------- CV portrait: desaturated until touched, tilts with the pointer ----------
+     One handler set for both input types via Pointer Events: on a mouse the
+     photo lights up on hover and follows the cursor; on touch it lights up
+     while a finger is down. Reduced-motion keeps the colour change but drops
+     the tilt. */
+  const portrait = document.getElementById("cvPortrait");
+  if (portrait) {
+    const img = portrait.querySelector("img");
+    const MAX_TILT = 7;   // degrees
+    const MAX_SHIFT = 10; // px of counter-parallax on the image itself
+
+    const tilt = (e) => {
+      if (reduceMotion) return;
+      const r = portrait.getBoundingClientRect();
+      const px = (e.clientX - r.left) / r.width - 0.5;  // -0.5 .. 0.5
+      const py = (e.clientY - r.top) / r.height - 0.5;
+      gsap.to(img, {
+        rotationY: px * MAX_TILT * 2,
+        rotationX: -py * MAX_TILT * 2,
+        x: px * MAX_SHIFT,
+        y: py * MAX_SHIFT,
+        scale: 1.08,
+        duration: 0.5,
+        ease: "power2.out",
+        transformPerspective: 900,
+      });
+    };
+    const reset = () => {
+      portrait.classList.remove("is-lit");
+      if (reduceMotion) return;
+      gsap.to(img, { rotationY: 0, rotationX: 0, x: 0, y: 0, scale: 1.04, duration: 0.7, ease: "power3.out" });
+    };
+    const light = (e) => { portrait.classList.add("is-lit"); tilt(e); };
+
+    portrait.addEventListener("pointerenter", light);
+    portrait.addEventListener("pointermove", (e) => {
+      if (portrait.classList.contains("is-lit")) tilt(e);
+    });
+    portrait.addEventListener("pointerleave", reset);
+    // touch: light up while the finger is down, and keep it lit briefly after
+    portrait.addEventListener("pointerdown", light);
+    portrait.addEventListener("pointerup", (e) => {
+      if (e.pointerType !== "mouse") setTimeout(reset, 1400);
+    });
+    portrait.addEventListener("pointercancel", reset);
+  }
+
+  /* ---------- brief form: 4-step guided project inquiry ----------
+     Static site, so there's no server to POST to. The form instead assembles a
+     readable brief and hands it off through channels the studio already uses —
+     a prefilled mail draft, or clipboard for Line/IG/Facebook. Nothing is sent
+     anywhere until the visitor themselves presses send in their own app. */
+  const briefForm = document.getElementById("briefForm");
+  if (briefForm) {
+    const steps = Array.from(briefForm.querySelectorAll(".brief__step"));
+    const barFill = document.getElementById("briefBarFill");
+    const stepNow = document.getElementById("briefStepNow");
+    const prevBtn = document.getElementById("briefPrev");
+    const nextBtn = document.getElementById("briefNext");
+    const navBox = document.getElementById("briefNav");
+    const doneBox = document.getElementById("briefDone");
+    const summaryEl = document.getElementById("briefSummary");
+    const errorEl = document.getElementById("briefError");
+    const mailBtn = document.getElementById("briefMail");
+    const copyBtn = document.getElementById("briefCopy");
+    const restartBtn = document.getElementById("briefRestart");
+    const STUDIO_EMAIL = "stifper@gmail.com";
+    let current = 0;
+
+    /* opt-in gate — the questions only appear once someone says they're
+       interested, so the section reads as an invitation rather than a form */
+    const gate = document.getElementById("briefGate");
+    const openBtn = document.getElementById("briefOpen");
+    if (gate && openBtn) {
+      openBtn.addEventListener("click", () => {
+        gate.hidden = true;
+        briefForm.hidden = false;
+        if (!reduceMotion) {
+          gsap.fromTo(briefForm, { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" });
+        }
+        briefForm.querySelector(".brief__opt input")?.focus({ preventScroll: true });
+        ScrollTrigger.refresh();
+      });
+    }
+
+    function showStep(i) {
+      steps.forEach((s, n) => s.classList.toggle("is-active", n === i));
+      current = i;
+      stepNow.textContent = i + 1;
+      barFill.style.width = ((i + 1) / steps.length) * 100 + "%";
+      prevBtn.disabled = i === 0;
+      nextBtn.textContent = i === steps.length - 1 ? "สรุปบรีฟ" : "ถัดไป";
+      errorEl.textContent = "";
+    }
+
+    const vals = (name) =>
+      Array.from(briefForm.querySelectorAll(`[name="${name}"]`))
+        .filter((el) => (el.type === "checkbox" || el.type === "radio" ? el.checked : el.value.trim()))
+        .map((el) => (el.type === "checkbox" || el.type === "radio" ? el.value : el.value.trim()));
+
+    function buildSummary() {
+      const line = (label, arr) => (arr.length ? `${label}: ${arr.join(", ")}` : null);
+      return [
+        "— บรีฟโปรเจกต์จากเว็บไซต์ MeStyle Studio —",
+        "",
+        line("บริการที่สนใจ", vals("service")),
+        line("ชื่อแบรนด์/ธุรกิจ", vals("brand")),
+        line("ประเภทธุรกิจ", vals("industry")),
+        line("ขั้นของแบรนด์", vals("stage")),
+        line("ต้องการใช้งาน", vals("timing")),
+        line("งบประมาณที่วางไว้", vals("budget")),
+        "",
+        line("ชื่อผู้ติดต่อ", vals("name")),
+        line("ช่องทางติดต่อ", vals("contact")),
+        line("รายละเอียดเพิ่มเติม", vals("detail")),
+      ]
+        .filter((l) => l !== null)
+        .join("\n");
+    }
+
+    function finish() {
+      const text = buildSummary();
+      summaryEl.textContent = text;
+      mailBtn.href =
+        `mailto:${STUDIO_EMAIL}?subject=` +
+        encodeURIComponent("บรีฟโปรเจกต์ใหม่ — " + (vals("brand")[0] || vals("name")[0] || "ไม่ระบุชื่อ")) +
+        "&body=" + encodeURIComponent(text);
+      steps.forEach((s) => s.classList.remove("is-active"));
+      navBox.hidden = true;
+      doneBox.hidden = false;
+      barFill.style.width = "100%";
+      stepNow.textContent = steps.length;
+    }
+
+    nextBtn.addEventListener("click", () => {
+      if (current === steps.length - 1) {
+        // only the contact step is mandatory — everything before it is optional
+        // so a visitor who just wants to say hello isn't blocked by the funnel
+        if (!vals("name").length || !vals("contact").length) {
+          errorEl.textContent = "กรุณากรอกชื่อและช่องทางติดต่อกลับ";
+          return;
+        }
+        finish();
+        return;
+      }
+      showStep(current + 1);
+    });
+    prevBtn.addEventListener("click", () => showStep(Math.max(0, current - 1)));
+
+    copyBtn.addEventListener("click", async () => {
+      const text = summaryEl.textContent;
+      try {
+        await navigator.clipboard.writeText(text);
+        copyBtn.textContent = "คัดลอกแล้ว ✓";
+      } catch {
+        // clipboard API needs a secure context; fall back to selecting the text
+        const r = document.createRange();
+        r.selectNodeContents(summaryEl);
+        const sel = window.getSelection();
+        sel.removeAllRanges();
+        sel.addRange(r);
+        copyBtn.textContent = "กด Cmd/Ctrl + C เพื่อคัดลอก";
+      }
+      setTimeout(() => { copyBtn.textContent = "คัดลอกไปวางใน Line"; }, 2600);
+    });
+
+    restartBtn.addEventListener("click", () => {
+      briefForm.reset();
+      doneBox.hidden = true;
+      navBox.hidden = false;
+      showStep(0);
+      briefForm.scrollIntoView({ behavior: "smooth", block: "center" });
+    });
+
+    showStep(0);
+  }
 
   /* ---------- service rows stagger ---------- */
   ScrollTrigger.batch(".service-row", {
