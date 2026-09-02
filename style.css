@@ -910,8 +910,16 @@ form.brief{ padding:0; max-width:100%; text-align:left; position:relative; }
    for the GSAP line-reveal), and anything tighter than ~1.15 clips descenders
    against that box. A clipped "g" reads as a different letter (e.g.
    "Pansungnoen" → "Pansunanoen"), which is worse than losing some tightness. */
-[data-latin]{ letter-spacing:-.02em !important; }
-.h2[data-latin]{ line-height:1.18; letter-spacing:-.01em !important; }
+/* -.02em previously here caused a second real-device failure independent of
+   the line-height/descender issue above: "All Projects" (a plain heading with
+   no per-line clip-box at all) had its "j" disappear on a real phone, which
+   only makes sense as glyph-to-glyph kerning collision from the negative
+   tracking itself, not a clipping box. Two unrelated failures from the same
+   rule is enough to stop trusting it — tightened tracking saved very little
+   visually at these sizes anyway, so it's now barely negative rather than
+   removed outright, to keep some of the intended "designed" tightness. */
+[data-latin]{ letter-spacing:-.005em !important; }
+.h2[data-latin]{ line-height:1.18; }
 .cv-hero__name[data-latin]{ line-height:1.18; }
 .hero__title[data-latin]{ line-height:1.12; }
 
