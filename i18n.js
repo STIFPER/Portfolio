@@ -99,6 +99,5 @@ window.I18N_EN = {
 "kf5fe2585": "Graphic and brand designer with over 10 years of experience. Founded <strong>MeStyle Studio</strong> in 2016.",
 "kcc1395b1": "Handles brand identity, packaging, and social content for 300+ businesses, from SMEs to international brands entering the Thai market.",
 "kb43ad4f6": "Handles brand identity, packaging, and social content for more than 300 businesses — from restaurants and SMEs to international brands entering the Thai market, many returning after a single logo project to build out the full identity system.",
-"kf86448e7": "Ten Years in Design",
-"ke127822a": "The Full<br />Portfolio"
+"kf86448e7": "Ten Years in Design"
 };
