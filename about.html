@@ -15,7 +15,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Unbounded:wght@400;500;600;700;800;900&family=Fraunces:ital,opsz,wght@1,9..144,400;1,9..144,500&family=Noto+Sans+Thai:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 
-<link rel="stylesheet" href="style.css?v=202609020" />
+<link rel="stylesheet" href="style.css?v=202609022" />
 </head>
 <body>
 
@@ -83,226 +83,114 @@
     </div>
   </section>
 
-  <!-- ============ 2. STATS — credibility at a glance ============ -->
+  <!-- ============ 2. STATS — three numbers, not four; the fourth (30+ Brand
+       Identity projects) was redundant with "300+ brands" and read as padding ============ -->
   <section class="cv-section cv-section--tight">
-    <div class="stats" data-reveal>
+    <div class="stats stats--three" data-reveal>
       <div class="stats__item">
         <span class="stats__num" data-count="10">0</span><span class="stats__plus">+</span>
-        <p data-i18n="k5e272a1f">ปีที่คลุกคลีกับงานแบรนด์</p>
+        <p data-i18n="k0ad69e4f">ปีที่ทำงานด้านแบรนด์</p>
       </div>
       <div class="stats__item">
         <span class="stats__num" data-count="300">0</span><span class="stats__plus">+</span>
-        <p data-i18n="k446b171d">แบรนด์ที่ไว้วางใจ</p>
-      </div>
-      <div class="stats__item">
-        <span class="stats__num" data-count="30">0</span><span class="stats__plus">+</span>
-        <p data-i18n="k864417bf">โปรเจกต์ Brand Identity</p>
+        <p data-i18n="kcaa73c6d">แบรนด์ที่ร่วมงานด้วย</p>
       </div>
       <div class="stats__item">
         <span class="stats__num" data-count="2016">0</span>
-        <p data-i18n="kad081c6e">ปีที่ก่อตั้ง — estd. 2016</p>
+        <p data-i18n="k6ef3a325">ก่อตั้ง MeStyle Studio</p>
       </div>
     </div>
   </section>
 
-  <!-- ============ 3. WHAT I DO ============ -->
-  <section class="cv-section" id="skills">
-    <div class="cv-split">
-      <div class="cv-split__label" data-reveal>
-        <p class="eyebrow" data-i18n="kb49f8384">01 — ความถนัด</p>
-        <h2 class="h2" data-i18n="k2173c7d1">ผมทำ<br />อะไรได้บ้าง</h2>
-      </div>
-      <div class="cv-split__body">
-        <div class="cv-skills">
-          <div class="cv-skills__group" data-cv-stagger>
-            <h3 data-i18n="kf935fed6">งานออกแบบ</h3>
-            <ul>
-              <li>Brand Identity &amp; Corporate Identity</li>
-              <li>Logo Design</li>
-              <li>Packaging Design</li>
-              <li>Character &amp; Mascot Design</li>
-              <li>Print &amp; Editorial Design</li>
-              <li>Social Media Content Direction</li>
-            </ul>
-          </div>
-          <div class="cv-skills__group" data-cv-stagger>
-            <h3 data-i18n="kfb908050">เครื่องมือ</h3>
-            <ul>
-              <li>Adobe Illustrator</li>
-              <li>Adobe Photoshop</li>
-              <li>Adobe InDesign</li>
-              <li>Adobe Premiere Pro</li>
-              <li>Adobe After Effects</li>
-            </ul>
-          </div>
-          <div class="cv-skills__group" data-cv-stagger>
-            <h3 data-i18n="k16103c79">AI &amp; การต่อยอด</h3>
-            <ul>
-              <li>AI-Assisted Design Workflow</li>
-              <li data-i18n="kb8c83c05">Prompt Writing สำหรับงานภาพและงานเขียน</li>
-              <li data-i18n="kd9603992">Generative AI — ขยายภาพ / รีทัช / ม็อกอัพ</li>
-              <li data-i18n="k7ef432a2">Vibe Coding — เว็บไซต์และแอปพลิเคชัน</li>
-            </ul>
-          </div>
-        </div>
-
-        <div class="cv-note" data-reveal>
-          <p data-i18n="kfe6cdfc0">
-            ผมไม่ใช่โปรแกรมเมอร์ — แต่ใช้ AI ต่อยอดจากงานออกแบบ
-            จนทำสิ่งที่เมื่อก่อนต้องจ้างทีมอื่นได้เอง
-          </p>
-          <p class="cv-note__claim" data-i18n="k424755dc">
-            <strong>เว็บไซต์นี้ ผมออกแบบและสร้างขึ้นเองทั้งหมดด้วยวิธีนี้</strong>
-          </p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ============ 4. STORY ============ -->
+  <!-- ============ STORY ============
+       Previously: two paragraphs of scene-setting + three dated "beat" cards
+       (Fastwork origin / in-house / today) + a full skills-and-tools section
+       listing every piece of software and AI capability. That itemizes
+       competence instead of assuming it — a senior profile doesn't need to
+       prove it knows Photoshop. Cut to one paragraph, the pull quote, and a
+       single aside about this site being self-built (the one fact here that
+       is actually distinctive, so it earns its line). -->
   <section class="cv-section" id="story">
     <div class="cv-split">
       <div class="cv-split__label" data-reveal>
-        <p class="eyebrow" data-i18n="kec19507d">02 — เรื่องราว</p>
-        <h2 class="h2" data-i18n="kb1fb3447">ผมเป็นใคร<br />มาจากไหน</h2>
+        <p class="eyebrow" data-i18n="k86dcc56f">01 — เรื่องราว</p>
+        <h2 class="h2" data-i18n="k28a026b1">ผมเป็นใคร</h2>
       </div>
       <div class="cv-split__body">
-        <p class="cv-lead-p" data-reveal data-i18n="k54d2bf27">
-          นักออกแบบกราฟิกและแบรนด์ดีไซเนอร์ 10 ปี
-          จบนิเทศศิลป์ ม.บูรพา ทำงานภายใต้ชื่อ MeStyle Studio ตั้งแต่ปี 2016
+        <p class="cv-lead-p" data-reveal data-i18n="k0ac7e98d">
+          นักออกแบบกราฟิกและแบรนด์ดีไซเนอร์ ทำงานภายใต้ชื่อ MeStyle Studio
+          มาตั้งแต่ปี 2016 ควบคู่ไปกับงานประจำในองค์กร
         </p>
-
-        <!-- the story is broken into three dated beats instead of one essay, so
-             the eye has somewhere to land and the order is obvious -->
-        <ol class="cv-beats">
-          <li class="cv-beat" data-cv-step>
-            <span class="cv-beat__tag" data-i18n="k42bb6bb8">จุดเริ่มต้น</span>
-            <p data-i18n="kc7409613">รับงานให้ธุรกิจรายเล็กบน <strong>Fastwork</strong> ตั้งแต่ยุคที่ยังไม่มีใครรู้จัก
-            — โจทย์เยอะ งบน้อย แต่ได้ฝึกอ่านปัญหาธุรกิจจนคล่อง</p>
-          </li>
-          <li class="cv-beat" data-cv-step>
-            <span class="cv-beat__tag" data-i18n="k24548d3e">งานประจำ</span>
-            <p data-i18n="ke959f885">เข้าองค์กรต่อเนื่องจนถึงปัจจุบัน ทำงานกับทีมการตลาด
-            ดูแลแคมเปญและมาตรฐานแบรนด์ในทุกช่องทาง</p>
-          </li>
-          <li class="cv-beat" data-cv-step>
-            <span class="cv-beat__tag" data-i18n="k0491ea8a">วันนี้</span>
-            <p data-i18n="k5fdce189">ทำงานให้แบรนด์มาแล้วกว่า <strong>300 แบรนด์</strong>
-            หลายรายเริ่มจากโลโก้ชิ้นเดียว แล้วกลับมาให้ดูแลทั้งระบบ</p>
-          </li>
-        </ol>
-
-        <blockquote class="cv-quote" data-reveal data-i18n="k698ddb70">
-          งานออกแบบที่ดีไม่ได้วัดที่ความสวยอย่างเดียว
-          แต่วัดที่ว่ามันทำให้แบรนด์ถูกจดจำและเติบโตได้หรือเปล่า
-        </blockquote>
+        <p data-reveal data-i18n="kb43ad4f6">
+          ดูแลงานอัตลักษณ์แบรนด์ บรรจุภัณฑ์ และคอนเทนต์โซเชียลมีเดีย
+          ให้ธุรกิจมากกว่า 300 ราย ตั้งแต่ร้านอาหารและธุรกิจ SME
+          ไปจนถึงแบรนด์ต่างประเทศที่เข้ามาทำตลาดในไทย
+          หลายรายเริ่มจากงานโลโก้ชิ้นเดียว ก่อนกลับมาให้ดูแลอัตลักษณ์แบรนด์ทั้งระบบ
+        </p>
       </div>
     </div>
   </section>
 
-  <!-- ============ 5. EXPERIENCE ============ -->
+  <!-- ============ EXPERIENCE — role / company / years only.
+       Per-role duty descriptions were cut: the portfolio already shows what
+       the work looks like, restating "designed campaigns, managed multiple
+       projects" next to it is the resume equivalent of over-explaining a
+       joke. ============ -->
   <section class="cv-section" id="experience">
     <div class="cv-split">
       <div class="cv-split__label" data-reveal>
-        <p class="eyebrow" data-i18n="ka03fdec3">03 — ประสบการณ์</p>
+        <p class="eyebrow" data-i18n="k7a0f7372">02 — ประสบการณ์</p>
         <h2 class="h2" data-i18n="k20c85c1a">เส้นทาง<br />การทำงาน</h2>
       </div>
       <div class="cv-split__body">
-        <ol class="cv-timeline">
+        <ol class="cv-timeline cv-timeline--compact">
           <li class="cv-timeline__item" data-cv-step>
             <span class="cv-timeline__year" data-i18n="k94025f28">2016 — ปัจจุบัน</span>
             <h3 class="cv-timeline__role">Founder &amp; Brand Designer</h3>
             <p class="cv-timeline__org">MeStyle Studio™</p>
-            <p class="cv-timeline__desc" data-i18n="k8e70e637">
-              ดูแลงานแบรนด์ครบวงจรให้ SME ร้านอาหาร คาเฟ่ และแบรนด์ต่างประเทศในไทย
-            </p>
           </li>
           <li class="cv-timeline__item" data-cv-step>
             <span class="cv-timeline__year" data-i18n="k0f16263b">2025 — ปัจจุบัน</span>
             <h3 class="cv-timeline__role">Graphic Designer</h3>
             <p class="cv-timeline__org">Scope Company Limited</p>
-            <p class="cv-timeline__desc" data-i18n="kf6429158">
-              รับผิดชอบงานกราฟิกและตัดต่อวิดีโอ สำหรับคอนเทนต์ที่ลงเพจออนไลน์ของแบรนด์
-            </p>
           </li>
           <li class="cv-timeline__item" data-cv-step>
             <span class="cv-timeline__year" data-i18n="k0e907973">2024 — ปัจจุบัน</span>
             <h3 class="cv-timeline__role">Brand Designer</h3>
             <p class="cv-timeline__org">Taratera Corporation Co., Ltd.</p>
-            <p class="cv-timeline__desc" data-i18n="kdb437613">
-              ออกแบบอัตลักษณ์ บรรจุภัณฑ์ และสื่อการตลาดให้แบรนด์ในเครือ
-            </p>
           </li>
           <li class="cv-timeline__item" data-cv-step>
             <span class="cv-timeline__year">2020 — 2024</span>
             <h3 class="cv-timeline__role">Graphic Designer</h3>
             <p class="cv-timeline__org">The Boss Clinic</p>
-            <p class="cv-timeline__desc" data-i18n="k76990cc0">
-              ทำแคมเปญโฆษณาและสื่อส่งเสริมการขายร่วมกับทีมการตลาด
-            </p>
           </li>
           <li class="cv-timeline__item" data-cv-step>
             <span class="cv-timeline__year">2018 — 2019</span>
             <h3 class="cv-timeline__role">Graphic Designer</h3>
             <p class="cv-timeline__org">AMED Clinic</p>
-            <p class="cv-timeline__desc" data-i18n="kb58e0b5d">
-              ออกแบบและผลิตสื่อโฆษณาประชาสัมพันธ์ให้ลูกค้าหลากหลายกลุ่ม
-            </p>
           </li>
         </ol>
+        <p class="cv-edu-line" data-reveal data-i18n="k2ac05b6c">ศิลปกรรมศาสตรบัณฑิต — นิเทศศิลป์ มหาวิทยาลัยบูรพา</p>
       </div>
     </div>
   </section>
 
-  <!-- ============ 6. EDUCATION ============ -->
-  <section class="cv-section" id="education">
-    <div class="cv-split">
-      <div class="cv-split__label" data-reveal>
-        <p class="eyebrow" data-i18n="kf43063be">04 — การศึกษา</p>
-        <h2 class="h2" data-i18n="ke9cd101f">เรียนจบ<br />อะไรมา</h2>
-      </div>
-      <div class="cv-split__body">
-        <ol class="cv-timeline">
-          <li class="cv-timeline__item" data-cv-step>
-            <span class="cv-timeline__year" data-i18n="ka9555aac">ปริญญาตรี</span>
-            <h3 class="cv-timeline__role" data-i18n="k7c23f338">ศิลปกรรมศาสตรบัณฑิต — นิเทศศิลป์</h3>
-            <p class="cv-timeline__org" data-i18n="k87e05049">มหาวิทยาลัยบูรพา</p>
-          </li>
-        </ol>
-      </div>
-    </div>
-  </section>
-
-  <!-- ============ 7. CLIENTS ============ -->
+  <!-- ============ CLIENTS — one sentence instead of an 18-logo wall.
+       A long grid of chips reads as "look how many logos I have"; naming five
+       recognizable ones and folding the rest into "300+" does the same job
+       without the wall-of-badges feel. ============ -->
   <section class="cv-section" id="clients">
     <div class="cv-split">
       <div class="cv-split__label" data-reveal>
-        <p class="eyebrow" data-i18n="k1baf6934">05 — ลูกค้า</p>
+        <p class="eyebrow" data-i18n="ke0d195a3">03 — ลูกค้า</p>
         <h2 class="h2" data-i18n="k18b6b712">แบรนด์ที่<br />เคยร่วมงาน</h2>
       </div>
       <div class="cv-split__body">
-        <ul class="cv-clients" data-cv-stagger>
-          <li>The Dispensary</li>
-          <li>Compound Genetics.th</li>
-          <li>Scope Collection</li>
-          <li>Khalifa Kush Thailand</li>
-          <li data-i18n="k0d9b7b1b">มยุรี ข้าวตังทรงเครื่อง</li>
-          <li>Mama Oden</li>
-          <li>Bionest</li>
-          <li>Worthy Design</li>
-          <li>Wangwela</li>
-          <li>DID Hardware House</li>
-          <li>Pulse Fitness</li>
-          <li>HTH</li>
-          <li>Leymo</li>
-          <li>Clévia</li>
-          <li>WYSH Coffee Space</li>
-          <li>kerö</li>
-          <li>flvor</li>
-          <li>Vellette</li>
-          <li class="cv-clients__more" data-i18n="k7272ddf9">และอื่น ๆ อีกกว่า 300 แบรนด์</li>
-        </ul>
-        <p class="cv-clients__note" data-i18n="kd1db0b1e">* แสดงเพียงบางส่วนจากผลงานตลอด 10 ปีที่ผ่านมา</p>
+        <p class="cv-clients-line" data-reveal data-i18n="ke0ad1262">
+          The Dispensary, Compound Genetics.th, Scope Collection,
+          Khalifa Kush Thailand, Bionest, Worthy Design — และอีกกว่า 300 แบรนด์
+        </p>
+        <a href="work.html" class="cv-clients-link" data-reveal data-i18n="kbb4a9830">ดูผลงานทั้งหมด →</a>
       </div>
     </div>
   </section>
@@ -331,7 +219,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
 <script src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js" defer></script>
-<script src="i18n.js?v=202609020" defer></script>
-<script src="script.js?v=202609020" defer></script>
+<script src="i18n.js?v=202609022" defer></script>
+<script src="script.js?v=202609022" defer></script>
 </body>
 </html>

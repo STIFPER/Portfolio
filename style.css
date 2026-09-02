@@ -949,3 +949,30 @@ p, li, .brief__field span, .brief__hint{ text-rendering:optimizeLegibility; }
   .cv-beat{ grid-template-columns:1fr; gap:8px; }
   .cv-beat__tag{ padding-top:0; }
 }
+
+/* ---------- About page v2: fewer sections, no itemized skill/tool lists ----------
+   A senior profile states experience and lets the work prove it, rather than
+   enumerating every piece of software. These rules support the trimmed-down
+   story/experience/clients sections; .cv-skills/.cv-beats/.cv-note above are
+   now unused on this page but left in place in case a future page wants them. */
+.stats--three{ grid-template-columns:repeat(3,1fr); }
+@media(max-width:700px){ .stats--three{ grid-template-columns:1fr; gap:32px; } }
+
+.cv-aside{
+  margin-top:26px; font-family:var(--font-mono); font-size:13px; color:#6b6b5c;
+}
+
+.cv-timeline--compact .cv-timeline__item{ padding-bottom:0; }
+.cv-timeline--compact .cv-timeline__role{ margin-bottom:2px !important; }
+.cv-timeline--compact .cv-timeline__org{ margin-bottom:0 !important; }
+.cv-edu-line{
+  margin-top:30px; padding-top:22px; border-top:1px solid rgba(23,25,15,.12);
+  font-family:var(--font-mono); font-size:12.5px; color:#6b6b5c;
+}
+
+.cv-clients-line{ font-size:17px !important; line-height:1.8 !important; color:var(--ink) !important; max-width:560px; }
+.cv-clients-link{
+  display:inline-block; margin-top:20px; font-family:var(--font-mono); font-size:13px; font-weight:700;
+  color:var(--green); text-decoration:underline; text-underline-offset:5px;
+}
+.cv-clients-link:hover{ color:var(--ink); }
