@@ -533,7 +533,7 @@ document.addEventListener("DOMContentLoaded", () => {
       jokerz31: {
         title: "JOKERZ31",
         category: "Illustration",
-        desc: "งานภาพประกอบคาแรกเตอร์ JOKERZ31 ที่ใช้เส้นและสีสร้างบุคลิกเฉพาะตัว ให้ภาพมีพลัง สนุก และต่อยอดเป็นงานสื่อสารของแบรนด์ได้หลากหลายรูปแบบ",
+        desc: "ภาพประกอบฉลากสำหรับ JOKERZ31 Seed Collection ออกแบบคาแรกเตอร์ตัวตลก/โจ๊กเกอร์สไตล์อาร์ตเดโคผสมไซคีเดลิก พร้อมจัดวางรายชื่อสายพันธุ์ในคอลเลกชัน (Glue 31, Goofiez², Candy Bezels, NYC Vapor, Strawberry Skrilla, Inside Joke) ให้เป็นภาพเดียวที่ใช้ได้ทั้งบนบรรจุภัณฑ์และสื่อโปรโมต",
         media: [
           asset("Illustration/JOKERZ31/JOKERZ31.jpg"),
         ],
