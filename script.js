@@ -168,17 +168,19 @@ document.addEventListener("DOMContentLoaded", () => {
       .from(".scroll-cue", { opacity: 0, duration: 0.6 }, 1);
   }
 
-  /* ---------- generic [data-reveal] fade-up on scroll ---------- */
-  document.querySelectorAll("[data-reveal]").forEach((el) => {
-    if (el.closest(".hero") || el.closest(".nav")) return; // hero handled separately, nav visible immediately
-    gsap.fromTo(
-      el,
-      { opacity: 0, y: 40 },
-      {
-        opacity: 1, y: 0, duration: 0.9, ease: "power3.out",
-        scrollTrigger: { trigger: el, start: "top 88%", toggleActions: "play none none none" },
-      }
-    );
+  /* ---------- generic [data-reveal] fade-up on scroll ----------
+     One ScrollTrigger per element (there can be 50+ on a page) means 50+
+     separate scroll listeners doing their own math every frame. batch() groups
+     them under a single shared listener instead — same visual result, far
+     less continuous work for a phone's main thread to do while scrolling. */
+  const revealEls = Array.from(document.querySelectorAll("[data-reveal]")).filter(
+    (el) => !el.closest(".hero") && !el.closest(".nav") // hero handled separately, nav visible immediately
+  );
+  gsap.set(revealEls, { opacity: 0, y: 40 });
+  ScrollTrigger.batch(revealEls, {
+    start: "top 88%",
+    once: true,
+    onEnter: (batch) => gsap.to(batch, { opacity: 1, y: 0, duration: 0.9, ease: "power3.out", stagger: 0.06 }),
   });
 
   /* ---------- stats counter: run 0 -> target on scroll into view ---------- */
@@ -636,9 +638,12 @@ document.addEventListener("DOMContentLoaded", () => {
         el.muted = true;
         el.loop = true;
         el.playsInline = true;
+        el.setAttribute("webkit-playsinline", ""); // older iOS Safari looks for this attribute specifically
         el.autoplay = true;
         el.controls = false;
-        el.preload = "none";
+        el.preload = "auto"; // "none" left the browser with nothing buffered, so
+                              // the autoplay attribute alone never had a frame to
+                              // start playing — it just sat on the poster image
       } else {
         el = document.createElement("img");
         el.src = slide.src;
@@ -653,6 +658,15 @@ document.addEventListener("DOMContentLoaded", () => {
          Slide-in motion + slower ease keeps the same deliberate IG-carousel feel. */
       const mount = () => {
         lbStage.appendChild(el);
+        if (slide.type === "video") {
+          // the autoplay attribute is unreliable on a <video> that was created
+          // and appended via JS rather than present at parse time — call
+          // play() ourselves once it's actually in the DOM. Browsers can still
+          // reject this (autoplay policy quirks), so swallow the rejection
+          // rather than throwing an unhandled promise error.
+          const p = el.play();
+          if (p && p.catch) p.catch(() => {});
+        }
         if (!reduceMotion) {
           const fromX = direction === 1 ? 46 : direction === -1 ? -46 : 0;
           gsap.fromTo(el, { opacity: 0, x: fromX }, {

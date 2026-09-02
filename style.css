@@ -27,7 +27,7 @@
 
 *{ margin:0; padding:0; box-sizing:border-box; }
 
-html{ background:var(--cream); }
+html{ background:var(--cream); touch-action:pan-y; -webkit-text-size-adjust:100%; }
 
 body{
   background:var(--cream);
@@ -976,3 +976,13 @@ p, li, .brief__field span, .brief__hint{ text-rendering:optimizeLegibility; }
   color:var(--green); text-decoration:underline; text-underline-offset:5px;
 }
 .cv-clients-link:hover{ color:var(--ink); }
+
+/* ---------- mobile perf: backdrop-filter is a known GPU/scroll-jank source on
+   phones (Safari iOS especially recomposites it every frame something behind
+   it moves). Both blurred layers sit over a near-opaque background already,
+   so the blur itself was barely visible — drop it below the desktop
+   breakpoint instead of paying for it on the weakest hardware. ---------- */
+@media(max-width:820px){
+  .lightbox__backdrop{ backdrop-filter:none; }
+  .nav__scrim{ backdrop-filter:none; }
+}

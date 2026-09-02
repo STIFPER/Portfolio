@@ -82,7 +82,6 @@ window.I18N_EN = {
 "k94025f28": "2016 — Present",
 "k0f16263b": "2025 — Present",
 "k0e907973": "2024 — Present",
-"kaf87b25d": "See all<br />of my work",
 "k3a96b24c": "Logos, brand identity, and a usable brand guideline that holds up across every channel.",
 "k0f2adccf": "Packaging that looks good and sells — from concept through to print-ready files.",
 "k015bd499": "Getting the brand's thinking straight before any design begins, so the visuals land on target.",
@@ -92,7 +91,6 @@ window.I18N_EN = {
 "kcaa73c6d": "Brands worked with",
 "k6ef3a325": "Founded MeStyle Studio",
 "k86dcc56f": "01 — Story",
-"k28a026b1": "Who I am",
 "k0ac7e98d": "Graphic and brand designer, working as MeStyle Studio since 2016 alongside an in-house role.",
 "k7a0f7372": "02 — Experience",
 "k2ac05b6c": "BFA — Visual Communication Design, Burapha University",
@@ -100,5 +98,7 @@ window.I18N_EN = {
 "ke0ad1262": "The Dispensary, Compound Genetics.th, Scope Collection, Khalifa Kush Thailand, Bionest, Worthy Design — and 300+ more",
 "kf5fe2585": "Graphic and brand designer with over 10 years of experience. Founded <strong>MeStyle Studio</strong> in 2016.",
 "kcc1395b1": "Handles brand identity, packaging, and social content for 300+ businesses, from SMEs to international brands entering the Thai market.",
-"kb43ad4f6": "Handles brand identity, packaging, and social content for more than 300 businesses — from restaurants and SMEs to international brands entering the Thai market, many returning after a single logo project to build out the full identity system."
+"kb43ad4f6": "Handles brand identity, packaging, and social content for more than 300 businesses — from restaurants and SMEs to international brands entering the Thai market, many returning after a single logo project to build out the full identity system.",
+"kf86448e7": "Ten Years in Design",
+"ke127822a": "The Full<br />Portfolio"
 };
